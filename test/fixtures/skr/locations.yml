@@ -1,0 +1,29 @@
+default:
+  code: DEFAULT
+  name: Default Location
+  gl_branch_code: '01'
+  # address: home
+  # shipping_setting: default
+  # payment_processor: default
+
+amazon:
+  code: AMAZON
+  name: Amazon FBA Location
+  gl_branch_code: '01'
+  # address: amazon
+  # shipping_setting: default
+  # payment_processor: default
+
+surplus:
+  code: SURPLUS
+  name: Surplus Stuff
+  gl_branch_code: '02'
+  # address: junk
+  # shipping_setting: default
+
+bobs_junk:
+  code: JUNK
+  name: Bob's Junk Location
+  gl_branch_code: '01'
+  # address: home
+  # shipping_setting: bob
