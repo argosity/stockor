@@ -14,7 +14,7 @@ end
 
 
 YARD::Rake::YardocTask.new do |t|
-    t.files   = ['lib/stockor/concerns/*.rb','lib/**/*.rb','db/schema.rb']
+    t.files   = ['lib/skr/concerns/*.rb','lib/**/*.rb','db/schema.rb']
     t.options = ["--title='Stockor Core Documentation'",
                  "--markup=markdown",
                  "--template-path=yard_ext/templates",
@@ -22,12 +22,12 @@ YARD::Rake::YardocTask.new do |t|
 end
 
 
-desc "Open an irb session preloaded with stockor-core"
+desc "Open an irb session preloaded with skr-core"
 task :console do
     require 'irb'
     require 'irb/completion'
     require 'pp'
-    require 'stockor/core'
+    require 'skr/core'
     include Skr
     Skr::Core::DB.establish_connection
     ActiveRecord::Base.logger = Logger.new STDOUT
