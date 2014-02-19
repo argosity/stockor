@@ -1,0 +1,7 @@
+development:
+  adapter: postgresql
+  database: skr_dev
+
+test:
+  adapter: postgresql
+  database: skr_test
