@@ -19,7 +19,7 @@ The core gem records business activity for a company to include:
 
 Add this line to your application's Gemfile:
 
-    gem 'stockor-core'
+    gem 'skr-core'
 
 And then execute:
 
@@ -27,17 +27,23 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install stockor-core
+    $ gem install skr-core
 
 ## Usage
 
-TODO: Write usage instructions here
+    require 'skr/core'
+
+    entry = GlManualEntry.create({ notes: 'Pay Rent' })
+    transaction = GlTransaction.new({ source: entry, :amount=> 1400.00 })
+    transaction.credit.account = GlAccount.find_by_number( '6600' )
+    transaction.debit.account  = GlAccount.find_by_number( '1000' )
+    transaction.save
 
 ## Contributing
 
 The standard instructions are always good:
 
- 1. Fork it ( http://github.com/argosity/stockor-core/fork )
+ 1. Fork it ( http://github.com/argosity/skr-core/fork )
  2. Create your feature branch (`git checkout -b my-new-feature`)
  3. Commit your changes (`git commit -am 'Add some feature'`)
  4. Push to the branch (`git push origin my-new-feature`)
