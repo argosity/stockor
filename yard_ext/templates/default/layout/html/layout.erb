@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <%= erb(:headers) %>
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu" style="float:left;"><a href="http://stockor.org/">Stockor.org</a> »&nbsp;&nbsp;</div>
+      <%= erb(:breadcrumb) %>
+      <%= erb(:search) %>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><%= yieldall %></div>
+
+    <%= erb(:footer) %>
+  </body>
+</html>
