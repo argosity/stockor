@@ -13,7 +13,7 @@ The core gem records business activity for a company to include:
  * Vendors
  * General Ledger chart of accounts
 
-## Read more at [stockor.org](stockor.org)
+## Read more at [stockor.org](http://stockor.org/)
 
 ## Installation
 
