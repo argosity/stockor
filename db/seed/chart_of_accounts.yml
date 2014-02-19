@@ -1,0 +1,155 @@
+# Asset Accounts
+-
+  number: 1000
+  name: Cash
+  description: Cash on hand and held in bank accounts
+-
+  number: 1010
+  name: Deposit Holding
+  description: Cash and equivalent waiting for deposit
+-
+  number: 1200
+  name: Accounts Receivable
+  description: Amounts owed to the company for services performed or products sold but not yet paid for.
+-
+  number: 1300
+  name: Prepayment Revenue
+  description: Amounts received in advance of providing goods and services but not yet delivered.
+-
+  number: 1750	
+  name: Buildings
+  is_debit: true
+  description: Cost to purchase or construct buildings for use by the company.
+-
+  number: 1800
+  name: Equipment
+  description: Cost to acquire and prepare equipment for use by the company.
+-
+  number: 1900
+  name: Sales Tax Received
+  description: Amount received for sales tax.
+
+#  Liability Accounts
+
+-
+  number: 2100
+  name: Notes Payable
+  description: Balance due on outstanding loans
+-
+  number: 2200
+  name: Accounts Payable
+  description: Amount owed to suppliers for goods and services
+-
+  number: 2300
+  name: Wages Payable
+  description: Amount owed to employees for hours worked but not yet paid. 
+
+-
+  number: 2400
+  name: Sales Tax
+  description: Sales tax expense
+
+-
+  number: 2500
+  name: Interest Payable
+  description: Amount owed for interest on Notes Payable.
+
+- 
+  number: 2600
+  name: Inventory Receipts Clearing
+  description: Inventory received but vendor invoice not yet confirmed
+
+# Equity Accounts
+
+-
+  number: 3100
+  name: Capital
+  description: Amount the invested in the company (through cash or other assets) plus earnings of the company not withdrawn by the owner.
+-
+  number: 3200
+  name: Drawing
+  description: Profit draws by owner
+
+# Revenue Accounts
+-
+  number: 4100
+  name: Sales
+  description: Amounts earned from selling physical goods.
+
+-
+  number: 4200
+  name: Service Revenues
+  description: Amounts earned from providing services to clients.
+
+# Cost of Goods
+-
+  number: 5100
+  name: Inventory
+  description: Cost of Goods Sold
+
+-
+  number: 5150
+  name: In Transfer
+  description: Goods in transit on a transfer
+
+# Expenses
+-
+  number: 6100
+  name: Advertising Expense
+  description: Costs incurred by the company during the accounting period for ads, promotions, and other selling and expenses (other than salaries).
+
+-
+  number: 6200
+  name: Salaries Expense
+  description: Expenses incurred for the work performed by employees.
+-
+  number: 6300
+  name: Supplies Expense
+  description: Cost of supplies used up during the accounting period.
+-
+  number: 6310
+  name: Lost Supplies Expense
+  description: Supplies that have been physicaly misplaced and cannot be found
+-
+  number: 6320
+  name: Damaged Supplies Expense
+  description: Supplies that have been damaged and were disposed of
+-
+  number: 6400
+  name: Shipping Expense
+  description: Cost of shipping goods to customers
+
+-
+  number: 6500
+  name: Depreciation Expense
+  description: Cost of long-term assets allocated to expense during the current accounting period.
+
+-
+  number: 6600
+  name: Rent Expense
+  description: Cost of occupying rented facilities during the accounting period.
+-
+  number: 6700
+  name: Utilities Expense
+  description: Costs for electricity, heat, water, and sewer that were used during the accounting period.
+-
+  number: 6750
+  name: IT Expense
+  description: Cost of maintaining information systems
+-
+  number: 6760
+  name: Telephone Expense
+  description: Cost of telephone used during the current accounting period.
+
+#  Other Revenues
+-
+  number: 7100
+  name: Non operating Revenue
+  description: Revenue realized by other means
+
+#  Other Expense
+-
+  number: 8100
+  name: Non operating Expense
+  description: Expense incurred by other means
+
