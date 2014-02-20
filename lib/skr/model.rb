@@ -13,6 +13,7 @@ module Skr
         include Concerns::TrackModifications
         include Concerns::LockedFields
         include Concerns::CodeIdentifier
+        include Concerns::RandomHashCode
         include Concerns::VisibleIdIdentifier
 
         include Concerns::ImmutableModel

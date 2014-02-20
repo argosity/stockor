@@ -2,6 +2,8 @@ require_relative "attr_accessor_with_default"
 require_relative "json_attribute_access"
 require_relative "track_modifications"
 require_relative "code_identifier"
+require_relative "random_hash_code"
+
 require_relative "visible_id_identifier"
 require_relative "immutable_model"
 require_relative "export_scope"
