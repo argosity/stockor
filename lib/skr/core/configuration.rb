@@ -22,15 +22,23 @@ module Skr
             # we don't care about AttrReaderWithDefault sharing values between instances
             # Therefore all the values are given directly and not enclosed in Procs/lambdas.
 
+            # Database tables will have this prefix applied to them
+            config_option :table_prefix, 'skr_'
+
             # The GL branch code to use for default newly created locations
             config_option :default_branch_code, '01'
 
             # The string value of the UserModel.  Will be set on model's updated_by and created_by
             config_option :user_model, 'UserProxy'
 
+            # Transactions that do not specify a location will use the one that's identified by this code
             config_option :default_location_code, 'DEFAULT'
 
-            config_option :table_prefix, 'skr_'
+            # The Accounts Payable (AP) GL account number to use for freshly created Vendors
+            config_option :default_gl_ap_account_number, '2200'
+
+            # The Accounts Receivable (AR) GL account number to use for freshly created Customers
+            config_option :default_gl_ar_account_number, '1200'
         end
 
         class << self

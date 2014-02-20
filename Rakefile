@@ -1,3 +1,4 @@
+require 'bundler/setup'
 require "bundler/gem_tasks"
 require 'rake/testtask'
 require 'yard'
@@ -15,7 +16,7 @@ end
 
 YARD::Rake::YardocTask.new do |t|
     t.files   = ['lib/skr/concerns/*.rb','lib/**/*.rb','db/schema.rb']
-    t.options = ["--title='Stockor Core Documentation'",
+    t.options = ["--title=Stockor Core Documentation",
                  "--markup=markdown",
                  "--template-path=yard_ext/templates",
                  "--readme=README.md"]
@@ -46,5 +47,11 @@ end
 
 
 task :guard => [ 'db:migrate', 'db:test:clone_structure' ] do
+    # NAS: I've never figured out how to run Guard from a rake task
+    # Guard.setup
+    # Guard.run_all
+    # ^ this will work but only runs the task once
+    # and doesn't listen for changes.  Which kinda defeats the purpose
+    # For now just shell out until I can figure it out
     sh "bundle exec guard"
 end

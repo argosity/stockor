@@ -7,7 +7,7 @@ module Skr
             extend ActiveSupport::Concern
 
             # ### Code Identifier Concern
-            # This adds the {#has_code_identifier} class methods
+            # This adds the {#has_code_identifier} class method
             module ClassMethods
 
                 # A 2-10 character string that identifies an entity, such as a Customer, Vendor, or SKU.

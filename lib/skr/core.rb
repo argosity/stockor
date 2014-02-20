@@ -34,3 +34,10 @@ require_relative "gl_manual_entry"
 
 require_relative "location"
 require_relative "payment_term"
+
+require_relative "zip_code"
+require_relative "address"
+
+require_relative "business_entity"
+require_relative "vendor"
+require_relative "customer"
