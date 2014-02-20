@@ -1,0 +1,34 @@
+
+
+stitt:
+  code: STITT
+  terms: default_test
+  name: The Stitts
+  shipping_address: home
+  billing_address: away
+  gl_receivables_account: ar
+
+web_customer:
+  code: WEB
+  terms: default_test
+  name: Website Customer
+  shipping_address: home
+  billing_address: away
+  gl_receivables_account: ar
+
+antonio:
+  code: KILLER
+  terms: default_net30
+  name: Antonio Montoya
+  shipping_address: home
+  billing_address: away
+  gl_receivables_account: ar
+
+
+joe:
+  code: JOE
+  terms: default_bob
+  name: Joe Man
+  shipping_address: joe
+  billing_address: joe
+  gl_receivables_account: ar
