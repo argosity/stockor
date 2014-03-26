@@ -1,7 +1,8 @@
 module Skr
 
     # A transaction is a record of a business event that has financial consequences.
-    # It consists of two postings, a debit and a credit.
+    # It consists of an at least one credit and at least one debit
+    #
     class GlTransaction < Skr::Model
 
         is_immutable
@@ -10,19 +11,19 @@ module Skr
         belongs_to :source, :polymorphic=>true
 
         # Each transaction belongs to an accounting period
-        belongs_to :period, :class_name=>'GlPeriod'
+        belongs_to :period, :class_name=>'GlPeriod', export: true
 
-        # While the postings are linked using a has_many association, there can only be two postings.
-        # The ensure_postings_correct validation makes sure of this.
-        has_many :postings, ->{ order('id' ) },
-                 :class_name=>'GlPosting', :foreign_key=>'transaction_id',
-                 :inverse_of=>:transaction,  :autosave=>true
+        has_many :credits, ->{where( is_debit: false ) },
+                 class_name: 'GlPosting',  :foreign_key=>'transaction_id',
+                 extend: Concerns::GlTran::Postings,
+                 inverse_of: :transaction, autosave: true, export: true
 
-        # exports for the API
-        export_associations :postings, :writable=>true
-        export_associations :period,   :optional=>true
+        # Must equal credits, checked by the {#ensure_postings_correct} validation
+        has_many :debits, ->{  where( is_debit: true ) },
+                 extend: Concerns::GlTran::Postings,
+                 class_name: 'GlPosting',  :foreign_key=>'transaction_id',
+                 inverse_of: :transaction, autosave: true, export: true
 
-        # validations
         before_validation :set_defaults
         validate  :ensure_postings_correct
         validates :source, :period,  :set=>true
@@ -30,41 +31,71 @@ module Skr
 
         # Passes the location onto the postings.
         def location=(location)
-            ensure_postings_exist
-            self.postings.each{|pst| pst.location = location }
+            @location = location
+            each_posting do | posting |
+                posting.location = location
+            end
         end
 
-        # set the amount for the transaction
-        # the credit = amount, debit = amount * -1
-        def amount=(amt)
-            ensure_postings_exist
-            self.credit.amount = amt
-            self.debit.amount  = amt * -1
+        # @yield [GlPosting] each posting associated with the Transaction
+        def each_posting
+            self.credits.each{ |posting| yield posting }
+            self.debits.each{ |posting| yield posting }
         end
 
-        # the debit posting
-        def debit
-            self.postings.first
+        # Add a debit/credit pair to the transaction with amount
+        def push_debit_credit( amount, debit, credit )
+            self.credits.build( location: @location, is_debit: false,
+              account: credit, amount: amount )
+            self.debits.build(  location: @location, is_debit: true,
+              account: debit,  amount: amount * -1 )
         end
 
-        # the credit posting
-        def credit
-            self.postings.last
+        # @return [GlTransaction] the current transaction that's in progress
+        def self.current
+            glt = Thread.current[:gl_transaction]
+            glt ? glt.last : nil
+        end
+
+        # Start a new nested GlTransaction
+        # @return [GlTransaction] new transaction
+        # @yield  [GlTransaction] new transaction
+        def self.record( attributes = {} )
+            Thread.current[:gl_transaction] ||= []
+            glt = GlTransaction.new( attributes )
+            Thread.current[:gl_transaction].push( glt )
+            yield glt
+            return Thread.current[:gl_transaction].pop._save_recorded
+        end
+
+        # @private
+        def _save_recorded
+            #save if self.debits.any? || self.credits.any?
+            %w{ credits debits }.each{ |assoc| compact( assoc ) }
+            self.save
+            self
         end
 
         private
 
+        def compact( assoc_name )
+            accounts = self.send( assoc_name ).to_a
+            self.send( assoc_name + "=", [] )
+            account_numbers = accounts.group_by{ |posting| posting.account_number }
+            account_numbers.each do | number, matching |
+                amount = matching.sum(&:amount)
+                self.send( assoc_name ).build({
+                    account_number: number,
+                    is_debit: ( assoc_name == "debits" ),
+                    amount: amount,
+                })
+            end
+        end
+
         def ensure_postings_correct
-            if postings.length != 2
-                self.errors(:postings,'must have exactly 2: debit and credit')
-                return false
-            end
-            if debit.account_number == credit.account_number
-                self.errors.add(:postings,"must not refer to the same account #{credit.account_number}")
-                return false
-            end
-            if debit.amount !=  ( -1 * credit.amount )
-                self.errors.add(:postings,"must be for the same amount")
+            if debits.total !=  ( -1 * credits.total )
+                self.errors.add(:credits, "must equal debits")
+                self.errors.add(:debits, "must equal credits")
                 return false
             end
             true
@@ -77,11 +108,11 @@ module Skr
             end
         end
 
-        def ensure_postings_exist
-            if self.new_record? and self.postings.empty?
-                2.times { self.postings.build }
-            end
-        end
+        # def ensure_postings_exist
+        #     if self.new_record? and self.postings.empty?
+        #         2.times { self.postings.build }
+        #     end
+        # end
 
     end
 end
