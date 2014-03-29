@@ -5,17 +5,24 @@ module Skr
     # which money or the equivalent is spent or received.
     class GlAccount < Skr::Model
 
+        # @private
+        DEFAULT_ACCOUNTS={}
+
         validates :name, :description, :presence => true
 
         # @!attribute description
         #   A short description of the GL Account
 
-        # All the postings that were made on the account.  Summing their amounts will produce the balance
-        has_many :postings, :class_name=>'Skr::GlPosting', :foreign_key=>'account_id'
-
         # A future improvement would be to allow arbitrary account masks.  For now, keep it simple
         # with mandatory 4 characters + 2 char branch code
         validates :number, :presence => true, :numericality=>true, :length=>{ :is=>4 }
+
+        # @return [GlAccount] the default account for the key from {Core.config.default_gl_accounts}
+        def self.default_for( lookup )
+            number = Core.config.default_gl_accounts[ lookup ]
+            raise RuntimeError.new("Unkown GL default account lookup code: {lookup}") unless number
+            DEFAULT_ACCOUNTS[ lookup ] ||= GlAccount.find_by_number( number )
+        end
 
         # @return [String] The account number combined with location branch code
         def number_for_location( location )
@@ -35,4 +42,5 @@ module Skr
         end
 
     end
+
 end

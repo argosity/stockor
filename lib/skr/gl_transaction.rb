@@ -14,20 +14,21 @@ module Skr
         belongs_to :period, :class_name=>'GlPeriod', export: true
 
         has_many :credits, ->{where( is_debit: false ) },
-                 class_name: 'GlPosting',  :foreign_key=>'transaction_id',
                  extend: Concerns::GlTran::Postings,
-                 inverse_of: :transaction, autosave: true, export: true
+                 class_name: 'GlPosting',  :foreign_key=>'transaction_id',
+                 inverse_of: :transaction, autosave: true, export: { writable: true }
 
         # Must equal credits, checked by the {#ensure_postings_correct} validation
         has_many :debits, ->{  where( is_debit: true ) },
                  extend: Concerns::GlTran::Postings,
                  class_name: 'GlPosting',  :foreign_key=>'transaction_id',
-                 inverse_of: :transaction, autosave: true, export: true
+                 inverse_of: :transaction, autosave: true, export: { writable: true }
 
         before_validation :set_defaults
         validate  :ensure_postings_correct
         validates :source, :period,  :set=>true
         validates :description,      :presence=>true
+
 
         # Passes the location onto the postings.
         def location=(location)
@@ -66,6 +67,20 @@ module Skr
             Thread.current[:gl_transaction].push( glt )
             yield glt
             return Thread.current[:gl_transaction].pop._save_recorded
+        end
+
+        # @param owner [Skr::Model]
+        def self.push_or_save( owner: nil, amount: nil, debit:nil, credit:nil, options:{} )
+            if glt = self.current # we push
+                glt.push_debit_credit( amount, debit, credit )
+            else
+                glt = GlTransaction.new({
+                    source: owner, location: options[:location] || owner.location
+                })
+                glt.push_debit_credit( amount, debit, credit )
+                glt.save
+            end
+            glt
         end
 
         # @private

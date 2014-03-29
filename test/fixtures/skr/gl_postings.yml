@@ -1,15 +1,15 @@
 free_hats_debit:
   transaction: free_hats
-  account: marketing
   account_number: 610001
+  is_debit: true
   amount: -1200.42
   year: <%= Date.today.year %>
   period: <%= Date.today.month %>
 
 free_hats_credit:
   transaction: free_hats
-  account: inventory
   account_number: 140001
+  is_debit: false
   amount: 1200.42
   year: <%= Date.today.year %>
   period: <%= Date.today.month %>
@@ -17,17 +17,17 @@ free_hats_credit:
 ###############
 
 adwords_debit:
-  account: marketing
   transaction: adwords
   account_number: 610001
+  is_debit: true
   amount: 3033.28
   year: 2013
   period: 11
 
 adwords_credit:
-  account: bank_checking
   transaction: adwords
   account_number: 101101
+  is_debit: false
   amount: -3033.28
   year: 2013
   period: 11
@@ -35,17 +35,17 @@ adwords_credit:
 ###############
 
 sponsor_debit:
-  account: marketing
   transaction: sponsorship
   account_number: 610001
+  is_debit: true
   amount: 100.00
   year: 2013
   period: 12
 
 sponsor_credit:
-  account: bank_checking
   transaction: sponsorship
   account_number: 101101
+  is_debit: false
   amount: -100.00
   year: 2013
   period: 12
@@ -53,17 +53,17 @@ sponsor_credit:
 ###############
 
 closeout_marketing_debit:
-  account: retained_earnings
   transaction: closeout_marketing
   account_number: 310001
+  is_debit: true
   year: 2013
   period: 13
   amount: 1433.28
 
 closeout_marketing_credit:
-  account: marketing
   transaction: closeout_marketing
   account_number: 610001
+  is_debit: false
   year: 2013
   period: 13
   amount: -3133.28
@@ -71,17 +71,17 @@ closeout_marketing_credit:
 ###############
 
 freebies_debit:
-  account: marketing
   transaction: freebies
   account_number: 610001
+  is_debit: true
   amount: 356.81
   year: 2014
   period: 1
 
 freebies_credit:
-  account: bank_checking
   transaction: freebies
   account_number: 101101
+  is_debit: false
   amount: -356.81
   year: 2014
   period: 1

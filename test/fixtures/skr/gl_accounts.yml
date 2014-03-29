@@ -1,5 +1,4 @@
 
-
 cash:
   number: 1010
   name: Cash
@@ -76,6 +75,11 @@ rent:
   description: Cost of occupying rented facilities during the accounting period.
 
 shipping:
-  number: 6400
-  name: Shipping Expense
-  description: Cost of shipping products
+  number: 6410
+  name: Outbound Shipping Expense
+  description: Cost of shipping products to customers
+
+inbound_shipping:
+  number: 6420
+  name: Inbound Shipping Expense
+  description: Cost of vendors shipping products to us

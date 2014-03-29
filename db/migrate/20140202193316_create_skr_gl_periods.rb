@@ -1,6 +1,7 @@
 require 'skr/core/db/migration_helpers'
 
 class CreateSkrGlPeriods < ActiveRecord::Migration
+
     def change
 
         create_skr_table "gl_periods" do |t|
@@ -10,6 +11,6 @@ class CreateSkrGlPeriods < ActiveRecord::Migration
             t.skr_track_modifications
           end
 
-        #create_index
     end
+
 end

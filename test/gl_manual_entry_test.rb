@@ -4,9 +4,8 @@ class GlManualEntryTest < Skr::TestCase
 
     def test_notes_are_copied
         gle = GlManualEntry.new({ notes: 'A good test' })
-        tran = gle.build_transaction( amount: 33.42 )
-        tran.credit.account = skr_gl_accounts(:inventory)
-        tran.debit.account  = skr_gl_accounts(:cash)
+        tran = gle.build_transaction({ location: Location.default })
+        tran.push_debit_credit( 33.42, skr_gl_accounts(:cash), skr_gl_accounts(:inventory) )
 
         assert_saves gle
         assert_equal gle.notes, tran.description

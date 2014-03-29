@@ -10,9 +10,8 @@ module Skr
 
         is_immutable
 
-        has_one :transaction, :class_name=>'GlTransaction', :as=>:source, :inverse_of=>:source
-
-        export_associations :transaction, :writable=>true
+        has_one :transaction, :class_name=>'GlTransaction', :as=>:source,
+                :inverse_of=>:source, export: { writable: true }
 
         validates :transaction, :presence=>true
 
