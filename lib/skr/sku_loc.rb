@@ -27,6 +27,9 @@ module Skr
 
         has_additional_events :qty_change
 
+        scope :in_loc, -> {
+            where location_id: 22
+        }
         # @return [BigDecimal] the value of inventory for {Sku} in this {Location}
         def onhand_mac_value
             qty*mac
@@ -60,6 +63,8 @@ module Skr
               })
         end
 
+        # Allocate the maximum available quantity to {SalesOrders}
+        # that are not currrently allocated
         def allocate_available_qty!
             update_so_qty
             so_lines.unallocated.order(:created_at).each do | sol |
