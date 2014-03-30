@@ -1,0 +1,16 @@
+
+first:
+  vendor: bigco
+  terms: net30
+  location: default
+  state: pending
+  ship_addr: bigco
+  order_date: <%= Date.today-1.month %>
+
+unvouched:
+  vendor: bigco
+  terms: cred_card
+  location: default
+  state: pending
+  ship_addr: bigco
+  order_date: <%= Date.today-1.week %>
