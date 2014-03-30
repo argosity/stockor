@@ -9,16 +9,20 @@ module Skr
         include BusinessEntity
 
 
-        belongs_to :gl_payables_account, :class_name=>'GlAccount'
-        export_associations :gl_payables_account
+        belongs_to :gl_payables_account, class_name: 'GlAccount', export: true
+        belongs_to :gl_freight_account,  class_name: 'GlAccount', export: true
+
 
         delegate_and_export  :gl_payables_account_number
         validates :gl_payables_account, :set=>true
 
+        has_many :sku_vendors
+
         private
 
         def set_defaults
-            self.gl_payables_account ||= GlAccount.find_by_number( Skr::Core.config.default_gl_ap_account_number )
+            self.gl_payables_account ||= GlAccount.default_for( :ap )
+            self.gl_freight_account  ||= GlAccount.default_for( :freight )
         end
 
     end
