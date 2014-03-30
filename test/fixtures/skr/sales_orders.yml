@@ -1,0 +1,32 @@
+
+
+first:
+  customer: stitt
+  terms: default_cred_card
+  order_date: <%= Date.today-1.month %>
+  terms: net30
+  po_num: First
+  location: default
+  state: pending
+  bill_addr: bigco
+  ship_addr: bigco_wh
+
+picking:
+  customer: stitt
+  terms: cred_card
+  order_date: <%= Date.today-1.day %>
+  po_num: First
+  location: default
+  state: saved
+  bill_addr: bigco
+  ship_addr: bigco_wh
+
+complete:
+  customer: stitt
+  terms: cred_card
+  order_date: <%= Date.today-1.week %>
+  po_num: First
+  location: default
+  state: complete
+  bill_addr: bigco
+  ship_addr: bigco_wh
