@@ -9,6 +9,16 @@ bank_checking:
   name: Cash
   description: Checking account balance (as shown in company records), currency, coins, checks received from customers but not yet deposited.
 
+inventory:
+  number: 1100
+  name: Inventory Assets
+  description: Inventory on hand and awaiting sale
+
+transfers:
+  number: 1115
+  name: Inventory in Transist
+  description: Inventory on a transfer between locations
+
 deposits:
   number: 1200
   name: Deposits
@@ -54,15 +64,6 @@ inventory_write_off:
   name: Inv Write Off
   description: Cost of inventory written off
 
-transfer:
-  number: 1450
-  name: Transfer Inventory
-  description: Inventory on transfer
-
-inventory:
-  number: 1400
-  name: Merchandise Inventory
-  description: Cost of merchandise purchased but has not yet been sold.
 
 inventory_purchase:
   number: 5000

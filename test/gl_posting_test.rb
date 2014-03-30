@@ -6,13 +6,12 @@ class GlPostingTest < Skr::TestCase
         gle = GlManualEntry.create({ notes: 'A good test' })
         @glt = GlTransaction.new({ source: gle })
         @glt.location = skr_locations(:default)
-        @glt.push_debit_credit( 33.42, skr_gl_accounts(:cash), skr_gl_accounts(:inventory) )
-
+        @glt.add_posting( amount: 33.42, debit: skr_gl_accounts(:cash), credit: skr_gl_accounts(:inventory) )
     end
 
     def test_attribute_caching
         assert_saves @glt
-        assert_equal '140001', @glt.credits.first.account_number
+        assert_equal '110001', @glt.credits.first.account_number
         assert_equal Date.today.year,  @glt.credits.first.year
         assert_equal Date.today.month, @glt.credits.first.period
     end

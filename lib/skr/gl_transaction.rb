@@ -2,7 +2,14 @@ module Skr
 
     # A transaction is a record of a business event that has financial consequences.
     # It consists of an at least one credit and at least one debit
+    # Transactions can be nested, with each level compacting all the entries that were made on it
+    # @example of an hypothetical {Invoice}'s postings
+    #   GlTransaction.record( source: invoice, description: "Invoice Example" ) do | transaction |
+    #      transaction.location = Location.default # <- could also specify in record's options
     #
+    #      transaction.add_posting( amount: 111, debit: GlAccount.default_for(:ar), credit: GlAccount.default_for(:asset) )
+
+    #   end
     class GlTransaction < Skr::Model
 
         is_immutable
@@ -30,6 +37,17 @@ module Skr
         validates :description,      :presence=>true
 
 
+        # Add a debit/credit pair to the transaction with amount
+        # @param amount [BigDecimal] the amount to apply to each posting
+        # @param debit [GlAccount]
+        # @param credit [GlAccount]
+        def add_posting( amount: nil, debit: nil, credit: nil )
+            self.credits.build( location: @location, is_debit: false,
+              account: credit, amount: amount )
+            self.debits.build(  location: @location, is_debit: true,
+              account: debit,  amount: amount * -1 )
+        end
+
         # Passes the location onto the postings.
         def location=(location)
             @location = location
@@ -44,14 +62,6 @@ module Skr
             self.debits.each{ |posting| yield posting }
         end
 
-        # Add a debit/credit pair to the transaction with amount
-        def push_debit_credit( amount, debit, credit )
-            self.credits.build( location: @location, is_debit: false,
-              account: credit, amount: amount )
-            self.debits.build(  location: @location, is_debit: true,
-              account: debit,  amount: amount * -1 )
-        end
-
         # @return [GlTransaction] the current transaction that's in progress
         def self.current
             glt = Thread.current[:gl_transaction]
@@ -59,6 +69,7 @@ module Skr
         end
 
         # Start a new nested GlTransaction
+        # When a transaction is created, it can have
         # @return [GlTransaction] new transaction
         # @yield  [GlTransaction] new transaction
         def self.record( attributes = {} )
@@ -72,12 +83,12 @@ module Skr
         # @param owner [Skr::Model]
         def self.push_or_save( owner: nil, amount: nil, debit:nil, credit:nil, options:{} )
             if glt = self.current # we push
-                glt.push_debit_credit( amount, debit, credit )
+                glt.add_posting( amount: amount, debit: debit, credit: credit )
             else
                 glt = GlTransaction.new({
                     source: owner, location: options[:location] || owner.location
                 })
-                glt.push_debit_credit( amount, debit, credit )
+                glt.add_posting( amount: amount, debit: debit, credit: credit )
                 glt.save
             end
             glt

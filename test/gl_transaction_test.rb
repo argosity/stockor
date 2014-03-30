@@ -9,7 +9,7 @@ class GlTransactionTest < Skr::TestCase
     end
 
     def test_stand_alone_creation
-        @glt.push_debit_credit( 22.1, skr_gl_accounts(:cash), skr_gl_accounts(:inventory) )
+        @glt.add_posting( amount: 22.1, debit: skr_gl_accounts(:cash), credit: skr_gl_accounts(:inventory) )
         assert @glt.save, "failed to save stand alone transaction"
     end
 
@@ -22,7 +22,7 @@ class GlTransactionTest < Skr::TestCase
     end
 
     def test_no_differing_amounts
-        @glt.push_debit_credit( 22.42, skr_gl_accounts(:cash), skr_gl_accounts(:inventory) )
+        @glt.add_posting( amount: 22.42, debit: skr_gl_accounts(:cash), credit: skr_gl_accounts(:inventory) )
         @glt.credits.first.amount = 18
         refute @glt.save, "allowed saving with mismatched amounts"
         assert_equal ['must equal debits'], @glt.errors[:credits]
@@ -42,8 +42,8 @@ class GlTransactionTest < Skr::TestCase
 
     def test_compacting
         tran = GlTransaction.record( source: @gle, description: 'A Test', location: Location.default ) do | glt |
-            glt.push_debit_credit( 12.12, skr_gl_accounts(:cash), skr_gl_accounts(:inventory) )
-            glt.push_debit_credit( 42.42, skr_gl_accounts(:cash), skr_gl_accounts(:inventory) )
+            glt.add_posting( amount: 12.12, debit: skr_gl_accounts(:cash), credit: skr_gl_accounts(:inventory) )
+            glt.add_posting( amount: 42.42, debit: skr_gl_accounts(:cash), credit: skr_gl_accounts(:inventory) )
         end
         assert_saves tran
         assert_equal 1, tran.debits.size
