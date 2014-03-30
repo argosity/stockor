@@ -8,6 +8,15 @@
   name: Deposit Holding
   description: Cash and equivalent waiting for deposit
 -
+  number: 1110
+  name: Inventory
+  description: Inventory on hand and awaiting sale
+-
+  number: 1115
+  name: Inventory in Transist
+  description: Inventory on a transfer between locations
+  
+-
   number: 1200
   name: Accounts Receivable
   description: Amounts owed to the company for services performed or products sold but not yet paid for.
@@ -84,12 +93,12 @@
 # Cost of Goods
 -
   number: 5100
-  name: Inventory
+  name: Inventory Costs
   description: Cost of Goods Sold
 
 -
   number: 5150
-  name: In Transfer
+  name: Transfer Costs
   description: Goods in transit on a transfer
 
 # Expenses
@@ -115,9 +124,14 @@
   name: Damaged Supplies Expense
   description: Supplies that have been damaged and were disposed of
 -
-  number: 6400
-  name: Shipping Expense
+  number: 6410
+  name: Outbound Shipping Expense
   description: Cost of shipping goods to customers
+
+-
+  number: 6420
+  name: Inbound Shipping Expense
+  description: Cost of vendors shipping goods to us
 
 -
   number: 6500
