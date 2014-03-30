@@ -6,6 +6,9 @@ module Skr
     # Validations may be selectively enabled by using the #enable_validations method
     class Address < Skr::Model
 
+        # @!attribute email
+        #   The email address to use
+
         # @!attribute ensure_not_blank
         #   Must the Address be filled out?  The {#blank?} method must return false
         #   @return [Boolean]
@@ -20,7 +23,7 @@ module Skr
         validates  :name, :line1, :city, :state, :postal_code, :presence=>true, :if=>:ensure_not_blank
         validates  :email, :presence=>true, :email=>true, :if=>:validate_email
         validates  :phone, :presence=>true, :if=>:validate_phone
-
+       
         # @return [Address] a blank copy of an address
         def self.blank
             Address.new({ name: '', line1: '', city: '', state: '', postal_code: '' })
@@ -64,7 +67,7 @@ module Skr
             self.validate_phone = options[:include_phone]
         end
 
-        # @param extra_fields [Array] list of extra fields to include in the address
+        # @param include [Array] list of extra fields to include in the address
         # @return [String] Address converted to string, formatted with line breaks in the typical US style of display
         # @example
         #     address = Address.new( name: 'Bob\s Uncle',phone: '877-555-5555', line1: 'PO Box 87',
