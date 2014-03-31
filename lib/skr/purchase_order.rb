@@ -99,9 +99,10 @@ module Skr
         private
 
         def set_defaults
+            self.location   ||= Location.default
             self.order_date ||= Date.today
-            self.terms ||= self.vendor.terms if self.vendor
-            self.ship_addr = self.location.address if self.ship_addr.blank? && self.location
+            self.terms      ||= self.vendor.terms if self.vendor
+            self.ship_addr    = self.location.address if self.ship_addr.blank? && self.location
         end
     end
 

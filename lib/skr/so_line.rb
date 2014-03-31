@@ -97,10 +97,10 @@ module Skr
         end
 
         def set_defaults_from_associations
-            self.uom = sku.default_uom if self.uom_code.blank?
+            self.uom         = sku.uoms.default if self.uom_code.blank?
             self.description = sku.description if self.description.blank?
             self.sku_code    = sku.code        if self.sku_code.blank?
-            self.price ||= sku.default_uom.base_price
+            self.price     ||= sku.price_for( self.sales_order.customer )
             true
         end
 
