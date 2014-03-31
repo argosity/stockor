@@ -17,7 +17,7 @@ module Skr
         # with mandatory 4 characters + 2 char branch code
         validates :number, :presence => true, :numericality=>true, :length=>{ :is=>4 }
 
-        # @return [GlAccount] the default account for the key from {Core.config.default_gl_accounts}
+        # @return [GlAccount] the default account for the key from {Skr::Core::Configuration.default_gl_accounts}
         def self.default_for( lookup )
             number = Core.config.default_gl_accounts[ lookup ]
             raise RuntimeError.new("Unkown GL default account lookup code: {lookup}") unless number
