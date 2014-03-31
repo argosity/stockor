@@ -18,18 +18,16 @@ class SanitizeJsonTest < Skr::TestCase
     end
 
     def test_cleaning_unwanted_attributes
-        data = { name: 'CASH', number: '1200',postings: [] }
+        data = { name: 'CASH', number: '1200',credits: [] }
         json = Skr::GlAccount.sanitize_json( data, nil )
-        data.delete(:postings)
+        data.delete(:credits)
         assert_equal data, json
     end
 
-    def test_exported_attributes
-        GlAccount.send :export_associations, :postings, writable: true
-        data = { name: 'CASH', number: '1200',postings: [] }
-
-        json = Skr::GlAccount.sanitize_json( data, nil )
-        assert_equal data, json
+    def test_exported_associations
+        data = { foo: 'bar', description: 'a test', debits: [], credits: [] }
+        json = Skr::GlTransaction.sanitize_json( data, nil )
+        assert_equal( data.except(:foo), json )
     end
 
     def test_blacklisted_attributes
@@ -41,17 +39,9 @@ class SanitizeJsonTest < Skr::TestCase
     end
 
     def test_recursive_cleaning
-        GlAccount.send :export_associations, :postings, writable: true
-
-        data = { name: 'CASH', number: '1200',postings: [ { account_number: '120001' }] }
-        json = Skr::GlAccount.sanitize_json( data, nil )
-        assert_equal data, json
-
-        GlPosting.send :blacklist_json_attributes, :account_number
-        json = Skr::GlAccount.sanitize_json( data, nil )
-
-        data[:postings]=[{}]
-        assert_equal data, json
+        data = { transaction: { source: 'unk', credits: [ { account_number: '120001' } ] } }
+        json = GlManualEntry.sanitize_json( data, nil )
+        assert_equal( { transaction: { credits: [ { account_number: '120001' } ] } }, json )
     end
 
 end
