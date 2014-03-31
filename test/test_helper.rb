@@ -1,22 +1,22 @@
 require 'minitest/unit'
 require 'minitest/autorun'
 require 'turn'
+require 'skr/core'
+
 require 'active_record'
 require 'active_record/fixtures'
-
-require_relative '../lib/skr/core'
-require_relative 'helpers/assertions'
-require_relative 'helpers/fixtures'
-require_relative 'helpers/test_case'
-
 
 ENV["RAILS_ENV"] = "test"
 RAILS_ENV = "test"
 
-
 Skr::Core::DB.establish_connection( 'test' )
 Skr::Core.logger=Logger.new( File.open('log/test.log', File::WRONLY | File::APPEND | File::CREAT ) )
 ActiveRecord::Base.logger = Skr::Core.logger
+ActiveSupport::Dependencies.mechanism = :require
+
+require_relative 'helpers/assertions'
+require_relative 'helpers/fixtures'
+require_relative 'helpers/test_case'
 
 Turn.config do |c|
     # use one of output formats:
