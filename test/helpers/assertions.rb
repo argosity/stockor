@@ -19,5 +19,17 @@ module MiniTest
         end
 
 
+        def assert_event_fires( klass, event, &block )
+            @event_results = []
+            klass.observe(event) do | *args |
+                @event_results = args
+            end
+            yield
+            raise MiniTest::Assertion, "Event #{event} was not fired" if @event_results.empty?
+        end
+
+        def last_event_results
+            @event_results
+        end
     end
 end
