@@ -4,7 +4,7 @@ module Skr
     # which Skus are setup in each location and the related quantity information about them
     #
     # It is also the model that is linked to by other models that need to refer to a sku's location
-    # such as the lines on PurchaseOrders, Quotes, SalesOrders, PickTicketrs, and Invoices
+    # such as the lines on {PurchaseOrder}, Quotes, {SalesOrder}, PickTickets, and Invoices
     class SkuLoc < Skr::Model
 
         belongs_to :sku,      export: true
@@ -63,7 +63,7 @@ module Skr
               })
         end
 
-        # Allocate the maximum available quantity to {SalesOrders}
+        # Allocate the maximum available quantity to {SalesOrder}
         # that are not currrently allocated
         def allocate_available_qty!
             update_so_qty

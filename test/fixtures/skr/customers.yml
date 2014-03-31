@@ -2,7 +2,7 @@
 
 stitt:
   code: STITT
-  terms: default_test
+  terms: net30
   name: The Stitts
   shipping_address: home
   billing_address: away
@@ -10,7 +10,7 @@ stitt:
 
 web_customer:
   code: WEB
-  terms: default_test
+  terms: cred_card
   name: Website Customer
   shipping_address: home
   billing_address: away
@@ -18,7 +18,7 @@ web_customer:
 
 antonio:
   code: KILLER
-  terms: default_net30
+  terms: cash
   name: Antonio Montoya
   shipping_address: home
   billing_address: away
@@ -27,7 +27,7 @@ antonio:
 
 joe:
   code: JOE
-  terms: default_bob
+  terms: 10net30
   name: Joe Man
   shipping_address: joe
   billing_address: joe
