@@ -1,12 +1,12 @@
 module Skr
 
-    class TestCase < MiniTest::Unit::TestCase
+    class TestCase < ActiveSupport::TestCase
         include ActiveRecord::TestFixtures
         include Skr
 
         self.fixture_path = File.dirname(__FILE__) + "/../fixtures"
-        self.use_transactional_fixtures = false
-        self.use_instantiated_fixtures = false
+        self.use_transactional_fixtures = true
+
         fixtures :all
     end
 
