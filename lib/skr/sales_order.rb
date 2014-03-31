@@ -1,5 +1,16 @@
 module Skr
 
+    # A SalesOrder is a record of a customer's desire to purchase one or more {Sku}s.
+    #
+    #   customer = Customer.find_by_code "VIP1"
+    #   so = SalesOrder.new( customer: customer )
+    #   Sku.where( code: ['HAT','STRING'] ).each do | sku |
+    #       so.lines.build(
+    #         sku_loc: sku.sku_locs.default
+    #   )
+    #   end
+    #   so.save
+
     class SalesOrder < Skr::Model
 
         has_visible_id
@@ -10,7 +21,7 @@ module Skr
         belongs_to :customer, export: true
         belongs_to :location, export: true
         belongs_to :terms, :class_name=>'PaymentTerm', export: { writable: true }
-        belongs_to :billing_address, :class_name=>'Address', export: { writable: true }
+        belongs_to :billing_address,  :class_name=>'Address', export: { writable: true }
         belongs_to :shipping_address, :class_name=>'Address', export: { writable: true }
 
         has_many   :lines, ->{ order(:position) }, :class_name=>'SoLine', :inverse_of=>:sales_order,
