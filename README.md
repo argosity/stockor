@@ -29,15 +29,43 @@ Or install it yourself as:
 
     $ gem install skr-core
 
-## Usage
+Usage
+------------------------------
 
-    require 'skr/core'
+##### Creating a GL posting
 
-    entry = GlManualEntry.create({ notes: 'Pay Rent' })
-    transaction = GlTransaction.new({ source: entry, :amount=> 1400.00 })
-    transaction.credit.account = GlAccount.find_by_number( '6600' )
-    transaction.debit.account  = GlAccount.find_by_number( '1000' )
-    transaction.save
+       require 'skr/core'
+       customer = Customer.find_by_code "MONEYBAGS"
+       GlTransaction.record( source: invoice, description: "Invoice Example" ) do | transaction |
+         transaction.location = Location.default # <- could also specify in record's options
+         Sku.where( code: ['HAT','STRING'] ).each do | sku |
+           transaction.add_posting( amount: sku.default_price,
+                                    debit:  sku.gl_asset_account,
+                                    credit: customer.gl_receivables_account )
+         end
+       end
+
+##### Create a SalesOrder
+
+        customer = Customer.find_by_code "VIP1"
+        so = SalesOrder.new( customer: customer )
+        Sku.where( code: ['HAT','STRING'] ).each do | sku |
+            so.lines.build(
+              sku_loc: sku.sku_locs.default
+            )
+        end
+        so.save
+
+##### Create a PurchaseOrder
+
+        vendor = Vendor.find_by_code "BIGCO"
+        po = PurchaseOrder.new( vendor: vendor )
+        Sku.where( code: ['HAT','STRING'] ).each do | sku |
+            po.lines.build(
+              sku_vendor: sku.sku_vendors.for_vendor( vendor )
+            )
+        end
+        po.save
 
 ## Contributing
 
