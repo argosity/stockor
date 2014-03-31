@@ -3,13 +3,18 @@ module Skr
     # A transaction is a record of a business event that has financial consequences.
     # It consists of an at least one credit and at least one debit
     # Transactions can be nested, with each level compacting all the entries that were made on it
-    # @example of an hypothetical {Invoice}'s postings
-    #   GlTransaction.record( source: invoice, description: "Invoice Example" ) do | transaction |
-    #      transaction.location = Location.default # <- could also specify in record's options
     #
-    #      transaction.add_posting( amount: 111, debit: GlAccount.default_for(:ar), credit: GlAccount.default_for(:asset) )
-
-    #   end
+    #     require 'skr/core'
+    #     customer = Customer.find_by_code "MONEYBAGS"
+    #     GlTransaction.record( source: invoice, description: "Invoice Example" ) do | transaction |
+    #       transaction.location = Location.default # <- could also specify in record's options
+    #       Sku.where( code: ['HAT','STRING'] ).each do | sku |
+    #           transaction.add_posting( amount: sku.default_price,
+    #                                     debit:  sku.gl_asset_account,
+    #                                    credit: customer.gl_receivables_account )
+    #       end
+    #     end
+    #
     class GlTransaction < Skr::Model
 
         is_immutable
