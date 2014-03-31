@@ -1,0 +1,14 @@
+
+first:
+   voucher: first
+   po_line: first_on_first
+   sku_vendor: hat_bigco
+   sku_loc: hatdefault
+   qty: 3
+   uom_code: EA
+   uom_size: 1
+   price: 1.42
+   sku_code: HAT
+   part_code: "Hat 'O Glory"
+   description: A hatty hat
+   position: 1
