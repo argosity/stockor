@@ -13,11 +13,11 @@ class CustomerTest < Skr::TestCase
     end
 
     def test_saving
-        assert @customer.save
+        assert_saves @customer
     end
 
     def test_it_sets_gl
-        assert @customer.save
+        assert_saves @customer
         assert_equal '1200', @customer.gl_receivables_account.number
     end
 
