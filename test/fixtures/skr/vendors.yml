@@ -5,7 +5,7 @@ bigco:
   name: Mr Bob
   terms: default_test
   gl_payables_account: ap
-  gl_freight_account: inbound_shipping
+  gl_freight_account: shipping
   billing_address: bigco
   shipping_address: bigco_wh
 
@@ -14,7 +14,7 @@ unused:
   terms: default_test
   name: Mr Unused Person
   gl_payables_account: ap
-  gl_freight_account: inbound_shipping
+  gl_freight_account: shipping
   billing_address: bigco
   shipping_address: bigco_wh
 
@@ -23,7 +23,7 @@ bob:
   terms: default_test
   name: Mr Bob
   gl_payables_account: ap
-  gl_freight_account: inbound_shipping
+  gl_freight_account: shipping
   billing_address: bigco
   shipping_address: bigco_wh
 
@@ -32,7 +32,7 @@ demo:
   terms: default_test
   name: Mr Bob
   gl_payables_account: ap
-  gl_freight_account: inbound_shipping
+  gl_freight_account: shipping
   billing_address: bigco
   shipping_address: bigco_wh
 
@@ -40,7 +40,7 @@ joe:
   code: Sam
   terms: default_bob
   gl_payables_account: ap
-  gl_freight_account: inbound_shipping
+  gl_freight_account: shipping
   billing_address: joe
   shipping_address: joe
   name: Joe Man
