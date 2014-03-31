@@ -1,3 +1,4 @@
+require_relative 'validators'
 require_relative 'config_options'
 require_relative 'concern_meta_methods'
 require_relative 'exported_scope'
