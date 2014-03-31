@@ -19,8 +19,12 @@ module Skr
                 def has_random_hash_code( field_name: :hash_code, length: 12 )
 
                     validates field_name, :presence=>{
-                                  :message=>"hash code is not set (should be automatically chosen)"
-                              }
+                        :message=>"hash code is not set (should be automatically chosen)"
+                    }
+
+                    scope :with_hash_code, lambda{ | code |
+                        where({ :hash_code=>code })
+                    }
 
                     before_validation(:on=>:create) do
                         self[ field_name ] ||= Skr::Core::Strings.random( length )

@@ -45,6 +45,20 @@ module Skr
                     include InstanceMethods
                     attr_readonly( *flds )
                 end
+
+                def has_locks( *locks )
+                    locks.each do | lock |
+                        define_method( "unlock_#{lock}" ) do | &block |
+                            instance_variable_set "@_lock_#{lock}_unlocked", true
+                            block.call
+                            remove_instance_variable "@_lock_#{lock}_unlocked"
+                        end
+                        define_method( "is_#{lock}_unlocked?") do
+                            instance_variable_defined? "@_lock_#{lock}_unlocked"
+                        end
+                    end
+                end
+
             end
 
             module InstanceMethods

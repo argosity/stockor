@@ -88,12 +88,13 @@ module Skr::Concerns
             def exported_method_dependancies( requested_methods )
                 requested_methods.map!(&:to_sym)
                 return [] if self.exported_methods.blank?
-                self.exported_methods.each_with_object(Array.new) do | kv, result |
+                depends = self.exported_methods.each_with_object(Array.new) do | kv, result |
                     ( export, options ) = kv
                     if options[:depends] && ( false == options[:optional] || requested_methods.include?(export) )
                         result << options[:depends]
                     end
                 end
+                depends.uniq
             end
         end
 

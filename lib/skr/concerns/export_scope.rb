@@ -23,6 +23,13 @@ module Skr::Concerns
         #  * Provide value to the client that it cannot obtain by using normal query methods
         module ClassMethods
 
+            def scope(name, body, options={}, &block)
+                super(name,body,&block)
+                if export = options[:export]
+                    export_scope( name, body, limit:( export==true ? nil : export[:limit] ) )
+                end
+            end
+
             # Mark scope as query-able by the API.
             # @param name [Symbol,String] Rails will create a class method with this name
             # @param query [lambda] Arel query.  This is passed off to Rail's for setting up the scope.

@@ -1,14 +1,17 @@
 require_relative 'concerns/all'
-
+require 'pry'
 module Skr
 
     def self.table_name_prefix
         Skr::Core.config.table_prefix
     end
 
+
     class Model < ::ActiveRecord::Base
         self.abstract_class = true
 
+        include Concerns::Queries
+        include Concerns::PubSub
         include Concerns::JsonAttributeAccess
         include Concerns::TrackModifications
         include Concerns::LockedFields
@@ -22,6 +25,12 @@ module Skr
         include Concerns::ExportAssociations
         include Concerns::ExportJoinTables
         include Concerns::SanitizeJson
+        include Concerns::ActsAsUOM
+        include Concerns::StateMachine
+        include Concerns::IsOrderLike
+        include Concerns::IsOrderLine
+
+        include Concerns::AssociationExtensions
     end
 
 end

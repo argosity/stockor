@@ -12,12 +12,14 @@ module Skr::Concerns
 
         module ClassMethods
 
+            # @param attributes [Array of symbols] attributes that are safe for the API to set
             def whitelist_json_attributes( *attributes )
                 options = attributes.extract_options!
                 self.whitelisted_json_attributes ||= {}
                 attributes.each{|attr| self.whitelisted_json_attributes[ attr.to_sym ] = options }
             end
 
+            # @param attributes [Array of symbols] attributes that are not safe for the API to set
             def blacklist_json_attributes( *attributes )
                 options = attributes.extract_options!
                 self.blacklisted_json_attributes ||= {}
