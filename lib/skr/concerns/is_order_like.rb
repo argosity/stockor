@@ -32,6 +32,13 @@ module Skr
                     end
                 end
 
+                protected
+
+                def set_defaults
+                    self.location ||= Location.default
+                    self.terms    ||= customer.terms
+                    true
+                end
 
             end
 
@@ -42,6 +49,7 @@ module Skr
 
                     validates_associated :lines
                     export_methods :total
+                    before_validation :set_defaults, :on=>:create
                 end
 
             end

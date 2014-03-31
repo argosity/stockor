@@ -8,8 +8,8 @@ first:
   po_num: First
   location: default
   state: pending
-  bill_addr: bigco
-  ship_addr: bigco_wh
+  billing_address: bigco
+  shipping_address: bigco_wh
 
 picking:
   customer: stitt
@@ -18,8 +18,8 @@ picking:
   po_num: First
   location: default
   state: saved
-  bill_addr: bigco
-  ship_addr: bigco_wh
+  billing_address: bigco
+  shipping_address: bigco_wh
 
 complete:
   customer: stitt
@@ -28,5 +28,5 @@ complete:
   po_num: First
   location: default
   state: complete
-  bill_addr: bigco
-  ship_addr: bigco_wh
+  billing_address: bigco
+  shipping_address: bigco_wh

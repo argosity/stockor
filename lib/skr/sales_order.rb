@@ -10,8 +10,8 @@ module Skr
         belongs_to :customer, export: true
         belongs_to :location, export: true
         belongs_to :terms, :class_name=>'PaymentTerm', export: { writable: true }
-        belongs_to :bill_addr, :class_name=>'Address', export: { writable: true }
-        belongs_to :ship_addr, :class_name=>'Address', export: { writable: true }
+        belongs_to :billing_address, :class_name=>'Address', export: { writable: true }
+        belongs_to :shipping_address, :class_name=>'Address', export: { writable: true }
 
         has_many   :lines, ->{ order(:position) }, :class_name=>'SoLine', :inverse_of=>:sales_order,
                    :dependent=>:destroy, export: { writable: true }
@@ -24,11 +24,10 @@ module Skr
         validate  :ensure_location_changes_are_valid
 
         delegate_and_export :customer_code, :customer_name
-        delegate_and_export :bill_addr_name
+        delegate_and_export :billing_address_name
         delegate_and_export :location_code, :location_name
         delegate_and_export :terms_code,    :terms_description
 
-        #before_validation :set_defaults, :on=>:create
         after_save        :update_associated_records
 
         scope :with_amount_details, lambda { | *args |
@@ -86,9 +85,9 @@ module Skr
         def customer=(cust)
             super
             self.terms ||= cust.terms
-            self.is_tax_exempt = cust.is_tax_exempt if     self.is_tax_exempt.nil?
-            self.bill_addr = cust.mail_address.dup  unless self.bill_addr.present?
-            self.ship_addr = self.bill_addr.dup     unless self.ship_addr.present?
+            self.is_tax_exempt    = cust.is_tax_exempt        if     self.is_tax_exempt.nil?
+            self.billing_address  = cust.billing_address.dup  unless self.billing_address.present?
+            self.shipping_address = cust.shipping_address.dup unless self.shipping_address.present?
         end
 
         def open?
