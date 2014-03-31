@@ -24,9 +24,5 @@ require_relative "model"
 require_relative "user_proxy"
 require_relative "sequential_id"
 
-require_relative "inventory_adjustment"
-
-
-
 require 'require_all'
 require_rel '*.rb'
