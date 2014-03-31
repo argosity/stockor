@@ -22,22 +22,11 @@ require_relative "concerns/all"
 require_relative "validators/all"
 require_relative "model"
 require_relative "user_proxy"
-
 require_relative "sequential_id"
 
-## GL
-require_relative "gl_account"
-require_relative "gl_period"
-require_relative "gl_transaction"
-require_relative "gl_posting"
-require_relative "gl_manual_entry"
+require_relative "inventory_adjustment"
 
-require_relative "location"
-require_relative "payment_term"
 
-require_relative "zip_code"
-require_relative "address"
 
-require_relative "business_entity"
-require_relative "vendor"
-require_relative "customer"
+require 'require_all'
+require_rel '*.rb'
