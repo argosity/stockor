@@ -53,7 +53,11 @@ module Skr
         private
 
         def set_defaults
-            self.sku_vendor        = sku_loc.sku.sku_vendors.where( vendor_id: purchase_order.vendor_id ).first
+            if sku_loc && sku_vendor.nil?
+                self.sku_vendor = sku_loc.sku.sku_vendors.for_vendor( purchase_order.vendor )
+            elsif sku_vendor && sku_loc.nil?
+                self.sku_loc = sku_vendor.sku.sku_locs.find_or_create_for( purchase_order.location )
+            end
             if sku_loc
                 self.sku_code    ||= sku_loc.sku.code
                 self.description ||= sku_loc.sku.description
