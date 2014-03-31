@@ -19,20 +19,19 @@ module Skr
                 end
 
                 # track modifications
-                def skr_track_modifications( *args )
-                    opts = args.extract_options!
+                def skr_track_modifications( create_only: false )
                     column( :created_at, :datetime,   :null=>false )
                     column( :created_by_id, :integer, :null=>false )
-                    unless opts[:create_only]
+                    unless create_only
                         column( :updated_at, :datetime,   :null=>false )
                         column( :updated_by_id, :integer, :null=>false )
                     end
                 end
 
-                def skr_currency( name, options )
+                def skr_currency( names, options )
                     options[ :precision ] ||= 15
                     options[ :scale ]     ||= 2
-                    column( name, :decimal, options )
+                    column( names, :decimal, options )
                 end
 
                 # An skr_reference combines a belongs_to / has_one column
@@ -43,10 +42,12 @@ module Skr
                     options[:column] ||= to_table.to_s + '_id'
 
                     column( options[:column], :integer, :null=>options[:null] || false )
+                    to_table = options[:to_table] if options.has_key? :to_table
 
-                    # to_table =  Skr::Core.config.table_prefix + ( options[:to_table] || to_table ).to_s
-
-                    skr_foreign_keys[ options[:to_table] || to_table ] = options
+                    if options[:single]
+                        to_table = to_table.to_s.pluralize
+                    end
+                    skr_foreign_keys[ to_table.to_sym ] = options
                 end
 
                 def skr_foreign_keys
@@ -141,6 +142,12 @@ module Skr
 
         end
 
+    end
+end
+
+class ActiveRecord::Migration
+    def skr_prefix
+        Skr::Core.config.table_prefix
     end
 end
 
