@@ -34,11 +34,27 @@ module Skr
             # Transactions that do not specify a location will use the one that's identified by this code
             config_option :default_location_code, 'DEFAULT'
 
-            # The Accounts Payable (AP) GL account number to use for freshly created Vendors
-            config_option :default_gl_ap_account_number, '2200'
+            # Do freshly created SKUs default to being backorderable?
+            config_option :skus_backorder_default, true
 
-            # The Accounts Receivable (AR) GL account number to use for freshly created Customers
-            config_option :default_gl_ar_account_number, '1200'
+            # The code for a Sku that represents tax
+            config_option :tax_sku_code, 'TAX'
+
+            # Code for a Sku that represents shipping charges
+            config_option :ship_sku_code, 'SHIP'
+
+            config_option :default_gl_accounts, {
+                # The Accounts Receivable (AR) GL account number to use for freshly created Customers
+                ar: '1200',
+                # The Accounts Payable (AP) GL account number to use for freshly created Vendors
+                ap: '2200',
+                # The Freight GL account number to use for freshly created Vendors
+                freight: '6420',
+                # The Asset GL account number to use for freshly created SKUs
+                asset: '1100',
+                # Clearing account for inventory that's been
+                inventory_receipts_clearing: '2600'
+            }
         end
 
         class << self
