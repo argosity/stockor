@@ -69,6 +69,14 @@ module Skr
             uoms.detect{|uom| uom.code == code }
         end
 
+        # The default implementation returns the price for the
+        # default UOM.  Custom implementations will return
+        # from a pricing library
+        # @return [BigDecimal] the "standard" price for the SKU
+        def price_for( customer )
+            uoms.default.price
+        end
+
         private
 
         # If the default uom code was changed, make sure the UOM
