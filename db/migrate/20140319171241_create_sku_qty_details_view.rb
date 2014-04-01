@@ -37,7 +37,7 @@ class CreateSkuQtyDetailsView < ActiveRecord::Migration
                join #{skr_prefix}sku_locs sl on sl.id = pol.sku_loc_id
                join #{skr_prefix}skus s on s.id = sl.sku_id
                group by s.id
-             ) pol_ttl on sol_ttl.sku_id = s.id
+             ) pol_ttl on pol_ttl.sku_id = s.id
 
         EOS
     end
