@@ -1,7 +1,7 @@
 require 'skr/core/db/migration_helpers'
 
 class CreateSkrSalesOrders < ActiveRecord::Migration
-    def up
+    def change
 
         create_skr_table "sales_orders" do |t|
             t.skr_visible_id
@@ -24,7 +24,4 @@ class CreateSkrSalesOrders < ActiveRecord::Migration
 
     end
 
-    def down
-        drop_skr_table "sales_orders"
-    end
 end
