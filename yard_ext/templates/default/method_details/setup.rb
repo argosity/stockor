@@ -1,3 +1,3 @@
 def source
-    super + erb(:github_link)
+    super.to_s + erb(:github_link)
 end

@@ -13,6 +13,10 @@ module Skr
                     end
                 end
 
+                def ea_qty
+                    self.qty*self.uom_size
+                end
+
                 def is_other_charge?
                     self.sku.is_other_charge?
                 end

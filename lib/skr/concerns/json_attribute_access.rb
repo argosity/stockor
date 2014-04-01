@@ -12,6 +12,14 @@ module Skr::Concerns
 
         module ClassMethods
 
+            # An attribute accessor that allows access from the API
+            def json_attr_accessor( *names )
+                names.each do | attr |
+                    attr_accessor attr
+                    whitelist_json_attributes attr
+                end
+            end
+
             # @param attributes [Array of symbols] attributes that are safe for the API to set
             def whitelist_json_attributes( *attributes )
                 options = attributes.extract_options!

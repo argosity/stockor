@@ -1,4 +1,4 @@
-class VisibleIdHandler < SkrMetaMethodHandler
+class CodeIdentifierHandler < SkrMetaMethodHandler
 
     namespace_only
     handles method_call(:has_code_identifier)
