@@ -25,15 +25,13 @@ module Skr
         # Each transaction belongs to an accounting period
         belongs_to :period, :class_name=>'GlPeriod', export: true
 
-        has_many :credits, ->{where( is_debit: false ) },
-                 extend: Concerns::GlTran::Postings,
-                 class_name: 'GlPosting',  :foreign_key=>'transaction_id',
+        has_many :credits, ->{ where({ is_debit: false }) }, class_name: 'GlPosting',
+                 extend: Concerns::GlTran::Postings, :foreign_key=>'transaction_id',
                  inverse_of: :transaction, autosave: true, export: { writable: true }
 
         # Must equal credits, checked by the {#ensure_postings_correct} validation
-        has_many :debits, ->{  where( is_debit: true ) },
-                 extend: Concerns::GlTran::Postings,
-                 class_name: 'GlPosting',  :foreign_key=>'transaction_id',
+        has_many :debits, ->{  where({ is_debit: true }) }, class_name: 'GlPosting',
+                 extend: Concerns::GlTran::Postings, :foreign_key=>'transaction_id',
                  inverse_of: :transaction, autosave: true, export: { writable: true }
 
         before_validation :set_defaults

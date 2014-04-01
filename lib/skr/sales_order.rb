@@ -2,14 +2,12 @@ module Skr
 
     # A SalesOrder is a record of a customer's desire to purchase one or more {Sku}s.
     #
-    #   customer = Customer.find_by_code "VIP1"
-    #   so = SalesOrder.new( customer: customer )
-    #   Sku.where( code: ['HAT','STRING'] ).each do | sku |
-    #       so.lines.build(
-    #         sku_loc: sku.sku_locs.default
-    #   )
-    #   end
-    #   so.save
+    #     customer = Customer.find_by_code "VIP1"
+    #     so = SalesOrder.new( customer: customer )
+    #     Sku.where( code: ['HAT','STRING'] ).each do | sku |
+    #         so.lines.build( sku_loc: sku.sku_locs.default )
+    #     end
+    #     so.save
 
     class SalesOrder < Skr::Model
 
@@ -25,13 +23,14 @@ module Skr
         belongs_to :shipping_address, :class_name=>'Address', export: { writable: true }
 
         has_many   :lines, ->{ order(:position) }, :class_name=>'SoLine', :inverse_of=>:sales_order,
-                   :dependent=>:destroy, export: { writable: true }
+                   extend: Concerns::SO::Lines, validate: true, autosave: true, export: { writable: true }
         has_many   :skus, :through=>:lines
         has_many   :pick_tickets, :inverse_of=>:sales_order, :before_add=>:setup_new_pt
         # has_many   :invoices,     :inverse_of=>:sales_order, :before_add=>:setup_new_invoice,
         #            listen: { save: 'on_shipment' }
 
-        validates :location, :terms, :customer, :order_date, :presence=>true
+        validates :location, :terms, :customer, set: true
+        validates :order_date, presence: true
         validate  :ensure_location_changes_are_valid
 
         delegate_and_export :customer_code, :customer_name
@@ -39,35 +38,48 @@ module Skr
         delegate_and_export :location_code, :location_name
         delegate_and_export :terms_code,    :terms_description
 
-        after_save        :update_associated_records
+        after_save        :check_if_location_changed
 
+        # joins the so_amount_details view which includes additional fields:
+        # customer_code, customer_name, bill_addr_name, total, num_lines, total_other_charge_amount,
+        # total_tax_amount, total_shipping_amount,subtotal_amount
         scope :with_amount_details, lambda { | *args |
             compose_query_using_detail_view( view: 'so_amount_details', join_to: 'sales_order_id' )
         }, export: true
 
+        # joins the so_allocation_details which includes the additional fields:
+        # number_of_lines,  allocated_total, number_of_lines_allocated, number_of_lines_fully_allocated
         scope :with_allocation_details, lambda {
             compose_query_using_detail_view( view: 'so_allocation_details', join_to: 'sales_order_id' )
         }
 
-        scope :open, lambda { | open=true |
-            where("state in ('pending','saved','authorized')") if open
+        # a pending SalesOrder is one who's state is not "complete" or "canceled"
+        scope :pending, lambda { | *args |
+            where( arel_table[:state].not_in ['complete','canceled'] )
         }, export: true
 
-        scope :allocated, lambda { | open=true |
+        # a SalesOrder is allocated if it has one or more lines with qty_allocated>0
+        scope :allocated, lambda { | *unused |
             with_allocation_details.where('details.number_of_lines_allocated>0')
         }, export: true
 
+        # a SalesOrder is fully allocated when it has all it's lines allocated
         scope :fully_allocated, -> {
             allocated.where('details.number_of_lines=details.number_of_lines_allocated')
         }, export: true
 
+        # a SalesOrder is considered pickable if either:
+        #   ship_partial=true and at least one line is allocated
+        #   all lines are fully allocated
         scope :pickable, ->(unused=nil){
             allocated.where("( ship_partial='t' and details.number_of_lines_allocated > 0 ) " +
               " or ( details.number_of_lines=details.number_of_lines_fully_allocated)" )
         }, export: true
 
+        # @return [Array of Array[day_ago,date, order_count,line_count,total]]
         def self.sales_history( ndays )
-            self.connection.execute( "#{skr_prefix}so_dailly_sales_history" ).values
+            qry="select * from #{Skr::Core.config.table_prefix}so_dailly_sales_history where days_ago<#{ndays.to_i}"
+            self.connection.execute(qry).values
         end
 
         state_machine :initial => :pending do
@@ -85,7 +97,6 @@ module Skr
             end
 
             before_transition any => :canceled, :do => :cancel_all_lines
-            before_transition [:authorized] => :canceled, :do => :cancel_authorizations
         end
 
         def initialize(attributes = {})
@@ -93,6 +104,9 @@ module Skr
             self.order_date = Date.today
         end
 
+        # Set's the customer.  It also defaults the terms, addresses,and tax_exempt status to the customer's defaults
+        # @param cust [Customer]
+        # @return Customer
         def customer=(cust)
             super
             self.terms ||= cust.terms
@@ -101,46 +115,43 @@ module Skr
             self.shipping_address = cust.shipping_address.dup unless self.shipping_address.present?
         end
 
-        def open?
-            ! [ :complete,:canceled ].include?( self.state_name )
+        # A SalesOrder is pending unless it's state is set to "complete" or "canceled"
+        # @return [Boolean]
+        def pending?
+            return ! [ :complete, :canceled ].include?( self.state_name )
         end
 
         private
 
-        def prep_descendant_record( rec )
-            rec.customer = self.customer
-            rec.location = self.location
-            if line = self.ship_line
-                rec.shipping_option = self.shipping_option
-                rec.shipping_charge = line.price
-            end
-        end
+        # # Initialize a new Invoice
+        # def setup_new_invoice( inv )
+        #     inv.customer = self.customer
+        #     inv.location = self.location
+        #     self.lines.each do | so_line |
+        #         inv.lines << so_line.inv_lines.build
+        #     end
+        #     true
+        # end
 
-        def setup_new_invoice( inv )
-            prep_descendant_record( inv )
-            self.lines.each do | so_line |
-                inv.lines << so_line.inv_lines.build
-            end
-            true
-        end
-
+        # Initialize a new {PickTicket}.
         def setup_new_pt(pt)
-            prep_descendant_record( pt )
             self.lines.each do | so_line |
                 pt.lines << so_line.pt_lines.build if so_line.pickable_qty > 0
             end
             true
         end
 
-        def update_associated_records
+        # When the location changes, lines need to have their sku_loc modified to point to the new location as well
+        def check_if_location_changed
             if location_id_changed?
                 self.lines.each{ |l| l.location = self.location }
             end
         end
 
+        # The location can only be updated if all the line's sku's are setup in the new location
         def ensure_location_changes_are_valid
             return true unless changes['location_id']
-            errors.add(:location, 'cannot be changed unless sales order is open') if ! open?
+            errors.add(:location, 'cannot be changed unless sales order is open') unless pending?
             current = self.sku_ids
             setup   = location.sku_locs.where( sku_id: current ).pluck('sku_id')
             missing = current - setup
@@ -150,20 +161,20 @@ module Skr
             end
         end
 
-        private
-
+        # when the order is canceled, inform the lines
         def cancel_all_lines
             self.pick_tickets.each{ |pt| pt.cancel! }
             self.lines.each{ | soline | soline.cancel! }
+            true
         end
 
-
-        def on_shipment(inv)
-            if lines.unshipped.none?
-                self.cancel_all_lines
-                self.mark_complete!
-            end
-        end
+        # # on shipment
+        # def on_shipment(inv)
+        #     if lines.unshipped.none?
+        #         self.cancel_all_lines
+        #         self.mark_complete!
+        #     end
+        # end
 
 
     end

@@ -38,4 +38,13 @@ class SkuLocTest < Skr::TestCase
         assert_equal [sl], last_event_results
     end
 
+    def test_picking
+        sl = skr_sku_locs(:stringdefault)
+        sol = sl.so_lines.where( sku_loc: sl ).first
+        sl.allocate_available_qty!
+        pt = sol.sales_order.pick_tickets.build
+        assert_difference 'sl.reload.qty_picking', 6 do
+            assert_saves pt
+        end
+    end
 end

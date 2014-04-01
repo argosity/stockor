@@ -1,5 +1,14 @@
 module Skr
 
+    # A voucher is a record of a {Vendor}'s demand for payment
+    # It transistions through the following states
+    #
+    #  * Saved; A {PurchaseOrder} has been recieved but an Invoice has not been received fromt the Vendor
+    #     * It credit's each line's {Sku#gl_asset_account} and debit's the System default inventory_receipts_clearing
+    #  * Confirmed; An Invoice has been received and verified as accurate.
+    #     * Debit: {Vendor#gl_payables_account}, Credit: inventory_receipts_clearing
+    #  * Paid;  A payment has been made against the Voucher
+    #     * Debit {Vendor#gl_payables_account}, Credit: Deposit clearing account
     class Voucher < Skr::Model
 
         has_visible_id
@@ -28,10 +37,8 @@ module Skr
 
         export_methods :total, :lines_total
 
-        export_join_tables :details
-        export_scope :with_details, lambda { |should_use=true |
-            joins('join vo_details as details on details.voucher_id = vouchers.id')
-            .select('vouchers.*,details.*') if should_use
+        export_scope :with_details, lambda { | *args |
+            compose_query_using_detail_view( view: 'vo_details', join_to: 'voucher_id' )
         }
 
         export_scope :unpaid, lambda{ | unused=nil |
@@ -94,7 +101,8 @@ module Skr
         end
 
         def create_gl_transaction
-            GlTransaction.record({ source: self, location: location }) do | tran |
+            options = { source: self, location: location }
+            GlTransaction.record( options ) do | tran |
                 if self.freight.nonzero?
                     tran.add_posting( amount: self.freight,
                       debit: GlAccount.default_for( :inventory_receipts_clearing ),
@@ -109,21 +117,14 @@ module Skr
         def on_confirmation
             self.confirmation_date ||= Date.today
             GlTransaction.push_or_save(
-              owner:  self,
-              amount: total,
+              owner:  self, amount: total,
               debit:  vendor.gl_payables_account,
               credit: GlAccount.default_for( :inventory_receipts_clearing )
             )
             true
-            # gl = self.gl_transactions.build({ :source=>self, :location => self.purchase_order.location, :amount=>self.total, :description=>'Voucher Confirmation' })
-            # gl.credit.account = Tenant.current.gl_inventory_receipt_clearing_account
-            # gl.debit.account  = self.vendor.gl_payables_account
-            # gl.save!
-            # true
         end
 
         def record_payment
-            Rails.logger.debug "record voucher #{self.id} payment: #{self.total}"
             gl = self.gl_transactions.build({ :source=>self, :location => self.purchase_order.location, :amount=>self.total, :description=>'Voucher Payment' })
             gl.credit.account = self.vendor.gl_payables_account
             gl.debit.account  = self.payment_line.payment.bank_account.gl_account

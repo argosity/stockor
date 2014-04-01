@@ -1,5 +1,19 @@
 module Skr
 
+    # A Purchase Order (often abbreviated as PO)
+    # is a record of a request to purchase a product from a Vendor.
+    # It contains one or more {Sku}, the quantity desired for each and the price offered for them.
+    #
+    # A Purchase Order progresses through set stages:
+    #
+    #   * It starts of as "saved"
+    #     This state indicates that the PO has been saved but no further action has been under-taken.
+    #   * Once it has been sent to the Vendor, it transitions to Sent.
+    #   * On reciept of a confirmation from the vendor it becomes Confirmed At this point the PO may be
+    #     considered a binding agreement with the {Vendor}.
+    #   * When the ordered SKUs are received, the PO will be marked as either Partial or Complete.
+    #   * A {Voucher} is then created from the Purchase Order.
+
     class PurchaseOrder < Skr::Model
 
         has_visible_id

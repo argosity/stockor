@@ -16,7 +16,7 @@ class CreateSoDetailsView < ActiveRecord::Migration
                 coalesce( ttls.total,0.0 ) - coalesce( ttls.other_charge_total, 0.0 ) as subtotal_amount
                 from #{skr_prefix}sales_orders so
                 join #{skr_prefix}customers cust on cust.id = so.customer_id
-                join #{skr_prefix}addresses addr on addr.id = so.bill_addr_id
+                join #{skr_prefix}addresses addr on addr.id = so.billing_address_id
                 left join (
                 select
                   sales_order_id,
@@ -52,7 +52,9 @@ class CreateSoDetailsView < ActiveRecord::Migration
 
         execute <<-EOS
             create view #{skr_prefix}so_dailly_sales_history as
-              select date_trunc('day', (current_date - days_ago)) as day,
+            select
+              days_ago,
+              date_trunc('day', (current_date - days_ago)) as day,
               coalesce( ttls.order_count, 0 ) as order_count,
               coalesce( ttls.line_count, 0  ) as line_count,
               coalesce(ttls.total,0.0) as total

@@ -10,7 +10,8 @@ module Skr
         belongs_to :sku,      export: true
         belongs_to :location, export: true
 
-        has_many :so_lines, inverse_of: :sku_loc, listen: { qty_change: :update_so_qty }
+        has_many :so_lines, inverse_of: :sku_loc,  extend: Concerns::SO::Lines, listen: { qty_change: :update_so_qty }
+        has_many :pt_lines, :inverse_of=>:sku_loc, extend: Concerns::PT::Lines, listen: { save: :update_qty_picking }
 
         has_many :sku_vendors, :primary_key=>:sku_id, :foreign_key=>:sku_id
 
@@ -27,9 +28,6 @@ module Skr
 
         has_additional_events :qty_change
 
-        scope :in_loc, -> {
-            where location_id: 22
-        }
         # @return [BigDecimal] the value of inventory for {Sku} in this {Location}
         def onhand_mac_value
             qty*mac
@@ -58,8 +56,8 @@ module Skr
         # SalesOrder counts.  This forces recalculation of the cached values
         def rebuild!
             self.update_attributes({
-                # qty_picking: pt_lines.is_picking.sum(:qty),
-                qty_allocated: so_lines.allocated.sum(:qty_allocated)
+                qty_picking: pt_lines.pt_lines.picking_qty,
+                qty_allocated: self.so_lines.pending.allocated.eq_qty_allocated
               })
         end
 
@@ -76,65 +74,22 @@ module Skr
         end
 
         private
+
         def fire_after_save_events
             fire_event(:qty_change) if qty_changed?
         end
 
         # Caches the qty of skus that are allocated to sales orders in the {#qty_allocated} field
         def update_so_qty( so_line=nil )
-            allocated = so_lines.allocated.inject(0){  |sum, l| sum + l.ea_qty_allocated }
-            self.update_attributes({ qty_allocated: allocated })
+            #allocated = so_lines.allocated.inject(0){  |sum, l| sum + l.ea_qty_allocated }
+            self.update_attributes({ qty_allocated: self.so_lines.pending.allocated.eq_qty_allocated })
+        end
+
+        def update_qty_picking( pt=nil )
+            update_attributes( :qty_picking=> self.pt_lines.picking.ea_picking_qty )
         end
 
     end
 
 
 end # Skr module
-
-
-__END__
-
-    has_many :sku_vendors, :primary_key=>:sku_id, :foreign_key=>:sku_id
-    has_one :default_sku_vendor, ->{ includes :sku }, :through=>:sku
-
-    after_save :deliver_stock_notifications
-
-    has_many :transactions, :class_name=>'SkuTran'
-
-    has_many :pt_lines
-    has_many :uoms,      :foreign_key=>:sku_id, :primary_key=>:sku_id
-    has_many :item_skus, :foreign_key=>:sku_id, :primary_key=>:sku_id
-    has_many :items, :through=>:item_skus
-
-    after_save :touch_related
-
-
-    export_join_tables :details
-    export_scope :with_details, lambda { |should_use=true |
-        joins('join sku_loc_details as details on details.sku_loc_id = sku_locs.id')
-            .select('sku_locs.*, details.*') if should_use
-    }
-
-    export_scope :on_web, lambda { | limited=true |
-        limited.to_s == 'true' ? joins( :item_skus ) :
-        joins( "left join item_skus on item_skus.sku_id=sku_locs.sku_id" ).where( "item_skus.id is null" )
-    }
-
-
-    def update_qty_picking
-        self.update_attributes({ qty_picking: pt_lines.is_picking.sum(:qty) })
-    end
-
-
-private
-    def touch_related
-        sku.touch
-        items.each(&:touch)
-    end
-
-    def deliver_stock_notifications
-        if qty_was.zero? && qty > 0
-            Rails.logger.debug "Delivering back in stock notifications to items: #{items.map(&:visible_id)}"
-            self.item_skus.each{| xref | xref.deliver_stock_notifications }
-        end
-    end
