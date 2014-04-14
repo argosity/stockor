@@ -12,7 +12,7 @@ module Skr
     #   * On reciept of a confirmation from the vendor it becomes Confirmed At this point the PO may be
     #     considered a binding agreement with the {Vendor}.
     #   * When the ordered SKUs are received, the PO will be marked as either Partial or Complete.
-    #   * A {Voucher} is then created from the Purchase Order.
+    #   * A {PoReceipt} is then created from the Purchase Order.
 
     class PurchaseOrder < Skr::Model
 
@@ -26,7 +26,7 @@ module Skr
         belongs_to :ship_addr, :class_name=>'Address', export: { writable: true }
 
         has_many :lines, ->{ order(:position) }, :class_name=>'PoLine', :inverse_of=>:purchase_order, export: {writable:true}
-        has_many :vouchers
+        has_many :receipts, class_name: 'PoReceipt'
 
         before_validation :set_defaults, :on=>:create
 
@@ -104,10 +104,6 @@ module Skr
             else
                 BigDecimal.new( self.lines.sum('price*qty') )
             end
-        end
-
-        def type_identifier
-            'Purchase Order'
         end
 
         private

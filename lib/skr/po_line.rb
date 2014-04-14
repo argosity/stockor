@@ -3,7 +3,7 @@ module Skr
     class PoLine < Skr::Model
 
         acts_as_uom
-        is_order_line parent: 'purchase_order'
+        is_sku_loc_line parent: 'purchase_order'
 
         belongs_to :purchase_order, :inverse_of=>:lines
         belongs_to :sku_loc,    export: true
@@ -11,7 +11,8 @@ module Skr
 
         has_one :sku, :through => :sku_loc, export: true
 
-        has_many :vo_lines, :inverse_of=>:po_line, listen: { create: :update_qty_received! }
+        has_many :receipts, class_name: 'PorLine',
+                 :inverse_of=>:po_line, listen: { create: :update_qty_received! }
 
         validates :purchase_order, :sku_loc,  set: true
         validates :description,    :sku_code, presence: true
@@ -23,15 +24,6 @@ module Skr
 
         before_validation :set_defaults, :on=>:create
 
-        def uom=(uom)
-            self.uom_size = uom.size
-            self.uom_code = uom.code
-        end
-
-        def total
-            qty * price
-        end
-
         def qty_unreceived
             qty - qty_received - qty_canceled
         end
@@ -40,9 +32,9 @@ module Skr
             qty_unreceived.zero?
         end
 
-        def update_qty_received!( vl=nil )
+        def update_qty_received!( receipt=nil )
             unlock_fields :qty_received do
-                self.qty_received = vo_lines.sum(:qty)
+                self.qty_received = receipts.sum(:qty)
                 self.save( :validate => false )
                 if self.complete?
                     self.purchase_order.set_maybe_completed!
