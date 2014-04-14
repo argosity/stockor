@@ -4,19 +4,23 @@ require_relative 'test_helper'
 class VoucherTest < Skr::TestCase
 
 
-    def test_posting_freight
-        po    = skr_purchase_orders(:first)
-        vouch = Voucher.new( freight: 42.99, purchase_order: po )
-        assert_difference ->{ po.vendor.gl_freight_account.trial_balance }, 42.99 do
-            vouch.save!
+
+    def test_creation
+        por = skr_po_receipts(:first)
+        assert por.vendor
+        v = Voucher.new({ po_receipt: por })
+        por.lines.each do | por_line |
+            v.lines.build({ po_line: por_line.po_line })
         end
+        assert_saves v
     end
 
     def test_state_transistions
-        v=Voucher.create!({ :freight=>42.99, :purchase_order => skr_purchase_orders(:first), refno: '3432' })
+        v=Voucher.new({ :po_receipt => skr_po_receipts(:first) })
         v.lines.build({
             :po_line => skr_po_lines(:second_on_first)
         })
+        assert_saves v
 
         acct   = v.vendor.gl_payables_account
         before = acct.trial_balance
@@ -26,13 +30,6 @@ class VoucherTest < Skr::TestCase
             assert_saves v
         end
 
-        # acct = bank_accounts(:checking).gl_account
-        # before = acct.masked_balance
-        # v.payment_line = payment_lines(:product)
-
-        # assert_difference 'acct.trial_balance', v.total*-1 do
-        #     v.mark_paid!
-        # end
     end
 
 end

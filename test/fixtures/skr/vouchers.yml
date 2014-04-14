@@ -2,9 +2,7 @@
 
 first:
   purchase_order: first
-  freight: 23.42
   terms: net30 
   state: pending
   vendor: bigco
   confirmation_date: <%= Date.today - 1.week %>
-  location: default

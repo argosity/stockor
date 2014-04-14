@@ -1,9 +1,7 @@
 
 first:
    voucher: first
-   po_line: first_on_first
    sku_vendor: hat_bigco
-   sku_loc: hatdefault
    qty: 3
    uom_code: EA
    uom_size: 1
