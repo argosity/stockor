@@ -88,7 +88,7 @@ module Skr
                 sl.save!
             end
             sl.reload
-            sl.allocate_available_qty if self.allocate_after_save
+            sl.allocate_available_qty! if self.allocate_after_save
 
             Skr::Core.logger.debug "After Adj Qty #{sl.qty}"
         end
