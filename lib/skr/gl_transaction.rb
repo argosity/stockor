@@ -88,9 +88,11 @@ module Skr
             if glt = self.current # we push
                 glt.add_posting( amount: amount, debit: debit, credit: credit )
             else
-                glt = GlTransaction.new({
-                    source: owner, location: options[:location] || owner.location
+                options.merge!({
+                    source: owner,
+                    location: options[:location] || owner.location
                 })
+                glt = GlTransaction.new( options )
                 glt.add_posting( amount: amount, debit: debit, credit: credit )
                 glt.save
             end
