@@ -53,15 +53,13 @@ module Skr::Concerns
             def setup_listeners( assoc, listeners )
                 targets = {}
                 if listeners.any? && assoc.options[:inverse_of].nil?
-                    Skr::Core.logger.warn "Setting listener on #{name}##{assoc.name} but the assocation does not have " +
-                                          "an inverse_of specified. This will almost certainly fail."
-                                          binding.pry
+                    raise RuntimeError.new "Setting listener on #{name}##{assoc.name} but the assocation does not have " +
+                                          "an inverse_of specified."
                 end
                 listeners.each do | name, target |
                     targets[ name ] = Proc.new{ | record, *args |
                         record.send( assoc.inverse_of.name ).send( target, *( [record] + args ) )
                         binding.pry unless assoc.inverse_of
-
                     }
                 end
                 begin
