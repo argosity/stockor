@@ -27,8 +27,9 @@ module Skr
         include Concerns::SanitizeJson
         include Concerns::ActsAsUOM
         include Concerns::StateMachine
+        include Concerns::HasSkuLocLines
         include Concerns::IsOrderLike
-        include Concerns::IsOrderLine
+        include Concerns::IsSkuLocLine
 
         include Concerns::AssociationExtensions
     end
