@@ -3,7 +3,7 @@ module Skr
     class PtLine < Skr::Model
 
         acts_as_uom
-        is_order_line parent: 'pick_ticket'
+        is_sku_loc_line parent: 'pick_ticket'
 
         attr_accessor :qty_to_ship
 

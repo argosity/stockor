@@ -1,7 +1,8 @@
 module Skr
     module Concerns
 
-        module IsOrderLine
+        module IsSkuLocLine
+
             extend ActiveSupport::Concern
 
             module InstanceMethods
@@ -40,14 +41,14 @@ module Skr
 
             module ClassMethods
 
-                def is_order_line( options = {} )
+                def is_sku_loc_line( parent: nil )
                     self.send :include, InstanceMethods
 
                     validate  :ensure_sku_does_not_change, :on=>:update
 
-                    if options[:parent]
+                    if parent
                         before_create do
-                            self.position ||= ( self.send(options[:parent]).lines.maximum(:position) || 0 ) + 1
+                            self.position ||= ( self.send( parent ).lines.maximum(:position) || 0 ) + 1
                         end
                     end
 

@@ -3,7 +3,7 @@ module Skr
     class SoLine < Skr::Model
 
         acts_as_uom
-        is_order_line parent: 'sales_order'
+        is_sku_loc_line parent: 'sales_order'
 
         belongs_to :sales_order
         belongs_to :sku_loc, export: true

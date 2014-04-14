@@ -32,6 +32,7 @@ module Skr
         after_save  :create_needed_gl_transaction
         before_validation :calculate_mac
 
+        attr_accessor :allocate_after_save
 
         # @param sl [SkuLoc] set's the sku loc and also sets {#prior_qty} and {#prior_mac}
         def sku_loc=(sl)
@@ -56,13 +57,14 @@ module Skr
         # To calculate the MAC, the {SkuLoc#onhand_mac_value} is added to {#cost}
         # and then divided by #{SkuLoc#qty} + {#ea_qty}
         def calculate_mac
-            return self.mac if self.mac?
+            #return self.mac if self.mac?
             new_qty = sku_loc.qty + self.ea_qty
             if new_qty.zero?
                 self.mac = BigDecimal.new(0)
             else
                 self.mac = ( sku_loc.onhand_mac_value + cost ) / new_qty
             end
+            true
         end
 
         # If {#cost} is non-zero, then create a {GlTransaction}
@@ -86,6 +88,8 @@ module Skr
                 sl.save!
             end
             sl.reload
+            sl.allocate_available_qty if self.allocate_after_save
+
             Skr::Core.logger.debug "After Adj Qty #{sl.qty}"
         end
 
