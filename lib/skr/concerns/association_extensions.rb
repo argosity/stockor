@@ -11,30 +11,31 @@ module Skr::Concerns
 
             def has_one(name, scope = nil, options = {})
                 opts = extract_private_options( scope, options )
-                assoc = super
-                handle_private_options( assoc, opts ) unless opts.empty?
-                assoc
+                associations = super
+                handle_private_options( name, opts ) unless opts.empty?
+                associations
             end
 
             def belongs_to(name, scope = nil, options = {} )
                 opts = extract_private_options( scope, options )
-                assoc = super
-                handle_private_options( assoc, opts ) unless opts.empty?
-                assoc
+                associations = super
+                handle_private_options( name, opts ) unless opts.empty?
+                associations
             end
 
             def has_many(name, scope=nil,options={}, &extension )
                 opts = extract_private_options( scope, options )
-                assoc = super
-                handle_private_options( assoc, opts ) unless opts.empty?
-                assoc
+                associations = super
+                handle_private_options( name, opts ) unless opts.empty?
+                associations
             end
 
             private
 
-            def handle_private_options( assoc, opts )
-                setup_listeners( assoc, opts[:listen] ) if opts[:listen]
-                setup_association_export( assoc, opts[:export] ) if opts[:export]
+            def handle_private_options( name, opts )
+                association = reflect_on_association( name.to_sym )
+                setup_listeners( association, opts[:listen] ) if opts[:listen]
+                setup_association_export( association, opts[:export] ) if opts[:export]
             end
 
             def extract_private_options( scope, options )
@@ -45,36 +46,37 @@ module Skr::Concerns
                 end
             end
 
-            # This gets complex since we
+            # This gets complex; We
             #   First setup proc's for each listener,
             #   then attempt to load the associations's class
             #   If that succeds, we're done, otherwise we add it
             #   to PubSub's pending queue
-            def setup_listeners( assoc, listeners )
+            def setup_listeners( association, listeners )
                 targets = {}
-                if listeners.any? && assoc.options[:inverse_of].nil?
-                    raise RuntimeError.new "Setting listener on #{name}##{assoc.name} but the assocation does not have " +
-                                          "an inverse_of specified."
+                if listeners.any? && association.options[:inverse_of].nil?
+                    raise RuntimeError.new "Setting listener on #{name}##{association.name} " +
+                        "but the association does not have " +
+                        "an inverse_of specified."
                 end
                 listeners.each do | name, target |
                     targets[ name ] = Proc.new{ | record, *args |
-                        record.send( assoc.inverse_of.name ).send( target, *( [record] + args ) )
-                        binding.pry unless assoc.inverse_of
+                        record = record.send( association.inverse_of.name )
+                        record.send( target, *( [record] + args ) ) if record
                     }
                 end
                 begin
-                    klass = assoc.klass # This will throw if the class hasn't been loaded yet
+                    klass = association.klass # This will throw if the class hasn't been loaded yet
                     targets.each{ | name, proc | klass._add_event_listener( name, proc ) }
-                rescue NameError=>e
-                    pending = PendingEventListeners.all[assoc.class_name]
+                rescue NameError
+                    pending = PendingEventListeners.all[association.class_name]
                     targets.each do | name, proc |
                         pending[name] << proc
                     end
                 end
             end
 
-            def setup_association_export( assoc, options )
-                export_associations( assoc.name, options == true ? {} : options )
+            def setup_association_export( association, options )
+                export_associations( association.name, options == true ? {} : options )
             end
         end
 
