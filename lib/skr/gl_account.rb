@@ -29,6 +29,10 @@ module Skr
             self.number + location.gl_branch_code
         end
 
+        def default_number
+            self.number + Skr::Core.config.default_branch_code
+        end
+
         def trial_balance
             balance_for( GlPeriod.current )
         end
