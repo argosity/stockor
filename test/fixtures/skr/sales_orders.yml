@@ -7,7 +7,7 @@ first:
   terms: net30
   po_num: First
   location: default
-  state: pending
+  state: open
   billing_address: bigco
   shipping_address: bigco_wh
 
@@ -17,7 +17,7 @@ picking:
   order_date: <%= Date.today-1.day %>
   po_num: First
   location: default
-  state: saved
+  state: open
   billing_address: bigco
   shipping_address: bigco_wh
 

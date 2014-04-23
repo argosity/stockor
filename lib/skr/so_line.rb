@@ -11,6 +11,7 @@ module Skr
         has_one :location, :through => :sales_order
         has_many :pt_lines,  :before_add=>:setup_new_pt_line, :inverse_of=>:so_line,
                  extend: Concerns::PT::Lines, :listen=>{save:'update_qty_picking'}
+
         # has_many :inv_lines, :before_add=>:setup_new_inv_line, :inverse_of=>:so_line
 
         validates :sales_order, :sku_loc,  set: true
@@ -18,9 +19,7 @@ module Skr
         validates :price, :qty, :numericality=>true
         validates :qty_allocated, :numericality=>{ :greater_than_or_equal_to=>0 }
         validate  :ensure_allocation_is_correct
-        validate  :ensure_so_is_pending, on: :create
-
-        export_methods :extended_price, :optional=>false
+        validate  :ensure_so_is_open, on: :create
 
         has_additional_events :qty_change
 
@@ -28,12 +27,15 @@ module Skr
         before_create  :allocate_max_available
         before_destroy :ensure_deleteable
 
-        scope :pending, ->{
-            joins(:sales_order).merge(SalesOrder.pending).where( arel_table[:qty].gt( arel_table[:qty_invoiced] ) )
+        scope :open, ->{
+            joins(:sales_order).merge(SalesOrder.open).where( arel_table[:qty].gt( arel_table[:qty_invoiced] ) )
         }
         scope :allocated,   ->{ where( arel_table[:qty_allocated].gt( 0 ) ) }
         scope :unallocated, ->{
             t = table_name; where( "#{t}.qty_allocated < #{t}.qty - #{t}.qty_invoiced - #{t}.qty_canceled" )
+        }
+        scope :unshipped, lambda {|unused=nil|
+            t = table_name; where( "#{t}.qty > #{t}.qty_invoiced + #{t}.qty_canceled" )
         }
         scope :pickable,    ->{ where( arel_table[:qty_allocated].gt( arel_table[:qty_picking] ) ) }
 
@@ -93,7 +95,7 @@ module Skr
             self.uom         = sku.uoms.default if self.uom_code.blank?
             self.description = sku.description if self.description.blank?
             self.sku_code    = sku.code        if self.sku_code.blank?
-            self.price     ||= sku.price_for( self.sales_order.customer )
+            self.price     ||= sku_loc.price_for( self.sales_order.customer, self.uom )
             true
         end
 
@@ -127,8 +129,8 @@ module Skr
         end
 
 
-        def ensure_so_is_pending
-            unless self.sales_order.pending?
+        def ensure_so_is_open
+            unless self.sales_order.open?
                 errors.add(:base,"Cannot add item #{self.sku_code} to non-open Sales Order")
                 return false
             end
