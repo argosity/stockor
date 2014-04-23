@@ -1,8 +1,8 @@
 module Skr
 
-    # A SalesOrder is a record of a customer's desire to purchase one or more {Sku}s.
-    # It can be converted into an Invoice when the goods are delivered (or shipped)
-    # to the customer
+    # A SalesOrder is a record of a {Customer}'s desire to purchase one or more {Sku}s.
+    # It can be converted into an {Invoice} when the goods are delivered (or shipped)
+    # to the {Customer}
     #
     #     customer = Customer.find_by_code "VIP1"
     #     so = SalesOrder.new( customer: customer )
@@ -11,7 +11,10 @@ module Skr
     #     end
     #     so.save
     #
-    #
+    #     invoice = Invoice.new( sales_order: so )
+    #     invoice.lines.from_sales_order!
+    #     invoice.save
+
 
     class SalesOrder < Skr::Model
 
