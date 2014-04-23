@@ -57,8 +57,15 @@ module Skr
         def rebuild!
             self.update_attributes({
                 qty_picking: pt_lines.pt_lines.picking_qty,
-                qty_allocated: self.so_lines.pending.allocated.eq_qty_allocated
+                qty_allocated: self.so_lines.open.allocated.eq_qty_allocated
               })
+        end
+
+        # The default implementation returns the price for the given UOM
+        # Custom implementations will return from a pricing library
+        # @return [BigDecimal] the "standard" price for the SKU
+        def price_for( customer, uom=uoms.default )
+            sku.uoms.with_code( uom.code ).price
         end
 
         # Allocate the maximum available quantity to {SalesOrder}
@@ -81,8 +88,7 @@ module Skr
 
         # Caches the qty of skus that are allocated to sales orders in the {#qty_allocated} field
         def update_so_qty( so_line=nil )
-            #allocated = so_lines.allocated.inject(0){  |sum, l| sum + l.ea_qty_allocated }
-            self.update_attributes({ qty_allocated: self.so_lines.pending.allocated.eq_qty_allocated })
+            self.update_attributes({ qty_allocated: self.so_lines.open.allocated.eq_qty_allocated })
         end
 
         def update_qty_picking( pt=nil )
