@@ -7,6 +7,7 @@ stitt:
   shipping_address: home
   billing_address: away
   gl_receivables_account: ar
+  open_balance: 13.88
 
 web_customer:
   code: WEB

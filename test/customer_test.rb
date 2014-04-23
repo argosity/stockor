@@ -21,4 +21,14 @@ class CustomerTest < Skr::TestCase
         assert_equal '1200', @customer.gl_receivables_account.number
     end
 
+
+    def test_balance_recording
+        inv = Invoice.new( sales_order: skr_sales_orders(:picking) )
+        inv.lines.from_sales_order!
+        customer = inv.sales_order.customer
+        assert_difference ->{ customer.reload.open_balance }, 18.94 do
+            assert_saves inv
+        end
+    end
+
 end

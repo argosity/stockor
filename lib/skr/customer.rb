@@ -12,12 +12,18 @@ module Skr
         belongs_to :gl_receivables_account, :class_name=>'GlAccount', export: true
 
         has_many :sales_orders, inverse_of: :customer
+        has_many :invoices,     inverse_of: :customer, listen: { save: :update_balance! }
 
         delegate_and_export  :gl_receivables_account_number
 
         validates :gl_receivables_account, :set=>true
 
+        def update_balance!( * )
+            update_attributes open_balance: invoices.open_for_customer( self ).with_details.sum( 'details.total' )
+        end
+
         private
+
 
         def set_defaults
             self.gl_receivables_account ||= GlAccount.default_for( :ar )
