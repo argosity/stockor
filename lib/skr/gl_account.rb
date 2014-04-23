@@ -24,23 +24,27 @@ module Skr
             DEFAULT_ACCOUNTS[ lookup ] ||= GlAccount.find_by_number( number )
         end
 
-        # @return [String] The account number combined with location branch code
+        # @return [String] the account number combined with location branch code
         def number_for_location( location )
             self.number + location.gl_branch_code
         end
 
+        # @return [String] the account number combined with the default branch code
         def default_number
             self.number + Skr::Core.config.default_branch_code
         end
 
+        # @return [BigDecimal] The balance for the current period
         def trial_balance
             balance_for( GlPeriod.current )
         end
 
+        # @return [String] the account number suitable for querying all branches
         def account_mask
             number + '%'
         end
 
+        # @return [BigDecimal] the balance for a given period
         def balance_for( period, mask = self.account_mask )
             GlPosting.matching( period, account_mask ).sum(:amount)
         end
