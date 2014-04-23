@@ -12,20 +12,22 @@ namespace :db do
 
     task :environment do
         ActiveRecord::Tasks::DatabaseTasks.seed_loader = Skr::Core::DB
+        env = ENV['RAILS_ENV'] || 'development'
 
         Skr::Core::DB.config_file ||= 'config/database.yml'
-        env = ENV['RAILS_ENV'] || 'development'
         ENV['SCHEMA'] ||= 'db/schema.sql'
         ENV['DB_STRUCTURE'] ||= 'db/schema.sql'
         ActiveRecord::Base.schema_format = :sql
         Skr::Core::DB.establish_connection( env )
         ActiveRecord::Tasks::DatabaseTasks.database_configuration = ActiveRecord::Base.configurations
+        ActiveRecord::Tasks::DatabaseTasks.env = 'test'
+        ActiveRecord::Tasks::DatabaseTasks.migrations_paths = 'db/migrate'
         ActiveRecord::Tasks::DatabaseTasks.current_config( :config => ActiveRecord::Base.configurations[ env ] )
     end
 
     desc "create an ActiveRecord migration"
     task :create_migration,[ :name ] do | t, args |
-        Skr::Core::DB.create_migration( args[:name] )
+        Skr::Core::DB.create_migration( "create_skr_" + args[:name] )
     end
 
 
