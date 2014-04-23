@@ -16,18 +16,18 @@ module Skr
                 end
 
                 def regular_lines_total
-                    self.regular_lines.sum{|l|l.total}
+                    self.regular_lines.sum{|l|l.extended_price}
                 end
 
                 def subtotal
-                    self.regular_lines.inject(0){|sum,line| sum + line.total }
+                    self.regular_lines.inject(0){|sum,line| sum + line.extended_price }
                 end
 
                 def total
                     if total = self.read_attribute('total')
                         BigDecimal.new(total)
                     elsif self.new_record? || self.association(:lines).loaded?
-                        self.lines.inject( BigDecimal.new('0') ){|sum,line| sum += line.total }
+                        self.lines.inject( BigDecimal.new('0') ){|sum,line| sum += line.extended_price }
                     else
                         BigDecimal.new( self.lines.sum('price*qty') )
                     end

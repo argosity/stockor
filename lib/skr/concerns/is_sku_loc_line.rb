@@ -22,8 +22,8 @@ module Skr
                     self.sku.is_other_charge?
                 end
 
-                def total
-                    self.price * self.qty
+                def extended_price
+                    self.price && self.qty ? self.price * self.qty : BigDecimal.new(0)
                 end
 
                 private
@@ -52,7 +52,7 @@ module Skr
                         end
                     end
 
-                    export_methods :total, :optional=>false
+                    export_methods :extended_price, :optional=>false
 
                 end
 
