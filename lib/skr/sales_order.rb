@@ -25,19 +25,20 @@ module Skr
                    extend: Concerns::SO::Lines, validate: true, autosave: true, export: { writable: true }
         has_many   :skus, :through=>:lines
         has_many   :pick_tickets, :inverse_of=>:sales_order, :before_add=>:setup_new_pt
-        # has_many   :invoices,     :inverse_of=>:sales_order, :before_add=>:setup_new_invoice,
-        #            listen: { save: 'on_shipment' }
+        has_many   :invoices,     :inverse_of=>:sales_order, listen: { save: 'on_invoice' }
 
         validates :location, :terms, :customer, set: true
-        validates :order_date, presence: true
+        validates :billing_address, :shipping_address, :order_date, presence: true
         validate  :ensure_location_changes_are_valid
 
+        after_save :check_if_location_changed
+        before_validation :set_defaults, on: :create
+
         delegate_and_export :customer_code, :customer_name
-        delegate_and_export :billing_address_name
         delegate_and_export :location_code, :location_name
         delegate_and_export :terms_code,    :terms_description
+        delegate_and_export :billing_address_name
 
-        after_save        :check_if_location_changed
 
         # joins the so_amount_details view which includes additional fields:
         # customer_code, customer_name, bill_addr_name, total, num_lines, total_other_charge_amount,
@@ -52,8 +53,8 @@ module Skr
             compose_query_using_detail_view( view: 'so_allocation_details', join_to: 'sales_order_id' )
         }
 
-        # a pending SalesOrder is one who's state is not "complete" or "canceled"
-        scope :pending, lambda { | *args |
+        # a open SalesOrder is one who's state is not "complete" or "canceled"
+        scope :open, lambda { | *args |
             where( arel_table[:state].not_in ['complete','canceled'] )
         }, export: true
 
