@@ -29,8 +29,16 @@ module Skr
             module Uoms
                 def default
                     code = self.proxy_association.owner.default_uom_code
-                    detect{ |uom| code == uom.code }
+                    with_code( code )
                 end
+
+                # Return the uom with code.  Since the UOM's are probably already loaded
+                # for the SKU, it makes sense to search over the in-memory collection
+                # vs hitting the DB again.
+                def with_code( code )
+                    detect{|uom| uom.code == code }
+                end
+
             end
         end
 
