@@ -53,7 +53,9 @@ module Skr
                 # The Asset GL account number to use for freshly created SKUs
                 asset: '1100',
                 # Clearing account for inventory that's been
-                inventory_receipts_clearing: '2600'
+                inventory_receipts_clearing: '2600',
+                # Holding account for funds that are awaiting deposit
+                deposit_holding: '1010'
             }
         end
 
