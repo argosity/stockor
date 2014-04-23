@@ -22,7 +22,6 @@ class PorLineTest < Skr::TestCase
     def test_recieving_qty
         po  = skr_purchase_orders(:first)
         pol = skr_po_lines(:second_on_first)
-        po.mark_saved!
         por = PoReceipt.new({ purchase_order: po })
         line = por.lines.build({ po_line: pol })
         assert_difference ->{ line.sku_loc.reload.qty }, 1 do
@@ -37,7 +36,6 @@ class PorLineTest < Skr::TestCase
     def test_mac_adjustments
         po  = skr_purchase_orders(:first)
         pol = skr_po_lines(:second_on_first)
-        # po.mark_saved!
         por  = PoReceipt.new({ purchase_order: po })
         line = por.lines.build({ po_line: pol })
         assert_equal '0.12', line.sku_loc.mac.to_s
@@ -60,8 +58,8 @@ class PorLineTest < Skr::TestCase
         por.lines.build({ :po_line => pol })
         assert_saves por
         sl.reload
-        sl.mac.must_equal 23.3
-        sl.qty.must_equal 1
+        assert_equal 23.3, sl.mac
+        assert_equal 1, sl.qty
     end
 
     def test_prevents_over_receipt
