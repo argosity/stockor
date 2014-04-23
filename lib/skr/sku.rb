@@ -62,21 +62,6 @@ module Skr
             sku_locs.each(&:rebuild!)
         end
 
-        # Return the uom with code.  Since the UOM's are probably already loaded
-        # for the SKU, it makes sense to search over the in-memory collection
-        # vs hitting the DB again.
-        def uom_with_code( code )
-            uoms.detect{|uom| uom.code == code }
-        end
-
-        # The default implementation returns the price for the
-        # default UOM.  Custom implementations will return
-        # from a pricing library
-        # @return [BigDecimal] the "standard" price for the SKU
-        def price_for( customer )
-            uoms.default.price
-        end
-
         private
 
         # If the default uom code was changed, make sure the UOM
