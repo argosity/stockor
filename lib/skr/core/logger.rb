@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 module Skr::Core
 
     @logger = if defined?(::Rails)
@@ -22,6 +23,12 @@ module Skr::Core
             ensure
                 Skr::Core.logger=old_logger
             end
+        end
+
+        def logger_debug( output )
+            logger.debug '⚡ '*40
+            logger.debug '⚡ ' + output
+            logger.debug '⚡ '*40
         end
     end
 end
