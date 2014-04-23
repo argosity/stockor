@@ -7,6 +7,7 @@ hatamazon:
   qty_allocated: 0
   qty_picking: 0
   qty_reserved: 0
+  bin: 'A1A11'
 
 hatdefault:
   location: default
@@ -16,6 +17,7 @@ hatdefault:
   qty_allocated: 5
   qty_picking: 0
   qty_reserved: 0
+  bin: 'B1A01'
 
 hatsurplus:
   location: surplus
@@ -25,6 +27,7 @@ hatsurplus:
   qty_allocated: 0
   qty_picking: 0
   qty_reserved: 0
+  bin: 'B11'
 
 glovedefault:
   location: default
@@ -34,6 +37,7 @@ glovedefault:
   qty_allocated: 0
   qty_picking: 0
   qty_reserved: 0
+  bin: 'A0B81'
 
 stringdefault:
   location: default
@@ -43,6 +47,7 @@ stringdefault:
   qty_allocated: 0
   qty_picking: 0
   qty_reserved: 0
+  bin: 'C0B18'
 
 stringsurplus:
   location: surplus
@@ -52,6 +57,7 @@ stringsurplus:
   qty_allocated: 50
   qty_picking: 0
   qty_reserved: 0
+  bin: 'A11'
 
 shipdefault:
   location: default
