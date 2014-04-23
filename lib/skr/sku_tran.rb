@@ -21,16 +21,17 @@ module Skr
 
         validates :sku_loc, :set=>true
         validates :origin_description, :presence=>true
-        validates :prior_mac, :mac,    :numericality=>true
+        validates :prior_mac,          :numericality=>true
 
         validate  :ensure_cost_and_qty_present
+
         attr_accessor :credit_gl_account
         attr_accessor :debit_gl_account
         attr_accessor :gl_tran_description_text
 
         after_save  :adjust_sku_loc_values
         after_save  :create_needed_gl_transaction
-        before_validation :calculate_mac
+        before_save :calculate_mac
 
         attr_accessor :allocate_after_save
 
@@ -47,9 +48,9 @@ module Skr
         end
 
         # @return [String] a description intended for use by the #{GlTransaction}
-        def description_for_gl_transaction(gl)
-            self.origin_description
-        end
+        # def description_for_gl_transaction(gl)
+        #     self.origin_description
+        # end
 
         private
 
@@ -57,20 +58,22 @@ module Skr
         # To calculate the MAC, the {SkuLoc#onhand_mac_value} is added to {#cost}
         # and then divided by #{SkuLoc#qty} + {#ea_qty}
         def calculate_mac
-            #return self.mac if self.mac?
             new_qty = sku_loc.qty + self.ea_qty
+            return true if self.mac.present?
             if new_qty.zero?
                 self.mac = BigDecimal.new(0)
-            else
+            elsif cost
                 self.mac = ( sku_loc.onhand_mac_value + cost ) / new_qty
+            else
+                self.mac = sku_loc.onhand_mac_value
             end
             true
         end
 
         # If {#cost} is non-zero, then create a {GlTransaction}
         def create_needed_gl_transaction
-            return unless self.cost.nonzero?
             Skr::Core.logger.debug "Recording SkuTran in GL, mac is: #{self.mac}, cost = #{cost}"
+            return if self.cost.nil? || self.cost.zero?
             GlTransaction.push_or_save(
               owner: self, amount: cost,
               debit: debit_gl_account, credit: credit_gl_account
@@ -83,7 +86,7 @@ module Skr
             Skr::Core.logger.debug "Adj +#{ea_qty} Sku #{sl.sku.code} location #{location.code} " +
                                    "from MAC: #{sl.mac} to #{self.mac}, qty: #{sl.qty} += #{ea_qty} #{combined_uom}"
             sl.unlock_fields( :qty, :mac ) do
-                sl.mac  = self.mac unless self.mac.nan? or self.mac.zero?
+                sl.mac = self.mac unless self.mac.nan? or self.mac.zero?
                 sl.adjust_qty( ea_qty )
                 sl.save!
             end
@@ -97,7 +100,7 @@ module Skr
             if ea_qty.zero?
                 errors.add( :base, "Transaction has no effect, must change inventory onhand value")
             end
-            if cost.nonzero? && debit_gl_account.nil?
+            if cost.present? && cost.nonzero? && debit_gl_account.nil?
                 errors.add( :debit_gl_account, "was not specified even though we need to adjust the GL by #{cost}")
             end
         end
