@@ -1,6 +1,6 @@
 require 'skr/core/db/migration_helpers'
 
-class PorLine < ActiveRecord::Migration
+class CreateSkrPorLine < ActiveRecord::Migration
     def change
         create_skr_table "por_lines" do |t|
             t.skr_reference :po_receipt,     null: false, to_table: 'po_receipts'

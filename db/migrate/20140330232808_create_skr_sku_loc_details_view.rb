@@ -1,6 +1,6 @@
 require 'skr/core/db/migration_helpers'
 
-class SkuLocDetails < ActiveRecord::Migration
+class CreateSkrSkuLocDetailsView < ActiveRecord::Migration
     def up
 
         execute <<-EOS

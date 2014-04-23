@@ -11,6 +11,7 @@ class CreateSkrPtLines < ActiveRecord::Migration
             t.string   "sku_code",        null: false
             t.string   "description",     null: false
             t.string   "uom_code",        null: false
+            t.string   "bin",             null: true
             t.integer  "uom_size",        null: false, limit: 2
             t.integer  "position",        null: false, limit: 2
             t.integer  "qty",             null: false, default: 0

@@ -2,7 +2,7 @@ require 'skr/core/db/migration_helpers'
 
 class CreateSoDetailsView < ActiveRecord::Migration
     def up
-        execute <<-EOS
+        execute <<-EOS.squish
             create view #{skr_prefix}so_amount_details as
                 select so.id as sales_order_id,
                 to_char(so.order_date,'YYYY-MM-DD') as string_order_date,
@@ -34,7 +34,7 @@ class CreateSoDetailsView < ActiveRecord::Migration
                 ) ttls on ttls.sales_order_id = so.id
         EOS
 
-        execute <<-EOS
+        execute <<-EOS.squish
             create view #{skr_prefix}so_allocation_details as
               select sales_order_id, count(*) as number_of_lines, sum(sol.qty_allocated*price) as allocated_total,
                  sum( case when sol.qty_allocated  - sol.qty_canceled - sol.qty_picking > 0 then 1 else 0 end )
@@ -50,7 +50,7 @@ class CreateSoDetailsView < ActiveRecord::Migration
                  ) ) > 0
         EOS
 
-        execute <<-EOS
+        execute <<-EOS.squish
             create view #{skr_prefix}so_dailly_sales_history as
             select
               days_ago,

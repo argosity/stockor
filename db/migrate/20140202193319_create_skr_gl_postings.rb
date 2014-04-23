@@ -3,7 +3,7 @@ require 'skr/core/db/migration_helpers'
 class CreateSkrGlPostings < ActiveRecord::Migration
     def change
         create_skr_table "gl_postings" do |t|
-            t.skr_reference :transaction,      to_table: 'gl_transactions'
+            t.skr_reference :gl_transaction,   single: true
             t.string       "account_number",   null: false
             t.skr_currency "amount",           null: false
             t.boolean      "is_debit",         null: false
