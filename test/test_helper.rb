@@ -1,6 +1,5 @@
 require 'minitest/unit'
 require 'minitest/autorun'
-require 'turn'
 require 'skr/core'
 
 require 'active_record'
@@ -8,7 +7,7 @@ require 'active_record/fixtures'
 
 ENV["RAILS_ENV"] = "test"
 RAILS_ENV = "test"
-
+I18n.enforce_available_locales = true
 Skr::Core::DB.establish_connection( 'test' )
 Skr::Core.logger=Logger.new( File.open('log/test.log', File::WRONLY | File::APPEND | File::CREAT ) )
 ActiveRecord::Base.logger = Skr::Core.logger
@@ -17,18 +16,3 @@ ActiveSupport::Dependencies.mechanism = :require
 require_relative 'helpers/assertions'
 require_relative 'helpers/fixtures'
 require_relative 'helpers/test_case'
-
-Turn.config do |c|
-    # use one of output formats:
-    # :outline  - turn's original case/test outline mode [default]
-    # :progress - indicates progress with progress bar
-    # :dotted   - test/unit's traditional dot-progress mode
-    # :pretty   - new pretty reporter
-    # :marshal  - dump output as YAML (normal run mode only)
-    # :cue      - interactive testing
-    c.format  = :pretty
-    # turn on invoke/execute tracing, enable full backtrace
-    c.trace   = 26
-    # use humanized test names (works only with :outline format)
-    c.natural = true
-end
