@@ -18,7 +18,7 @@ module Skr
 
         export_methods :sku_loc_qty, :sku_loc_mac, :optional=>false
 
-        validates :inventory_adjustment, :sku_loc, :inventory_adjustment, :set=>true
+        validates :sku_loc, set: true
         validates :qty,     numericality: true
         validates :uom_code, :uom_size, presence: true
         validate  :ensure_cost_set_properly
@@ -26,7 +26,6 @@ module Skr
         before_save    :set_cost_from_sku_loc
         before_destroy :ensure_adjustment_isnt_applied
         before_update  :ensure_adjustment_isnt_applied
-
         delegate_and_export :sku_code, :sku_description
 
         has_locks :adjusting
@@ -79,7 +78,6 @@ module Skr
             true
         end
 
-
         # Perform the adjustment.  Requires adjusting to be unlocked and {#is_applied?} must be false
         #
         # It creates a {SkuTran} to adjust the inventory, and allocates available qty to the {SoLine}
@@ -89,18 +87,20 @@ module Skr
             end
             set_cost_from_sku_loc
             Core.logger.debug( "Adjusting #{self.qty} #{combined_uom} of #{sku_code} into stock")
-            self.create_sku_tran!({ :origin=>self, :qty => self.qty, :sku_loc=>self.sku_loc,
+            self.build_sku_tran({
+                :origin=>self, :qty => self.qty, :sku_loc=>self.sku_loc,
                 origin_description: "IA #{self.inventory_adjustment.visible_id}:#{self.sku.code}",
-                cost: total,
-                :uom_size=>self.uom_size, :uom_code=>self.uom_code,
-                :debit_gl_account => self.inventory_adjustment.reason.gl_account,
-                :credit_gl_account => self.sku.gl_asset_account })
-
-            self.sku_loc.allocate_available_qty!
+                cost: total,  uom: self.uom,
+                allocate_after_save: true,
+                debit_gl_account:  self.inventory_adjustment.reason.gl_account,
+                credit_gl_account: self.sku.gl_asset_account
+            })
+            self.sku_tran.save unless self.new_record?
             true
         end
 
         private
+
 
         # Cost cannot be set if the qty is negative
         def ensure_cost_set_properly
@@ -112,7 +112,7 @@ module Skr
         end
 
         def ensure_adjustment_isnt_applied
-            if :applied == inventory_adjustment.state_name
+            if inventory_adjustment.applied?
                 errors.add(:base,'cannot be modified after adjustment is approved and applied')
                 return false
             else
