@@ -21,18 +21,17 @@ class PurchaseOrderTest < Skr::TestCase
 
     def test_state_transistions
         po = skr_purchase_orders(:first)
-        po.state.must_equal 'pending'
-        po.valid_state_events.must_equal [ :mark_saved, :mark_received ]
-        po.update_attributes( :state_event => :mark_saved )
-        po.valid_state_events.must_equal [ :mark_transmitted, :mark_received ]
-        po.state.must_equal 'saved'
+        assert_equal 'open', po.state
+        assert_equal [ :mark_received ], po.valid_state_events
+        po.mark_received!
+        assert_equal 'received', po.state
+        assert_empty po.valid_state_events
         assert_saves po
     end
 
 
     def test_receiving
         po = skr_purchase_orders(:first)
-        po.mark_saved!
         por   = PoReceipt.new( purchase_order: po )
         po.lines.each do | pol|
             next if pol.qty_unreceived.zero?

@@ -5,8 +5,8 @@ class SkuLocTest < Skr::TestCase
     def test_qty_locked
         sl = skr_sku_locs(:hatdefault)
         sl.qty=800
-        sl.save!.must_equal true
-        sl.reload.qty.must_equal 25
+        assert_saves sl
+        assert_equal 25, sl.reload.qty
     end
 
 

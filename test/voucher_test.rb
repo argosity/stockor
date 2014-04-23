@@ -24,7 +24,7 @@ class VoucherTest < Skr::TestCase
 
         acct   = v.vendor.gl_payables_account
         before = acct.trial_balance
-        v.state_name.must_equal :pending
+        assert_equal 'pending', v.state
         assert_difference 'acct.trial_balance', before - v.total do
             v.mark_confirmed
             assert_saves v

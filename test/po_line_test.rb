@@ -14,23 +14,22 @@ class PoLineTest < Skr::TestCase
 
     def test_recieving
         line = skr_po_lines(:second_on_first)
-        line.purchase_order.mark_saved!
-        line.qty_received.must_equal 0
         line.qty_received = 1
-        line.qty_received.must_equal 1
+
         assert_saves line
         line.reload
-        line.qty_received.must_equal 0
+        assert_equal 0, line.qty_received, "qty received saved, even though it should be locked"
+
         line.unlock_fields( :qty_received ) do
             line.qty_received = 33
             assert_saves line
         end
         line.reload
-        line.qty_received.must_equal 33
+        assert_equal 33, line.qty_received
         line.qty_received = 3
         assert_saves line
         line.reload
-        line.qty_received.must_equal 33
+        assert_equal 33, line.qty_received
     end
 
 

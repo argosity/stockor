@@ -47,12 +47,11 @@ class PorLineTest < Skr::TestCase
 
     def test_empty_mac_adjustment
         po = skr_purchase_orders(:unvouched)
-        po.mark_saved!
         sl = skr_sku_locs(:hatdefault)
         pol = po.lines.where({ sku_loc_id: sl }).first
-        pol.qty_received.must_equal 0
-        pol.qty.must_equal 1
-        pol.price.must_equal 23.3
+        assert_equal 0, pol.qty_received
+        assert_equal 1, pol.qty
+        assert_equal 23.3, pol.price
         sl.unlock_fields :mac, :qty do
             sl.qty = sl.mac = 0
             sl.save!
