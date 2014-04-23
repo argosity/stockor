@@ -14,7 +14,6 @@ module Skr
         has_visible_id
 
         has_sku_loc_lines
-        is_a_state_machine
 
         belongs_to :vendor,   export: true
         belongs_to :customer, export: true
@@ -44,22 +43,21 @@ module Skr
             where(['vouchers.state <> ? and payment_lines.id is null', 'pending']).includes(:payment_line)
         }
 
-        state_machine :initial => :pending do
-
-            before_transition :pending   => :confirmed, :do=> :on_confirmation
-            before_transition :confirmed => :paid ,     :do=> :record_payment, :if=>:payment_line
+        state_machine do
+            state :pending, initial: true
+            state :confirmed
+            state :paid
 
             event :mark_confirmed do
-                transition :pending => :confirmed
+                transitions from: :pending, to: :confirmed
+                before :record_confirmation_in_gl
             end
 
             event :mark_paid do
-                transition :confirmed => :paid
+                transitions from: :confirmed, to: :paid, guards: :ensure_payment_line
+                before :record_payment_in_gl
             end
 
-            state :paid do
-                validate :payment_line, :is_set=>true
-            end
 
         end
 
@@ -85,6 +83,10 @@ module Skr
 
         private
 
+        def ensure_payment_line
+            payment_line.present?
+        end
+
         def set_defaults
 #            self.freight  ||= 0.0
             if self.purchase_order
@@ -96,7 +98,7 @@ module Skr
 
 
 
-        def on_confirmation
+        def record_confirmation_in_gl
             self.confirmation_date ||= Date.today
             GlTransaction.push_or_save(
               :owner   =>  self, amount: total,
@@ -107,7 +109,7 @@ module Skr
             true
         end
 
-        def record_payment
+        def record_payment_in_gl
             gl = self.gl_transactions.build({
                 :source      =>self,
                 :location    => self.purchase_order.location,

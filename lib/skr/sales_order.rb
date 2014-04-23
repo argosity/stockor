@@ -13,7 +13,6 @@ module Skr
 
         has_visible_id
         has_random_hash_code
-        is_a_state_machine
         is_order_like
 
         belongs_to :customer, export: true
@@ -82,21 +81,19 @@ module Skr
             self.connection.execute(qry).values
         end
 
-        state_machine :initial => :pending do
-            event :mark_saved do
-                transition :pending => :saved
-            end
-            event :mark_authorized do
-                transition [:pending,:saved] => :authorized
-            end
+        state_machine do
+            state :open, initial: true
+            state :complete
+            state :canceled
+
             event :mark_complete do
-                transition all=>:complete
+                transitions from: :open, to: :complete
             end
             event :mark_canceled do
-                transition ( any - :complete ) => :canceled
+                transitions from: :open, to: :canceled
+                before :cancel_all_lines
             end
 
-            before_transition any => :canceled, :do => :cancel_all_lines
         end
 
         def initialize(attributes = {})
@@ -104,42 +101,7 @@ module Skr
             self.order_date = Date.today
         end
 
-        # Set's the customer.  It also defaults the terms, addresses,and tax_exempt status to the customer's defaults
-        # @param cust [Customer]
-        # @return Customer
-        def customer=(cust)
-            super
-            self.terms ||= cust.terms
-            self.is_tax_exempt    = cust.is_tax_exempt        if     self.is_tax_exempt.nil?
-            self.billing_address  = cust.billing_address.dup  unless self.billing_address.present?
-            self.shipping_address = cust.shipping_address.dup unless self.shipping_address.present?
-        end
-
-        # A SalesOrder is pending unless it's state is set to "complete" or "canceled"
-        # @return [Boolean]
-        def pending?
-            return ! [ :complete, :canceled ].include?( self.state_name )
-        end
-
         private
-
-        # # Initialize a new Invoice
-        # def setup_new_invoice( inv )
-        #     inv.customer = self.customer
-        #     inv.location = self.location
-        #     self.lines.each do | so_line |
-        #         inv.lines << so_line.inv_lines.build
-        #     end
-        #     true
-        # end
-
-        # Initialize a new {PickTicket}.
-        def setup_new_pt(pt)
-            self.lines.each do | so_line |
-                pt.lines << so_line.pt_lines.build if so_line.pickable_qty > 0
-            end
-            true
-        end
 
         # When the location changes, lines need to have their sku_loc modified to point to the new location as well
         def check_if_location_changed
@@ -151,7 +113,7 @@ module Skr
         # The location can only be updated if all the line's sku's are setup in the new location
         def ensure_location_changes_are_valid
             return true unless changes['location_id']
-            errors.add(:location, 'cannot be changed unless sales order is open') unless pending?
+            errors.add(:location, 'cannot be changed unless sales order is open') unless open?
             current = self.sku_ids
             setup   = location.sku_locs.where( sku_id: current ).pluck('sku_id')
             missing = current - setup
@@ -161,6 +123,15 @@ module Skr
             end
         end
 
+        # Initialize a new {PickTicket} by copying the pickable lines to it
+        def setup_new_pt(pt)
+            self.lines.each do | so_line |
+                pt.lines << so_line.pt_lines.build if so_line.pickable_qty > 0
+            end
+            true
+        end
+
+
         # when the order is canceled, inform the lines
         def cancel_all_lines
             self.pick_tickets.each{ |pt| pt.cancel! }
@@ -168,14 +139,16 @@ module Skr
             true
         end
 
-        # # on shipment
-        # def on_shipment(inv)
-        #     if lines.unshipped.none?
-        #         self.cancel_all_lines
-        #         self.mark_complete!
-        #     end
-        # end
+        def on_invoice(inv)
+            self.mark_complete! if may_mark_complete? and lines.unshipped.none?
+        end
 
+        def set_defaults
+            if customer
+                self.billing_address = customer.billing_address   if self.billing_address.blank?
+                self.shipping_address = customer.shipping_address if self.shipping_address.blank?
+            end
+        end
 
     end
 

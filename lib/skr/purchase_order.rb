@@ -18,8 +18,6 @@ module Skr
 
         has_visible_id
 
-        is_a_state_machine
-
         belongs_to :terms,    export: true, class_name: 'PaymentTerm'
         belongs_to :vendor,   export: true
         belongs_to :location, export: true
@@ -52,21 +50,15 @@ module Skr
             with_details.where("state !='received'") if should_use
         }
 
-        state_machine :initial => :pending do
-            event :mark_saved do
-                transition :pending => :saved
-            end
-
-            event :mark_transmitted do
-                transition :saved => :transmitted
-            end
+        state_machine do
+            state :open, initial: true
+            state :received
 
             event :mark_received do
-                transition [:pending, :transmitted, :saved] => :received
-            end
-
-            after_transition :on=>:received do | po,trans |
-                po.receiving_completed_at = Time.now
+                transitions from: :open, to: :received
+                before do
+                    self.receiving_completed_at = Time.now
+                end
             end
         end
 
@@ -75,7 +67,7 @@ module Skr
         end
 
         def set_maybe_completed!
-            self.mark_received! if :received != self.state_name  && self.lines.incomplete.empty?
+            self.mark_received! unless received? or self.lines.incomplete.any?
         end
 
         def to_shipping_address
