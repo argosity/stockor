@@ -6,9 +6,10 @@ module Skr
         is_order_like
 
         belongs_to :sales_order
+        belongs_to :invoice, inverse_of: :pick_ticket, listen: { create: 'on_invoice' }
+        belongs_to :location
 
         has_one :customer, through: :sales_order, export: true
-        has_one :location, through: :sales_order
         has_one :terms,    through: :sales_order
 
         has_many :lines, ->{ order(:position) }, class_name: 'PtLine', inverse_of: :pick_ticket,
@@ -23,10 +24,10 @@ module Skr
         # If true, the PickTicket (and it's lines) will be marked as complete once it's saved
         json_attr_accessor :mark_complete
 
-        after_save :check_for_mark_completed
+        before_update :check_for_mark_completed
 
         validates  :sales_order, set: true
-
+        validates  :lines, presence: true
         export_methods :ship_addr, :bill_addr
 
         def ship_addr
@@ -41,10 +42,6 @@ module Skr
             return is_complete
         end
 
-        def check_for_mark_completed
-            self.cancel! if self.mark_complete
-        end
-
         def cancel!
             update_attributes({ :is_complete=> true })
             lines.each do | line |
@@ -52,33 +49,23 @@ module Skr
             end
         end
 
-        # def maybe_cancel
-        #     if self.lines.is_picking.empty?
-        #         update_attributes :is_complete=>true
-        #     end
-        # end
+        private
 
-        def on_shipment(inv)
-            if shipped_at
-                errors.add(:invoice, 'already exists and cannot be changed')
-                return false
+        def check_for_mark_completed
+            return unless self.mark_complete
+            assign_attributes :is_complete=>true
+            lines.each do | line |
+                line.update_attributes :is_complete=>true
             end
-            self.invoice = inv
-            self.is_complete=true
-            self.shipped_at = Time.now
-            self.save!
-            self.lines.each do | ptline |
-                ptline.update_from_invoice( invoice )
-            end
+            true
         end
 
 
-    end
+        def on_invoice(inv)
+            self.update_attributes is_complete: true, shipped_at: Time.now
+        end
 
-    protected
 
-    def set_defaults
-fd
     end
 
 end # Skr module

@@ -11,29 +11,16 @@ module Skr
         belongs_to :sku_loc,     export: true
         belongs_to :so_line
 
-        has_one :sales_order, :through=>:pick_ticket, export: true
-        has_one :sku, :through => :sku_loc, export: true
-
         has_one :inv_line
+        has_one :sales_order, :through=>:pick_ticket, export: true
+        has_one :sku,         :through => :sku_loc, export: true
 
         scope :picking, ->{ where({ :is_complete=>false }) }
 
-        #export_associations :sku, :sku_loc, :sales_order, :pick_ticket
         delegate_and_export_field  :pick_ticket, :visible_id
         delegate_and_export_field  :sales_order, :visible_id
 
-        #after_save  :update_associated_records
-        before_save :set_defaults, on: :create
-
-
-        #exportapi_attr_accessor :qty_to_ship, export: true
-        #whitelist_json_attributes :qty_to_ship
-
-        validates :price, :qty, :numericality=>true
-
-        validates :so_line, :presence=>true, :unless=>:is_other_charge?
-
-        export_associations :sku_loc
+        before_create :set_defaults#, on: :create
 
         def update_from_invoice( invoice )
             inv_line = invoice.lines.where({ pt_line_id: self }).first
@@ -75,17 +62,13 @@ module Skr
             end
 
             self.sku_loc     ||= so_line.sku_loc
+            self.bin         ||= sku_loc.bin
             self.price       ||= so_line.price
             self.sku_code    = sku_loc.sku.code    if self.sku_code.blank?
             self.description = so_line.description if self.description.blank?
             self.uom         = so_line.uom         if self.uom.blank?
-            self
+            true
         end
-
-        # def update_associated_records
-        #     so_line.update_qty_picking
-        #     sku_loc.update_qty_picking
-        # end
 
 
     end
