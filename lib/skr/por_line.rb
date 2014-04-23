@@ -36,12 +36,11 @@ module Skr
 
         def adjust_inventory
             Core.logger.debug( "Receiving #{self.ea_qty} into stock" )
-
             tran = self.sku_trans.build({
                 origin: self, qty: self.qty,
                 sku_loc: po_line.sku_loc,
                 origin_description: "PO #{self.po_line.purchase_order.visible_id}",
-                cost: self.total,  uom: self.uom,
+                cost: self.extended_price,  uom: self.uom,
                 credit_gl_account: self.sku.gl_asset_account,
                 debit_gl_account:  GlAccount.default_for( :inventory_receipts_clearing )
             })

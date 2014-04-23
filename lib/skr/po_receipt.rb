@@ -6,8 +6,8 @@ module Skr
     class PoReceipt < Skr::Model
 
         has_visible_id
-
         has_sku_loc_lines
+        has_gl_transaction
 
         belongs_to :purchase_order, export: true
         belongs_to :vendor,   export: true
@@ -19,36 +19,34 @@ module Skr
                  inverse_of: :po_receipt, autosave: true, validate: true
 
         validates :freight,        numericality: true
+        validates :purchase_order, :location, presence: true
 
-        before_validation :set_defaults, :on=>:create
-
-        around_create  :create_gl_transaction
+        before_create  :record_freight, if: ->{ freight.nonzero? }
+        after_create   :logit
 
         def purchase_order=(po)
             super
             self.location   ||= purchase_order.location
             self.vendor     = purchase_order.vendor
         end
+
         private
 
-
-        def set_defaults
-            true
+        def attributes_for_gl_transaction
+            {   location: location, source: self,
+                description: "PO RECPT #{self.visible_id}" }
         end
 
-        def create_gl_transaction
-            options = { source: self, location: location,
-                description: "PO #{self.purchase_order.visible_id}, RECPT #{self.visible_id}" }
-            GlTransaction.record( options ) do | tran |
-                if self.freight.nonzero?
-                    tran.add_posting( amount: self.freight,
-                      debit: GlAccount.default_for( :inventory_receipts_clearing ),
-                      credit: vendor.gl_freight_account
-                    )
-
-                end
-                yield
-            end
+        def logit
         end
+
+        def record_freight
+            GlTransaction.current.add_posting( amount: self.freight,
+              debit: GlAccount.default_for( :inventory_receipts_clearing ),
+              credit: vendor.gl_freight_account
+            )
+        end
+
     end
+
 end
