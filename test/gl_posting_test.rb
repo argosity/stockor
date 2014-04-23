@@ -4,7 +4,7 @@ class GlPostingTest < Skr::TestCase
 
     def setup
         gle = GlManualEntry.create({ notes: 'A good test' })
-        @glt = GlTransaction.new({ source: gle })
+        @glt = gle.gl_transaction = GlTransaction.new({ source: gle })
         @glt.location = skr_locations(:default)
         @glt.add_posting( amount: 33.42, debit: skr_gl_accounts(:cash), credit: skr_gl_accounts(:inventory) )
     end
@@ -32,7 +32,7 @@ class GlPostingTest < Skr::TestCase
                                  amount: 22
                              })
         assert posting.new_record?, "allowed saving an adhoc posting"
-        assert_equal ["does not accept new postings"], posting.errors[:transaction]
+        assert_equal ["does not accept new postings"], posting.errors[:gl_transaction]
     end
 
 

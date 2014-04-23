@@ -26,13 +26,13 @@ module Skr
         belongs_to :period, :class_name=>'GlPeriod', export: true
 
         has_many :credits, ->{ where({ is_debit: false }) }, class_name: 'GlPosting',
-                 extend: Concerns::GlTran::Postings, :foreign_key=>'transaction_id',
-                 inverse_of: :transaction, autosave: true, export: { writable: true }
+                 extend: Concerns::GlTran::Postings,
+                 inverse_of: :gl_transaction, autosave: true, validate: true, export: { writable: true }
 
         # Must equal credits, checked by the {#ensure_postings_correct} validation
         has_many :debits, ->{  where({ is_debit: true }) }, class_name: 'GlPosting',
-                 extend: Concerns::GlTran::Postings, :foreign_key=>'transaction_id',
-                 inverse_of: :transaction, autosave: true, export: { writable: true }
+                 extend: Concerns::GlTran::Postings,
+                 inverse_of: :gl_transaction, autosave: true, validate: true, export: { writable: true }
 
         before_validation :set_defaults
         validate  :ensure_postings_correct
@@ -45,6 +45,7 @@ module Skr
         # @param debit [GlAccount]
         # @param credit [GlAccount]
         def add_posting( amount: nil, debit: nil, credit: nil )
+            Skr::Core.logger.debug "GlTransaction add_posting #{debit} : #{credit}"
             self.credits.build( location: @location, is_debit: false,
               account: credit, amount: amount )
             self.debits.build(  location: @location, is_debit: true,
@@ -75,12 +76,21 @@ module Skr
         # When a transaction is created, it can have
         # @return [GlTransaction] new transaction
         # @yield  [GlTransaction] new transaction
-        def self.record( attributes = {} )
+        def self.record( attributes={} )
             Thread.current[:gl_transaction] ||= []
             glt = GlTransaction.new( attributes )
             Thread.current[:gl_transaction].push( glt )
-            yield glt
-            return Thread.current[:gl_transaction].pop._save_recorded
+            Skr::Core.logger.debug "B4 GlTransaction"
+            results = yield glt
+            Thread.current[:gl_transaction].pop
+            if results
+                if results.is_a?(Hash) && results.has_key?(:attributes)
+                    glt.assign_attributes( results[:attributes] )
+                end
+                glt._save_recorded
+                Skr::Core.logger.debug "AF GlTransaction new=#{glt.new_record?} #{glt.errors.full_messages}"
+            end
+            return glt
         end
 
         # @param owner [Skr::Model]
@@ -101,9 +111,9 @@ module Skr
 
         # @private
         def _save_recorded
-            #save if self.debits.any? || self.credits.any?
-            %w{ credits debits }.each{ |assoc| compact( assoc ) }
-            self.save
+            compact( 'debits'  )
+            compact( 'credits' )
+            self.save if self.credits.any? || self.debits.any?
             self
         end
 
@@ -134,9 +144,6 @@ module Skr
 
         def set_defaults
             self.period ||= GlPeriod.current
-            if self.description.blank?
-                self.description = self.source.description_for_gl_transaction( self )
-            end
         end
 
         # def ensure_postings_exist

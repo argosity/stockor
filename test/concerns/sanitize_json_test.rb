@@ -39,9 +39,9 @@ class SanitizeJsonTest < Skr::TestCase
     end
 
     def test_recursive_cleaning
-        data = { transaction: { source: 'unk', credits: [ { account_number: '120001' } ] } }
+        data = { gl_transaction: { source: 'unk', credits: [ { account_number: '120001' } ] } }
         json = GlManualEntry.sanitize_json( data, nil )
-        assert_equal( { transaction: { credits: [ { account_number: '120001' } ] } }, json )
+        assert_equal( { gl_transaction: { credits: [ { account_number: '120001' } ] } }, json )
     end
 
 end

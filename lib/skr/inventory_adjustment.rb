@@ -1,11 +1,11 @@
 module Skr
 
     class InventoryAdjustment < Skr::Model
-        has_visible_id
-        is_a_state_machine
 
-        has_one :transaction, :class_name=>'GlTransaction', :as=>:source,
-                :inverse_of=>:source
+        has_visible_id
+        has_gl_transaction if: :should_apply_gl?
+
+        has_one :gl_transaction, :as=>:source, :inverse_of=>:source
 
         belongs_to :location, export: true
         belongs_to :reason, :class_name=>'IaReason', export: true

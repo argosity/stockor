@@ -3,10 +3,11 @@ module Skr
 
         is_immutable
 
-        belongs_to   :transaction, class_name: 'GlTransaction'
+        belongs_to   :gl_transaction
+
         before_validation  :cache_related_attributes
 
-        validates :transaction,    set: true
+        validates :gl_transaction,    set: true
         validates :account_number, numericality: true, length: { :is=>6 }
         validates :amount,  numericality: true, presence: true
         validate  :ensure_accounting_validity, on: :create
@@ -34,8 +35,8 @@ module Skr
         end
 
         def ensure_accounting_validity
-            unless self.transaction.new_record? #postings_create_ok?
-                self.errors.add( :transaction, "does not accept new postings" )
+            unless self.gl_transaction.new_record? #postings_create_ok?
+                self.errors.add( :gl_transaction, "does not accept new postings" )
             end
             if @account && ! @account.is_active?
                 self.errors.add(:account, "is not active")
@@ -45,8 +46,8 @@ module Skr
 
         def cache_related_attributes
             assign_account_number
-            self.year   = transaction.period.year
-            self.period = transaction.period.period
+            self.year   = gl_transaction.period.year
+            self.period = gl_transaction.period.period
         end
 
     end

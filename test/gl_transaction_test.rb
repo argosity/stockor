@@ -5,12 +5,12 @@ class GlTransactionTest < Skr::TestCase
 
     def setup
         @gle = GlManualEntry.create({ notes: 'A good test' })
-        @glt = GlTransaction.new({ source: @gle, location: Location.default })
+        @glt = @gle.build_gl_transaction({ description: 'test manual source', source: @gle, location: Location.default })
     end
 
     def test_stand_alone_creation
         @glt.add_posting( amount: 22.1, debit: skr_gl_accounts(:cash), credit: skr_gl_accounts(:inventory) )
-        assert @glt.save, "failed to save stand alone transaction"
+        assert_saves @glt
     end
 
     def test_no_updates
@@ -29,7 +29,7 @@ class GlTransactionTest < Skr::TestCase
     end
 
     def test_nested_recording
-        tran = GlTransaction.record( description: 'A Test' ) do | glt |
+        tran = GlTransaction.record do | glt |
             assert_equal glt, GlTransaction.current
             GlTransaction.record( description: '2nd level' ) do | glt2 |
                 refute_equal glt, glt2
@@ -37,13 +37,16 @@ class GlTransactionTest < Skr::TestCase
             end
         end
         assert tran.new_record?
+        assert tran.errors.empty?, "since no postings, it shouldn't attempt to save"
+        refute_saves tran
         refute tran.errors.empty?
     end
 
     def test_compacting
-        tran = GlTransaction.record( source: @gle, description: 'A Test', location: Location.default ) do | glt |
+        tran = GlTransaction.record do | glt |
             glt.add_posting( amount: 12.12, debit: skr_gl_accounts(:cash), credit: skr_gl_accounts(:inventory) )
             glt.add_posting( amount: 42.42, debit: skr_gl_accounts(:cash), credit: skr_gl_accounts(:inventory) )
+            { attributes: { source: @gle, description: 'A Test', location: Location.default } }
         end
         assert_saves tran
         assert_equal 1, tran.debits.size

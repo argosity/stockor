@@ -28,9 +28,9 @@ module Skr
         include Concerns::ActsAsUOM
         include Concerns::StateMachine
         include Concerns::HasSkuLocLines
+        include Concerns::HasGlTransaction
         include Concerns::IsOrderLike
         include Concerns::IsSkuLocLine
-
         include Concerns::AssociationExtensions
     end
 

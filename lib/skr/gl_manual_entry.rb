@@ -10,21 +10,21 @@ module Skr
 
         is_immutable
 
-        has_one :transaction, :class_name=>'GlTransaction', :as=>:source,
-                :inverse_of=>:source, export: { writable: true }
+        has_one :gl_transaction, :as=>:source,
+                inverse_of: :source, export: { writable: true }
 
-        validates :transaction, :presence=>true
+        validates :gl_transaction, presence: true
 
         before_create :copy_notes_to_transaction
 
-        def description_for_gl_transaction(glt)
-            "GLE #{self.visible_id}"
+        def gl_transaction=( transaction )
+            super
+            copy_notes_to_transaction
         end
-
         private
 
         def copy_notes_to_transaction
-            self.transaction.description = self.notes[0..100]
+            self.gl_transaction.description = self.notes[0..100]
         end
 
     end
