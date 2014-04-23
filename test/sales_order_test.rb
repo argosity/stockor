@@ -57,7 +57,7 @@ class SalesOrderTest < Skr::TestCase
 
     def test_cancelling
         so = skr_sales_orders(:picking)
-        assert_equal :saved, so.state_name
+        assert_equal 'open', so.state
         assert_equal 5, so.lines.first.qty_picking
         refute so.pick_tickets.first.is_complete
         assert so.mark_canceled!
