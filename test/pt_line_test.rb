@@ -5,18 +5,15 @@ class PtLineTest < Skr::TestCase
     def test_invoicing
         pt = skr_pick_tickets(:first)
         ptl = pt.lines.first
-
         assert_equal 0, ptl.qty_invoiced
 
         inv = Invoice.new({ :pick_ticket=> pt })
-        inv.lines.from_pick_ticket( pt )
+        inv.lines.from_pick_ticket!
         assert_saves inv
 
         assert_equal inv.lines.length, pt.lines.length
-
         refute_nil inv.lines.first.pt_line
         assert_equal ptl, inv.lines.first.pt_line
-
         assert_equal ptl.reload.qty_invoiced, inv.lines.first.qty
     end
 

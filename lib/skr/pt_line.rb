@@ -11,7 +11,7 @@ module Skr
         belongs_to :sku_loc,     export: true
         belongs_to :so_line
 
-        has_one :inv_line
+        has_one :inv_line, inverse_of: :pt_line, listen: { save: :update_from_inv_line }
         has_one :sales_order, :through=>:pick_ticket, export: true
         has_one :sku,         :through => :sku_loc, export: true
 
@@ -21,13 +21,6 @@ module Skr
         delegate_and_export_field  :sales_order, :visible_id
 
         before_create :set_defaults#, on: :create
-
-        def update_from_invoice( invoice )
-            inv_line = invoice.lines.where({ pt_line_id: self }).first
-            if inv_line
-                self.update_attributes({ :qty_shipped=> inv_line.qty })
-            end
-        end
 
         def cancel!
             self.update_attributes! :is_complete=>true
@@ -43,6 +36,10 @@ module Skr
         end
 
         private
+
+        def update_from_inv_line( inv_line )
+            self.update_attributes( qty_invoiced: inv_line.qty )
+        end
 
         def set_defaults
 

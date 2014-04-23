@@ -81,7 +81,7 @@ class SoLineTest < Skr::TestCase
     def test_invoice_qty
         so = skr_sales_orders(:first)
         inv = Invoice.new( sales_order: so )
-        inv.lines.from_sales_order( so )
+        inv.lines.from_sales_order!
         assert_saves inv
         assert_equal inv.lines.first.qty, so.lines.first.qty_invoiced
     end

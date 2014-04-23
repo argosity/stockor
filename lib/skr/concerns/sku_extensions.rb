@@ -7,8 +7,14 @@ module Skr
                 # Attempt to find a {SkuLoc} record and create it if not found
                 def find_or_create_for( location )
                     location_id = location.is_a?(Numeric) ? location : location.id
-                    detect{ |l| l.location_id==location_id } || create!({ :location_id=>location_id })
+                    for_location(location) || create!({ :location_id=>location_id })
                 end
+
+                def for_location( location )
+                    location_id = location.is_a?(Numeric) ? location : location.id
+                    detect{ |l| l.location_id==location_id }
+                end
+
                 def default
                     loc_id = Location.default.id
                     detect{ |sl| sl.location_id == loc_id }

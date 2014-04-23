@@ -15,7 +15,7 @@ module Skr
             module InstanceMethods
 
                 # N.B. We are overriding ActiveRecord::Base#save
-                # This is so we can wrap the save call inside a {GlTransaction#record} block
+                # This is so we can wrap the save call inside a {GlTransaction.record} block
                 # which will collect any GlPostings and then collapse them down at the end of the block
                 # in order to prevent multiple postings to the same account.
                 def save(*)

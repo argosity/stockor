@@ -1,0 +1,10 @@
+
+unpaid:
+  location: default
+  customer: stitt
+  sales_order: complete
+  terms: net30
+  state: open
+  billing_address: bigco
+  shipping_address: bigco_wh
+  invoice_date: <%= Date.today-1.week %>
