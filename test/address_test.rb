@@ -5,7 +5,7 @@ class AddressTest < Skr::TestCase
 
     def test_creation
         addr=Address.new( name:" a test", email:"test@test.com" )
-        addr.save.must_equal true
+        assert_saves addr
     end
 
     def test_email_with_name
