@@ -17,6 +17,15 @@ module MiniTest
         def assert_saves( model )
             assert model.save, "#{model.class} failed to save: #{model.errors.full_messages.join(',')}"
         end
+        def refute_saves( model, *errors )
+            refute model.save, "#{model.class} saved successfully when it should not have"
+            errors.each do |error|
+                if model.errors[error.to_sym].empty?
+                    raise MiniTest::Assertion, "expected #{model.class} to have an error on #{error}"
+                end
+            end
+
+        end
 
 
         def assert_event_fires( klass, event, &block )
