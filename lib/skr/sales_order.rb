@@ -22,7 +22,7 @@ module Skr
         belongs_to :shipping_address, :class_name=>'Address', export: { writable: true }
 
         has_many   :lines, ->{ order(:position) }, :class_name=>'SoLine', :inverse_of=>:sales_order,
-                   extend: Concerns::SO::Lines, validate: true, autosave: true, export: { writable: true }
+                   extend: Concerns::SO::Lines, export: { writable: true }
         has_many   :skus, :through=>:lines
         has_many   :pick_tickets, :inverse_of=>:sales_order, :before_add=>:setup_new_pt
         has_many   :invoices,     :inverse_of=>:sales_order, listen: { save: 'on_invoice' }

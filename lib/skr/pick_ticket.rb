@@ -13,7 +13,7 @@ module Skr
         has_one :terms,    through: :sales_order
 
         has_many :lines, ->{ order(:position) }, class_name: 'PtLine', inverse_of: :pick_ticket,
-                 extend: Concerns::PT::Lines, autosave: true, export: { writable: true }
+                 extend: Concerns::PT::Lines, export: { writable: true }
 
         scope :with_details, lambda { | *args |
             compose_query_using_detail_view( view: 'pt_details', join_to: 'pick_tickets_id' )

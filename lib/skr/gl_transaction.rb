@@ -27,12 +27,12 @@ module Skr
 
         has_many :credits, ->{ where({ is_debit: false }) }, class_name: 'GlPosting',
                  extend: Concerns::GlTran::Postings,
-                 inverse_of: :gl_transaction, autosave: true, validate: true, export: { writable: true }
+                 inverse_of: :gl_transaction, export: { writable: true }
 
         # Must equal credits, checked by the {#ensure_postings_correct} validation
         has_many :debits, ->{  where({ is_debit: true }) }, class_name: 'GlPosting',
                  extend: Concerns::GlTran::Postings,
-                 inverse_of: :gl_transaction, autosave: true, validate: true, export: { writable: true }
+                 inverse_of: :gl_transaction, export: { writable: true }
 
         before_validation :set_defaults
         validate  :ensure_postings_correct
