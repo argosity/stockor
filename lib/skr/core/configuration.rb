@@ -11,12 +11,14 @@ module Skr
             def self.config_option( name, default )
                 define_method( "#{name}=" ) do | value |
                     old_value = self.send( name )
-                    Skr::Core.logger.info "Skr::Core.conf.#{name} changed from #{old_value} to #{value}"
+                    Skr::Core.logger.info "Config option #{name} changed from #{old_value} to #{value}"
                     instance_variable_set( "@#{name}", value )
                 end
                 attr_reader_with_default( name, default )
             end
+        end
 
+        class DefaultConfiguration < Configuration
 
             # Since the Configuration class is essentially a singleton,
             # we don't care about AttrReaderWithDefault sharing values between instances
@@ -57,10 +59,12 @@ module Skr
                 # Holding account for funds that are awaiting deposit
                 deposit_holding: '1010'
             }
+
+            config_option :pricing_provider, Skr::Core::StandardPricingProvider
         end
 
         class << self
-            @@config = Configuration.new
+            @@config = DefaultConfiguration.new
             def config
                 @@config
             end

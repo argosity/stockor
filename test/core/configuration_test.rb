@@ -3,7 +3,7 @@ require_relative '../test_helper'
 describe Skr::Core::Configuration do
 
     def test_default_values
-        conf = Skr::Core::Configuration.new
+        conf = Skr::Core::DefaultConfiguration.new
         Skr::Core.silence_logs do
             assert_equal '01', conf.default_branch_code
             assert_equal '01', Skr::Core.config.default_branch_code
