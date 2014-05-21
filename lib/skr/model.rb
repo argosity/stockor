@@ -1,5 +1,5 @@
 require_relative 'concerns/all'
-require 'pry'
+
 module Skr
 
     def self.table_name_prefix

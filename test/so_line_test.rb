@@ -23,7 +23,7 @@ class SoLineTest < Skr::TestCase
     end
 
     def test_allocation
-        so = SalesOrder.new({ customer: skr_customers(:stitt) })
+        so = SalesOrder.new({ customer: skr_customers(:argosity) })
         sku_loc = skr_sku_locs(:hatdefault)
         assert_equal 20, sku_loc.qty_available
         so.lines.build({ qty: 2, :price=>2.22, sku_loc: sku_loc })

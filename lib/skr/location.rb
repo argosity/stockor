@@ -1,7 +1,6 @@
 module Skr
 
-    # A location that holds inventory and is {GlAccount}  {GlAccount#trial_balance}
-
+    # A location that holds inventory
     class Location < Skr::Model
 
         has_code_identifier :from=>'name'
@@ -21,7 +20,7 @@ module Skr
             Location.find_by_code( Core.config.default_location_code )
         end
 
-        private
+      private
 
         def set_defaults
             self.gl_branch_code ||= Skr::Core.config.default_branch_code

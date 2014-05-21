@@ -18,7 +18,7 @@ module Skr
                     end
 
                     before_update do
-                        unless ( changes.keys - options[:except] ).blank?
+                        unless ( changes.keys - change_tracking_fields - options[:except] ).blank?
                             raise ActiveRecord::ReadOnlyRecord.new(  "Can not update, only create #{self.class.model_name}" )
                         end
                     end

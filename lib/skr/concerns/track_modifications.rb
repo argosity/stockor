@@ -40,6 +40,9 @@ module Skr::Concerns
             true
         end
 
+        def change_tracking_fields
+            %w{updated_by_id created_by_id updated_at created_at}
+        end
     end
 
 end

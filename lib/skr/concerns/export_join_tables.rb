@@ -26,7 +26,8 @@ module Skr::Concerns
             end
 
             # Has the join been marked as safe?
-            def has_exported_join_table?( name, user )
+            def has_exported_join_table?(name, user)
+                return true if name == 'details' # "details" is reserved for views and is always allowed
                 self.exported_join_tables && self.exported_join_tables.detect{ | join |
                     join[:name] == name && evaluate_export_limit( user, :join, join[:name], join[:limit] )
                 }

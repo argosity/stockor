@@ -32,25 +32,24 @@ module Skr
         is_order_like
         has_additional_events :amount_paid_change
 
-        belongs_to :sales_order, export: true
-
-        belongs_to :customer, export: true
-        belongs_to :location, export: true
-        belongs_to :terms, :class_name=>'PaymentTerm', export: true
-        belongs_to :pick_ticket, :inverse_of=>:invoice, export: true
-
-        belongs_to :billing_address,  :class_name=>'Address', export: { writable: true }
-        belongs_to :shipping_address, :class_name=>'Address', export: { writable: true }
+        belongs_to :sales_order,      export: true
+        belongs_to :customer,         export: true
+        belongs_to :location,         export: true
+        belongs_to :terms,            class_name: 'PaymentTerm', export: true
+        belongs_to :pick_ticket,      inverse_of: :invoice,      export: true
+        belongs_to :billing_address,  class_name: 'Address',     export: { writable: true }
+        belongs_to :shipping_address, class_name: 'Address',     export: { writable: true }
 
         has_many :gl_transactions, :as=>:source
 
-        has_many :lines, ->{ order(:position) }, :class_name=>'InvLine',
-                 extend: Concerns::INV::Lines, :inverse_of=>:invoice
+        has_many :lines, -> { order(:position) }, class_name: 'InvLine', inverse_of: :invoice,
+                                                  extend: Concerns::INV::Lines, export: { writable: true }
 
-        before_validation :set_defaults, :on=>:create
-        before_save       :maybe_mark_paid
+        before_save :maybe_mark_paid
 
-        validates :customer, :location, :set=>true
+        before_validation :set_defaults, on: :create
+
+        validates :customer, :location, set: true
         validate  :ensure_location_matches_so
 
         scope :open_for_customer, lambda{ | customer |

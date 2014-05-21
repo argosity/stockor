@@ -3,7 +3,7 @@ require_relative 'test_helper'
 class InvLineTest < Skr::TestCase
 
     def test_inventory_adjusting
-        inv = Invoice.new( customer: skr_customers(:stitt) )
+        inv = Invoice.new( customer: skr_customers(:argosity) )
         sl = skr_sku_locs(:stringdefault)
         inv.lines.build({
                 :sku_loc => sl, :qty => 2
@@ -30,14 +30,14 @@ class InvLineTest < Skr::TestCase
     end
 
     def test_no_updates
-        inv = Invoice.new( customer: skr_customers( :stitt ) )
+        inv = Invoice.new( customer: skr_customers( :argosity ) )
         inv.lines.build( sku_loc: skr_sku_locs(:hatdefault), qty: 1 )
         assert inv.save
         assert_raises(  ActiveRecord::ReadOnlyRecord ){ inv.lines.first.destroy }
     end
 
     def test_gl_posting
-        inv = Invoice.new( customer: skr_customers(:stitt) )
+        inv = Invoice.new( customer: skr_customers(:argosity) )
         inv.lines.build({  :sku_loc => skr_sku_locs( :hatdefault ),    :qty => 1 }) # price is 3.11 from UOM
         inv.lines.build({  :sku_loc => skr_sku_locs( :stringdefault ), :qty => 2, price: 1.8 })
         inv.lines.build({  :sku_loc => skr_sku_locs( :glovedefault ),  :qty => 4, price: 2.1 })
@@ -51,7 +51,7 @@ class InvLineTest < Skr::TestCase
     end
 
     def test_creating_with_sku
-        inv = Invoice.new( customer: skr_customers(:stitt) )
+        inv = Invoice.new( customer: skr_customers(:argosity) )
         inv.lines.build({ sku: Sku.find_by_code('GLOVE'), qty: 1, price: 8.27 })
         assert_saves inv
     end

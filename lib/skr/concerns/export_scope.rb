@@ -22,11 +22,10 @@ module Skr::Concerns
         #  * Be relatively simple and complete quickly.
         #  * Provide value to the client that it cannot obtain by using normal query methods
         module ClassMethods
-
-            def scope(name, body, options={}, &block)
-                super(name,body,&block)
-                if export = options[:export]
-                    export_scope( name, body, limit:( export==true ? nil : export[:limit] ) )
+            def scope(name, body, options = {}, &block)
+                super(name, body, &block)
+                if (export = options[:export])
+                    export_scope(name, body, limit: (export == true ? nil : export[:limit]))
                 end
             end
 
@@ -36,12 +35,12 @@ module Skr::Concerns
             # @param limit [Symbol referring to a Class method name, lambda]
             # If given, this will be queried by the API to determining if a given user may call the scope
             # @return nil
-            def export_scope( name, query, limit: nil )
+            def export_scope(name, query, limit: nil)
                 include ExportedLimitEvaluator
 
                 self.exported_scopes ||= Hash.new
-                self.exported_scopes[ name.to_sym ] = {
-                    scope: self.scope( name, query ),
+                self.exported_scopes[name.to_sym] = {
+                    scope: scope(name, query),
                     name: name,
                     limit: limit
                 }
@@ -54,7 +53,7 @@ module Skr::Concerns
             # @param user [User] who is performing the request.
             #   This is passed off to the method or lambda that was given as the limit  argument in {#export_scope}
 
-            def has_exported_scope?( name, user )
+            def has_exported_scope?(name, user)
                 if self.exported_scopes && ( scope_options = self.exported_scopes[ name.to_sym ] )
                     return evaluate_export_limit( user, :scope, name, scope_options[:limit] )
                 else
