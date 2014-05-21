@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["nathan@argosity.com"]
 
   spec.summary       = %q{Stockor Core contains the models for the Stockor ERP system}
-  spec.description   = %q{Stockor Core contains the models for the Stockor ERP system}
+  spec.description   = %q{Stockor Core contains the ActiveRecord models and business logic for the Stockor ERP system}
 
   spec.homepage      = "http://stockor.org/"
   spec.license       = "GPL-3.0"
@@ -22,18 +22,16 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.required_ruby_version = '>= 2.0'
-  spec.add_dependency 'activerecord', '~> 4.0'
+  spec.add_dependency 'activerecord', '~> 4.1'
   spec.add_dependency 'pg', '~> 0.17'
-  spec.add_dependency 'state_machine', '~>1.2'
+  spec.add_dependency 'aasm', '~>3.1'
   spec.add_dependency "require_all",  '~> 1.3'
   spec.add_development_dependency "bundler", "~> 1.5"
   spec.add_development_dependency "rake"
   spec.add_development_dependency "guard"
   spec.add_development_dependency "growl"
-  spec.add_development_dependency "pry"
-  spec.add_development_dependency "pry-stack_explorer"
-
+  spec.add_development_dependency "pry-plus"
   spec.add_development_dependency "guard-minitest"
-  spec.add_development_dependency "redcarpet"
+
 
 end
