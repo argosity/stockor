@@ -27,7 +27,7 @@ class SanitizeJsonTest < Skr::TestCase
     def test_exported_associations
         data = { foo: 'bar', description: 'a test', debits: [], credits: [] }
         json = Skr::GlTransaction.sanitize_json( data, nil )
-        assert_equal( data.except(:foo), json )
+        assert_equal( { description: 'a test', debits_attributes: [], credits_attributes: [] }, json )
     end
 
     def test_blacklisted_attributes
@@ -41,7 +41,7 @@ class SanitizeJsonTest < Skr::TestCase
     def test_recursive_cleaning
         data = { gl_transaction: { source: 'unk', credits: [ { account_number: '120001' } ] } }
         json = GlManualEntry.sanitize_json( data, nil )
-        assert_equal( { gl_transaction: { credits: [ { account_number: '120001' } ] } }, json )
+        assert_equal( { gl_transaction_attributes: { credits_attributes: [ { account_number: '120001' } ] } }, json )
     end
 
 end

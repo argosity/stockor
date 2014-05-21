@@ -6,7 +6,9 @@ module Skr
     class GlAccount < Skr::Model
 
         # @private
-        DEFAULT_ACCOUNTS={}
+        DEFAULT_ACCOUNTS = {}
+
+        is_immutable except: [:name, :is_active]
 
         validates :name, :description, :presence => true
 
