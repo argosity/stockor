@@ -67,6 +67,13 @@ Usage
         end
         po.save
 
+#### Create an Invoice
+
+        invoice = Invoice.new( customer: Customer.find_by_code("ACME")
+        invoice.lines.build({ sku: Sku.find_by_code('LABOR'), qty: 1, price: 8.27 })
+        invoice.save
+
+
 ## Contributing
 
 The standard instructions are always good:
