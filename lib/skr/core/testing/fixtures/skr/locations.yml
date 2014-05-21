@@ -2,7 +2,7 @@ default:
   code: DEFAULT
   name: Default Location
   gl_branch_code: '01'
-  address: home
+  address: office
 
 amazon:
   code: AMAZON
@@ -21,4 +21,4 @@ bobs_junk:
   code: JUNK
   name: Bob's Junk Location
   gl_branch_code: '01'
-  address: home
+  address: office

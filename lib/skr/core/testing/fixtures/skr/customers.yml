@@ -1,10 +1,10 @@
 
 
-stitt:
-  code: STITT
+argosity:
+  code: ARGOSITY
   terms: net30
-  name: The Stitts
-  shipping_address: home
+  name: Argosity
+  shipping_address: office
   billing_address: away
   gl_receivables_account: ar
   open_balance: 13.88
@@ -13,7 +13,7 @@ web_customer:
   code: WEB
   terms: cred_card
   name: Website Customer
-  shipping_address: home
+  shipping_address: office
   billing_address: away
   gl_receivables_account: ar
 
@@ -21,7 +21,7 @@ antonio:
   code: KILLER
   terms: cash
   name: Antonio Montoya
-  shipping_address: home
+  shipping_address: office
   billing_address: away
   gl_receivables_account: ar
 

@@ -2,7 +2,6 @@ require_relative 'test_helper'
 
 class AddressTest < Skr::TestCase
 
-
     def test_creation
         addr=Address.new( name:" a test", email:"test@test.com" )
         assert_saves addr
@@ -11,13 +10,6 @@ class AddressTest < Skr::TestCase
     def test_email_with_name
         addr=Address.new( email: 'john@mcauthor.com', name: 'John D. McAuthor' )
         assert_equal "John D. McAuthor <john@mcauthor.com>", addr.email_with_name
-    end
-
-    def test_filling_from_zip
-        addr = Address.new( postal_code: '65109' )
-        addr.fill_missing_from_zip
-        assert_equal 'Jefferson City', addr.city
-        assert_equal 'MO', addr.state
     end
 
     def test_blankness
@@ -58,8 +50,8 @@ class AddressTest < Skr::TestCase
     end
 
     def test_converting_to_string
-        addr = skr_addresses(:home)
-        assert_equal "home\n12727 Southview Dr\nHolts Summit Missouri, 65043", addr.to_s
+        addr = skr_addresses(:office)
+        assert_equal "Argosity Office\n619 E Capitol Ave\nJefferson City Missouri, 65101", addr.to_s
     end
 
 end

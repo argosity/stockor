@@ -1,18 +1,18 @@
 
 
-home:
-  name: home
-  line1: 12727 Southview Dr
-  city: Holts Summit
+office:
+  name: Argosity Office
+  line1: 619 E Capitol Ave
+  city: Jefferson City
   state: Missouri
-  postal_code: 65043
+  postal_code: 65101
 
 junk:
   name: Junk Spot
-  line1: 12727 Southview Dr
-  city: Holts Summit
+  line1: 623 E Capitol Ave
+  city: Jefferson City
   state: Missouri
-  postal_code: 65043
+  postal_code: 65101
 
 amazon:
   name: Amazon, Inc.

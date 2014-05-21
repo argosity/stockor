@@ -11,9 +11,11 @@ end
 
 require_relative "core/version"
 require_relative "core/logger"
+require_relative "core/testing"
+require_relative "core/standard_pricing_provider"
 require_relative "core/configuration"
 if defined?(::Rails)
-    require_relative "core/skr/engine"
+    require_relative "core/rails_engine"
 end
 require_relative "core/db"
 require_relative "core/strings"

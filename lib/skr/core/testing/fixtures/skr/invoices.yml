@@ -1,7 +1,7 @@
 
 unpaid:
   location: default
-  customer: stitt
+  customer: argosity
   sales_order: complete
   terms: net30
   state: open

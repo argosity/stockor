@@ -33,7 +33,7 @@ class InvoiceTest < Skr::TestCase
     end
 
     def test_applying_payments_while_saving
-        inv = Invoice.new({ customer: skr_customers(:stitt), location: skr_locations(:default) })
+        inv = Invoice.new({ customer: skr_customers(:argosity), location: skr_locations(:default) })
         inv.lines.build({ sku_loc: skr_sku_locs(:hatdefault),   qty: 1, price: 8 })
         inv.lines.build({ sku_loc: skr_sku_locs(:glovedefault), qty: 1, price: 2 })
         inv.amount_paid = inv.total
