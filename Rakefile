@@ -2,6 +2,7 @@ require 'bundler/setup'
 require "bundler/gem_tasks"
 require 'rake/testtask'
 require 'yard'
+require 'yard-activerecord'
 require_relative 'yard_ext/all'
 require 'guard'
 
@@ -38,7 +39,7 @@ end
 
 
 task :doc => 'db:environment' do
-    #env = ENV['RAILS_ENV'] || 'development'
+    env = ENV['RAILS_ENV'] || 'development'
     ENV['SCHEMA']       = 'db/schema.rb'
     ENV['DB_STRUCTURE'] = 'db/schema.rb'
     Rake::Task["db:schema:dump"].invoke
