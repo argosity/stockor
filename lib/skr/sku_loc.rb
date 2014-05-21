@@ -61,13 +61,6 @@ module Skr
               })
         end
 
-        # The default implementation returns the price for the given UOM
-        # Custom implementations will return from a pricing library
-        # @return [BigDecimal] the "standard" price for the SKU
-        def price_for( customer, uom=uoms.default )
-            sku.uoms.with_code( uom.code ).price
-        end
-
         # Allocate the maximum available quantity to {SalesOrder}
         # that are not currrently allocated
         def allocate_available_qty!

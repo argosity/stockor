@@ -95,7 +95,9 @@ module Skr
             self.uom         = sku.uoms.default if self.uom_code.blank?
             self.description = sku.description if self.description.blank?
             self.sku_code    = sku.code        if self.sku_code.blank?
-            self.price     ||= sku_loc.price_for( self.sales_order.customer, self.uom )
+            if !price && sales_order && sales_order.customer && sku_loc && uom.present?
+                self.price = Core.config.pricing_provider.price(sku_loc:sku_loc, customer:sales_order.customer, uom:uom, qty:qty)
+            end
             true
         end
 

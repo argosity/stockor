@@ -55,8 +55,10 @@ module Skr
                 self.description ||= sku.description
                 self.sku_loc_id  ||= sku.sku_locs.for_location( self.invoice.location ).id if self.invoice && self.invoice.location
             end
-            if self.invoice && self.invoice.customer && sku_loc && self.uom.present?
-                self.price       ||= sku_loc.price_for( self.invoice.customer, self.uom )
+            if !price && invoice && invoice.customer && sku_loc && uom.present?
+                self.price = Core.config.pricing_provider.price(
+                  sku_loc:sku_loc,  customer:invoice.customer,
+                  uom:uom, qty: qty )
             end
             true
         end
