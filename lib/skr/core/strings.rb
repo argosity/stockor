@@ -6,7 +6,7 @@ module Skr
             BAD_RAND_CHARS  = %w{ B 8 o O 0 i l I 1 }
 
             # characters that should be randomly chosen from
-            RAND_CHARS = ( ('A'..'z').to_a + ('0'..'9').to_a ) - BAD_RAND_CHARS
+            RAND_CHARS = ( ('A'..'Z').to_a + ('a'..'z').to_a + ('0'..'9').to_a ) - BAD_RAND_CHARS
 
             # Generates a random string without using commonly confused numbers and letters.
             # It's intended for use in situations where the code will have to be
