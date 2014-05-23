@@ -1,0 +1,8 @@
+{
+    "id": "customer-maint",
+    "title": "Customer Maint",
+    "description": "Create and maintain customer records",
+    "icon": "icon-key5",
+    "group_id": "customers",
+    "view": "CustomerMaint"
+}

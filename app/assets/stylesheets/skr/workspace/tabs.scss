@@ -1,0 +1,17 @@
+.navbar {
+
+  .tabs {
+    position: absolute;
+    bottom: 0px;
+    left: 5px;
+    display: inline-block;
+    .nav-tabs {
+      border-bottom: 0;
+    }
+    @media (min-width: 768px) {
+      left: 250px;
+    }
+  }
+
+
+}

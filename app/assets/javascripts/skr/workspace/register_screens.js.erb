@@ -1,0 +1,20 @@
+Skr.Data.Screens.groups.add([{
+        "id": "customers",
+        "title": "Customers",
+        "description": "Activities related to Customers",
+        "icon": "icon-creditcard2"
+},{
+        "id": "vendors",
+        "title": "Vendors",
+        "description": "Activities related to Vendors",
+        "icon": "icon-office"
+},{
+        "id": "inventory",
+        "title": "Vendor Foo",
+        "description": "Activities related to Foos",
+        "icon": "icon-pencil"
+}])
+
+<% Skr::Workspace::Screens.each_definition do | spec | %>
+Skr.Data.Screens.register( <%= spec.to_json.html_safe %> );
+<% end %>

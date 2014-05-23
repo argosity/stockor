@@ -1,0 +1,8 @@
+{
+    "id": "vendor-maint",
+    "title": "Vendor Maintenance",
+    "description": "Create and maintain vendor records",
+    "icon": "icon-pie2",
+    "group_id": "vendors",
+    "view": "VendorMaint"
+}
