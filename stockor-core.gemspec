@@ -5,7 +5,7 @@ require 'skr/core/version'
 
 Gem::Specification.new do |spec|
 
-  spec.name          = "skr-core"
+  spec.name          = "stockor-core"
   spec.version       = Skr::Core::VERSION
   spec.authors       = ["Nathan Stitt"]
   spec.email         = ["nathan@argosity.com"]
