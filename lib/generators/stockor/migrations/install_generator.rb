@@ -1,4 +1,4 @@
-module Skr
+module Stockor
 
     module Migrations
 

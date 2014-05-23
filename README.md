@@ -19,7 +19,7 @@ The core gem records business activity for a company to include:
 
 Add this line to your application's Gemfile:
 
-    gem 'skr-core'
+    gem 'stockor-core'
 
 And then execute:
 
@@ -27,7 +27,7 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install skr-core
+    $ gem install stockor-core
 
 Usage
 ------------------------------
@@ -78,7 +78,7 @@ Usage
 
 The standard instructions are always good:
 
- 1. Fork it ( http://github.com/argosity/skr-core/fork )
+ 1. Fork it ( http://github.com/argosity/stockor-core/fork )
  2. Create your feature branch (`git checkout -b my-new-feature`)
  3. Commit your changes (`git commit -am 'Add some feature'`)
  4. Push to the branch (`git push origin my-new-feature`)
