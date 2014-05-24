@@ -6,7 +6,6 @@ module Skr
                 app.config.assets.precompile += %w(skr/workspace.js skr/workspace.css)
                 Screens.each_directory do | directory |
                     app.config.assets.precompile += Screens.assets_for_directory( directory )
-puts app.config.assets.precompile
                 end
                 app.config.assets.paths += %w{ "templates", "fonts", "screens" }
                 app.assets.register_engine(".skr", ::Skr::Workspace::JstTemplates )
