@@ -6,7 +6,7 @@ module Skr
                 app.config.assets.precompile += %w(skr/workspace.js skr/workspace.css)
                 app.config.assets.paths << "templates"
                 app.config.assets.paths << "fonts"
-                app.assets.register_engine(".skr", ::Skr::Workspace::TemplateEngine )
+                app.assets.register_engine(".skr", ::Skr::Workspace::JstTemplates )
 
             end
             # path = root.join("skr","workspace","assets")
