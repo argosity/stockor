@@ -15,6 +15,6 @@ Skr.Data.Screens.groups.add([{
         "icon": "icon-pencil"
 }])
 
-<% Skr::Workspace::Screens.each_definition do | spec | %>
+<% Skr::Workspace::Screens.each_definition(self) do | spec | %>
 Skr.Data.Screens.register( <%= spec.to_json.html_safe %> );
 <% end %>

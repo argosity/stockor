@@ -14,21 +14,23 @@ module Skr
                 end
 
                 def assets_for_directory( directory )
-                    url = "/assets/skr/screens/#{directory.basename}"
+                    path = "skr/screens/#{directory.basename}"
                     assets = []
                     unless Pathname.glob([ directory.join('*.js'), directory.join('*.coffee')] ).empty?
-                        assets << "#{url}.js"
+                        assets << "#{path}.js"
                     end
                     unless Pathname.glob([ directory.join('*.css'), directory.join('*.scss')] ).empty?
-                        assets << "#{url}.css"
+                        assets << "#{path}.css"
                     end
                     assets
                 end
 
-                def each_definition
+                def each_definition(sprockets)
                     each_directory do | directory |
                         spec = YAML.safe_load( directory.join('specification.yaml').read )
-                        spec['files'] = assets_for_directory(directory)
+                        spec['files'] = assets_for_directory(directory).map do |path|
+                            sprockets.asset_path(path)
+                        end
                         yield spec
                     end
                 end
