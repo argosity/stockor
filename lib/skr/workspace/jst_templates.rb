@@ -1,9 +1,7 @@
-require_relative 'ejs'
-require 'pry'
 module Skr
     module Workspace
 
-        class TemplateEngine < Tilt::Template
+        class JstTemplates < Tilt::Template
 
             self.default_mime_type = 'application/javascript'
 

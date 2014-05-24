@@ -1,5 +1,3 @@
-require_relative 'template_engine'
-
 module Skr
     module Workspace
         class Engine < ::Rails::Engine
