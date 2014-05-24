@@ -15,15 +15,6 @@ class Skr.Data.Screen extends Skr.Data.Model
     view: ->
         @viewInstance ||= new @viewModel
 
-    files: ->
-        load = this.get('load') || {}
-        depends =  load.files || [
-            this.get('view') + '.js', this.get('view') + '.css'
-        ]
-        if load.location
-            depends = Skr.u.map( depends, (file)-> load.location + '/' + file )
-        depends
-
     _setDisplaying: ->
         Skr.Data.Screens.displaying.add( this )
         this.set(active:true)
@@ -33,7 +24,7 @@ class Skr.Data.Screen extends Skr.Data.Model
            this._setDisplaying()
         else
             this.set(loading:true)
-            Skr.load( this.files(), ->
+            Skr.load( this.get('files'), ->
                 @viewModel = Skr.View.Screens[this.get('view')]
                 this._setDisplaying()
                 this.set(loading:false)

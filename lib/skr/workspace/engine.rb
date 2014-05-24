@@ -4,15 +4,12 @@ module Skr
             isolate_namespace Workspace
             initializer "skr.app.assets.precompile" do |app|
                 app.config.assets.precompile += %w(skr/workspace.js skr/workspace.css)
-                app.config.assets.paths << "templates"
-                app.config.assets.paths << "fonts"
+                Screens.each_directory do | directory |
+                    app.config.assets.precompile += Screens.assets_for_directory( directory )
+                end
+                app.config.assets.paths += %w{ "templates", "fonts", "screens" }
                 app.assets.register_engine(".skr", ::Skr::Workspace::JstTemplates )
-
             end
-            # path = root.join("skr","workspace","assets")
-            # Rails.application.config.assets.paths += [
-            #   path.join("images"), path.join("fonts")
-            # ]
         end
     end
 end

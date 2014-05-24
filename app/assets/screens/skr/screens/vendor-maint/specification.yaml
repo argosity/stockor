@@ -1,0 +1,7 @@
+---
+id          : vendor-maint
+title       : Vendor Maint
+description : Create and maintain vendor records
+icon        : icon-pie2
+group_id    : vendors
+view        : VendorMaint

@@ -2,7 +2,6 @@ class ScreenList extends Skr.View.Base
     el: -> '<li><a href="#"><span></span><i></i></a></li>'
     events:
         click: ->
-            console.log "Click: ", @model.attributes
             this.model.display()
 
     bindings:
