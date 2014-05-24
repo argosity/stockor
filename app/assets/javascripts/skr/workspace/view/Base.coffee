@@ -37,8 +37,8 @@ class Skr.View.Base extends Skr.Backbone.View
     render: ->
         super
         if @template
-            view = "skr/workspace/#{Skr.u.result(this,'template')}"
-            template = JST[view]
+            view = "#{Skr.u.result(this,'template')}"
+            template = Skr.Templates[view]
             Skr.fatal( "Template #{view} doesn't exist!" ) if ! template
             this.$el.html ( template() )
         bindings = Skr.u.extend(
