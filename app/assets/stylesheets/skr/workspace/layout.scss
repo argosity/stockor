@@ -168,7 +168,7 @@
 
 .screens-menu-hidden {
   .page-content {
-    margin: 0 25px !important;
+    margin-left: 25px;
   }
   .screens-menu {
     display: none;
@@ -192,15 +192,13 @@
 .screens-menu-narrow {
   .screens-menu {
     background-color: $navbar-inverse-bg;
-    position: absolute;
     width: 60px;
-    z-index: 19;
   }
   .navigation > li {
     > a {
       > {
         span {
-          display: none;
+          display: none; 
         }
         i {
           display: block;
