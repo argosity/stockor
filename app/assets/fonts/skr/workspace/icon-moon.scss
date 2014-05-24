@@ -1,10 +1,10 @@
 @font-face {
 	font-family: 'icomoon';
-	src:url('/assets/skr/workspace/icomoon.eot?-7u8s0f');
-	src:url('/assets/skr/workspace/icomoon.eot?#iefix-7u8s0f') format('embedded-opentype'),
-		url('/assets/skr/workspace/icomoon.woff?-7u8s0f') format('woff'),
-		url('/assets/skr/workspace/icomoon.ttf?-7u8s0f') format('truetype'),
-		url('/assets/skr/workspace/icomoon.svg?-7u8s0f#icomoon') format('svg');
+	src:url(font-path('skr/workspace/icomoon.eot') + '?-7u8s0f');
+	src:url(font-path('skr/workspace/icomoon.eot') + '?#iefix-7u8s0f') format('embedded-opentype'),
+		url(font-path('skr/workspace/icomoon.woff') + '?-7u8s0f') format('woff'),
+		url(font-path('skr/workspace/icomoon.ttf')  + '?-7u8s0f') format('truetype'),
+		url(font-path('skr/workspace/icomoon.svg')  + '?-7u8s0f#icomoon') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
