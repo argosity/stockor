@@ -101,7 +101,6 @@ module Skr
                 transitions from: :open, to: :canceled
                 before :cancel_all_lines
             end
-
         end
 
         def initialize(attributes = {})
@@ -118,7 +117,7 @@ module Skr
             end
         end
 
-        # The location can only be updated if all the line's sku's are setup in the new location
+        # The location can only be updated if all the line's skus are setup in the new location
         def ensure_location_changes_are_valid
             return true unless changes['location_id']
             errors.add(:location, 'cannot be changed unless sales order is open') unless open?
