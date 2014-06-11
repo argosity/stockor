@@ -1,3 +1,5 @@
+require_relative 'db/seed'
+
 module Skr
     module Core
         module DB
@@ -9,7 +11,11 @@ module Skr
                 file = config_file || 'config/database.yml'
                 config = YAML::load( IO.read( file ) )
                 ::ActiveRecord::Base.configurations = config
-                ::ActiveRecord::Base.establish_connection( ::ActiveRecord::Base.configurations[ env ] )
+                self.connect( ::ActiveRecord::Base.configurations[ env ] )
+            end
+
+            def connect( configuration )
+                ::ActiveRecord::Base.establish_connection( configuration )
             end
 
             def migration_exists?( file_name ) #:nodoc:
