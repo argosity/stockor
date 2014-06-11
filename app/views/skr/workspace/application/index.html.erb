@@ -9,19 +9,18 @@
     <%= javascript_include_tag 'skr/workspace' %>
     <%= stylesheet_link_tag 'skr/workspace' %>
     <script>
-      Skr.$( function(){
-        Skr.App = new Skr.Application({
-<% binding.pry %>
-          api_path: "<%= skr_workspace.to_s %>",
-          paths: <%=raw skr_asset_paths_for( 'stockor-logo-sm.png' ).to_json %>
+        new Skr.Application({
+         api_path: "<%= skr_workspace.url_for + 'api/' %>",
+         root_element: '.my-skr-test-root', screen: 'Workspace',
+         paths: <%=raw skr_asset_paths_for( 'stockor-logo-sm.png' ).to_json %>
         });
-      });
     </script>
   </head>
 
-  <body>
+  <body style="margin: 10px; background-color: yellow;">
 
+      <div class="my-skr-test-root">
+      </div>
 
-
-</body>
+  </body>
 </html>
