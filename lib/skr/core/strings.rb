@@ -37,9 +37,9 @@ module Skr
                 if stripped.length < length
                     return padding.present? ? stripped.ljust( length, padding ) : stripped
                 end
-                result=''
-                words = string.split(/\s+/)
-                0.upto( words.length + 1 ).each_with_index do | attempt_num |
+                result = ''
+                words = string.gsub(/[^\w\s-]/,'').split(/\s+|-|_/)
+                0.upto(words.length + 1).each_with_index do | attempt_num |
                     remainder = length
                     result = ''
                     string = words.each_with_index do | word, index |

@@ -36,5 +36,6 @@ describe Skr::Core::Strings do
         assert_equal 'ALONSBEAST', Str.code_identifier( 'A long s beasty' )
         assert_equal 'GE', Str.code_identifier( 'GE', padding: false )
         assert_equal 'HI33ME', Str.code_identifier( 'Hi 33 Me!', padding: false )
+        assert_equal 'BADIANDOCO', Str.code_identifier( "Bayer, Dickinson and O'Conner", padding: false )
     end
 end
