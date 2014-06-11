@@ -17,7 +17,7 @@ class ScreenGroup extends Skr.View.Base
     bindings:
         title: 'span'
         icon: { selector: 'i', elAttribute: 'class' }
-        active: { selector: '', elAttribute: 'class', converter: (dir,value)-> if value then "active" else '' }
+        active: Skr.View.fn.toggleClass('active')
 
     events:
         'tap .expand': 'toggleMenu'

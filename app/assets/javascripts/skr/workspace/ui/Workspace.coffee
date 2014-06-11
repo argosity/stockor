@@ -1,42 +1,46 @@
 class Skr.Workspace.UI.Layout extends Skr.View.Base
 
-    bindings: -> {
-        screen_menu_size: {
-            selector: '#page-container',  elAttribute: 'class',
+    bindings:
+        screen_menu_size:
+            selector: '.page-container',  elAttribute: 'class',
             converter: (dir,value,attribute,model,el)-> "screens-menu-#{value}"
-        }
-    }
 
     initialize: ->
-        Skr.$(window).resize @onResize
-        this.$el.addClass("stockor")
-        @model   = new Skr.Data.InterfaceState
-        this.listenTo(@model,'change:screens_menu_position', this.moveScreensMenu )
-        @navbar  = new Skr.Workspace.UI.Navbar(  model: @model )
-        @pages   = new Skr.Workspace.UI.Pages(   model: @model )
+        @debounceMethod 'onResize'
+        @model   = Skr.View.InterfaceState
+        this.listenTo(@model,'change:screen_menu_position', this.moveScreensMenu )
+        @navbar  = new Skr.Workspace.UI.Navbar( model: @model )
+        @pages   = new Skr.Workspace.UI.Pages(  model: @model )
         @screens = new Skr.Workspace.UI.ScreensMenu( model: @model )
         super
 
+    onResize: ->
+        this.updateInterfaceDimmensions()
+
+    updateInterfaceDimmensions: ->
+        @model.set( viewport_width: this.$el.width(), viewport_height: this.$el.height() )
+
     render: ->
-        this.$el.html( @navbar.render().el )
-        this.$el.append( '<span class="foo"></span>' )
+        this.updateInterfaceDimmensions()
+        menu = @model.get('screen_menu_size')
         this.$el
-            .append( '<div id="page-container"></div>' )
-        this.$('#page-container')
+            .addClass("stockor")
+            .html( @navbar.render().el )
+            .append( "<div class='page-container screens-menu-#{menu}'></div>" )
+        this.$('.page-container')
             .append( @pages.render().el )
         @screens.render()
-        this.onResize()
+        @defer ->
+           this.$el.onresize( this.onResize )
+
+        @model.set(viewport: this.$el)
         super
+        this.moveScreensMenu()
         this
 
-    onResize: =>
-        if Skr.$(window).width() < 768
-            @model.set( screens_menu_position: 'top' )
-        else
-            @model.set( screens_menu_position: 'side' )
 
-    moveScreensMenu: (model,position)->
-        if 'top' == position
+    moveScreensMenu: ->
+        if 'top' == @model.get("screen_menu_position")
             @navbar.swallowMenu( @screens )
         else
-            @screens.$el.appendTo('#page-container')
+            @screens.$el.appendTo('.page-container')

@@ -25,7 +25,6 @@ class Skr.Workspace.UI.Navbar extends Skr.View.Base
     switchMenu: ->
         @model.nextSidebarState()
 
-
     showHideMenu: ->
         this.$el.toggleClass('screens-menu-hidden')
 
