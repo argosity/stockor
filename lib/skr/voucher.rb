@@ -21,19 +21,12 @@ module Skr
         belongs_to :purchase_order
         belongs_to :terms, :class_name=>'Skr::PaymentTerm', export: true
         belongs_to :location
-        #has_one :payment_line,  :as=>:source
 
         has_many :gl_transactions, :as=>:source
-
         has_many :lines, :class_name=>'Skr::VoLine', export: { writable: true },
                  :inverse_of=>:voucher, :autosave=>true, validate: true
 
         before_validation :set_defaults, :on=>:create
-
-#        validates :purchase_order, :vendor, set: true
-        # delegate_and_export :vendor_code, :vendor_name
-        # delegate_and_export :terms_code, :terms_description
-        # delegate_and_export_field :purchase_order, :visible_id
 
         export_scope :with_details, lambda { | *args |
             compose_query_using_detail_view( view: 'vo_details', join_to: 'voucher_id' )
