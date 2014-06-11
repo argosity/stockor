@@ -24,11 +24,11 @@ module Skr
 
         belongs_to :customer, export: true
         belongs_to :location, export: true
-        belongs_to :terms, class_name: 'PaymentTerm', export: { writable: true }
-        belongs_to :billing_address,  class_name: 'Address', export: { writable: true }
-        belongs_to :shipping_address, class_name: 'Address', export: { writable: true }
+        belongs_to :terms, class_name: 'Skr::PaymentTerm', export: { writable: true }
+        belongs_to :billing_address,  class_name: 'Skr::Address', export: { writable: true }
+        belongs_to :shipping_address, class_name: 'Skr::Address', export: { writable: true }
 
-        has_many   :lines, ->{ order(:position) }, :class_name=>'SoLine', :inverse_of=>:sales_order,
+        has_many   :lines, ->{ order(:position) }, :class_name=>'Skr::SoLine', :inverse_of=>:sales_order,
                    extend: Concerns::SO::Lines, export: { writable: true }
         has_many   :skus, through: :lines
         has_many   :pick_tickets, inverse_of: :sales_order, before_add: :setup_new_pt

@@ -19,13 +19,13 @@ module Skr
         belongs_to :customer, export: true
 
         belongs_to :purchase_order
-        belongs_to :terms, :class_name=>'PaymentTerm', export: true
+        belongs_to :terms, :class_name=>'Skr::PaymentTerm', export: true
         belongs_to :location
         #has_one :payment_line,  :as=>:source
 
         has_many :gl_transactions, :as=>:source
 
-        has_many :lines, :class_name=>'VoLine', export: { writable: true },
+        has_many :lines, :class_name=>'Skr::VoLine', export: { writable: true },
                  :inverse_of=>:voucher, :autosave=>true, validate: true
 
         before_validation :set_defaults, :on=>:create

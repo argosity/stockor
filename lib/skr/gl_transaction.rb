@@ -23,14 +23,14 @@ module Skr
         belongs_to :source, :polymorphic=>true
 
         # Each transaction belongs to an accounting period
-        belongs_to :period, :class_name=>'GlPeriod', export: true
+        belongs_to :period, :class_name=>'Skr::GlPeriod', export: true
 
-        has_many :credits, ->{ where({ is_debit: false }) }, class_name: 'GlPosting',
+        has_many :credits, ->{ where({ is_debit: false }) }, class_name: 'Skr::GlPosting',
                  extend: Concerns::GlTran::Postings,
                  inverse_of: :gl_transaction, export: { writable: true }
 
         # Must equal credits, checked by the {#ensure_postings_correct} validation
-        has_many :debits, ->{  where({ is_debit: true }) }, class_name: 'GlPosting',
+        has_many :debits, ->{  where({ is_debit: true }) }, class_name: 'Skr::GlPosting',
                  extend: Concerns::GlTran::Postings,
                  inverse_of: :gl_transaction, export: { writable: true }
 

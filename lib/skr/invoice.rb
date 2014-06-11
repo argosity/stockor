@@ -35,14 +35,14 @@ module Skr
         belongs_to :sales_order,      export: true
         belongs_to :customer,         export: true
         belongs_to :location,         export: true
-        belongs_to :terms,            class_name: 'PaymentTerm', export: true
+        belongs_to :terms,            class_name: 'Skr::PaymentTerm', export: true
         belongs_to :pick_ticket,      inverse_of: :invoice,      export: true
-        belongs_to :billing_address,  class_name: 'Address',     export: { writable: true }
-        belongs_to :shipping_address, class_name: 'Address',     export: { writable: true }
+        belongs_to :billing_address,  class_name: 'Skr::Address',     export: { writable: true }
+        belongs_to :shipping_address, class_name: 'Skr::Address',     export: { writable: true }
 
         has_many :gl_transactions, :as=>:source
 
-        has_many :lines, -> { order(:position) }, class_name: 'InvLine', inverse_of: :invoice,
+        has_many :lines, -> { order(:position) }, class_name: 'Skr::InvLine', inverse_of: :invoice,
                                                   extend: Concerns::INV::Lines, export: { writable: true }
 
         before_save :maybe_mark_paid
@@ -135,9 +135,9 @@ module Skr
                 self.terms          ||= sales_order.terms
                 self.customer         = sales_order.customer
                 self.po_num           = sales_order.po_num if self.po_num.blank?
-                self.is_tax_exempt    = sales_order.is_tax_exempt     if self.is_tax_exempt.nil?
                 self.billing_address  = sales_order.billing_address   if self.billing_address.blank?
                 self.shipping_address = sales_order.shipping_address  if self.shipping_address.blank?
+                self.options.merge!(sales_order.options)
             end
 
             if customer

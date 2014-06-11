@@ -9,7 +9,7 @@ module Skr
         # Common code shared with {Vendor}
         include BusinessEntity
 
-        belongs_to :gl_receivables_account, class_name: 'GlAccount', export: true
+        belongs_to :gl_receivables_account, class_name: 'Skr::GlAccount', export: true
 
         has_many :sales_orders, inverse_of: :customer
         has_many :invoices,     inverse_of: :customer, listen: { save: :update_balance! }
@@ -18,7 +18,8 @@ module Skr
 
         validates :gl_receivables_account, set: true
 
-        def update_balance!( * )
+        # Updates the amount the customer owes, which is the sum of the amount unpaid on open invoices
+        def update_balance!(*)
             update_attributes open_balance: invoices.open_for_customer(self)
                                                     .with_details.sum('details.total')
         end

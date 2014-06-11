@@ -18,13 +18,13 @@ module Skr
 
         has_visible_id
 
-        belongs_to :terms,    export: true, class_name: 'PaymentTerm'
+        belongs_to :terms,    export: true, class_name: 'Skr::PaymentTerm'
         belongs_to :vendor,   export: true
         belongs_to :location, export: true
-        belongs_to :ship_addr, :class_name=>'Address', export: { writable: true }
+        belongs_to :ship_addr, :class_name=>'Skr::Address', export: { writable: true }
 
-        has_many :lines, ->{ order(:position) }, :class_name=>'PoLine', :inverse_of=>:purchase_order, export: {writable:true}
-        has_many :receipts, class_name: 'PoReceipt'
+        has_many :lines, ->{ order(:position) }, :class_name=>'Skr::PoLine', :inverse_of=>:purchase_order, export: {writable:true}
+        has_many :receipts, class_name: 'Skr::PoReceipt'
 
         before_validation :set_defaults, :on=>:create
 

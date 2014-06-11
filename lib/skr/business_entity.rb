@@ -6,10 +6,11 @@ module Skr
 
         included do
             has_random_hash_code
+            has_code_identifier from: 'name'
 
-            belongs_to :billing_address,  class_name: 'Address',     export: { writable: true }
-            belongs_to :shipping_address, class_name: 'Address',     export: { writable: true }
-            belongs_to :terms,            class_name: 'PaymentTerm', export: { writable: true }
+            belongs_to :billing_address,  class_name: 'Skr::Address',     export: { writable: true }
+            belongs_to :shipping_address, class_name: 'Skr::Address',     export: { writable: true }
+            belongs_to :terms,            class_name: 'Skr::PaymentTerm', export: { writable: true }
 
             delegate_and_export :terms_code, :terms_description
 

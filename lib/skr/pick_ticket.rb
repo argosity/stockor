@@ -12,7 +12,7 @@ module Skr
         has_one :customer, through: :sales_order, export: true
         has_one :terms,    through: :sales_order
 
-        has_many :lines, ->{ order(:position) }, class_name: 'PtLine', inverse_of: :pick_ticket,
+        has_many :lines, ->{ order(:position) }, class_name: 'Skr::PtLine', inverse_of: :pick_ticket,
                  extend: Concerns::PT::Lines, export: { writable: true }
 
         scope :with_details, lambda { | *args |

@@ -12,9 +12,9 @@ module Skr
 
         has_code_identifier :from=>'description'
 
-        belongs_to :default_vendor,   class_name: 'Vendor',    export: true
-        belongs_to :gl_asset_account, class_name: 'GlAccount', export: true
-        belongs_to :default_vendor,   class_name: 'Vendor',    export: true
+        belongs_to :default_vendor,   class_name: 'Skr::Vendor',    export: true
+        belongs_to :gl_asset_account, class_name: 'Skr::GlAccount', export: true
+        belongs_to :default_vendor,   class_name: 'Skr::Vendor',    export: true
 
         has_many :sku_locs, ->{extending Concerns::Sku::Locations },
             inverse_of: :sku, dependent: :destroy,

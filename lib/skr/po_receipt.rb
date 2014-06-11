@@ -15,7 +15,7 @@ module Skr
 
         has_one :gl_transaction, :as=>:source
 
-        has_many :lines, :class_name=>'PorLine', export: { writable: true }, inverse_of: :po_receipt
+        has_many :lines, :class_name=>'Skr::PorLine', export: { writable: true }, inverse_of: :po_receipt
 
         validates :freight,        numericality: true
         validates :purchase_order, :location, presence: true

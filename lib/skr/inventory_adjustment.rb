@@ -8,9 +8,9 @@ module Skr
         has_one :gl_transaction, :as=>:source, :inverse_of=>:source
 
         belongs_to :location, export: true
-        belongs_to :reason, :class_name=>'IaReason', export: true
+        belongs_to :reason, :class_name=>'Skr::IaReason', export: true
 
-        has_many :lines, :class_name=>'IaLine', :inverse_of=>:inventory_adjustment, export: { writable:true }
+        has_many :lines, :class_name=>'Skr::IaLine', :inverse_of=>:inventory_adjustment, export: { writable:true }
 
         validates :reason, :location, :set=>true
         validate :ensure_state_is_savable

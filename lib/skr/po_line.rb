@@ -11,7 +11,7 @@ module Skr
 
         has_one :sku, :through => :sku_loc, export: true
 
-        has_many :receipts, class_name: 'PorLine',
+        has_many :receipts, class_name: 'Skr::PorLine',
                  :inverse_of=>:po_line, listen: { create: :update_qty_received! }
 
         validates :purchase_order, :sku_loc,  set: true

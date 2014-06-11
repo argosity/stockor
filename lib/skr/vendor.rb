@@ -8,12 +8,12 @@ module Skr
         # Common code shared with {Customer}
         include BusinessEntity
 
-        belongs_to :gl_payables_account, class_name: 'GlAccount', export: true
-        belongs_to :gl_freight_account,  class_name: 'GlAccount', export: true
+        belongs_to :gl_payables_account, class_name: 'Skr::GlAccount', export: true
+        belongs_to :gl_freight_account,  class_name: 'Skr::GlAccount', export: true
 
         has_many :purchase_orders, inverse_of: :vendor
         has_many :vouchers,        inverse_of: :vendor
-        has_many :vendor_skus,     class_name: 'SkuVendor', inverse_of: :vendor
+        has_many :vendor_skus,     class_name: 'Skr::SkuVendor', inverse_of: :vendor
 
         delegate_and_export  :gl_payables_account_number
         validates :gl_payables_account, set: true
