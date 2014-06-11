@@ -1,2 +1,2 @@
 //=require ./jquery.dataTables
-//=require_tree .
+//=require ./dataTables.scroller
