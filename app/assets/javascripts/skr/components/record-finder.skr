@@ -1,0 +1,10 @@
+<% fldid = Skr.u.uniqueId() %>
+<label for="record-finder-<%=fldid %>" class="control-label"><%= field.title %>:    </label>
+<div class="input-group">
+    <input type="text" name="<%= field.field %>" id="record-finder-<%=fldid %>" class="form-control record-finder-query-string">
+    <span class="input-group-btn">
+        <button type="button" class="btn btn-default record-finder-query">
+            <i class="icon-search"></i>
+        </button>
+    </span>
+</div>
