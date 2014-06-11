@@ -2553,10 +2553,11 @@
 		var compat = function ( old, modern ) {
 			return json[old] !== undefined ? json[old] : json[modern];
 		};
+	    var data = _fnAjaxDataSrc( settings, json );
 
-		var draw            = compat( 'sEcho',                'draw' );
-		var recordsTotal    = compat( 'iTotalRecords',        'recordsTotal' );
-		var rocordsFiltered = compat( 'iTotalDisplayRecords', 'recordsFiltered' );
+	    var draw            = compat( 'sEcho',                'draw' );
+	    var recordsTotal    = compat( 'totaliTotalRecords',   'recordsTotal' );
+	    var rocordsFiltered = compat( 'iTotalDisplayRecords', 'recordsFiltered' );
 
 		if ( draw ) {
 			// Protect against out of sequence returns
@@ -2570,7 +2571,6 @@
 		settings._iRecordsTotal   = parseInt(recordsTotal, 10);
 		settings._iRecordsDisplay = parseInt(rocordsFiltered, 10);
 
-		var data = _fnAjaxDataSrc( settings, json );
 		for ( var i=0, ien=data.length ; i<ien ; i++ ) {
 			_fnAddData( settings, data[i] );
 		}
