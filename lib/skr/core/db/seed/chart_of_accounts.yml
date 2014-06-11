@@ -27,7 +27,6 @@
 -
   number: 1750	
   name: Buildings
-  is_debit: true
   description: Cost to purchase or construct buildings for use by the company.
 -
   number: 1800

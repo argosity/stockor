@@ -21,7 +21,7 @@ module Stockor
             def copy_migrations
                 Dir.glob( @@migrations_dir + '/*' ).sort.each do | migration |
                     from = File.basename( migration )
-                    dest = from.gsub(/^\d+_(.*).rb$/,'\\1')
+                    dest = from.gsub(/^\d+_(.*).rb$/,'\\1.rb')
                     if self.class.migration_exists?("db/migrate", "#{dest}")
                         say_status("skipped", "Migration #{dest} already exists")
                     else
