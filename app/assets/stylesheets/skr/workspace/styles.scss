@@ -2,6 +2,14 @@
 @import "../vendor/bootstrap";
 @import "../vendor/dataTables";
 .stockor {
+  padding: 0px;
+  margin: 0px;
+  background-color: $body-bg;
+  position: relative;
+  @import "../compoonents/*";
+  @import "../plugins/*";
   @import "layout";
   @import "tabs";
+  @import "screens";
+  @import "forms";
 }

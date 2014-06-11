@@ -1,4 +1,14 @@
 // Core variables and mixins
+
+$zindex-navbar:            1;
+$zindex-dropdown:          30;
+$zindex-popover:           30;
+$zindex-tooltip:           10;
+$zindex-navbar-fixed:      1;
+$zindex-modal-background:  25;
+$zindex-modal:             26;
+
+
 @import "bootstrap/variables";
 @import "bootstrap/mixins";
 
@@ -13,7 +23,8 @@
   @import "bootstrap/scaffolding";
   @import "bootstrap/type";
   @import "bootstrap/code";
-  @import "bootstrap/grid";
+  @import "bootstrap-custom-grid";
+  /* @import "bootstrap/grid"; */
   @import "bootstrap/tables";
   @import "bootstrap/forms";
   @import "bootstrap/buttons";

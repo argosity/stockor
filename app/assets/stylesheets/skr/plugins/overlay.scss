@@ -1,0 +1,62 @@
+.overlay { 
+  position: absolute;
+  z-index: 25;
+  .mask { 
+    background-color: white;
+    height: 100%;
+    left: 0;
+    opacity: 0.8;
+    position: absolute;
+    top: 0;
+    width: 100%;
+  }
+  .message {
+    min-width: 100px;
+    min-height: 65px;
+    line-height: 1.35;
+    border: 2px solid $well-border;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    border-radius: $border-radius-large;
+    padding: 10px;
+    box-shadow: 6px 7px 5px $gray-light;
+    background-color: $body-bg;
+    width: 70%;
+    i {
+      display: inline-block;
+      font-size: 3.2rem;
+      float: left;
+      &.loading-spinner {
+        background:url(asset_path('skr/ajax-loader.gif')) no-repeat;
+        height: 32px;
+        margin-top: 10px;
+        width: 32px;
+      }
+      &.icon-success {
+        color: darkgreen;
+      }
+      &.icon-warning {
+        color: darkred;
+      }
+
+    }
+    p {
+      display: inline;
+      margin: 0;
+      font-size: $font-size-large;
+      color: $gray-darker;
+    }
+    &.short {
+      width: 250px;
+      padding: 5px;
+      p {
+        position: relative;
+        top: 15px;
+        left: 5px;
+      }
+    }
+
+  }
+
+}

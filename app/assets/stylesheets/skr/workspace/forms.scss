@@ -1,0 +1,27 @@
+
+label.skr {
+  white-space: nowrap;
+  input {
+    @extend .form-control;
+    margin-top: 5px;
+  }
+}
+
+fieldset.bordered {
+  border: 1px solid $input-border;
+  border-radius: $border-radius-large;
+  padding: 10px;
+  legend {
+    display: inline-block;
+    width: auto;
+    border: none;
+    margin: 0 20px;
+    padding: 0 5px;
+    margin-bottom: 0;
+    &:after {
+      @extend .icon-sort-down:before;
+      font-family: 'skr-icon';
+    }
+  }
+
+}
