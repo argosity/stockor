@@ -1,88 +1,107 @@
+# DataTables class modifications
+Skr.u.extend( Skr.$.fn.dataTableExt.oStdClasses,{
+    sTable: "table table-striped"
+	sWrapper: "dataTables_wrapper form-inline"
+	sFilterInput: "form-control input-sm"
+	sLengthSelect: "form-control input-sm"
+})
+
+
 class Skr.Component.Grid extends Skr.Component.Base
+    events:
+        'processing.dt': 'gridProcessing'
+        'click tr': 'onRowClick'
+    el: '<div class"skr-grid"><table cellspacing="0" width="100%"></table></div>'
+    initialize: (options)->
+        @columns = Skr.u.map(options.columns, this.defineColumn, this)
+        @mode    = options.mode
+        this.listenTo(Skr.View.InterfaceState,'change:screen_menu_size', this.delayedWidthReset )
+        super
+
+    isSingleSelect: ->
+        @selectionMode && @selectionMode == 'single'
+
+    _unselect: (row)->
+        @fireEvent('unselect', @modelForRow(row) )
+        row.removeClass('active')
+
+    onRowClick: (ev)->
+        tr = this.$(ev.target).closest('tr')
+        if this.isSingleSelect()
+            @_unselect(row) for row in this.$('tr .active')
+        else
+            if tr.hasClass('active')
+                @_unselect(tr)
+            else
+                tr.addClass('active')
+                @fireEvent('select', model ) if model = this.modelForRow(tr)
+
+    modelForRow: (row)->
+        data = this.dt_api.row(row).data()
+        return null unless data
+        attrs={ id: row.attr('id') }
+        for field,i in @columns
+            attrs[field.field] = data[i]
+        new this.collection.prototype.model(attrs,ignoreUnsaved:true)
+
+    fireEvent: (event,model)->
+        this.$el.trigger(event,model)
+
+    gridProcessing: (dt,settings,working)->
+        msg = this.$('.DTS_Loading')
+        msg.toggle(working,true)
+        # if working
+        #     msg.spin('small',{left:'20%'})
+        # else
+        #     msg.spin(false)
+
+    defineColumn: (column)->
+        column = { field: column } if Skr.u.isString(column)
+        Skr.u.defaults(column, {
+            title: Skr.u.titleize(column.field)
+        })
+
+    delayedWidthReset: ->
+        Skr.u.delay( =>
+            @dt_api.columns.adjust()
+        , 500 )
 
     render: ->
-        this.$el.html('hello griddy!<br/><table cellpadding="0" cellspacing="0" border="0" class="display" id="example"></table>')
-        Skr.u.defer(@createTable)
-        this
-
-    createTable: =>
-        console.log 'rendr'
-        t = Skr.$('table')
-        console.log t
-        #debugger
-        t.dataTable(
-            data: this.data()
+        super
+        this.dataTable=this.$('table').dataTable(
             deferRender: true
-            scrollY: "300px",
-            dom: "frtiS"
-            columns: [
-                { "title": "Engine" },
-                { "title": "Browser" },
-                { "title": "Platform" },
-                { "title": "Version", "class": "center" },
-                { "title": "Grade", "class": "center" }
-            ]
-        );
+            scrollY: "300px"
+            serverSide: true
+            oClasses: ['table', 'table-stiped', 'table-hover', 'table-condensed']
+            bProcessing: true
+            bDeferRender: true
+            oScroller: { loadingIndicator: true }
+            ajax:
+                url: this.collection.prototype.url()
+                data: (d)=>this.buildData(d)
+                dataSrc: (d)->
+                    d.recordsFiltered = d.recordsTotal = d.total
+                    row.DT_RowId = row.shift() for row in d.data
+                    d['data']
+            dom: "rtiS"
+            oScroller:
+                rowHeight: 40
+            columns: @columns
+        )
+        this.dt_api = this.dataTable.api()
+        this.delayedWidthReset()
         this
 
+    buildData: (d)->
+        params = { o: {}, s: d.start, l: d.length||100, df:'array', f: ['id'].concat(Skr.u.pluck(@columns, 'field')) }
+        if @query && ! Skr.u.isEmpty( query = @query.asParams() )
+            params['q']=query
+        for order in d.order
+            column = @columns[order.column]
+            params['o'][column.field] = order.dir
+        params
 
-    data:->
-        [
-            ['Trident','Internet Explorer 4.0','Win 95+','4','X'],
-            ['Trident','Internet Explorer 5.0','Win 95+','5','C'],
-            ['Trident','Internet Explorer 5.5','Win 95+','5.5','A'],
-            ['Trident','Internet Explorer 6','Win 98+','6','A'],
-            ['Trident','Internet Explorer 7','Win XP SP2+','7','A'],
-            ['Trident','AOL browser (AOL desktop)','Win XP','6','A'],
-            ['Gecko','Firefox 1.0','Win 98+ / OSX.2+','1.7','A'],
-            ['Gecko','Firefox 1.5','Win 98+ / OSX.2+','1.8','A'],
-            ['Gecko','Firefox 2.0','Win 98+ / OSX.2+','1.8','A'],
-            ['Gecko','Firefox 3.0','Win 2k+ / OSX.3+','1.9','A'],
-            ['Gecko','Camino 1.0','OSX.2+','1.8','A'],
-            ['Gecko','Camino 1.5','OSX.3+','1.8','A'],
-            ['Gecko','Netscape 7.2','Win 95+ / Mac OS 8.6-9.2','1.7','A'],
-            ['Gecko','Netscape Browser 8','Win 98SE+','1.7','A'],
-            ['Gecko','Netscape Navigator 9','Win 98+ / OSX.2+','1.8','A'],
-            ['Gecko','Mozilla 1.0','Win 95+ / OSX.1+',1,'A'],
-            ['Gecko','Mozilla 1.1','Win 95+ / OSX.1+',1.1,'A'],
-            ['Gecko','Mozilla 1.2','Win 95+ / OSX.1+',1.2,'A'],
-            ['Gecko','Mozilla 1.3','Win 95+ / OSX.1+',1.3,'A'],
-            ['Gecko','Mozilla 1.4','Win 95+ / OSX.1+',1.4,'A'],
-            ['Gecko','Mozilla 1.5','Win 95+ / OSX.1+',1.5,'A'],
-            ['Gecko','Mozilla 1.6','Win 95+ / OSX.1+',1.6,'A'],
-            ['Gecko','Mozilla 1.7','Win 98+ / OSX.1+',1.7,'A'],
-            ['Gecko','Mozilla 1.8','Win 98+ / OSX.1+',1.8,'A'],
-            ['Gecko','Seamonkey 1.1','Win 98+ / OSX.2+','1.8','A'],
-            ['Gecko','Epiphany 2.20','Gnome','1.8','A'],
-            ['Webkit','Safari 1.2','OSX.3','125.5','A'],
-            ['Webkit','Safari 1.3','OSX.3','312.8','A'],
-            ['Webkit','Safari 2.0','OSX.4+','419.3','A'],
-            ['Webkit','Safari 3.0','OSX.4+','522.1','A'],
-            ['Webkit','OmniWeb 5.5','OSX.4+','420','A'],
-            ['Webkit','iPod Touch / iPhone','iPod','420.1','A'],
-            ['Webkit','S60','S60','413','A'],
-            ['Presto','Opera 7.0','Win 95+ / OSX.1+','-','A'],
-            ['Presto','Opera 7.5','Win 95+ / OSX.2+','-','A'],
-            ['Presto','Opera 8.0','Win 95+ / OSX.2+','-','A'],
-            ['Presto','Opera 8.5','Win 95+ / OSX.2+','-','A'],
-            ['Presto','Opera 9.0','Win 95+ / OSX.3+','-','A'],
-            ['Presto','Opera 9.2','Win 88+ / OSX.3+','-','A'],
-            ['Presto','Opera 9.5','Win 88+ / OSX.3+','-','A'],
-            ['Presto','Opera for Wii','Wii','-','A'],
-            ['Presto','Nokia N800','N800','-','A'],
-            ['Presto','Nintendo DS browser','Nintendo DS','8.5','C/A<sup>1</sup>'],
-            ['KHTML','Konqureror 3.1','KDE 3.1','3.1','C'],
-            ['KHTML','Konqureror 3.3','KDE 3.3','3.3','A'],
-            ['KHTML','Konqureror 3.5','KDE 3.5','3.5','A'],
-            ['Tasman','Internet Explorer 4.5','Mac OS 8-9','-','X'],
-            ['Tasman','Internet Explorer 5.1','Mac OS 7.6-9','1','C'],
-            ['Tasman','Internet Explorer 5.2','Mac OS 8-X','1','C'],
-            ['Misc','NetFront 3.1','Embedded devices','-','C'],
-            ['Misc','NetFront 3.4','Embedded devices','-','A'],
-            ['Misc','Dillo 0.8','Embedded devices','-','X'],
-            ['Misc','Links','Text only','-','X'],
-            ['Misc','Lynx','Text only','-','X'],
-            ['Misc','IE Mobile','Windows Mobile 6','-','C'],
-            ['Misc','PSP browser','PSP','-','C'],
-            ['Other browsers','All others','-','-','U']
-        ]
+
+    setQuery: (query)->
+        @query=query
+        @dt_api.ajax.reload()
