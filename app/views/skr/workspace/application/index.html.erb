@@ -11,6 +11,8 @@
     <script>
       Skr.$( function(){
         Skr.App = new Skr.Application({
+<% binding.pry %>
+          api_path: "<%= skr_workspace.to_s %>",
           paths: <%=raw skr_asset_paths_for( 'stockor-logo-sm.png' ).to_json %>
         });
       });

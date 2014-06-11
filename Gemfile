@@ -10,7 +10,7 @@ gem 'stockor-api',  path: '../api'
 gem 'coffee-rails'
 
 group :development, :test do
-    gem "guard-jasmine", path: '../../forks/guard-jasmine'
+    gem "guard-jasmine", path: '../../guard-jasmine'
+    gem 'growl'
+    gem 'terminal-notifier-guard'
 end
-gem 'growl'
-gem 'terminal-notifier-guard'

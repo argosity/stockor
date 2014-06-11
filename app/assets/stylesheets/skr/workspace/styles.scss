@@ -1,3 +1,7 @@
-@import "vendor/bootstrap";
-@import "layout";
-@import "tabs";
+@import "../fonts";
+@import "../vendor/bootstrap";
+@import "../vendor/dataTables";
+.stockor {
+  @import "layout";
+  @import "tabs";
+}

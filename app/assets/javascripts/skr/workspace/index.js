@@ -1,8 +1,11 @@
-//= require ./vendor/modern-stack
-//= require ./vendor/jquery.collapsible
-//= require ./lib
-//= require ./data
-//= require ./view
+//= require ../vendor/modern-stack
+//= require ../lib
+//= require_self
+//= require ../data
+//= require ../components
+//= require ../view
+//= require ./ui
 //= require ./Application
-//= require skr/workspace/views
 //= require ./register_screens
+
+Skr.namespace('Workspace');

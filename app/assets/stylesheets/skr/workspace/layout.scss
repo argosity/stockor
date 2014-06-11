@@ -71,7 +71,7 @@
   transition: all 0.15s ease-in-out 0s;
   margin: 70px 25px 0 265px;
   @media (max-width: 767px) {
-    margin: 0 15px !important;
+    margin: 60px 10px 0 10px !important;
   }
 }
 
@@ -125,9 +125,9 @@
           background-color: $navbar-inverse-link-active-bg;
           span {
             &:after {
-              font-family: 'icomoon';
+              font-family: 'skr-icon';
               color: #339900;
-              content: "\00a0\00a0\e702";
+              content: "\00a0\00a0\f067";
             }
           }
         }

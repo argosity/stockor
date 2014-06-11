@@ -3,7 +3,7 @@
 
 notification :terminal_notifier_guard
 
-guard :jasmine, :port => 8888, :mount => '/', :console=>:always do
+guard :jasmine, port: 8888, mount: '/', specdoc: :always, debug: true do
 #guard :jasmine, port: 8888, server_env: :test, server: :'app:jasmine', :server_mount => '/specs'   do
   watch(%r{spec/javascripts/spec\.(js\.coffee|js|coffee)$}) { 'spec/javascripts' }
   watch(%r{spec/javascripts/.+_spec\.(js\.coffee|js|coffee)$})

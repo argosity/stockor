@@ -1,14 +1,15 @@
 PATH
   remote: .
   specs:
-    skr-workspace (0.0.1)
-      ejs (~> 1.1.1)
+    stockor-workspace (0.0.1)
       rails (~> 4.1.0)
       sass-rails (~> 4.0)
       sprockets-rails (~> 2.1)
+      stockor-api (= 0.2)
+      stockor-core (= 0.2)
 
 PATH
-  remote: ../../forks/guard-jasmine
+  remote: ../../guard-jasmine
   specs:
     guard-jasmine (1.19.2)
       childprocess
@@ -72,9 +73,6 @@ GEM
     builder (3.2.2)
     celluloid (0.15.2)
       timers (~> 1.1.0)
-    celluloid-io (0.15.0)
-      celluloid (>= 0.15.0)
-      nio4r (>= 0.5.0)
     childprocess (0.5.3)
       ffi (~> 1.0, >= 1.0.11)
     coderay (1.1.0)
@@ -89,12 +87,11 @@ GEM
     coffee-script-source (1.7.0)
     descendants_tracker (0.0.4)
       thread_safe (~> 0.3, >= 0.3.1)
-    ejs (1.1.1)
     equalizer (0.0.9)
     erubis (2.7.0)
     execjs (2.0.2)
     ffi (1.9.3)
-    formatador (0.2.4)
+    formatador (0.2.5)
     grape (0.7.0)
       activesupport
       builder
@@ -126,9 +123,8 @@ GEM
       rake
     jasmine-core (2.0.0)
     json (1.8.1)
-    listen (2.7.4)
+    listen (2.7.5)
       celluloid (>= 0.15.2)
-      celluloid-io (>= 0.15.0)
       rb-fsevent (>= 0.9.3)
       rb-inotify (>= 0.9)
     lumberjack (1.0.5)
@@ -140,7 +136,6 @@ GEM
     minitest (5.3.3)
     multi_json (1.10.0)
     multi_xml (0.5.5)
-    nio4r (1.0.0)
     pg (0.17.1)
     phantomjs (1.9.7.0)
     polyglot (0.3.4)
@@ -216,7 +211,7 @@ DEPENDENCIES
   growl
   guard-jasmine!
   jasmine
-  skr-workspace!
   stockor-api!
   stockor-core!
+  stockor-workspace!
   terminal-notifier-guard
