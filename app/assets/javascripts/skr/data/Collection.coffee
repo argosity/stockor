@@ -1,8 +1,13 @@
 class Skr.Data.Collection extends Skr.Backbone.Collection
 
+    Skr.lib.ModuleSupport.includeInto(this)
+
     initialize: ->
         @isLoaded = this.length > 0;
         super(arguments)
+
+    isLoaded:->
+        @isLoaded
 
     fetch: (options)->
         @isLoaded = true
@@ -14,9 +19,14 @@ class Skr.Data.Collection extends Skr.Backbone.Collection
         else if callback
             callback()
 
+    isDirty: ->
+        false
+
+    parse:(resp)->
+        resp['data']
+
     url: ->
-        url = if _.isFunction( this.urlRoot ) then this.urlRoot() else null
-        return if url? then SKR.Data.makeURL( url ) else ''
+        @model.prototype.urlBase() + '.json'
 
     viewJSON: (options)->
         this.map( (model) ->
