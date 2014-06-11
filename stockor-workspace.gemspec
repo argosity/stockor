@@ -24,6 +24,7 @@ Gem::Specification.new do |spec|
     spec.add_dependency "rails", "~> 4.1.0"
     spec.add_dependency "sprockets-rails", "~> 2.1"
     spec.add_dependency "sass-rails", "~> 4.0"
+    spec.add_dependency "ruby-coffee-script"
     #spec.add_dependency "ejs", "~> 1.1.1"
 
     spec.add_development_dependency "bundler", "~> 1.5"
