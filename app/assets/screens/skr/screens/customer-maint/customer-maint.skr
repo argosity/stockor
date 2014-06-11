@@ -1,0 +1,36 @@
+<nav class="navbar navbar-default toolbar">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="btn btn-default navbar-btn save">
+                <i class="icon-save"> Save</i>
+            </button>
+            <button type="button" class="btn btn-default navbar-btn reset">
+                <i class="icon-refresh"> Reset</i>
+            </button>
+        </div>
+    </div>
+</nav>
+
+<div class="header">
+    <div class="row">
+        <div class="col-md-4 finder"></div>
+        <%= h.text_field 'name', width:8 %>
+    </div>
+    <div class="row">
+        <%= h.text_field 'notes', width:12 %>
+    </div>
+
+</div>
+
+
+<fieldset class="addresses bordered toggled">
+    <legend>Address</legend>
+    <div class="row">
+        <h4 class="col-md-6">Billing</h4>
+        <h4 class="col-md-6">Shipping</h4>
+    </div>
+    <div class="row">
+        <div class="col-md-6 bill"></div>
+        <div class="col-md-6 ship"></div>
+    </div>
+</fieldset>
