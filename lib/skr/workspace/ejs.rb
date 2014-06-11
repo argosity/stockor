@@ -33,7 +33,6 @@ module Skr::Workspace::EJS
     #
     def compile(source, options = {})
       source = source.dup
-
       js_escape!(source)
       replace_escape_tags!(source, options)
       replace_interpolation_tags!(source, options)
@@ -41,7 +40,7 @@ module Skr::Workspace::EJS
 
       try_catches = generate_try_catches(source)
 
-      "function(obj){var __p=[],print=function(){__p.push.apply(__p,arguments);};" +
+      "function(obj){var __p=[],h=Skr.View.Helpers,print=function(){__p.push.apply(__p,arguments);};" +
         "with(obj||{}){\n#{try_catches}\n__p.push('#{source}');}return __p.join('');}"
     end
 
@@ -65,26 +64,27 @@ module Skr::Workspace::EJS
         source
       end
 
-      def js_unescape!(source)
+      def to_js(source)
         source.gsub!(JS_UNESCAPE_PATTERN) { |match| JS_UNESCAPES[match[1..-1]] }
-        source
+        CoffeeScript.compile(source, bare: true).gsub(/\n/,'').gsub(/;/,',').chop
       end
 
       def replace_escape_tags!(source, options)
         source.gsub!(options[:escape_pattern] || escape_pattern) do
-          "',(''+#{js_unescape!($1)})#{escape_function},'"
+          "',(''+#{to_js($1)})#{escape_function},'"
         end
       end
 
       def replace_evaluation_tags!(source, options)
         source.gsub!(options[:evaluation_pattern] || evaluation_pattern) do
-          "'); #{js_unescape!($1)}; __p.push('"
+
+          "'); #{to_js($1)}; __p.push('"
         end
       end
 
       def replace_interpolation_tags!(source, options)
         source.gsub!(options[:interpolation_pattern] || interpolation_pattern) do
-          "', #{js_unescape!($1)},'"
+          "', #{to_js($1)},'"
         end
       end
 
