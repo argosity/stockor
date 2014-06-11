@@ -15,10 +15,8 @@ class CreateSkrCustomers < ActiveRecord::Migration
             t.string   "name",                       null: false
             t.text     "notes"
             t.text     "website"
-            t.boolean  "ship_partial",               null: false, default: false
-            t.boolean  "is_tax_exempt"
+            t.hstore   "options", default: {}
             t.skr_track_modifications
-          end
-
+        end
     end
 end

@@ -18,7 +18,7 @@ class CreateSkrSalesOrders < ActiveRecord::Migration
             t.boolean  "is_complete",          null: false, default: false
             t.string   "po_num"
             t.text     "notes"
-            t.boolean  "is_tax_exempt"
+            t.hstore   "options", default: {}
             t.skr_track_modifications
         end
 
