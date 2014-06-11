@@ -3,7 +3,6 @@ class Skr.Data.Screen extends Skr.Data.Model
         active: false
 
     initialize: ->
-        @viewModel = Skr.View.Screens[this.get('view')]
         super
 
     isActive:->
@@ -20,6 +19,7 @@ class Skr.Data.Screen extends Skr.Data.Model
         this.set(active:true)
 
     display: ->
+        @viewModel ||= Skr.View.Screens[this.get('view')]
         if @viewModel?
            this._setDisplaying()
         else
