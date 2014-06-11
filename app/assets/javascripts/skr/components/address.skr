@@ -1,0 +1,15 @@
+<div class="row">
+    <%= h.text_field 'name', widths:[8,12] %>
+</div>
+<div class="row">
+    <%= h.text_field 'line1', width:12 %>
+</div>
+
+<div class="row">
+    <%= h.text_field 'line2', width:12 %>
+</div>
+<div class="row">
+    <%= h.text_field 'city', width:7 %>
+    <%= h.text_field 'state', width:3 %>
+    <%= h.text_field 'postal_code', width:2 %>
+</div>
