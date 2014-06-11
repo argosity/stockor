@@ -1,1 +1,4 @@
-class Skr.Component.Base extends Skr.Backbone.View
+class Skr.Component.Base extends Skr.View.Base
+
+    constructor: ->
+        super
