@@ -24,7 +24,10 @@ module Skr
 
                     if from
                         before_validation(:on=>:create) do
-                            self.code ||= Skr::Core::Strings.code_identifier( self[ from ], length:max_length )
+                            source = self[from]
+                            unless source.blank?
+                                self.code ||= Skr::Core::Strings.code_identifier( source, length:max_length )
+                            end
                         end
                     end
 
