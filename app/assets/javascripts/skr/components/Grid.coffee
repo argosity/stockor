@@ -9,9 +9,10 @@ Skr.u.extend( Skr.$.fn.dataTableExt.oStdClasses,{
 
 class Skr.Component.Grid extends Skr.Component.Base
     events:
-        'processing.dt': 'gridProcessing'
         'click tr': 'onRowClick'
+
     el: '<div class"skr-grid"><table cellspacing="0" width="100%"></table></div>'
+
     initialize: (options)->
         @columns = Skr.u.map(options.columns, this.defineColumn, this)
         @mode    = options.mode
@@ -47,35 +48,45 @@ class Skr.Component.Grid extends Skr.Component.Base
     fireEvent: (event,model)->
         this.$el.trigger(event,model)
 
-    gridProcessing: (dt,settings,working)->
-        msg = this.$('.DTS_Loading')
-        msg.toggle(working,true)
-        # if working
-        #     msg.spin('small',{left:'20%'})
-        # else
-        #     msg.spin(false)
-
     defineColumn: (column)->
         column = { field: column } if Skr.u.isString(column)
         Skr.u.defaults(column, {
             title: Skr.u.titleize(column.field)
         })
 
-    delayedWidthReset: ->
+    delayedGridConfiguration: ->
         Skr.u.delay( =>
             @dt_api.columns.adjust()
-        , 500 )
+        ,500 )
+
+    calculateColumns: ->
+        cols = []
+        for index,column of this.columns
+            index=parseInt(index)
+            if column.align
+                cols.push { className: column.align, "targets": [ index ] }
+            else if 'n' == column.type
+                cols.push { className: 'r', "targets": [ index ] }
+        cols
 
     render: ->
         super
+        responsiveHelper = undefined;
+        breakpointDefinition = {
+            tablet: 1024,
+            phone : 480
+        };
+
         this.dataTable=this.$('table').dataTable(
             deferRender: true
             scrollY: "300px"
+            scrollX: true
             serverSide: true
             oClasses: ['table', 'table-stiped', 'table-hover', 'table-condensed']
             bProcessing: true
             bDeferRender: true
             oScroller: { loadingIndicator: true }
+            columnDefs: this.calculateColumns()
             ajax:
                 url: this.collection.prototype.url()
                 data: (d)=>this.buildData(d)
@@ -89,7 +100,7 @@ class Skr.Component.Grid extends Skr.Component.Base
             columns: @columns
         )
         this.dt_api = this.dataTable.api()
-        this.delayedWidthReset()
+        this.delayedGridConfiguration()
         this
 
     buildData: (d)->
