@@ -5,6 +5,7 @@ class Skr.Component.Modal extends Skr.Component.Base
     template: 'modal'
     templateData: ->
         title: @title
+        buttons: @buttons
 
     attributes:
         class:"modal fade"
@@ -18,12 +19,20 @@ class Skr.Component.Modal extends Skr.Component.Base
         'hidden.bs.modal'
         'loaded.bs.modal'
     ]
+
+    buttons:
+        close: { label: 'Close', type: 'default', dismiss: true }
+
+
     initialize: (options)->
-        @title = options.title
+        Skr.u.extend(this,options)
+
         Skr.u.bindAll(this,'forwardModalEvent')
         for event in @forwardEvents
             this.$el.on(event, @forwardModalEvent )
         super
+
+
 
     forwardModalEvent: (ev)->
         this.trigger(ev.type, this)
