@@ -47,8 +47,6 @@ class Skr.View.Screens.CustomerMaint extends Skr.View.Screen
 
     load: (ev,customer)->
         customer.ensureAssociations( 'billing_address', 'shipping_address', (model)->
-            console.log model.attributes
-            window.c=model
             this.setData(model:model)
         ,this)
 
@@ -56,9 +54,10 @@ class Skr.View.Screens.CustomerMaint extends Skr.View.Screen
 
     render: ->
         super
-        # Skr.u.delay( =>
-        #     Skr.View.SaveNotify(this, callback: (success,resp,model)->
-        #         console.log("Save: #{success}")
-        #     )
-        # ,500)
+        Skr.u.delay( =>
+            @$('.record-finder-query').click()
+            # Skr.View.SaveNotify(this, callback: (success,resp,model)->
+            #     console.log("Save: #{success}")
+            # )
+        ,500)
         this

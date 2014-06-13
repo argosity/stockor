@@ -104,7 +104,7 @@ class Skr.View.Base extends Skr.Backbone.View
                  model_bindings[ parts[0] ][ parts[1] ]=options
 
         for binding_model,options of model_bindings
-            @binder.bind( this[binding_model], @el, options )
+            @binder.bind( this[binding_model], @el, options, Skr.u.result(this,'bindingOptions') )
 
     evalTemplate: (name)->
         return unless view = Skr.u.result(this,name)

@@ -9,6 +9,16 @@ class FinderClause extends Skr.Component.Base
         'hidden.bs.dropdown': 'onQueryChange'
         'click .del-clause': 'delClause'
 
+    bindings:
+        description: '.query-field-description'
+        value: '.query-string'
+        field: '.fields input[type=radio]'
+        operator: '.operators input[type=radio]'
+
+
+    bindingOptions:
+        changeTriggers: { 'input[type=text]':'keyup','': 'change' }
+
     subViews:
         '.fields':{
             collection: 'fields', template:'<label><input type="radio" name="field"/> <span></span></label>'
@@ -40,12 +50,6 @@ class FinderClause extends Skr.Component.Base
     focus: ->
         this.$('input.query-string').focus()
 
-    bindings:
-        description: '.query-field-description'
-        value: '.query-string'
-        field: '.fields input[type=radio]'
-        operator: '.operators input[type=radio]'
-
     initialize: (options)->
         super
         @fields = @model.fields
@@ -56,7 +60,7 @@ class FinderDialog extends Skr.Component.Modal
     events:
         'click .add-clause': 'addClause'
         'click .run-query':  'runQuery'
-        'keyup .query-string': Skr.View.fn.onEnter('runQuery')
+        #'keyup .query-string': 'runQuery'
         'select': 'onSelect'
 
     subViews:
@@ -75,7 +79,8 @@ class FinderDialog extends Skr.Component.Modal
         @query   = options.query
         @columns = options.columns
         @clauses = @query.clauses
-        this.listenTo(@query.clauses,'add remove reset',this.setQueryClass)
+        @debounceMethod( 'runQuery')
+        this.listenTo(@query.clauses,'remove reset change', @runQuery)
         super
 
     onSelect: (ev, model)->
@@ -86,16 +91,13 @@ class FinderDialog extends Skr.Component.Modal
         super
         this
 
-    setQueryClass: ->
-        this.$('.query-clauses').toggleClass('multiple', (@query.clauses.length > 1))
-
     addClause: ->
         @query.addNewClause()
 
     gridOptions: ->
         { collection: 'collection', arguments: { columns: @columns } }
 
-    runQuery: ->
+    runQuery: (ev)->
         this.getSubView('.grid').setQuery(@query)
 
 
