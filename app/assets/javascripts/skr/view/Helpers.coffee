@@ -11,12 +11,14 @@ Skr.View.Helpers = {
     text_field: (name,options)->
         options.widths=[options.width] if options.width
         widths = this.grid_widths(options.widths...)
-
-        """
-            <label class="skr #{widths}">#{options.label||Skr.u.titleize(name)}:
+        title  = Skr.u.escape( options.label || Skr.u.titleize(name) )
+        result = new String("""
+            <label class="skr #{widths}">#{title}:
             <input type="text" name="#{name}">
             </label>
-        """
+        """)
+        result.HTMLSafe = true
+        result
 
 
 }
