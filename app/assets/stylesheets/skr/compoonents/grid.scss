@@ -32,42 +32,75 @@ div.dataTables_paginate ul.pagination {
 	white-space: nowrap;
 }
 
-table.dataTable td,
-table.dataTable th {
+.grid td, .grid th{
+  &.c {
+    text-align: center;
+  }
+
+  &.r {
+    text-align: right;
+  }
+
+}
+
+.grid td,
+.grid th {
 	-webkit-box-sizing: content-box;
 	-moz-box-sizing: content-box;
 	box-sizing: content-box;
 }
 
 
-table.dataTable {
+.grid {
 	clear: both;
 	margin-top: 6px !important;
 	margin-bottom: 6px !important;
 	max-width: none !important;
 }
 
-table.dataTable thead .sorting,
-table.dataTable thead .sorting_asc,
-table.dataTable thead .sorting_desc,
-table.dataTable thead .sorting_asc_disabled,
-table.dataTable thead .sorting_desc_disabled {
+.grid thead .sorting,
+.grid thead .sorting_asc,
+.grid thead .sorting_desc,
+.grid thead .sorting_asc_disabled,
+.grid thead .sorting_desc_disabled {
 	cursor: pointer;
 }
 
-table.dataTable thead .sorting { background: url(image-path('skr/dataTables/sort_both.png')) no-repeat center right; }
-table.dataTable thead .sorting_asc { background: url(image-path('skr/dataTables/sort_asc.png')) no-repeat center right; }
-table.dataTable thead .sorting_desc { background: url(image-path('skr/dataTables/sort_desc.png')) no-repeat center right; }
+.grid thead .sorting { background: url(image-path('skr/dataTables/sort_both.png')) no-repeat center right; }
+.grid thead .sorting_asc { background: url(image-path('skr/dataTables/sort_asc.png')) no-repeat center right; }
+.grid thead .sorting_desc { background: url(image-path('skr/dataTables/sort_desc.png')) no-repeat center right; }
 
-table.dataTable thead .sorting_asc_disabled { background: url(image-path('skr/dataTables/sort_asc_disabled.png')) no-repeat center right; }
-table.dataTable thead .sorting_desc_disabled { background: url(image-path('skr/dataTables/sort_desc_disabled.png')) no-repeat center right; }
+.grid thead .sorting_asc_disabled { background: url(image-path('skr/dataTables/sort_asc_disabled.png')) no-repeat center right; }
+.grid thead .sorting_desc_disabled { background: url(image-path('skr/dataTables/sort_desc_disabled.png')) no-repeat center right; }
 
-table.dataTable thead > tr > th {
+.grid thead > tr > th {
 	padding-left: 18px;
 	padding-right: 18px;
 }
 
-table.dataTable th:active {
+.grid .dataTables_processing {
+  position: absolute;
+
+  border: 2px solid $panel-default-border;
+  box-shadow:         3px 3px 5px 6px $table-bg-hover;
+  
+  display: block;
+  line-height: 5px;
+  padding: 30px;
+  z-index: 28;
+
+  top: 50%;
+  width: 80%;
+  height: 40px;
+  margin-left: 10%;
+  margin-top: -25px;
+  padding-top: 20px;
+  text-align: center;
+  font-size: 1.2em;
+  background:url(asset_path('skr/ajax-loader.gif')) no-repeat scroll 40% 7px $body-bg;
+}
+
+.grid th:active {
 	outline: none;
 }
 
@@ -259,3 +292,5 @@ div.DTFC_LeftFootWrapper table {
 div.FixedHeader_Cloned table {
 	margin: 0 !important
 }
+
+

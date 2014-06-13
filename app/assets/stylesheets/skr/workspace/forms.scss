@@ -21,7 +21,14 @@ fieldset.bordered {
     &:after {
       @extend .icon-sort-down:before;
       font-family: 'skr-icon';
+      cursor: pointer;
     }
   }
 
+}
+
+
+.section-header {
+  @extend .page-header;
+  margin: ($line-height-computed/2) 0;
 }

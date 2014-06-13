@@ -1,18 +1,16 @@
 class Skr.Workspace.UI.Pages extends Skr.View.Base
 
-    initialize: (options)->
-        @debounceMethod 'onResize'
-        @interface = options.model
-        this.listenTo( Skr.Data.Screens.displaying, "change:active", this.onActiveChange )
-        super
-
     el: '<div class="page-content"><div class="screen"></div></div>'
 
     bindings:
         layout:
-            selector: '.screen',  elAttribute: 'class',
-            converter: (dir,value,attribute,model,el)-> "screen #{value}"
+            selector: '',  elAttribute: 'class',
+            converter: (dir,value,attribute,model,el)-> "page-content #{value}"
 
+    initialize: (options)->
+        @debounceMethod 'onResize'
+        this.listenTo( Skr.Data.Screens.displaying, "change:active", this.onActiveChange )
+        super
 
     onResize: ->
         screen = this.$('.screen')
@@ -20,6 +18,7 @@ class Skr.Workspace.UI.Pages extends Skr.View.Base
 
     render: ->
         super
+        @model.set(viewport: this.$el)
         @defer ->
             this.$el.onresize( this.onResize )
         this

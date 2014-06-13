@@ -5,6 +5,7 @@ class Skr.Workspace.UI.Layout extends Skr.View.Base
             selector: '.page-container',  elAttribute: 'class',
             converter: (dir,value,attribute,model,el)-> "screens-menu-#{value}"
 
+
     initialize: ->
         @debounceMethod 'onResize'
         @model   = Skr.View.InterfaceState
@@ -33,11 +34,9 @@ class Skr.Workspace.UI.Layout extends Skr.View.Base
         @defer ->
            this.$el.onresize( this.onResize )
 
-        @model.set(viewport: this.$el)
         super
         this.moveScreensMenu()
         this
-
 
     moveScreensMenu: ->
         if 'top' == @model.get("screen_menu_position")
