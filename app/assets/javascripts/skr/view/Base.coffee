@@ -60,7 +60,7 @@ class Skr.View.Base extends Skr.Backbone.View
                 {collection: this.resolveData(options.collection)}
             else
                 {}
-        Skr.u.extend(args, options.arguments)
+        Skr.u.extend(args, @resultsFor(options.arguments, selector, options) )
 
 
     renderSubView: ( selector, options )->

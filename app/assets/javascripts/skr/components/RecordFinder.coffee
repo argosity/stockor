@@ -60,14 +60,12 @@ class FinderDialog extends Skr.Component.Modal
     events:
         'click .add-clause': 'addClause'
         'click .run-query':  'runQuery'
-        #'keyup .query-string': 'runQuery'
         'select': 'onSelect'
 
     subViews:
         '.grid':
             component: 'Grid'
             options: 'gridOptions'
-
         '.query-clauses':
             view: FinderClause, collection: 'clauses'
 

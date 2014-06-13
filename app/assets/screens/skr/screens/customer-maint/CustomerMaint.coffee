@@ -11,6 +11,9 @@ class Skr.View.Screens.CustomerMaint extends Skr.View.Screen
         '.addresses .ship':
             component: 'Address'
             model: 'model.shipping_address'
+            arguments: -> { copyFrom: this.subViewInstances['.addresses .bill'] }
+
+
 
 
     finderOptions:
@@ -54,10 +57,10 @@ class Skr.View.Screens.CustomerMaint extends Skr.View.Screen
 
     render: ->
         super
-        Skr.u.delay( =>
-            @$('.record-finder-query').click()
-            # Skr.View.SaveNotify(this, callback: (success,resp,model)->
-            #     console.log("Save: #{success}")
-            # )
-        ,500)
+        # Skr.u.delay( =>
+        #     # @$('.record-finder-query').click()
+        #     # Skr.View.SaveNotify(this, callback: (success,resp,model)->
+        #     #     console.log("Save: #{success}")
+        #     # )
+        # ,500)
         this

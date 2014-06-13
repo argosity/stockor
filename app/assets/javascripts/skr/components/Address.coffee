@@ -7,13 +7,20 @@ class Skr.Component.Address extends Skr.Component.Base
     bindings:
         model:{ default: true }
 
-    initialize: ->
+    initialize: (options)->
+        @copyFrom = options.copyFrom
+        this.setupCopyFrom()
         super
-        this.listenTo(@model, 'change', (m)->
-            console.log @model.cid
-        )
 
-    render: ->
-        # console.log "rendr address"
-        # console.log @model.cid
+    setData: (data)->
         super
+        this.setupCopyFrom()
+        this
+
+    setupCopyFrom:->
+        return unless @copyFrom
+        this.listenTo(this.copyFrom.model,'change', @applyChange )
+
+    applyChange: (model,value,field)->
+        for name,value of model.changed
+            this.model.set(name,value) if this.model.get(name) == model.previous(name)

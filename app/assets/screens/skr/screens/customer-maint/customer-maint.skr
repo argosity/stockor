@@ -23,18 +23,17 @@
 </div>
 
 
-<fieldset class="addresses bordered toggled">
-    <legend>Address</legend>
-    <div class="row">
-        <div class="<%= h.grid_widths 12,6 %>">
-            <h4 class="section-header">Billing</h4>
+<div class="row">
+    <div class="<%= h.grid_widths 12,6 %>">
+        <fieldset class="addresses bordered toggled">
+            <legend>Billing Address</legend>
             <div class="bill"></div>
-        </div>
-        <div class="<%= h.grid_widths 12,6 %>">
-        <h4 class="section-header">Shipping</h4>
-        <div class="ship"></div>
-        </div>
+        </fieldset>
     </div>
-    <div class="row">
+    <div class="<%= h.grid_widths 12,6 %>">
+        <fieldset class="addresses bordered toggled">
+            <legend>Shiping Address</legend>
+            <div class="ship"></div>
+        </fieldset>
     </div>
-</fieldset>
+</div>
