@@ -20,7 +20,7 @@ class Skr.View.Screens.CustomerMaint extends Skr.View.Screen
             columns: [
                 {field:'code',type:'s'}
                 {field:'name',type:'s'}
-                {field:'notes',type:'s'}
+                {field:'notes',type:'s', hide:['xs','sm']}
                 {field:'credit_limit',type:'n'}
             ]
 

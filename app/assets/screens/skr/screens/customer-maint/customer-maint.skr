@@ -13,8 +13,8 @@
 
 <div class="header">
     <div class="row">
-        <div class="col-md-4 finder"></div>
-        <%= h.text_field 'name', width:8 %>
+        <div class="finder <%= h.grid_widths 12,4,4,3 %>"></div>
+        <%= h.text_field 'name', widths: [12,8,8,9] %>
     </div>
     <div class="row">
         <%= h.text_field 'notes', width:12 %>
@@ -26,11 +26,15 @@
 <fieldset class="addresses bordered toggled">
     <legend>Address</legend>
     <div class="row">
-        <h4 class="col-md-6">Billing</h4>
-        <h4 class="col-md-6">Shipping</h4>
+        <div class="<%= h.grid_widths 12,6 %>">
+            <h4 class="section-header">Billing</h4>
+            <div class="bill"></div>
+        </div>
+        <div class="<%= h.grid_widths 12,6 %>">
+        <h4 class="section-header">Shipping</h4>
+        <div class="ship"></div>
+        </div>
     </div>
     <div class="row">
-        <div class="col-md-6 bill"></div>
-        <div class="col-md-6 ship"></div>
     </div>
 </fieldset>
