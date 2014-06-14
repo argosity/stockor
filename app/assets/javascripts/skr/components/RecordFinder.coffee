@@ -37,7 +37,7 @@ class FinderClause extends Skr.Component.Base
         }
 
     delClause: ->
-        @model.collection.remove(@model)
+        @model.remove()
 
     onQueryChange: ->
         this.$('input.query-string').focus()
@@ -99,6 +99,7 @@ class FinderDialog extends Skr.Component.Modal
         this.getSubView('.grid').setQuery(@query)
 
 
+
 class Skr.Component.RecordFinder extends Skr.Component.Base
 
     template: 'record-finder'
@@ -106,7 +107,7 @@ class Skr.Component.RecordFinder extends Skr.Component.Base
         field: @query.defaultField().toJSON()
 
     events:
-        "keyup .record-finder-query-string": Skr.View.fn.onEnter("runQuery")
+        "keyup .record-finder-query-string": "onKey"
         "click .record-finder-query": "displayFinder"
 
     initialize:(options)->
@@ -121,6 +122,13 @@ class Skr.Component.RecordFinder extends Skr.Component.Base
             finder.remove()
         )
         finder.show()
+
+    onKey: (ev)->
+        qf=this.$('.record-finder-query-string')
+        if 13 == ev.keyCode
+            this.runQuery(ev)
+        else if qf.val().match( Skr.Data.mixins.HasCodeField.INVALID )
+            qf.val( qf.val().replace( Skr.Data.mixins.HasCodeField.INVALID, '' ) )
 
     runQuery: (ev)->
         code = this.$(ev.target).val()
