@@ -13,9 +13,6 @@ class Skr.View.Screens.CustomerMaint extends Skr.View.Screen
             model: 'model.shipping_address'
             arguments: -> { copyFrom: this.subViewInstances['.addresses .bill'] }
 
-
-
-
     finderOptions:
         collection: Skr.Data.Customers
         arguments:

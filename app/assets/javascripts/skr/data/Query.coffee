@@ -60,6 +60,9 @@ class Clause extends Skr.Backbone.Model
     isValid: ->
         this.get('value').length
 
+    remove: ->
+        @collection.remove(this)
+
     toParam: ->
         param = {}
         op = this.get('operator')

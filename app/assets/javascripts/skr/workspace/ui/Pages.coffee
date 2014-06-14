@@ -10,6 +10,7 @@ class Skr.Workspace.UI.Pages extends Skr.View.Base
     initialize: (options)->
         @debounceMethod 'onResize'
         this.listenTo( Skr.Data.Screens.displaying, "change:active", this.onActiveChange )
+        this.listenTo( Skr.Data.Screens.displaying, "remove",        this.onRemove )
         super
 
     onResize: ->
@@ -23,6 +24,9 @@ class Skr.Workspace.UI.Pages extends Skr.View.Base
             this.$el.onresize( this.onResize )
         this
 
+    onRemove: (screen)->
+        this.$('.screen').html('') if this.$('.screen').children()[0] == screen.viewInstance.el
+
     onActiveChange: (screen,active)->
         return unless active
-        this.$('.screen').html( screen.view().render().el )
+        this.$('.screen').html( screen.view().el )

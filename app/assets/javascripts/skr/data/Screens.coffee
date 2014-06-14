@@ -1,8 +1,24 @@
-class Skr.Data.Screen extends Skr.Data.Model
+class ScreenView extends Skr.Data.Model
     defaults:
         active: false
 
+    initialize: (options)->
+        super
+        @screen=options.screen
+        Skr.Data.Screens.displaying.add( this )
+        this.set(active:true)
+
+    view: ->
+        @viewInstance ||= ( new @screen.viewModel( screen: this.screen ) ).render()
+
+    remove: ->
+        Skr.Data.Screens.displaying.remove( this )
+
+
+class Skr.Data.Screen extends Skr.Data.Model
+
     initialize: ->
+        @views = []
         super
 
     isActive:->
@@ -11,12 +27,8 @@ class Skr.Data.Screen extends Skr.Data.Model
     setActive:->
         this.set(active: true)
 
-    view: ->
-        @viewInstance ||= new @viewModel( screen: this )
-
     _setDisplaying: ->
-        Skr.Data.Screens.displaying.add( this )
-        this.set(active:true)
+        @views.push( new ScreenView( screen: this ) )
 
     display: ->
         @viewModel ||= Skr.View.Screens[this.get('view')]
@@ -29,6 +41,7 @@ class Skr.Data.Screen extends Skr.Data.Model
                 this._setDisplaying()
                 this.set(loading:false)
             , this )
+
 
 class Skr.Data.ScreenSet extends Skr.Data.Collection
 

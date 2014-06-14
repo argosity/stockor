@@ -11,6 +11,7 @@ class Skr.Data.Customer extends Skr.Data.Model
         }
     ]
 
+    @include Skr.Data.mixins.HasCodeField
 
 class Skr.Data.Customers extends Skr.Data.Collection
     model: Skr.Data.Customer

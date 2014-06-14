@@ -15,13 +15,15 @@ fieldset.bordered {
     display: inline-block;
     width: auto;
     border: none;
-    margin: 0 20px;
+    margin: 0;
     padding: 0 5px;
     margin-bottom: 0;
-    &:after {
-      @extend .icon-sort-down:before;
-      font-family: 'skr-icon';
-      cursor: pointer;
+    .toggled {
+      &:after {
+        @extend .icon-sort-down:before;
+        font-family: 'skr-icon';
+        cursor: pointer;
+      }
     }
   }
 

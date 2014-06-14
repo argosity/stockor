@@ -25,13 +25,13 @@
 
 <div class="row">
     <div class="<%= h.grid_widths 12,6 %>">
-        <fieldset class="addresses bordered toggled">
+        <fieldset class="addresses bordered">
             <legend>Billing Address</legend>
             <div class="bill"></div>
         </fieldset>
     </div>
     <div class="<%= h.grid_widths 12,6 %>">
-        <fieldset class="addresses bordered toggled">
+        <fieldset class="addresses bordered">
             <legend>Shiping Address</legend>
             <div class="ship"></div>
         </fieldset>

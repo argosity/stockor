@@ -1,10 +1,15 @@
 class TabView extends Skr.View.Base
-    el: -> "<li id='#{this.model.cid}'><a data-toggle='tab'>#{this.model.get('title')}</a></li>"
+    el: -> "<li id='#{this.model.cid}'><a data-toggle='tab'>#{this.model.screen.get('title')}<span class='close'>×</span></a></li>"
     events:
-        click: -> this.model.setActive()
-    bindings: {
+        click: (ev)->
+            if ev.target.className == "close"
+                this.model.remove()
+            else
+                this.model.setActive()
+
+    bindings:
         active: { selector: '', elAttribute: 'class', converter: (dir,value)-> if value then "active" else '' }
-    }
+
 
 
 class Skr.Workspace.UI.Tabs extends Skr.View.Base
@@ -16,12 +21,10 @@ class Skr.Workspace.UI.Tabs extends Skr.View.Base
     attributes:
         class: "tabs"
 
-    subViews: {
-        '.nav-tabs': {
+    subViews:
+        '.nav-tabs':
             view: TabView
             collection: 'collection'
-        }
-    }
 
     initialize: ->
         @collection = Skr.Data.Screens.displaying
