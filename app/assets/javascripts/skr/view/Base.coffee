@@ -11,31 +11,19 @@ class Skr.View.Base extends Skr.Backbone.View
         @subViewInstances={}
         super
 
-
     remove: ->
         @binder.unbind();
         for el, instance of @subViewInstances
             ( instance.unbind || instance.remove )()
         super
 
-    renderSubViews:->
-        for selector, options of @subViews
-            @subViewInstances[selector] = switch
-                when options.component
-                    this.renderComponent(selector, options)
-                when options.collection
-                    this.renderCollectionSubview(selector, options)
-                else
-                    this.renderSubView(selector, options )
-
-
-    getSubView: (selector)->
-        @subViewInstances[selector]
+    getSubView: (identifier)->
+        @subViewInstances[identifier]
 
     setData: (data)->
         Skr.u.extend(this,data)
-        for selector, instance of @subViewInstances
-            instance.setData( this.argsForSubview( @subViews[selector] ) )
+        for identifier, instance of @subViewInstances
+            instance.setData?( this.argsForSubview( identifier, @subViews[identifier] ) )
         this.attachBindings()
         this
 
@@ -46,13 +34,13 @@ class Skr.View.Base extends Skr.Backbone.View
                 if current[part]
                     current = current[part]
                 else
-                    Skr.fatal("Attempted to deref #{path}, but #{part} wasn't found")
+                    Skr.warn("Attempted to deref #{path}, but #{part} wasn't found")
             current
         else
             path
 
-    argsForSubview: (options,selector)->
-        options = @resultsFor(options.options, selector, options) if options.options
+    argsForSubview: (identifier,options)->
+        options = @resultsFor(options.options, identifier, options) if options.options
         args = switch
             when options.model
                 {model: this.resolveData(options.model)}
@@ -60,32 +48,46 @@ class Skr.View.Base extends Skr.Backbone.View
                 {collection: this.resolveData(options.collection)}
             else
                 {}
-        Skr.u.extend(args, @resultsFor(options.arguments, selector, options) )
+        Skr.u.extend(args, @resultsFor(options.arguments, identifier, options) )
 
+    renderSubViews:->
+        for identifier, options of @subViews
+            args = this.argsForSubview(identifier,options)
+            Skr.View.Helpers.context.push(identifier, args.model||args.collection)
+            view = switch
+                when options.component
+                    this.renderComponent(identifier, options, args)
+                when options.collection
+                    this.renderCollectionSubview(identifier, options)
+                else
+                    this.renderPlainSubView(identifier, options, args)
+            Skr.View.Helpers.context.pop()
+            @subViewInstances[identifier] = view
 
-    renderSubView: ( selector, options )->
-        @subViewInstances[selector].remove() if @subViewInstances[selector]
-        view = new options.view( this.argsForSubview(options,selector) )
-        this.$(selector).html( view.render().el )
+    renderPlainSubView: ( identifier, options, args )->
+        @subViewInstances[identifier].remove() if @subViewInstances[identifier]
+        view = new options.view( args )
+        this.$(options.selector).html( view.render().el )
         view
 
-    renderComponent:( selector, options )->
-        @subViewInstances[selector].remove() if @subViewInstances[selector]
+    renderComponent:( identifier, options, args )->
+        @subViewInstances[identifier].remove() if @subViewInstances[identifier]
         options.component = Skr.Component[options.component] if Skr.u.isString( options.component )
-        view = new options.component( this.argsForSubview(options,selector) )
-        this.$(selector).html( view.render().el )
+        view = new options.component( args )
+        this.$(options.selector).html( view.render().el )
         view
 
-    renderCollectionSubview: (selector, options)->
-        @subViewInstances[selector].unbind() if @subViewInstances[selector]
+    renderCollectionSubview: (identifier, options )->
+        @subViewInstances[identifier].unbind() if @subViewInstances[identifier]
         builder = if options.template
-            new Skr.Backbone.CollectionBinder.ElManagerFactory(options.template, options.options)
+            new Skr.Backbone.CollectionBinder.ElManagerFactory(options.template, @resultsFor(options.options) )
         else
             new Skr.Backbone.CollectionBinder.ViewManagerFactory( (model)->
                 new options.view( model: model )
             )
         binder = new Skr.Backbone.CollectionBinder( builder )
-        binder.bind( Skr.u.result(this, options.collection), this.$(selector) )
+        el = if options.selector then this.$(options.selector) else this.$el
+        binder.bind( Skr.u.result(this, options.collection), el )
         binder
 
     attachBindings: ->
@@ -106,11 +108,12 @@ class Skr.View.Base extends Skr.Backbone.View
         for binding_model,options of model_bindings
             @binder.bind( this[binding_model], @el, options, Skr.u.result(this,'bindingOptions') )
 
-    evalTemplate: (name)->
-        return unless view = Skr.u.result(this,name)
-        template = Skr.Templates[view]
-        Skr.fatal( "Template #{view} doesn't exist!" ) if ! template
-        template(Skr.u.result(this,"#{name}Data"))
+    evalTemplate: (method)->
+        return unless template_name = Skr.u.result(this,method)
+        template = Skr.Templates.find(template_name, @namespace)
+
+        Skr.fatal( "Template #{template_name} doesn't exist!" ) if ! template
+        template(Skr.u.result(this,"#{method}Data"))
 
     renderTemplate: ->
         this.$el.html( this.evalTemplate('template') )

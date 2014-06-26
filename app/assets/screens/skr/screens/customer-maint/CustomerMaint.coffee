@@ -1,17 +1,27 @@
 class Skr.View.Screens.CustomerMaint extends Skr.View.Screen
 
-    template: 'customer-maint'
+    template: 'skr/screens/customer-maint/template'
     subViews:
-        '.finder':
+        finder:
+            selector: '.finder'
             component: 'RecordFinder'
             options: 'finderOptions'
-        '.addresses .bill':
+        select:
+            selector: '.selector'
+            component: 'SelectField'
+            options: 'selectOptions'
+        billaddr:
+            selector: '.addresses .bill'
             component: 'Address'
             model: 'model.billing_address'
-        '.addresses .ship':
+        shipaddr:
+            selector: '.addresses .ship'
             component: 'Address'
             model: 'model.shipping_address'
             arguments: -> { copyFrom: this.subViewInstances['.addresses .bill'] }
+
+    selectOptions: ->
+        collection: Skr.Data.GlAccounts
 
     finderOptions:
         collection: Skr.Data.Customers
@@ -20,7 +30,7 @@ class Skr.View.Screens.CustomerMaint extends Skr.View.Screen
             columns: [
                 {field:'code',type:'s'}
                 {field:'name',type:'s'}
-                {field:'notes',type:'s', hide:['xs','sm']}
+                {field:'notes',type:'s'}
                 {field:'credit_limit',type:'n'}
             ]
 
@@ -40,7 +50,6 @@ class Skr.View.Screens.CustomerMaint extends Skr.View.Screen
         Skr.View.SaveNotify(this, callback: (success,resp)->
         )
 
-
     initialize: ->
         @model=new Skr.Data.Customer
         super
@@ -49,15 +58,3 @@ class Skr.View.Screens.CustomerMaint extends Skr.View.Screen
         customer.ensureAssociations( 'billing_address', 'shipping_address', (model)->
             this.setData(model:model)
         ,this)
-
-
-
-    render: ->
-        super
-        # Skr.u.delay( =>
-        #     # @$('.record-finder-query').click()
-        #     # Skr.View.SaveNotify(this, callback: (success,resp,model)->
-        #     #     console.log("Save: #{success}")
-        #     # )
-        # ,500)
-        this
