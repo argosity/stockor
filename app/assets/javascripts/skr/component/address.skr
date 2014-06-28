@@ -4,7 +4,6 @@
 <div class="row">
     <%= h.text_field 'line1', width:12 %>
 </div>
-
 <div class="row">
     <%= h.text_field 'line2', width:12 %>
 </div>

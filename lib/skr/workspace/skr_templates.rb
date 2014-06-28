@@ -44,8 +44,7 @@ module Skr
             self.default_mime_type = 'application/javascript'
 
             def evaluate(scope, locals, &block)
-                name = scope.pathname.basename('.skr')
-                "Skr.Templates['#{name}']=" + EJSSource.compile(data)
+                "Skr.Templates['#{scope.logical_path}']=" + EJSSource.compile(data)
             end
 
             def prepare;

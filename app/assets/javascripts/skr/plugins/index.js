@@ -1,3 +1,4 @@
 //= require_self
 //= require_tree .
-Skr.namespace('plugins')
+
+Skr.namespace('plugins');

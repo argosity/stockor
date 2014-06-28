@@ -4,7 +4,7 @@ class Skr.Workspace.UI.Navbar extends Skr.View.Base
         class: "navbar navbar-inverse navbar-fixed-top"
         role:  "navigation"
 
-    template: 'navbar'
+    template: 'skr/workspace/ui/navbar'
 
     events:
         'tap .screens-menu-toggle': 'switchMenu'

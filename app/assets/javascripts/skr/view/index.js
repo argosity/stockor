@@ -1,5 +1,5 @@
 //= require_self
-//= require skr/workspace/views
+//= require ./RenderContext
 //= require_tree .
 
 Skr.namespace( 'View' );

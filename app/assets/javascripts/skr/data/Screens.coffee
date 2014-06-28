@@ -8,6 +8,12 @@ class ScreenView extends Skr.Data.Model
         Skr.Data.Screens.displaying.add( this )
         this.set(active:true)
 
+    isActive:->
+        this.get('active')
+
+    setActive:->
+        this.set(active: true)
+
     view: ->
         @viewInstance ||= ( new @screen.viewModel( screen: this.screen ) ).render()
 
@@ -20,12 +26,6 @@ class Skr.Data.Screen extends Skr.Data.Model
     initialize: ->
         @views = []
         super
-
-    isActive:->
-        this.get('active')
-
-    setActive:->
-        this.set(active: true)
 
     _setDisplaying: ->
         @views.push( new ScreenView( screen: this ) )
@@ -61,10 +61,8 @@ class Skr.Data.ScreenSet extends Skr.Data.Collection
 
     onActiveChange: (changed,active)->
         return unless active
-        #this.off('change:active')
         this.each (screen)->
             screen.set( active: false ) unless screen == changed
-        #this.on( 'change:active', this.onActiveChange )
 
 
 class Skr.Data.MenuGroup extends Skr.Data.Model

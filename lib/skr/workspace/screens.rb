@@ -13,7 +13,7 @@ module Skr
                     end
                 end
 
-                def assets_for_directory( directory )
+                def assets_for_directory(directory)
                     path = "skr/screens/#{directory.basename}"
                     assets = []
                     unless Pathname.glob([ directory.join('*.js'), directory.join('*.coffee')] ).empty?
@@ -27,14 +27,22 @@ module Skr
 
                 def each_definition(sprockets)
                     each_directory do | directory |
-                        spec = YAML.safe_load( directory.join('specification.yaml').read )
+                        spec = YAML.safe_load( directory.join('specification.yml').read )
                         spec['files'] = assets_for_directory(directory).map do |path|
                             sprockets.asset_path(path)
                         end
                         yield spec
                     end
+                    Definition.each(sprockets) do | definition |
+                        spec = definition.specification
+                        spec['files'] = definition.asset_file_names.map{ |file| "/assets/#{file}" }
+                        yield spec
+                    end
                 end
+
             end
         end
     end
 end
+
+require_relative 'screens/definition'

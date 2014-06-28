@@ -1,0 +1,41 @@
+<nav class="navbar navbar-default toolbar">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="btn btn-default navbar-btn save">
+                <i class="icon-save"> Save</i>
+            </button>
+            <button type="button" class="btn btn-default navbar-btn reset">
+                <i class="icon-refresh"> Reset</i>
+            </button>
+        </div>
+    </div>
+</nav>
+
+<div class="header">
+    <div class="row">
+        <div class="finder <%= h.grid_widths 12,4,4,3 %>"></div>
+        <%= h.text_field 'name', widths: [12,8,8,9] %>
+    </div>
+    <div class="row">
+        <div class="selector"></div>
+    </div>
+    <div class="row">
+        <%= h.text_field 'notes', width:12 %>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="<%= h.grid_widths 12,6 %>">
+        <fieldset class="addresses bordered">
+            <legend>Billing Address</legend>
+            <div class="bill"></div>
+        </fieldset>
+    </div>
+    <div class="<%= h.grid_widths 12,6 %>">
+        <fieldset class="addresses bordered">
+            <legend>Shiping Address</legend>
+            <div class="ship"></div>
+        </fieldset>
+    </div>
+</div>

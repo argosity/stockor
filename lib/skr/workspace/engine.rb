@@ -7,8 +7,19 @@ module Skr
                 Screens.each_directory do | directory |
                     app.config.assets.precompile += Screens.assets_for_directory( directory )
                 end
-                app.config.assets.paths += %w{ "templates", "fonts", "screens" }
+#                app.config.assets.paths += %w{ "templates", "fonts", "screens" }
                 app.assets.register_engine(".skr", ::Skr::Workspace::JstTemplates )
+
+                Screens::Definition.each(app.config) do | definition |
+                    app.config.assets.paths << definition.asset_path
+                    app.config.assets.precompile += definition.asset_file_names
+                end
+
+
+                Extension.each(app.config) do | definition |
+                    app.config.assets.paths << definition.asset_path
+                end
+
             end
         end
     end

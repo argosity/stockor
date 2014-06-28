@@ -1,0 +1,7 @@
+---
+id          : sales-orders
+title       : Sales Orders
+description : Sales Order creation
+icon        : icon-money
+group_id    : customers
+view        : SalesOrder

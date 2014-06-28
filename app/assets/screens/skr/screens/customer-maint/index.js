@@ -1,2 +1,2 @@
-//=require ./customer-maint
+//=require ./template
 //=require ./CustomerMaint

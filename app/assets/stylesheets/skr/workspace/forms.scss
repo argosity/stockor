@@ -5,6 +5,10 @@ label.skr {
     @extend .form-control;
     margin-top: 5px;
   }
+  div.ro {
+    color: $text-muted;
+    font-weight: normal;
+  }
 }
 
 fieldset.bordered {

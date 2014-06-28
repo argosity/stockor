@@ -22,7 +22,8 @@ class Skr.Workspace.UI.Tabs extends Skr.View.Base
         class: "tabs"
 
     subViews:
-        '.nav-tabs':
+        tabs:
+            selector: '.nav-tabs'
             view: TabView
             collection: 'collection'
 

@@ -25,8 +25,10 @@ class Skr.Workspace.UI.Pages extends Skr.View.Base
         this
 
     onRemove: (screen)->
-        this.$('.screen').html('') if this.$('.screen').children()[0] == screen.viewInstance.el
+        screen.view().remove()
 
     onActiveChange: (screen,active)->
-        return unless active
-        this.$('.screen').html( screen.view().el )
+        if active
+            screen.view().$el.appendTo( this.$('.screen') )
+        else
+            screen.viewInstance?.$el.detach()

@@ -104,7 +104,6 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     extend(FakeXMLHttpRequest.prototype, new window.XMLHttpRequest());
     extend(FakeXMLHttpRequest.prototype, {
       open: function() {
-        debugger
         this.method = arguments[0];
         this.url = arguments[1];
         this.username = arguments[3];

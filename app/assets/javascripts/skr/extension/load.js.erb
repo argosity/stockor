@@ -1,0 +1,4 @@
+<% Skr::Workspace::Extension.each(self) do | ext | %>
+<% require_asset ext.logical_path %>
+Skr.Extensions.register( "<%= ext.identifier %>", "<%= ext.js_class_name %>" );
+<% end %>

@@ -22,7 +22,12 @@
     }
   }
 
-  .navbar-brand {
+  .logo {
+    display: inline-block;
+    height: 50px;
+    width: 150px;
+    margin: 2px;
+    background: url(asset_path('skr/workspace/stockor-logo-sm.png')) no-repeat;
     @media (max-width: 767px) {
       display: none;
     }

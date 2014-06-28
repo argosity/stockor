@@ -26,7 +26,6 @@ Gem::Specification.new do |spec|
     spec.add_dependency "sass-rails", "~> 4.0"
     spec.add_dependency "coffee-script"
 
-
     spec.add_development_dependency "bundler", "~> 1.5"
     spec.add_development_dependency "jasmine"
 

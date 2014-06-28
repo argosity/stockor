@@ -8,9 +8,9 @@
       </button>
       <div class="query dropdown dropdown-menu">
         <form>
-          <div class="col-sm-6 fields">
+          <div class="<%= h.grid_widths 6 %> fields">
           </div>
-          <div class="col-sm-6 operators">
+          <div class="<%= h.grid_widths 6 %> operators">
           </div>
         </form>
       </div>

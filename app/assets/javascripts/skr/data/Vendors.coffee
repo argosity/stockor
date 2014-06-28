@@ -1,7 +1,5 @@
-class Skr.Data.Customer extends Skr.Data.Model
-    name: 'Customer'
-    @include Skr.Data.mixins.HasCodeField
-
+class Skr.Data.Vendor extends Skr.Data.Model
+    name: 'Vendor'
     associations:[
         {
             name : 'billing_address'
@@ -13,5 +11,7 @@ class Skr.Data.Customer extends Skr.Data.Model
         }
     ]
 
-class Skr.Data.Customers extends Skr.Data.Collection
-    model: Skr.Data.Customer
+    @include Skr.Data.mixins.HasCodeField
+
+class Skr.Data.Vendors extends Skr.Data.Collection
+    model: Skr.Data.Vendor

@@ -1,5 +1,6 @@
 class ScreenList extends Skr.View.Base
-    el: -> '<li><a href="#"><span></span><i></i></a></li>'
+    el: "<li><a href='#'><span></span><i></i></a></li>"
+
     events:
         click: ->
             this.model.display()
@@ -9,14 +10,15 @@ class ScreenList extends Skr.View.Base
         icon: { selector: 'i', elAttribute: 'class' }
 
 
+
 class ScreenGroup extends Skr.View.Base
-    el: -> '<li><a href="#" class="expand level-closed"><span></span><i></i></a><ul></ul></li>'
+    el: -> '<li><a href="#" class="expand level-closed"><span class="group"></span><i class="group"></i></a><ul></ul></li>'
     events:
         click: -> this.model.setActive()
 
     bindings:
-        title: 'span'
-        icon: { selector: 'i', elAttribute: 'class' }
+        title: 'span.group'
+        icon: { selector: 'i.group', elAttribute: 'class' }
         active: Skr.View.fn.toggleClass('active')
 
     events:
@@ -26,28 +28,28 @@ class ScreenGroup extends Skr.View.Base
         @model.toggle('active')
 
     subViews:
-        'ul': {
+        screens:
+            selector: 'ul'
             view: ScreenList
             collection: 'screens'
-        }
 
     initialize: ->
         @screens =  @model.screens()
+        super
 
 
 class Skr.Workspace.UI.ScreensMenu extends Skr.View.Base
 
-    template: 'screens-menu'
+    template: 'skr/workspace/ui/screens-menu'
 
     attributes:
         class: "screens-menu"
 
-    subViews: {
-        'ul.navigation': {
+    subViews:
+        navigation:
+            selector: 'ul.navigation'
             view: ScreenGroup
             collection: 'groups'
-        }
-    }
 
     initialize: ->
         @groups = Skr.Data.Screens.groups

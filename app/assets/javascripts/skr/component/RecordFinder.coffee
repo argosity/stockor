@@ -1,6 +1,6 @@
 class FinderClause extends Skr.Component.Base
 
-    template: 'record-finder-clause'
+    template: 'record-finder/clause'
 
     attributes:
         class: "form-group clause"
@@ -20,21 +20,19 @@ class FinderClause extends Skr.Component.Base
         changeTriggers: { 'input[type=text]':'keyup','': 'change' }
 
     subViews:
-        '.fields':{
+        fields:
+            selector: '.fields'
             collection: 'fields', template:'<label><input type="radio" name="field"/> <span></span></label>'
-            options:{
+            options:
                  field: {selector: 'input', elAttribute: 'value'}
                  title: {selector: 'span'}
-            }
-        }
-        '.operators':{
+        operators:
+            selector: '.operators'
             collection: 'operators', template:'<label><input type="radio" name="operator"/> <span></span></label>'
-            options:{
+            options:
                 id: {selector: 'input', elAttribute: 'value'}
                 name: {selector: 'span'}
                 invalid: Skr.View.fn.toggleClass('invalid')
-            }
-        }
 
     delClause: ->
         @model.remove()
@@ -63,13 +61,15 @@ class FinderDialog extends Skr.Component.Modal
         'select': 'onSelect'
 
     subViews:
-        '.grid':
+        grid:
+            selector: '.grid'
             component: 'Grid'
             options: 'gridOptions'
-        '.query-clauses':
+        clauses:
+            selector: '.query-clauses'
             view: FinderClause, collection: 'clauses'
 
-    bodyTemplate: 'record-finder-dialog'
+    bodyTemplate: 'record-finder/dialog'
     bodyAttributes:
         class: "record-finder"
 
@@ -96,13 +96,13 @@ class FinderDialog extends Skr.Component.Modal
         { collection: 'collection', arguments: { columns: @columns } }
 
     runQuery: (ev)->
-        this.getSubView('.grid').setQuery(@query)
+        this.getSubView('grid').setQuery(@query)
 
 
 
 class Skr.Component.RecordFinder extends Skr.Component.Base
 
-    template: 'record-finder'
+    template: 'record-finder/field'
     templateData: ->
         field: @query.defaultField().toJSON()
 
@@ -111,6 +111,7 @@ class Skr.Component.RecordFinder extends Skr.Component.Base
         "click .record-finder-query": "displayFinder"
 
     initialize:(options)->
+        super
         @columns    = options.columns
         @query      = new Skr.Data.Query(@columns, collection:@collection)
         @title      = options.title

@@ -8,12 +8,12 @@
     <title>Stockor Next Gen Test</title>
     <%= javascript_include_tag 'skr/workspace' %>
     <%= stylesheet_link_tag 'skr/workspace' %>
-    <script>
+    <script type="text/javascript">
         new Skr.Application({
-         api_path: "<%= skr_workspace.url_for + 'api/' %>",
-         root_element: '.my-skr-test-root', screen: 'Workspace',
-         paths: <%=raw skr_asset_paths_for( 'stockor-logo-sm.png' ).to_json %>
-        });
+         element: '.my-skr-test-root',
+         view: 'Skr.Workspace.UI.Layout',
+         api_path: "<%= skr_workspace.url_for + 'api/' %>"
+     }, <%= Skr::Workspace.bootstrap_data(self).to_json.html_safe %> );
     </script>
   </head>
 
