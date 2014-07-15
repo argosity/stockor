@@ -1,3 +1,8 @@
-class Skr.Component.Base extends Skr.View.Base
+class BaseComponent
+
+    constructor: -> super
 
     namespace: "Skr.Component"
+
+
+Skr.Component.Base = Skr.View.Base.extend(BaseComponent)

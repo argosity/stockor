@@ -1,10 +1,8 @@
-class Skr.Data.Collection extends Skr.Backbone.Collection
+class DataCollection
 
-    Skr.lib.ModuleSupport.includeInto(this)
-
-    initialize: ->
-        @isLoaded = this.length > 0;
-        super(arguments)
+    constructor: ->
+        @isLoaded=false
+        Skr.Ampersand.Collection.apply(this, arguments)
 
     isLoaded:->
         @isLoaded
@@ -25,10 +23,13 @@ class Skr.Data.Collection extends Skr.Backbone.Collection
     parse:(resp)->
         resp['data']
 
-    url: ->
-        @model.prototype.urlBase() + '.json'
-
     viewJSON: (options)->
         this.map( (model) ->
             model.viewJSON(options)
         )
+
+    url: ->
+        @model.prototype.urlRoot() + '.json'
+
+
+Skr.Data.Collection = Skr.lib.MakeBaseClass( Skr.Ampersand.Collection, DataCollection )
