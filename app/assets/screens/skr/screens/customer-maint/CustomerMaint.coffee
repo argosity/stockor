@@ -1,60 +1,61 @@
-class Skr.View.Screens.CustomerMaint extends Skr.View.Screen
+class CustomerMaint
 
-    template: 'skr/screens/customer-maint/template'
-    subViews:
+    constructor: -> super
+
+    templateName: 'skr/screens/customer-maint/template'
+
+    subviews:
         finder:
-            selector: '.finder'
+            role: 'finder'
             component: 'RecordFinder'
             options: 'finderOptions'
-        select:
-            selector: '.selector'
-            component: 'SelectField'
-            options: 'selectOptions'
+            waitForm: 'model'
         billaddr:
-            selector: '.addresses .bill'
+            role: 'bill-addr'
             component: 'Address'
-            model: 'model.billing_address'
+            waitFor: 'model.billing_address'
         shipaddr:
-            selector: '.addresses .ship'
+            role: 'ship-addr'
             component: 'Address'
-            model: 'model.shipping_address'
-            arguments: -> { copyFrom: this.subViewInstances['.addresses .bill'] }
+            waitFor: 'model.shipping_address'
+
+    initialize: ->
+        @model=new Skr.Data.Customer
+        # @defer( ->
+        #     this.$('.record-finder-query').click()
+        # , delay: 1 )
+
+    formBindings:
+        'model': '.header'
 
     selectOptions: ->
         collection: Skr.Data.GlAccounts
 
-    finderOptions:
-        collection: Skr.Data.Customers
-        arguments:
-            title: 'Customer Maint'
-            columns: [
-                {field:'code',type:'s'}
-                {field:'name',type:'s'}
-                {field:'notes',type:'s'}
-                {field:'credit_limit',type:'n'}
-            ]
-
-    bindings:
-        model:
-            default: true, el: '.header'
+    finderOptions: ->
+        query_using: Skr.Data.Customer.Collection
+        title: 'Customer Maint'
+        columns: [
+            {field:'code',type:'s'}
+            {field:'name',type:'s'}
+            {field:'notes',type:'s'}
+            {field:'credit_limit',type:'n'}
+        ]
 
     events:
         'click .btn.save':  'save'
         'click .btn.reset': 'reset'
-        'display-record':   'load'
+        'display-record':   'onRecordTrigger'
 
     reset: ->
-        this.setData( model: new Skr.Data.Customer )
+        this.model = new Skr.Data.Customer
 
     save: ->
         Skr.View.SaveNotify(this, callback: (success,resp)->
         )
 
-    initialize: ->
-        @model=new Skr.Data.Customer
-        super
-
-    load: (ev,customer)->
-        customer.ensureAssociations( 'billing_address', 'shipping_address', (model)->
-            this.setData(model:model)
+    onRecordTrigger: (ev)->
+        ev.detail.ensureAssociations( 'billing_address', 'shipping_address', (model)->
+            window.cust = model
         ,this)
+
+Skr.View.Screens.CustomerMaint = Skr.View.Screen.extend(CustomerMaint)
