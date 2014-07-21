@@ -115,6 +115,11 @@ module Skr
                 def drop_skr_table( table_name, *args )
                     drop_table( Skr::Core.config.table_prefix + table_name )
                 end
+
+                def remove_skr_index( table_name, column )
+                    remove_index( Skr::Core.config.table_prefix + table_name, column )
+                end
+
             end
 
             module CommandRecorder
@@ -138,6 +143,15 @@ module Skr
                     end
                     [:drop_skr_table, [from_table, options]]
                 end
+
+                def skr_add_index(*args)
+                    record(:skr_add_index,args)
+                end
+                def invert_skr_add_index(args)
+                    table, column = *args
+                    [:remove_skr_index, [table, column]]
+                end
+
             end
 
         end
