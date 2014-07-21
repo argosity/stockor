@@ -16,6 +16,7 @@ class PoReceiptTest < Skr::TestCase
 
         poline = po.lines.last
         qty = poline.qty_unreceived
+
         sl=poline.sku_loc
         sol = skr_so_lines(:picking_glove)
         assert_equal 2, sl.so_lines.count
@@ -23,9 +24,12 @@ class PoReceiptTest < Skr::TestCase
         por = PoReceipt.new( freight: 42.99, purchase_order: po )
         por.lines.build( po_line: poline, qty: qty, auto_allocate: true )
         assert_equal 19, sol.qty-sol.qty_allocated
-        assert_difference( 'sl.qty_allocated', 19 ) do
+        assert_difference( ->{sl.reload.qty_allocated}, 19 ) do
             assert_saves por
         end
+        refute por.lines.first.new_record?
+        assert_equal 1, por.lines.first.qty
+
         assert_equal qty, poline.reload.qty_received
     end
 
