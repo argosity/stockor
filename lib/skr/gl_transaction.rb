@@ -53,6 +53,7 @@ module Skr
         end
 
         # Passes the location onto the postings.
+        # @param location [Location]
         def location=(location)
             @location = location
             each_posting do | posting |
@@ -94,6 +95,10 @@ module Skr
         end
 
         # @param owner [Skr::Model]
+        # @param amount [BigDecimal]
+        # @param debit  [GlAccount]
+        # @param credit  [GlAccount]
+        # @param options  [Hash] options to pass to the [GlTransaction] if one is created
         def self.push_or_save( owner: nil, amount: nil, debit:nil, credit:nil, options:{} )
             if glt = self.current # we push
                 glt.add_posting( amount: amount, debit: debit, credit: credit )

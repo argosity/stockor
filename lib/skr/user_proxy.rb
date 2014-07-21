@@ -1,15 +1,14 @@
 module Skr
 
-    # The UserProxy simply a stand-in for the real user
+    # The UserProxy is a stand-in for the real user
     # model that will be implementation specific by the user of Stockor Core
     class UserProxy
-
 
         # The user who's currently interacting with Stockor.
         # Defaults to 0, indicating anonymous or unknown
         # @return [Object,FixNum] whatever was set using scoped_to, or 0 if nothing was set
         def self.current
-            Thread.current[:skr_user_proxy] || 0
+            Thread.current[:skr_user_proxy]
         end
 
         # Retrieve the current id of the user we're proxying for.
@@ -47,13 +46,10 @@ module Skr
         #
         # @return [UserProxy] self
         def self.scoped_to( user )
-            prev_user, Thread.current[:skr_user_proxy] = self.currrent, user
-            yield
-            self
+            prev_user, Thread.current[:skr_user_proxy] = self.current, user
+            yield user
         ensure
             Thread.current[:skr_user_proxy] = prev_user
         end
-
-
     end
 end
