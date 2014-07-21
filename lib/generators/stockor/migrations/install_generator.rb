@@ -1,12 +1,17 @@
+require 'skr/core/db/migrations'
+
 module Stockor
 
     module Migrations
 
         class InstallGenerator < Rails::Generators::Base
             include Rails::Generators::Migration
-            @@migrations_dir = File.expand_path( File.join(File.dirname(__FILE__), '../../../../db/migrate'))
-            #puts @@migrations_dir
-            source_root @@migrations_dir
+
+            source_root Skr::Core::DB::Migrations.paths.first
+
+            Skr::Core::DB::Migrations.paths.slice(1..-1).each do | source_path |
+                source_paths << source_path
+            end
 
             desc "Install Stockor migrations"
             def self.next_migration_number(path)
@@ -19,17 +24,19 @@ module Stockor
             end
 
             def copy_migrations
-                Dir.glob( @@migrations_dir + '/*' ).sort.each do | migration |
-                    from = File.basename( migration )
-                    dest = from.gsub(/^\d+_(.*).rb$/,'\\1.rb')
-                    if self.class.migration_exists?("db/migrate", "#{dest}")
-                        say_status("skipped", "Migration #{dest} already exists")
-                    else
-                        migration_template( from, "db/migrate/#{dest}" )
+                Skr::Core::DB::Migrations.paths.each do | source_path |
+
+                    Pathname.glob( source_path.join('*') ).each do | migration |
+                        from = File.basename( migration )
+                        dest = from.gsub(/^\d+_(.*).rb$/,'\\1.rb')
+                        if self.class.migration_exists?("db/migrate", "#{dest}")
+                            say_status("skipped", "Migration #{dest} already exists")
+                        else
+                            migration_template( from, "db/migrate/#{dest}" )
+                        end
                     end
                 end
             end
-
         end
     end
 end
