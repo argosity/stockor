@@ -38,14 +38,14 @@ module Skr::Concerns
             # or it's a valid attribute and not black listed
             # @param name [Symbol]
             # @param user [UserProxy,User] who is performing request
-            def json_attribute_is_allowed?( name, user )
-                (self.whitelisted_json_attributes && self.whitelisted_json_attributes.has_key?( name.to_sym ) ) ||
+            def json_attribute_is_allowed?(name, user = Skr::UserProxy.current)
+                return false unless user.can_write?(self, name)
+                (self.whitelisted_json_attributes && self.whitelisted_json_attributes.has_key?( name.to_sym)) ||
                     (
                         self.attribute_names.include?( name.to_s ) &&
                         ( self.blacklisted_json_attributes.nil? ||
                           ! self.blacklisted_json_attributes.has_key?( name.to_sym )  )
                     )
-
             end
 
         end

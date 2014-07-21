@@ -10,18 +10,18 @@ class JsonAttributeAccessTest < Skr::TestCase
     end
 
     def test_blacklisting
-        assert Skr::GlAccount.json_attribute_is_allowed?(:name,  nil )
-        assert Skr::GlAccount.json_attribute_is_allowed?('name', nil )
+        assert Skr::GlAccount.json_attribute_is_allowed?(:name)
+        assert Skr::GlAccount.json_attribute_is_allowed?('name')
 
         GlAccount.send :blacklist_json_attributes, :name
-        refute Skr::GlAccount.json_attribute_is_allowed?('name', nil )
+        refute Skr::GlAccount.json_attribute_is_allowed?('name')
     end
 
     def test_whitelisting
 
-        refute Skr::GlAccount.json_attribute_is_allowed?('updated_at', nil )
+        refute Skr::GlAccount.json_attribute_is_allowed?('updated_at')
         GlAccount.send :whitelist_json_attributes, :updated_at
-        assert Skr::GlAccount.json_attribute_is_allowed?('updated_at', nil )
+        assert Skr::GlAccount.json_attribute_is_allowed?('updated_at')
     end
 
 end
