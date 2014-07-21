@@ -11,7 +11,9 @@ module Skr
             def self.config_option( name, default )
                 define_method( "#{name}=" ) do | value |
                     old_value = self.send( name )
-                    Skr::Core.logger.info "Config option #{name} changed from #{old_value} to #{value}"
+                    if old_value.is_a?(String) && Skr::Core.logger
+                        Skr::Core.logger.info "Config option #{name} changed from #{old_value} to #{value}"
+                    end
                     instance_variable_set( "@#{name}", value )
                 end
                 attr_reader_with_default( name, default )
