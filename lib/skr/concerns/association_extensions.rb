@@ -68,7 +68,7 @@ module Skr::Concerns
                     klass = association.klass # This will throw if the class hasn't been loaded yet
                     targets.each{ | name, proc | klass._add_event_listener( name, proc ) }
                 rescue NameError
-                    pending = PendingEventListeners.all[association.class_name]
+                    pending = PendingEventListeners.all[association.class_name.demodulize]
                     targets.each do | name, proc |
                         pending[name] << proc
                     end

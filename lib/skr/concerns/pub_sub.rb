@@ -42,7 +42,7 @@ module Skr::Concerns
         module ClassMethods
             def inherited(base)
                 super
-                klass = base.to_s.gsub(/Skr::/,'')
+                klass = base.to_s.demodulize
                 if PendingEventListeners.all.has_key?( klass )
                     events = PendingEventListeners.all.delete(klass)
                     events.each{ | name, procs | base.event_listeners[name] += procs  }
