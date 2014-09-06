@@ -1,7 +1,9 @@
 development:
   adapter: postgresql
   database: skr_dev
+  host: /tmp
 
 test:
   adapter: postgresql
   database: skr_test
+  host: /tmp
