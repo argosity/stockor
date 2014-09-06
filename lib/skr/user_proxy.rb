@@ -14,8 +14,13 @@ module Skr
         # Retrieve the current id of the user we're proxying for.
         # get's a bit complicated since we can proxy both for a user object
         # or just the user's id
+        # @return [Fixnum] current user's ID.  If the current user is not set, returns 0
         def self.current_id
-            self.current.is_a?(Fixnum) ? self.current : self.current.id
+            if self.current.nil?
+                0
+            else
+                self.current.is_a?(Fixnum) ? self.current : self.current.id
+            end
         end
 
         # sets the user for the duration of the block
