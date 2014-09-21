@@ -1,14 +1,16 @@
 # -*- coding: utf-8 -*-
+
 module Skr::Core
 
-    @logger = if defined?(::Rails)
+    class << self
+        def logger
+            @logger ||= (
+              if defined?(::Rails)
                   Rails.logger
               else
                   Logger.new(STDERR)
               end
-    class << self
-        def logger
-            @logger
+            )
         end
 
         def logger=( logger )
