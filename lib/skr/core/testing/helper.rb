@@ -3,6 +3,7 @@ require 'skr/core'
 
 require 'active_record'
 require 'active_record/fixtures'
+require_relative "../../core"
 
 ENV["RAILS_ENV"] = "test"
 RAILS_ENV = "test"
