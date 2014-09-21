@@ -1,4 +1,5 @@
 require_relative "../concerns/attr_accessor_with_default"
+require_relative "standard_pricing_provider"
 
 module Skr
     module Core
@@ -47,6 +48,12 @@ module Skr
             # Code for a Sku that represents shipping charges
             config_option :ship_sku_code, 'SHIP'
 
+            # Code for a PaymentTerm that will be used as the default for new Customers
+            config_option :customer_terms_code, 'CASH'
+
+            # Code for a PaymentTerm that will be used as the default for new Vendors
+            config_option :vendor_terms_code, 'CASH'
+
             config_option :default_gl_accounts, {
                 # The Accounts Receivable (AR) GL account number to use for freshly created Customers
                 ar: '1200',
@@ -72,7 +79,7 @@ module Skr
             end
 
             def configure
-                yield(@config)
+                yield(@@config)
             end
         end
 

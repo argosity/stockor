@@ -23,6 +23,7 @@ module Skr
         private
 
         def set_defaults
+            self.terms               ||= PaymentTerm.find_by_code(Core.config.customer_terms_code)
             self.gl_payables_account ||= GlAccount.default_for( :ap )
             self.gl_freight_account  ||= GlAccount.default_for( :freight )
         end
