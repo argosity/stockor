@@ -27,7 +27,7 @@ module Skr
                     }
 
                     before_validation(:on=>:create) do
-                        self[ field_name ] ||= Skr::Core::Strings.random( length )
+                        self[ field_name ] = Skr::Core::Strings.random( length ) if self[ field_name ].blank?
                     end
 
                 end
