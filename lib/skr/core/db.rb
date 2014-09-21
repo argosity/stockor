@@ -65,14 +65,6 @@ module Skr
                 end
             end
 
-            def self.load_seed
-
-                unless Location.any?
-                    Location.create( code: "DEFAULT", name: "Stockor default location" )
-                end
-
-            end
-
             private
 
             def migrations_dir
