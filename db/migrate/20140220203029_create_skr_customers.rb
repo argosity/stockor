@@ -1,4 +1,4 @@
-require 'skr/core/db/migration_helpers'
+require 'skr/db/migration_helpers'
 
 class CreateSkrCustomers < ActiveRecord::Migration
     def change

@@ -25,11 +25,10 @@ module Skr
                     include AASM
                     aasm( options.merge( column: 'state' ), &block )
 
-                    json_attr_accessor :state_event
+                    whitelist_attributes :state_event
 
                     export_methods :valid_state_events, :optional=>false
-                    blacklist_json_attributes :state
-                    whitelist_json_attributes :state_event
+                    blacklist_attributes :state
 
                     before_save :fire_state_machine_event_on_save
                 end

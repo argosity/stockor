@@ -1,6 +1,11 @@
 source 'https://rubygems.org'
 
-gem "yard-activerecord", :github=>'nathanstitt/yard-activerecord', :branch=>'develop'
-gem 'pry-debugger',      :require=>'pry-debugger'
+gem "lanes", github: "argosity/lanes", branch: 'master'
 
+# Uncomment to enable access control and user administration
+gem "stockor-demo-access",  github: "argosity/stockor-demo-access", branch: 'master'
+
+gem "faker"
+
+gem 'puma'
 gemspec

@@ -1,4 +1,4 @@
-require 'skr/core/db/migration_helpers'
+require 'skr/db/migration_helpers'
 
 class CreateSkrAddresses < ActiveRecord::Migration
     def change

@@ -1,4 +1,4 @@
-require 'skr/core/db/migration_helpers'
+require 'skr/db/migration_helpers'
 
 class CreateSoDetailsView < ActiveRecord::Migration
     def up
@@ -22,9 +22,9 @@ class CreateSoDetailsView < ActiveRecord::Migration
                   sales_order_id,
                   sum(sol.qty*sol.price) as total,
                   sum( case when s.is_other_charge then sol.qty*sol.price else 0 end ) as other_charge_total,
-                  sum( case when sol.sku_code = '#{Skr::Core.config.ship_sku_code}' then sol.qty*sol.price else 0 end )
+                  sum( case when sol.sku_code = '#{Skr.config.ship_sku_code}' then sol.qty*sol.price else 0 end )
                      as shipping_charge_total,
-                  sum( case when sol.sku_code = '#{Skr::Core.config.tax_sku_code}' then sol.qty*sol.price else 0 end )
+                  sum( case when sol.sku_code = '#{Skr.config.tax_sku_code}' then sol.qty*sol.price else 0 end )
                      as tax_charge_total,
                   count(sol.*) as num_lines
                 from #{skr_prefix}so_lines sol

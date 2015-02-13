@@ -1,9 +1,0 @@
-
-free_adj:
-  origin: first(Skr::InventoryAdjustment)
-  sku_loc: hatdefault
-  cost: 3.22
-  origin_description: 'IA Adj'
-  prior_qty: 25
-  mac: 0.64
-  prior_mac: 0.64

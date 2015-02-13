@@ -1,6 +1,0 @@
-
-first:
-  location: default
-  description: An adjustment to bring stock into location
-  state: pending
-  reason: lost

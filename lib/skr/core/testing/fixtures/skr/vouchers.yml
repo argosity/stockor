@@ -1,8 +1,0 @@
-
-
-first:
-  purchase_order: first
-  terms: net30 
-  state: pending
-  vendor: bigco
-  confirmation_date: <%= Date.today - 1.week %>

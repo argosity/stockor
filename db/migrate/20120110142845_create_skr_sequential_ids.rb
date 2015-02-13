@@ -1,4 +1,4 @@
-require 'skr/core/db/migration_helpers'
+require 'skr/db/migration_helpers'
 
 class CreateSkrSequentialIds < ActiveRecord::Migration
     def up
@@ -8,9 +8,9 @@ class CreateSkrSequentialIds < ActiveRecord::Migration
             t.integer :current_value, :null=>false, :default=>0
         end
 
-        execute "alter table #{Skr::Core.config.table_prefix}sequential_ids add primary key (name)"
+        execute "alter table #{Skr.config.table_prefix}sequential_ids add primary key (name)"
         execute <<-EOS
-create or replace function #{Skr::Core.config.table_prefix}next_sequential_id( varchar )
+create or replace function #{Skr.config.table_prefix}next_sequential_id( varchar )
 returns integer AS '
 declare
     next_id integer;
@@ -30,6 +30,6 @@ EOS
 
     def down
         drop_skr_table :sequential_ids
-        execute "drop function #{Skr::Core.config.table_prefix}next_sequential_id(varchar)"
+        execute "drop function #{Skr.config.table_prefix}next_sequential_id(varchar)"
     end
 end

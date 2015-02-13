@@ -1,4 +1,4 @@
-require 'skr/core/db/migration_helpers'
+require 'skr/db/migration_helpers'
 
 class CreateSkrLocations < ActiveRecord::Migration
     def change
@@ -9,7 +9,7 @@ class CreateSkrLocations < ActiveRecord::Migration
             t.skr_reference :address,    null: false, single: true
             t.boolean  "is_active",      null: false, default: true
             t.string   "gl_branch_code",
-                       default: Skr::Core.config.default_branch_code,
+                       default: Skr.config.default_branch_code,
                        null: false,
                        limit: 2
             t.skr_track_modifications
