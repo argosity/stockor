@@ -1,3 +1,4 @@
 public/assets
 tmp/cache
 secrets.yml
+pkg
