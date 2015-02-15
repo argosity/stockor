@@ -1,1 +1,10 @@
 /* Enter styles for your application in scss format here */
+.header-top {
+    .logo {
+        display: inline-block;
+        height: 48px;
+        width: 150px;
+        margin: 2px;
+        background: url(asset_path('images/skr/logo-sm.png')) no-repeat;
+    }
+}
