@@ -1,4 +1,4 @@
-require 'lanes/configuration'
+require_relative '../configuration'
 
 module Skr
 
