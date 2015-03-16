@@ -1,5 +1,8 @@
 describe "Skr.Models.Customer", ->
 
+    beforeEach ->
+        Lanes.Testing.ModelSaver.setUser('admin')
+
     it "can be instantiated", ->
         model = new Skr.Models.Customer()
         expect(model).toEqual(jasmine.any(Skr.Models.Customer))
@@ -9,7 +12,7 @@ describe "Skr.Models.Customer", ->
         model = new Skr.Models.Customer()
         Lanes.Testing.ModelSaver.perform(model, done).then (save)->
             expect(save.error).toHaveBeenCalled()
-            expect(model.errors.code).toContain("blank")
+            expect(model.errors?.code).toContain("blank")
 
     it "saves when fields are set", (done)->
         model = new Skr.Models.Customer(
@@ -20,20 +23,3 @@ describe "Skr.Models.Customer", ->
         Lanes.Testing.ModelSaver.perform(model, done).then (save)->
             expect(save.error).not.toHaveBeenCalled()
             expect(model.errors).toBeNull()
-
-
-        # model.save().then( null, ->
-        #
-        #         done()
-        # )
-
-        # expect(success).not.toHaveBeenCalled()
-        # expect(failure).toHaveBeenCalled()
-        # console.log model.errors
-        #
-
-        #  ->
-        #     expect(false).toBeTrue
-        # ,  ->
-        #     assert_equal 1, model.errors.length
-        #     done()
