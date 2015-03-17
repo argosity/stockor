@@ -1,3 +1,5 @@
+require 'stockor'
+
 Lanes::API.routes.draw do
     resources Skr::Customer
     resources Skr::Address
