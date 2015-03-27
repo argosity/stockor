@@ -1,6 +1,5 @@
 class Skr.Models.Invoice extends Skr.Models.Base
 
-    FILE: FILE
 
     props:
         id:                 {"type":"integer","required":true}

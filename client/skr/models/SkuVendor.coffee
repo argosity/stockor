@@ -1,6 +1,5 @@
 class Skr.Models.SkuVendor extends Skr.Models.Base
 
-    FILE: FILE
 
     props:
         id:        {"type":"integer","required":true}

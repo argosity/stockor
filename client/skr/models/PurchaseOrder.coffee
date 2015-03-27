@@ -1,6 +1,5 @@
 class Skr.Models.PurchaseOrder extends Skr.Models.Base
 
-    FILE: FILE
 
     props:
         id:                    {"type":"integer","required":true}

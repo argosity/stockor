@@ -1,6 +1,5 @@
 class Skr.Components.Address extends Lanes.Components.Base
 
-    FILE: FILE
 
     writeTemplateName: -> 'address'
 

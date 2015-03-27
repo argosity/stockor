@@ -1,6 +1,5 @@
 class Skr.Models.PtLine extends Skr.Models.Base
 
-    FILE: FILE
 
     props:
         id:            {"type":"integer","required":true}
