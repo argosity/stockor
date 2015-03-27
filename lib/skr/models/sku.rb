@@ -31,7 +31,7 @@ module Skr
         validates :uoms,                presence: true, :on => :update
         validates :description,         presence: true
         validates :gl_asset_account,    set: true
-        validates :default_vendor,      set: true
+        validates :default_vendor,      set: true, if: :does_track_inventory
         validates :default_uom_code,    presence: true, :on => :update
         validate  :ensure_default_uom_exists
 
