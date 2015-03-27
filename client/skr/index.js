@@ -5,6 +5,7 @@
 //=require_tree ./views
 //=require_tree ./components
 //=require ./screens/Base
+//=require ./screens/mixins
 //=require ./Extension
 
 /*

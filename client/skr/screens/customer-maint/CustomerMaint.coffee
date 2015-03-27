@@ -1,23 +1,12 @@
 class Skr.Screens.CustomerMaint extends Skr.Screens.Base
 
-    FILE: FILE
-
-    constructor: ->
-        super
-        this.reset()
+    mixins:[
+        Skr.Screens.Mixins.Editing
+    ]
 
     useFormBindings: true
 
-    domEvents:
-        'click .btn.save':  'save'
-        'click .btn.reset': 'reset'
-        'display-record':   'onRecordTrigger'
-
     subviews:
-        finder:
-            component: 'RecordFinder'
-            options: 'finderOptions'
-            model: 'model'
         terms:
             component: 'SelectField'
             model: 'model'
@@ -37,13 +26,3 @@ class Skr.Screens.CustomerMaint extends Skr.Screens.Base
         invalid_chars: Skr.Models.Mixins.CodeField.invalidChars
         withAssociations: ['billing_address', 'shipping_address', 'terms']
         fields: [ 'code', 'name', 'notes', 'credit_limit' ]
-
-    reset: ->
-        this.model = new Skr.Models.Customer
-
-    save: ->
-        Lanes.Views.SaveNotify(this, include:['billing_address','shipping_address','terms'])
-
-    onRecordTrigger: (ev, model)->
-        this.model = model
-        window.c = model
