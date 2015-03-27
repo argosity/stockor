@@ -5,7 +5,11 @@ require_relative '../lib/skr'
 
 module Skr
 
-    user = Lanes::User.where(login: 'admin').first!
+    user = Lanes::User.where(login: 'admin').first
+    if user.nil?
+        user = Lanes::User.new(name: "Admin", email: "admin@test.com",
+                               login: 'admin', role_names: ['admin'])
+    end
     Lanes::User.scoped_to(user) do
         seeds_path = Pathname.new(__FILE__).dirname.join('seed')
 
@@ -22,8 +26,6 @@ module Skr
         YAML::load( seeds_path.join('payment_terms.yml').read ).each do | acct_data |
             PaymentTerm.where(code: acct_data['code'].to_s).any? || PaymentTerm.create!(acct_data)
         end
-
-
     end
 
 end
