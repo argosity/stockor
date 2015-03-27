@@ -1,9 +1,9 @@
 GIT
   remote: git://github.com/argosity/lanes.git
-  revision: c768ce63917dc3594c7575c19b308dbdb860407c
+  revision: 677204b46b9f22c78965fd70d01fd43a911db3ac
   branch: master
   specs:
-    lanes (0.1.7)
+    lanes (0.1.8)
       activerecord (~> 4.2)
       bcrypt (~> 3.1)
       closure-compiler (~> 1.1)
@@ -36,21 +36,21 @@ PATH
   remote: .
   specs:
     stockor (0.1.6)
-      aasm
+      aasm (~> 4.1)
       lanes
 
 GEM
   remote: https://rubygems.org/
   specs:
     aasm (4.1.0)
-    activemodel (4.2.0)
-      activesupport (= 4.2.0)
+    activemodel (4.2.1)
+      activesupport (= 4.2.1)
       builder (~> 3.1)
-    activerecord (4.2.0)
-      activemodel (= 4.2.0)
-      activesupport (= 4.2.0)
+    activerecord (4.2.1)
+      activemodel (= 4.2.1)
+      activesupport (= 4.2.1)
       arel (~> 6.0)
-    activesupport (4.2.0)
+    activesupport (4.2.1)
       i18n (~> 0.7)
       json (~> 1.7, >= 1.7.7)
       minitest (~> 5.1)
@@ -59,7 +59,7 @@ GEM
     arel (6.0.0)
     bcrypt (3.1.10)
     builder (3.2.2)
-    byebug (4.0.2)
+    byebug (4.0.4)
       columnize (= 0.9.0)
     celluloid (0.16.0)
       timers (~> 4.0.0)
@@ -114,12 +114,12 @@ GEM
       rake
     jasmine-core (2.2.0)
     json (1.8.2)
-    listen (2.9.0)
-      celluloid (>= 0.15.2)
+    listen (2.10.0)
+      celluloid (~> 0.16.0)
       rb-fsevent (>= 0.9.3)
       rb-inotify (>= 0.9)
     lumberjack (1.0.9)
-    message_bus (1.0.7)
+    message_bus (1.0.9)
       eventmachine
       rack (>= 1.1.3)
       redis
@@ -171,10 +171,10 @@ GEM
       nokogumbo (= 1.2.0)
     sass (3.4.13)
     shellany (0.0.1)
-    sinatra (1.4.5)
+    sinatra (1.4.6)
       rack (~> 1.4)
       rack-protection (~> 1.4)
-      tilt (~> 1.3, >= 1.3.4)
+      tilt (>= 1.3, < 3)
     slop (3.6.0)
     sprockets (2.12.3)
       hike (~> 1.2)
