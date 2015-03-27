@@ -42,7 +42,7 @@ module Skr
             # The Freight GL account number to use for freshly created Vendors
             freight: '6420',
             # The Asset GL account number to use for freshly created SKUs
-            asset: '1100',
+            asset: '1110',
             # Clearing account for inventory that's been
             inventory_receipts_clearing: '2600',
             # Holding account for funds that are awaiting deposit
