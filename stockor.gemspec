@@ -14,7 +14,7 @@ Gem::Specification.new do |spec|
   spec.description   = %q{Stockor is a complete ERP system that includes billing, inventory, and customer management}
 
   spec.homepage      = "http://stockor.org/"
-  spec.license       = "GPL-3.0"
+  spec.license       = "AGPL-3.0"
 
   spec.files         = `git ls-files`.split($/)
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
@@ -23,9 +23,9 @@ Gem::Specification.new do |spec|
 
   spec.required_ruby_version = '>= 2.1'
 
-  spec.add_dependency 'aasm'#, '~>4.0'
+  spec.add_dependency 'aasm', '~>4.1'
 
-  spec.add_dependency 'lanes'#, '~>0.1'
+  spec.add_dependency 'lanes'
 
   spec.add_development_dependency "bundler", "~> 1.5"
   spec.add_development_dependency "rake"
