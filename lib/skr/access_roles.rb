@@ -1,4 +1,5 @@
 require 'lanes/access'
+require_relative "model"
 
 module Lanes::Access
     module Roles
