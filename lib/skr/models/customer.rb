@@ -6,7 +6,7 @@ module Skr
     #
     class Customer < Skr::Model
 
-        # Common code shared with {Vendor}
+        # Common code shared with {Customer} and {Vendor}
         include BusinessEntity
 
         belongs_to :gl_receivables_account, class_name: 'Skr::GlAccount', export: true
