@@ -13,6 +13,5 @@ module Skr
 end
 
 require_rel "skr/concerns/*.rb"
-require_rel "skr/model"
-require_rel 'skr/models/*.rb'
+require_relative "skr/model"
 require_relative "skr/access_roles"
