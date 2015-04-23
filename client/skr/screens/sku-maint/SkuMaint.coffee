@@ -3,7 +3,12 @@ class Skr.Screens.SkuMaint extends Skr.Screens.Base
     mixins:[
         Lanes.Screens.Mixins.Editing
     ]
-    useFormBindings: true
+
+    subviews:
+        glacct:
+            component: 'SelectField'
+            model: 'model'
+            options: { association: 'gl_asset_account', mappings: { title: 'combined_name' } }
 
     finderOptions: ->
         modelClass: Skr.Models.Sku
