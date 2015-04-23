@@ -1,6 +1,6 @@
-require_relative 'spec_helper'
+require_relative '../spec_helper'
 
-describe Skr::VoLine do
+class VoLineSpec < Skr::TestCase
 
     it "can be instantiated" do
         model = VoLine.new

@@ -1,6 +1,6 @@
-require_relative 'spec_helper'
+require_relative '../spec_helper'
 
-describe Skr::GlPeriod do
+class GlPeriodSpec < Skr::TestCase
 
     it "can be instantiated" do
         model = GlPeriod.new

@@ -1,6 +1,6 @@
-require_relative 'spec_helper'
+require_relative '../spec_helper'
 
-describe Skr::Location do
+class LocationSpec < Skr::TestCase
 
     it "can be instantiated" do
         model = Location.new

@@ -1,6 +1,6 @@
-require_relative 'spec_helper'
+require_relative '../spec_helper'
 
-describe Skr::Vendor do
+class VendorSpec < Skr::TestCase
 
     it "can be instantiated" do
         model = Vendor.new

@@ -1,6 +1,6 @@
-require_relative 'spec_helper'
+require_relative '../spec_helper'
 
-describe Skr::Uom do
+class UomSpec < Skr::TestCase
 
     it "can be instantiated" do
         model = Uom.new

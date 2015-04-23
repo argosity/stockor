@@ -1,6 +1,6 @@
-require_relative 'spec_helper'
+require_relative '../spec_helper'
 
-describe Skr::GlAccount do
+class GlAccountSpec < Skr::TestCase
 
     it "can be instantiated" do
         model = GlAccount.new

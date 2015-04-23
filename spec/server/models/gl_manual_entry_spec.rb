@@ -1,6 +1,6 @@
-require_relative 'spec_helper'
+require_relative '../spec_helper'
 
-describe Skr::GlManualEntry do
+class GlManualEntrySpec < Skr::TestCase
 
     it "can be instantiated" do
         model = GlManualEntry.new

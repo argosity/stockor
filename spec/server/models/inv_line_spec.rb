@@ -1,6 +1,6 @@
-require_relative 'spec_helper'
+require_relative '../spec_helper'
 
-describe Skr::InvLine do
+class InvLineSpec < Skr::TestCase
 
     it "can be instantiated" do
         model = InvLine.new

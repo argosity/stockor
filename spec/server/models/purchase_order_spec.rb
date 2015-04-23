@@ -1,6 +1,6 @@
-require_relative 'spec_helper'
+require_relative '../spec_helper'
 
-describe Skr::PurchaseOrder do
+class PurchaseOrderSpec < Skr::TestCase
 
     it "can be instantiated" do
         model = PurchaseOrder.new

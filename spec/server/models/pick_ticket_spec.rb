@@ -1,6 +1,6 @@
-require_relative 'spec_helper'
+require_relative '../spec_helper'
 
-describe Skr::PickTicket do
+class PickTicketSpec < Skr::TestCase
 
     it "can be instantiated" do
         model = PickTicket.new

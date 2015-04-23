@@ -1,6 +1,6 @@
-require_relative 'spec_helper'
+require_relative '../spec_helper'
 
-describe Skr::IaReason do
+class IaReasonSpec < Skr::TestCase
 
     it "can be instantiated" do
         model = IaReason.new

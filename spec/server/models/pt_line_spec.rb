@@ -1,6 +1,6 @@
-require_relative 'spec_helper'
+require_relative '../spec_helper'
 
-describe Skr::PtLine do
+class PtLineSpec < Skr::TestCase
 
     it "can be instantiated" do
         model = PtLine.new

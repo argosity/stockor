@@ -1,6 +1,6 @@
-require_relative 'spec_helper'
+require_relative '../spec_helper'
 
-describe Skr::PoReceipt do
+class PoReceiptSpec < Skr::TestCase
 
     it "can be instantiated" do
         model = PoReceipt.new

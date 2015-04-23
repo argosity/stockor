@@ -1,6 +1,6 @@
-require_relative 'spec_helper'
+require_relative '../spec_helper'
 
-describe Skr::Voucher do
+class VoucherSpec < Skr::TestCase
 
     it "can be instantiated" do
         model = Voucher.new

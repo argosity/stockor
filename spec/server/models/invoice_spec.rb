@@ -1,6 +1,6 @@
-require_relative 'spec_helper'
+require_relative '../spec_helper'
 
-describe Skr::Invoice do
+class InvoiceSpec < Skr::TestCase
 
     it "can be instantiated" do
         model = Invoice.new

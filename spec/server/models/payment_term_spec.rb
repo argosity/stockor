@@ -1,6 +1,6 @@
-require_relative 'spec_helper'
+require_relative '../spec_helper'
 
-describe Skr::PaymentTerm do
+class PaymentTermSpec < Skr::TestCase
 
     it "can be instantiated" do
         model = PaymentTerm.new

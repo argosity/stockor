@@ -1,6 +1,6 @@
-require_relative 'spec_helper'
+require_relative '../spec_helper'
 
-describe Skr::InventoryAdjustment do
+class InventoryAdjustmentSpec < Skr::TestCase
 
     it "can be instantiated" do
         model = InventoryAdjustment.new

@@ -1,6 +1,6 @@
-require_relative 'spec_helper'
+require_relative '../spec_helper'
 
-describe Skr::GlPosting do
+class GlPostingSpec < Skr::TestCase
 
     it "can be instantiated" do
         model = GlPosting.new

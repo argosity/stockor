@@ -1,6 +1,6 @@
-require_relative 'spec_helper'
+require_relative '../spec_helper'
 
-describe Skr::Address do
+class AddressSpec < Skr::TestCase
 
     it "can be instantiated" do
         model = Address.new

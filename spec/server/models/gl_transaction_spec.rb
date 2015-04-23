@@ -1,6 +1,6 @@
-require_relative 'spec_helper'
+require_relative '../spec_helper'
 
-describe Skr::GlTransaction do
+class GlTransactionSpec < Skr::TestCase
 
     it "can be instantiated" do
         model = GlTransaction.new
