@@ -4,6 +4,12 @@ Lanes::Screen.define_group 'maint' do | group |
     group.icon        = "icon-wrench"
 end
 
+Lanes::Screen.define_group 'customer' do | group |
+    group.title       = "Customer"
+    group.description = "Custoemr records"
+    group.icon        = "icon-wrench"
+end
+
 
 Lanes::Screen.define "customer-maint" do | screen |
     screen.title       = "Customer Maintenance"
