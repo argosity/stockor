@@ -7,23 +7,32 @@ module Lanes::Access
 
         # re-open the exising Support role
         class Support
-            grant Skr::Customer
+            grant Skr::Customer,
+                  Skr::Sku,
+                  Skr::SalesOrder
+
         end
 
 
         class Accounting < Lanes::Access::Role
-            grant Skr::Customer, Skr::PaymentTerm
-
+            grant Skr::Customer,
+                  Skr::PaymentTerm,
+                  Skr::Sku,
+                  Skr::SalesOrder
+            lock_writes Skr::Sku, :gl_asset_account_id
             lock_writes Skr::Customer, :terms_id
         end
 
 
         class Purchasing < Lanes::Access::Role
-            self.read  << Skr::Customer
+            read Skr::Customer
+            grant Skr::Sku,
+                  Skr::SalesOrder
         end
 
     end
 
+    Role.grant_global_access(Skr::Address)
     Role.grant_global_access(:read, Skr::PaymentTerm)
 
 end
