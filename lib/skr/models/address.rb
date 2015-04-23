@@ -23,7 +23,7 @@ module Skr
         validates  :name, :line1, :city, :state, :postal_code, :presence=>true, :if=>:ensure_not_blank
         validates  :email, :presence=>true, :email=>true, :if=>:validate_email
         validates  :phone, :presence=>true, :if=>:validate_phone
-       
+
         # @return [Address] a blank copy of an address
         def self.blank
             Address.new({ name: '', line1: '', city: '', state: '', postal_code: '' })
@@ -45,9 +45,9 @@ module Skr
             end
         end
 
-        # @return [Boolean] is any of (name line1 city state postal_code) blank?
-        def blank?
-            return !! %w{ name line1 city state postal_code }.detect{ |field| self[field].blank? }
+        # @return [Boolean] is all of (name line1 city state postal_code) blank?
+        def incomplete?
+            return %w{ name line1 city state postal_code }.all?{ |field| self[field].blank? }
         end
 
         # split the name on space
