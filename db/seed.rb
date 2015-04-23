@@ -4,11 +4,12 @@ require_relative '../lib/skr'
 
 
 module Skr
-
     user = Lanes::User.where(login: 'admin').first
     if user.nil?
-        user = Lanes::User.new(name: "Admin", email: "admin@test.com",
-                               login: 'admin', role_names: ['admin'])
+        user = Lanes::User.create!(name: "Admin", email: "admin@test.com",
+                                   password: 'senal', password_confirmation: 'senal',
+                                   login: 'admin', role_names: ['administrator'])
+
     end
     Lanes::User.scoped_to(user) do
         seeds_path = Pathname.new(__FILE__).dirname.join('seed')
