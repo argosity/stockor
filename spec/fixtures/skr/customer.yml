@@ -1,2 +1,9 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
+billy:
+  code: GOAT
+  name: Billy Goat Gruff
+  terms: cashy
+  gl_receivables_account: recv
+  billing_address: billy_billing
+  shipping_address: billy_shipping

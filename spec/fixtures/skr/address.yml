@@ -1,2 +1,10 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
+billy_billing:
+  name: Billy Goat
+
+billy_shipping:
+  name: Billy Goat
+
+bigco:
+  name: BigCo
