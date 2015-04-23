@@ -9,7 +9,7 @@ class CreateSkrPurchaseOrders < ActiveRecord::Migration
             t.skr_reference :location,  single: true
             t.skr_reference :ship_addr, to_table: 'addresses'
             t.skr_reference :terms,     to_table: 'payment_terms'
-            t.string   "state",         null: false
+            t.integer  "state",                null: false, limit: 2
             t.boolean  "is_revised",    null: false, default: false
             t.date     "order_date",    null: false
             t.datetime "receiving_completed_at"

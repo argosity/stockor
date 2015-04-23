@@ -47,7 +47,12 @@ module Skr
         }
 
         export_scope :only_incoming, lambda { |should_use=true|
-            with_details.where("state !='received'") if should_use
+            with_details.where.not(state: :received) if should_use
+        }
+
+        enum state: {
+            open: 1,
+            received: 2
         }
 
         state_machine do

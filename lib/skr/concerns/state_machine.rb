@@ -20,10 +20,15 @@ module Skr
                 #   * Blacklists the "state" field so it cannot be set via the API
                 #   * Allows access to the "state_event" pseudo field from the API
                 #   * Sets up the aasm library with the contents of &block
-                def state_machine( options={}, &block )
+                def state_machine(options={}, &block )
                     include InstanceMethods
                     include AASM
-                    aasm( options.merge( column: 'state' ), &block )
+                    attr_accessor :state_event
+                    whitelist_attributes :state_event
+                    default_options={
+                        no_direct_assignment: true, column: 'state', enum: true
+                    }
+                    aasm(default_options.merge(options), &block)
 
                     whitelist_attributes :state_event
 

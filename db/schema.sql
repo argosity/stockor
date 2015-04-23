@@ -526,7 +526,7 @@ CREATE TABLE skr_sales_orders (
     billing_address_id integer NOT NULL,
     terms_id integer NOT NULL,
     order_date date NOT NULL,
-    state character varying NOT NULL,
+    state smallint NOT NULL,
     is_revised boolean DEFAULT false NOT NULL,
     hash_code character varying NOT NULL,
     ship_partial boolean DEFAULT false NOT NULL,
@@ -568,7 +568,7 @@ CREATE TABLE skr_sku_locs (
 
 CREATE TABLE skr_skus (
     id integer NOT NULL,
-    default_vendor_id integer NOT NULL,
+    default_vendor_id integer,
     gl_asset_account_id integer NOT NULL,
     default_uom_code character varying NOT NULL,
     code character varying NOT NULL,
@@ -601,22 +601,22 @@ CREATE VIEW skr_inv_details AS
     COALESCE(ttls.other_charge_total, (0)::numeric) AS total_other_charge_amount,
     (COALESCE(ttls.total, 0.0) - COALESCE(ttls.other_charge_total, 0.0)) AS subtotal_amount
    FROM (((((skr_invoices inv
-   JOIN skr_customers cust ON ((cust.id = inv.customer_id)))
-   LEFT JOIN skr_addresses ba ON ((ba.id = inv.billing_address_id)))
-   LEFT JOIN skr_sales_orders so ON ((so.id = inv.sales_order_id)))
-   LEFT JOIN skr_pick_tickets pt ON ((pt.id = inv.pick_ticket_id)))
-   LEFT JOIN ( SELECT ivl.invoice_id,
-    sum(((ivl.qty)::numeric * ivl.price)) AS total,
-    sum(
-        CASE
-            WHEN s.is_other_charge THEN ((ivl.qty)::numeric * ivl.price)
-            ELSE (0)::numeric
-        END) AS other_charge_total,
-    count(ivl.*) AS num_lines
-   FROM ((skr_inv_lines ivl
-   JOIN skr_sku_locs sl ON ((sl.id = ivl.sku_loc_id)))
-   JOIN skr_skus s ON ((s.id = sl.sku_id)))
-  GROUP BY ivl.invoice_id) ttls ON ((ttls.invoice_id = inv.id)));
+     JOIN skr_customers cust ON ((cust.id = inv.customer_id)))
+     LEFT JOIN skr_addresses ba ON ((ba.id = inv.billing_address_id)))
+     LEFT JOIN skr_sales_orders so ON ((so.id = inv.sales_order_id)))
+     LEFT JOIN skr_pick_tickets pt ON ((pt.id = inv.pick_ticket_id)))
+     LEFT JOIN ( SELECT ivl.invoice_id,
+            sum(((ivl.qty)::numeric * ivl.price)) AS total,
+            sum(
+                CASE
+                    WHEN s.is_other_charge THEN ((ivl.qty)::numeric * ivl.price)
+                    ELSE (0)::numeric
+                END) AS other_charge_total,
+            count(ivl.*) AS num_lines
+           FROM ((skr_inv_lines ivl
+             JOIN skr_sku_locs sl ON ((sl.id = ivl.sku_loc_id)))
+             JOIN skr_skus s ON ((s.id = sl.sku_id)))
+          GROUP BY ivl.invoice_id) ttls ON ((ttls.invoice_id = inv.id)));
 
 
 --
@@ -964,7 +964,7 @@ CREATE TABLE skr_purchase_orders (
     location_id integer NOT NULL,
     ship_addr_id integer NOT NULL,
     terms_id integer NOT NULL,
-    state character varying NOT NULL,
+    state smallint NOT NULL,
     is_revised boolean DEFAULT false NOT NULL,
     order_date date NOT NULL,
     receiving_completed_at timestamp without time zone,
@@ -1106,10 +1106,10 @@ CREATE VIEW skr_sku_loc_details AS
     sv.part_code AS vendor_part_code,
     sv.cost AS purchase_cost
    FROM ((((skr_sku_locs sl
-   JOIN skr_skus s ON ((s.id = sl.sku_id)))
-   LEFT JOIN skr_uoms uom ON (((uom.sku_id = s.id) AND ((uom.code)::text = (s.default_uom_code)::text))))
-   JOIN skr_vendors v ON ((s.default_vendor_id = v.id)))
-   JOIN skr_sku_vendors sv ON (((sv.vendor_id = v.id) AND (sv.sku_id = s.id))));
+     JOIN skr_skus s ON ((s.id = sl.sku_id)))
+     LEFT JOIN skr_uoms uom ON (((uom.sku_id = s.id) AND ((uom.code)::text = (s.default_uom_code)::text))))
+     JOIN skr_vendors v ON ((s.default_vendor_id = v.id)))
+     JOIN skr_sku_vendors sv ON (((sv.vendor_id = v.id) AND (sv.sku_id = s.id))));
 
 
 --
@@ -1168,24 +1168,24 @@ CREATE VIEW skr_sku_qty_details AS
     COALESCE(sol_ttl.qty, (0)::bigint) AS qty_on_orders,
     COALESCE(pol_ttl.qty, (0)::bigint) AS qty_incoming
    FROM (((skr_skus s
-   JOIN ( SELECT sum(sl.qty) AS qty,
+     JOIN ( SELECT sum(sl.qty) AS qty,
             sl.sku_id
            FROM skr_sku_locs sl
           GROUP BY sl.sku_id) sl_ttl ON ((sl_ttl.sku_id = s.id)))
-   LEFT JOIN ( SELECT s_1.id AS sku_id,
-       sum(((sol.qty - sol.qty_canceled) * sol.uom_size)) AS qty
-      FROM (((skr_so_lines sol
-   JOIN skr_sales_orders so ON (((so.id = sol.sales_order_id) AND ((so.state)::text <> ALL ((ARRAY['canceled'::character varying, 'complete'::character varying])::text[])))))
-   JOIN skr_sku_locs sl ON ((sl.id = sol.sku_loc_id)))
-   JOIN skr_skus s_1 ON ((s_1.id = sl.sku_id)))
-  GROUP BY s_1.id) sol_ttl ON ((sol_ttl.sku_id = s.id)))
-   LEFT JOIN ( SELECT s_1.id AS sku_id,
-    sum(((pol.qty - pol.qty_canceled) * pol.uom_size)) AS qty
-   FROM (((skr_po_lines pol
-   JOIN skr_purchase_orders po ON (((po.id = pol.purchase_order_id) AND ((po.state)::text <> ALL ((ARRAY['canceled'::character varying, 'complete'::character varying])::text[])))))
-   JOIN skr_sku_locs sl ON ((sl.id = pol.sku_loc_id)))
-   JOIN skr_skus s_1 ON ((s_1.id = sl.sku_id)))
-  GROUP BY s_1.id) pol_ttl ON ((pol_ttl.sku_id = s.id)));
+     LEFT JOIN ( SELECT s_1.id AS sku_id,
+            sum(((sol.qty - sol.qty_canceled) * sol.uom_size)) AS qty
+           FROM (((skr_so_lines sol
+             JOIN skr_sales_orders so ON (((so.id = sol.sales_order_id) AND (so.state <> ALL (ARRAY[5, 9])))))
+             JOIN skr_sku_locs sl ON ((sl.id = sol.sku_loc_id)))
+             JOIN skr_skus s_1 ON ((s_1.id = sl.sku_id)))
+          GROUP BY s_1.id) sol_ttl ON ((sol_ttl.sku_id = s.id)))
+     LEFT JOIN ( SELECT s_1.id AS sku_id,
+            sum(((pol.qty - pol.qty_canceled) * pol.uom_size)) AS qty
+           FROM (((skr_po_lines pol
+             JOIN skr_purchase_orders po ON (((po.id = pol.purchase_order_id) AND (po.state <> ALL (ARRAY[5, 9])))))
+             JOIN skr_sku_locs sl ON ((sl.id = pol.sku_loc_id)))
+             JOIN skr_skus s_1 ON ((s_1.id = sl.sku_id)))
+          GROUP BY s_1.id) pol_ttl ON ((pol_ttl.sku_id = s.id)));
 
 
 --
@@ -1286,14 +1286,14 @@ CREATE VIEW skr_so_allocation_details AS
             ELSE 0
         END) AS number_of_lines_fully_allocated
    FROM ((skr_so_lines sol
-   JOIN skr_sku_locs sl ON ((sl.id = sol.sku_loc_id)))
-   JOIN skr_skus s ON (((s.id = sl.sku_id) AND (s.is_other_charge = false))))
+     JOIN skr_sku_locs sl ON ((sl.id = sol.sku_loc_id)))
+     JOIN skr_skus s ON (((s.id = sl.sku_id) AND (s.is_other_charge = false))))
   GROUP BY sol.sales_order_id
  HAVING (sum(
-CASE
-    WHEN (((sol.qty_allocated - sol.qty_canceled) - sol.qty_picking) > 0) THEN 1
-    ELSE 0
-END) > 0);
+        CASE
+            WHEN (((sol.qty_allocated - sol.qty_canceled) - sol.qty_picking) > 0) THEN 1
+            ELSE 0
+        END) > 0);
 
 
 --
@@ -1313,30 +1313,30 @@ CREATE VIEW skr_so_amount_details AS
     COALESCE(ttls.shipping_charge_total, (0)::numeric) AS total_shipping_amount,
     (COALESCE(ttls.total, 0.0) - COALESCE(ttls.other_charge_total, 0.0)) AS subtotal_amount
    FROM (((skr_sales_orders so
-   JOIN skr_customers cust ON ((cust.id = so.customer_id)))
-   JOIN skr_addresses addr ON ((addr.id = so.billing_address_id)))
-   LEFT JOIN ( SELECT sol.sales_order_id,
-    sum(((sol.qty)::numeric * sol.price)) AS total,
-    sum(
-        CASE
-            WHEN s.is_other_charge THEN ((sol.qty)::numeric * sol.price)
-            ELSE (0)::numeric
-        END) AS other_charge_total,
-    sum(
-        CASE
-            WHEN ((sol.sku_code)::text = 'SHIP'::text) THEN ((sol.qty)::numeric * sol.price)
-            ELSE (0)::numeric
-        END) AS shipping_charge_total,
-    sum(
-        CASE
-            WHEN ((sol.sku_code)::text = 'TAX'::text) THEN ((sol.qty)::numeric * sol.price)
-            ELSE (0)::numeric
-        END) AS tax_charge_total,
-    count(sol.*) AS num_lines
-   FROM ((skr_so_lines sol
-   JOIN skr_sku_locs sl ON ((sl.id = sol.sku_loc_id)))
-   JOIN skr_skus s ON ((s.id = sl.sku_id)))
-  GROUP BY sol.sales_order_id) ttls ON ((ttls.sales_order_id = so.id)));
+     JOIN skr_customers cust ON ((cust.id = so.customer_id)))
+     JOIN skr_addresses addr ON ((addr.id = so.billing_address_id)))
+     LEFT JOIN ( SELECT sol.sales_order_id,
+            sum(((sol.qty)::numeric * sol.price)) AS total,
+            sum(
+                CASE
+                    WHEN s.is_other_charge THEN ((sol.qty)::numeric * sol.price)
+                    ELSE (0)::numeric
+                END) AS other_charge_total,
+            sum(
+                CASE
+                    WHEN ((sol.sku_code)::text = 'SHIP'::text) THEN ((sol.qty)::numeric * sol.price)
+                    ELSE (0)::numeric
+                END) AS shipping_charge_total,
+            sum(
+                CASE
+                    WHEN ((sol.sku_code)::text = 'TAX'::text) THEN ((sol.qty)::numeric * sol.price)
+                    ELSE (0)::numeric
+                END) AS tax_charge_total,
+            count(sol.*) AS num_lines
+           FROM ((skr_so_lines sol
+             JOIN skr_sku_locs sl ON ((sl.id = sol.sku_loc_id)))
+             JOIN skr_skus s ON ((s.id = sl.sku_id)))
+          GROUP BY sol.sales_order_id) ttls ON ((ttls.sales_order_id = so.id)));
 
 
 --
@@ -1350,13 +1350,13 @@ CREATE VIEW skr_so_dailly_sales_history AS
     COALESCE(ttls.line_count, (0)::bigint) AS line_count,
     COALESCE(ttls.total, 0.0) AS total
    FROM (generate_series(0, 120, 1) days_ago(days_ago)
-   LEFT JOIN ( SELECT count(DISTINCT sol.sales_order_id) AS order_count,
+     LEFT JOIN ( SELECT count(DISTINCT sol.sales_order_id) AS order_count,
             count(*) AS line_count,
             sum((sol.price * (sol.qty)::numeric)) AS total,
             date_trunc('day'::text, so.created_at) AS so_date
            FROM (skr_so_lines sol
-      JOIN skr_sales_orders so ON ((sol.sales_order_id = so.id)))
-     GROUP BY date_trunc('day'::text, so.created_at)) ttls ON ((ttls.so_date = date_trunc('day'::text, ((('now'::text)::date - days_ago.days_ago))::timestamp with time zone))))
+             JOIN skr_sales_orders so ON ((sol.sales_order_id = so.id)))
+          GROUP BY date_trunc('day'::text, so.created_at)) ttls ON ((ttls.so_date = date_trunc('day'::text, ((('now'::text)::date - days_ago.days_ago))::timestamp with time zone))))
   ORDER BY date_trunc('day'::text, ((('now'::text)::date - days_ago.days_ago))::timestamp with time zone) DESC;
 
 

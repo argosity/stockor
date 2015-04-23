@@ -11,7 +11,7 @@ class CreateSkrSalesOrders < ActiveRecord::Migration
             t.skr_reference :billing_address,  to_table: 'addresses'
             t.skr_reference :terms,            to_table: 'payment_terms'
             t.date     "order_date",           null: false
-            t.string   "state",                null: false
+            t.integer  "state",                null: false, limit: 2
             t.boolean  "is_revised",           null: false, default: false
             t.string   "hash_code",            null: false
             t.boolean  "ship_partial",         null: false, default: false

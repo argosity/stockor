@@ -62,7 +62,7 @@ module Skr
 
         # a open SalesOrder is one who's state is not "complete" or "canceled"
         scope :open, lambda { | *args |
-            where( arel_table[:state].not_in ['complete', 'canceled'] )
+            where.not(state: [:complete,:canceled])
         }, export: true
 
         # a SalesOrder is allocated if it has one or more lines with qty_allocated>0
@@ -88,6 +88,12 @@ module Skr
             qry = "select * from #{Skr.config.table_prefix}so_dailly_sales_history where days_ago<#{ndays.to_i}"
             connection.execute(qry).values
         end
+
+        enum state: {
+            open: 1,
+            complete: 5,
+            canceled: 9
+        }
 
         state_machine do
             state :open, initial: true

@@ -10,7 +10,7 @@ class Skr.Models.SalesOrder extends Skr.Models.Base
         billing_address_id: {"type":"integer","required":true}
         terms_id:           {"type":"integer","required":true}
         order_date:         {"type":"any","required":true}
-        state:              {"type":"string","required":true}
+        state:              {"type":"integer"}
         is_revised:         {"type":"boolean","required":true,"default":"false"}
         hash_code:          {"type":"string","required":true}
         ship_partial:       {"type":"boolean","required":true,"default":"false"}
@@ -18,6 +18,12 @@ class Skr.Models.SalesOrder extends Skr.Models.Base
         po_num:             "string"
         notes:              "string"
         options:            "any"
+
+    enums:
+        state:
+            open: 1
+            complete: 5
+            canceled: 9
 
     associations:
         customer:         { model: "Customer" }
