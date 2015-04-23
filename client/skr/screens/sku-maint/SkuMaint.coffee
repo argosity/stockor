@@ -1,7 +1,7 @@
 class Skr.Screens.SkuMaint extends Skr.Screens.Base
 
     mixins:[
-        Skr.Screens.Mixins.Editing
+        Lanes.Screens.Mixins.Editing
     ]
     useFormBindings: true
 
