@@ -34,3 +34,13 @@ Lanes::Screen.define "vendor-maint" do | screen |
     screen.js          = "skr/screens/vendor-maint.js"
     screen.css         = "skr/screens/vendor-maint.css"
 end
+Lanes::Screen.define "sales-order" do | screen |
+    screen.title       = "Sales Order"
+    screen.description = ""
+    screen.icon        = ""
+    screen.group_id    = "customer"
+    screen.model_class = "SalesOrder"
+    screen.view_class  = "Skr.Screens.SalesOrder"
+    screen.js          = "skr/screens/sales-order.js"
+    screen.css         = "skr/screens/sales-order.css"
+end
