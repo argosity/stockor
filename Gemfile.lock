@@ -1,9 +1,9 @@
 GIT
   remote: git://github.com/argosity/lanes.git
-  revision: 5e761b87fbeb75476647f178ad488c7576572bff
+  revision: 3574e2186fff13c0bc6203ce1fd437f30142e500
   branch: master
   specs:
-    lanes (0.1.8)
+    lanes (0.1.9)
       activerecord (~> 4.2)
       bcrypt (~> 3.1)
       closure-compiler (~> 1.1)
@@ -35,7 +35,7 @@ GIT
 PATH
   remote: .
   specs:
-    stockor (0.1.7)
+    stockor (0.1.8)
       aasm (~> 4.1)
       lanes
 
@@ -59,24 +59,24 @@ GEM
     arel (6.0.0)
     bcrypt (3.1.10)
     builder (3.2.2)
-    byebug (4.0.4)
+    byebug (4.0.5)
       columnize (= 0.9.0)
     celluloid (0.16.0)
       timers (~> 4.0.0)
-    childprocess (0.5.5)
+    childprocess (0.5.6)
       ffi (~> 1.0, >= 1.0.11)
     closure-compiler (1.1.11)
     coderay (1.1.0)
-    coffee-script (2.3.0)
+    coffee-script (2.4.1)
       coffee-script-source
       execjs
-    coffee-script-source (1.9.1)
+    coffee-script-source (1.9.1.1)
     columnize (0.9.0)
     compass-import-once (1.0.5)
       sass (>= 3.2, < 3.5)
-    crass (1.0.1)
+    crass (1.0.2)
     eventmachine (1.0.7)
-    execjs (2.4.0)
+    execjs (2.5.2)
     faker (1.4.3)
       i18n (~> 0.5)
     ffi (1.9.8)
@@ -103,7 +103,7 @@ GEM
     guard-minitest (2.4.4)
       guard-compat (~> 1.2)
       minitest (>= 3.0)
-    hashie (3.4.0)
+    hashie (3.4.1)
     hike (1.2.3)
     hitimes (1.2.2)
     i18n (0.7.0)
@@ -126,7 +126,7 @@ GEM
     metaclass (0.0.4)
     method_source (0.8.2)
     mini_portile (0.6.2)
-    minitest (5.5.1)
+    minitest (5.6.0)
     minitest-around (0.3.1)
       minitest (~> 5.0)
     mocha (1.1.0)
@@ -140,7 +140,7 @@ GEM
     notiffany (0.0.6)
       nenv (~> 0.1)
       shellany (~> 0.0)
-    oj (2.12.1)
+    oj (2.12.4)
     pg (0.18.1)
     phantomjs (1.9.8.0)
     pry (0.10.1)
@@ -150,7 +150,7 @@ GEM
     pry-byebug (3.1.0)
       byebug (~> 4.0)
       pry (~> 0.10)
-    puma (2.11.1)
+    puma (2.11.2)
       rack (>= 1.1, < 2.0)
     rack (1.6.0)
     rack-protection (1.5.3)
