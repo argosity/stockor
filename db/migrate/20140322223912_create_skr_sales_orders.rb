@@ -15,7 +15,6 @@ class CreateSkrSalesOrders < ActiveRecord::Migration
             t.boolean  "is_revised",           null: false, default: false
             t.string   "hash_code",            null: false
             t.boolean  "ship_partial",         null: false, default: false
-            t.boolean  "is_complete",          null: false, default: false
             t.string   "po_num"
             t.text     "notes"
             t.hstore   "options", default: {}

@@ -14,7 +14,6 @@ class Skr.Models.SalesOrder extends Skr.Models.Base
         is_revised:         {"type":"boolean","required":true,"default":"false"}
         hash_code:          {"type":"string","required":true}
         ship_partial:       {"type":"boolean","required":true,"default":"false"}
-        is_complete:        {"type":"boolean","required":true,"default":"false"}
         po_num:             "string"
         notes:              "string"
         options:            "any"

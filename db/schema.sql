@@ -530,7 +530,6 @@ CREATE TABLE skr_sales_orders (
     is_revised boolean DEFAULT false NOT NULL,
     hash_code character varying NOT NULL,
     ship_partial boolean DEFAULT false NOT NULL,
-    is_complete boolean DEFAULT false NOT NULL,
     po_num character varying,
     notes text,
     options hstore DEFAULT ''::hstore,
