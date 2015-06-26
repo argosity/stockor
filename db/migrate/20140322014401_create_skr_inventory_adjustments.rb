@@ -5,9 +5,9 @@ class CreateSkrInventoryAdjustments < ActiveRecord::Migration
 
         create_skr_table "inventory_adjustments" do |t|
             t.skr_visible_id
+            t.skr_state
             t.skr_reference :location,  null: false, single: true
             t.skr_reference :reason,    null: false, to_table: 'ia_reasons'
-            t.string   "state",         null: false
             t.text     "description",   null: false
             t.skr_track_modifications
           end

@@ -7,7 +7,7 @@ module Skr
     user = Lanes::User.where(login: 'admin').first
     if user.nil?
         user = Lanes::User.create!(name: "Admin", email: "admin@test.com",
-                                   password: 'lanes*senal', password_confirmation: 'lanes*senal',
+                                   password: 'password', password_confirmation: 'password',
                                    login: 'admin', role_names: ['administrator'])
 
     end

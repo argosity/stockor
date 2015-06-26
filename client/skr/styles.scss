@@ -1,4 +1,5 @@
 /* Enter styles for your application in scss format here */
+
 .header-top {
     .logo {
         display: inline-block;
@@ -7,5 +8,25 @@
         margin: 2px;
         text-indent: -9999px;
         background: url(asset_path('images/skr/logo-sm.png')) no-repeat;
+    }
+}
+
+
+.record-finder-dialog {
+    min-height: 250px;
+    .clause {
+        .dropdown-menu {
+            min-width: 300px;
+            padding: 0.5rem;
+            .row {
+                margin-bottom: 5px;
+            }
+            input[type=radio] { margin-right: 0.5rem; }
+        }
+
+    }
+
+    .grid-component {
+        margin-top: 10px;
     }
 }

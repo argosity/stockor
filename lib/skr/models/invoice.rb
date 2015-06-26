@@ -60,6 +60,12 @@ module Skr
             compose_query_using_detail_view( view: 'inv_details', join_to: 'invoice_id' )
         }, export: true
 
+        enum state: {
+            open:     0,
+            paid:     5,
+            partial: 10
+        }
+
         state_machine do
             state :open, initial: true
             state :paid

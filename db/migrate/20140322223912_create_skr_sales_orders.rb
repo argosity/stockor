@@ -5,13 +5,13 @@ class CreateSkrSalesOrders < ActiveRecord::Migration
 
         create_skr_table "sales_orders" do |t|
             t.skr_visible_id
+            t.skr_state
             t.skr_reference :customer,         single: true
             t.skr_reference :location,         single: true
             t.skr_reference :shipping_address, to_table: 'addresses'
             t.skr_reference :billing_address,  to_table: 'addresses'
             t.skr_reference :terms,            to_table: 'payment_terms'
             t.date     "order_date",           null: false
-            t.integer  "state",                null: false, limit: 2
             t.boolean  "is_revised",           null: false, default: false
             t.string   "hash_code",            null: false
             t.boolean  "ship_partial",         null: false, default: false

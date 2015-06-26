@@ -21,7 +21,7 @@ class CreateSkrSkuQtyDetailsView < ActiveRecord::Migration
                  sum( ( sol.qty - sol.qty_canceled ) * sol.uom_size ) as qty
                from #{skr_prefix}so_lines sol
                join #{skr_prefix}sales_orders so on so.id = sol.sales_order_id
-                  and so.state not in (5,9) -- complete, canceled
+                  and so.state not in (5,10) -- complete, canceled
                join #{skr_prefix}sku_locs sl on sl.id = sol.sku_loc_id
                join #{skr_prefix}skus s on s.id = sl.sku_id
                group by s.id
@@ -33,7 +33,7 @@ class CreateSkrSkuQtyDetailsView < ActiveRecord::Migration
                  sum( ( pol.qty - pol.qty_canceled ) * pol.uom_size ) as qty
                from #{skr_prefix}po_lines pol
                join #{skr_prefix}purchase_orders po on po.id = pol.purchase_order_id
-                  and po.state not in (5,9) -- complete, canceled
+                  and po.state not in (5,15) -- received, canceled
                join #{skr_prefix}sku_locs sl on sl.id = pol.sku_loc_id
                join #{skr_prefix}skus s on s.id = sl.sku_id
                group by s.id

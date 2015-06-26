@@ -51,13 +51,17 @@ module Skr
         }
 
         enum state: {
-            open: 1,
-            received: 2
+            open:      0,
+            received:  5,
+            paid:     10,
+            canceled: 15
         }
 
         state_machine do
             state :open, initial: true
             state :received
+            state :paid
+            state :canceled
 
             event :mark_received do
                 transitions from: :open, to: :received

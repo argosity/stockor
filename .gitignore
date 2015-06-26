@@ -2,4 +2,5 @@ public/assets
 tmp/cache
 log/
 secrets.yml
+.DS_Store
 pkg

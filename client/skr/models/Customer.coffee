@@ -3,7 +3,7 @@ class Skr.Models.Customer extends Skr.Models.Base
 
     props:
         id:                       {"type":"integer","required":true}
-        code:                     {"type":"string","required":true}
+        code:                     {"type":"code","required":true}
         billing_address_id:       {"type":"integer","required":true}
         shipping_address_id:      {"type":"integer","required":true}
         terms_id:                 {"type":"integer","required":true}

@@ -1499,6 +1499,39 @@ ALTER SEQUENCE skr_vouchers_id_seq OWNED BY skr_vouchers.id;
 
 
 --
+-- Name: testers; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE testers (
+    id integer NOT NULL,
+    name character varying,
+    email character varying,
+    visits text[] DEFAULT '{}'::text[],
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: testers_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE testers_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: testers_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE testers_id_seq OWNED BY testers.id;
+
+
+--
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -1713,6 +1746,13 @@ ALTER TABLE ONLY skr_vo_lines ALTER COLUMN id SET DEFAULT nextval('skr_vo_lines_
 --
 
 ALTER TABLE ONLY skr_vouchers ALTER COLUMN id SET DEFAULT nextval('skr_vouchers_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY testers ALTER COLUMN id SET DEFAULT nextval('testers_id_seq'::regclass);
 
 
 --
@@ -1969,6 +2009,14 @@ ALTER TABLE ONLY skr_vo_lines
 
 ALTER TABLE ONLY skr_vouchers
     ADD CONSTRAINT skr_vouchers_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: testers_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY testers
+    ADD CONSTRAINT testers_pkey PRIMARY KEY (id);
 
 
 --
@@ -2658,4 +2706,6 @@ INSERT INTO schema_migrations (version) VALUES ('20140401164740');
 INSERT INTO schema_migrations (version) VALUES ('20140422024010');
 
 INSERT INTO schema_migrations (version) VALUES ('20140615031600');
+
+INSERT INTO schema_migrations (version) VALUES ('20150220015108');
 

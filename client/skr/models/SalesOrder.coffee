@@ -1,6 +1,5 @@
 class Skr.Models.SalesOrder extends Skr.Models.Base
 
-
     props:
         id:                 {"type":"integer","required":true}
         visible_id:         {"type":"integer","required":true}

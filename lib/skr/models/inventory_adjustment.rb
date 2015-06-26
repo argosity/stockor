@@ -19,6 +19,10 @@ module Skr
         delegate_and_export :location_code
         delegate_and_export :reason_code
 
+        enum state: {
+            pending:  0,
+            applied:  5
+        }
         state_machine do
             state :pending , :initial=>true
             state :applied

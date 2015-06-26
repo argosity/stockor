@@ -18,6 +18,10 @@ module Skr
                 }
             end
 
+            def skr_state
+                column( :state, :integer, null: false, default: 0, limit: 2 )
+            end
+
             # track modifications
             def skr_track_modifications( create_only: false )
                 column( :created_at, :datetime,   :null=>false )

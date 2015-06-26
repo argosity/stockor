@@ -90,9 +90,9 @@ module Skr
         end
 
         enum state: {
-            open: 1,
-            complete: 5,
-            canceled: 9
+            open:      0,
+            complete:  5,
+            canceled: 10
         }
 
         state_machine do

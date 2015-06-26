@@ -36,6 +36,12 @@ module Skr
             where(['vouchers.state <> ? and payment_lines.id is null', 'pending']).includes(:payment_line)
         }
 
+        enum state: {
+            pending:    0,
+            confirmed:  5,
+            paid:      10
+        }
+
         state_machine do
             state :pending, initial: true
             state :confirmed
