@@ -15,6 +15,6 @@ class Skr.Models.GlAccount extends Skr.Models.Base
 
 
     @initialize: (data) ->
-        this.default_ids = data.default_gl_account_ids
+        this.default_ids = data.default_ids
         ms = Lanes.Vendor.Moment.duration(this::cacheDuration...).asMilliseconds()
-        Lanes.Models.ServerCache.store(this::urlRoot(), data.gl_accounts, ms)
+        Lanes.Models.ServerCache.store(this::urlRoot(), data.accounts, ms)
