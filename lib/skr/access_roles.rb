@@ -19,8 +19,9 @@ module Lanes::Access
                   Skr::PaymentTerm,
                   Skr::Sku,
                   Skr::SalesOrder
-            lock_writes Skr::Sku, :gl_asset_account_id
-            lock_writes Skr::Customer, :terms_id
+            lock_writes Skr::Customer, :terms
+            lock Skr::Sku, :gl_asset_account
+            lock Skr::Customer, :gl_receivables_account
         end
 
 
