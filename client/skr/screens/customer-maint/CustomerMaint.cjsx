@@ -18,11 +18,6 @@ class Skr.Screens.CustomerMaint extends Lanes.React.Screen
 
     modelForAccess: 'customer'
 
-    componentDidMount: ->
-        _.defer =>
-            @getDOMNode().querySelector('input[name=code]').value = "STOCKOR"
-            @refs.finder.loadCurrentSelection()
-
     render: ->
         <div className="customer-maint">
             <LC.Toolbar commands={@state.commands} />

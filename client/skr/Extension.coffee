@@ -12,6 +12,3 @@ class Skr.Extension extends Lanes.Extensions.Base
 
     rootComponent: (viewport) ->
         Lanes.Workspace.Layout
-
-    onAvailable: ->
-        Lanes.Screens.Definitions.all.get('customer-maint').display()
