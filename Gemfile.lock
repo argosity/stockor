@@ -1,9 +1,9 @@
 GIT
   remote: git://github.com/argosity/lanes.git
-  revision: 311d8af53b7bcbc2581e2db4fcbdbe9822e424e8
+  revision: 208a0fafd5337b4299e2f123c97e8ddee6a19d32
   branch: master
   specs:
-    lanes (0.1.9.pre.1)
+    lanes (0.1.9.5)
       activerecord (~> 4.2)
       bcrypt (~> 3.1)
       closure-compiler (~> 1.1)
@@ -36,14 +36,14 @@ GIT
 PATH
   remote: .
   specs:
-    stockor (0.1.8)
+    stockor (0.1.9)
       aasm (~> 4.1)
       lanes
 
 GEM
   remote: https://rubygems.org/
   specs:
-    aasm (4.1.1)
+    aasm (4.2.0)
     activemodel (4.2.3)
       activesupport (= 4.2.3)
       builder (~> 3.1)
@@ -79,10 +79,10 @@ GEM
     execjs (2.5.2)
     faker (1.4.3)
       i18n (~> 0.5)
-    ffi (1.9.9)
+    ffi (1.9.10)
     formatador (0.2.5)
     growl (1.0.3)
-    guard (2.12.7)
+    guard (2.12.8)
       formatador (>= 0.2.4)
       listen (>= 2.7, <= 4.0)
       lumberjack (~> 1.0)
@@ -113,7 +113,7 @@ GEM
       rake
     jasmine-core (2.3.4)
     json (1.8.3)
-    listen (3.0.0)
+    listen (3.0.1)
       rb-fsevent (>= 0.9.3)
       rb-inotify (>= 0.9)
     lumberjack (1.0.9)
@@ -128,7 +128,7 @@ GEM
       minitest (~> 5.0)
     mocha (1.1.0)
       metaclass (~> 0.0.1)
-    multi_json (1.11.1)
+    multi_json (1.11.2)
     nenv (0.2.0)
     nokogiri (1.6.6.2)
       mini_portile (~> 0.6.0)
