@@ -1,2 +1,29 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+cinderella:
+  code: CINDERELLA
+  name: Cinderella
+  terms: net30
+  notes: Always mention shoe sale
+  gl_payables_account: ar
+  gl_freight_account: ship
+  billing_address: cinder_billing
+  shipping_address: cinder_shipping
 
+rump:
+  code: RUMPY
+  name: Rumpelstiltskin
+  terms: net10
+  notes: Likes to pay in gold - always accept it
+  gl_payables_account: ar
+  gl_freight_account: ship
+  billing_address: rump_billing
+  shipping_address: rump_shipping
+
+hg:
+  code: HANSGRET
+  name: Hansel and Gretel
+  terms: net10
+  notes: Likes to chat about birds of the forest, do not mention parents
+  gl_payables_account: ar
+  gl_freight_account: ship
+  billing_address: hg_billing
+  shipping_address: hg_shipping

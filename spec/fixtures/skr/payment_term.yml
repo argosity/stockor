@@ -1,6 +1,40 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-cashy:
-  code: CASHY
-  description: Cash is King
+credcard:
+  code: CREDCARD
+  description: Payment due at time of sale with credit card
+  days: 0
+  discount_days: 0
+  discount_amount: 0
+check:
+  code: CHECK
+  description: Payment due at time of sale by check
+  days: 0
+  discount_days: 0
+  discount_amount: 0
+cash:
+  code: CASH
+  description: Payment due at time of sale with cash
+  days: 0
+  discount_days: 0
+  discount_amount: 0
+net10:
+  code: NET10
+  description: Payment due in 10 days, no discount for early payment
+  days: 10
+  discount_days: 0
+  discount_amount: 0
 
+net15:
+  code: NET15
+  description: Payment due in 15 days, no discount for early payment
+  days: 15
+  discount_days: 0
+  discount_amount: 0
+
+net30:
+  code: NET30
+  description: Payment due in 30 days, no discount for early payment
+  days: 30
+  discount_days: 0
+  discount_amount: 0

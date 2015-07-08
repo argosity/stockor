@@ -1,10 +1,121 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 billy_billing:
-  name: Billy Goat
+  name: Billy Goat Accounting Dept
+  email: yadira_greenholt@moorefeest.biz
+  phone: "(746) 280-8087"
+  line1: 59031 Hyatt Shores
+  line2:
+  city: West Marisoltown
+  state: SD
+  postal_code: '35962'
 
 billy_shipping:
-  name: Billy Goat
+  name: Billy Goat Warehouse
+  email: lavina_gislason@kleincollier.org
+  phone: 1-589-299-1175 x4979
+  line1: 61852 Reina Prairie
+  line2:
+  city: Dylanland
+  state: DE
 
-bigco:
-  name: BigCo
+mh_billing:
+  name: Old Mother Hubbard Acct
+  email: carson_larkin@marquardtaltenwerth.com
+  phone: 524-543-4297 x9823
+  line1: 90025 Heller Route
+  line2:
+  city: Edwinfurt
+  state: CA
+  postal_code: '51050'
+
+mh_shipping:
+  name: Old Mother Hubbard Shipping
+  name: Schuster Inc
+  email: sylvia.corwin@pagacdaniel.com
+  phone: 505-827-2322
+  line1: 65226 Considine Extension
+  line2:
+  city: Cassinstad
+  state: IA
+  postal_code: '59352'
+
+rump_billing:
+  name: Rumpelstiltskin
+  email: camylle.ruecker@bogisichrenner.org
+  phone: 406.840.2304
+  line1: 2432 Lakin Flats
+  line2:
+  city: Prosaccofort
+  state: AR
+  postal_code: 26934-1306
+
+rump_shipping:
+  name: Rumpelstiltskin WH
+  email: amara@lakin.info
+  phone: 470-901-2264 x4376
+  line1: 269 Rice Way
+  line2:
+  city: Joellemouth
+  state: SD
+  postal_code: '20381'
+
+sb_billing:
+  name: Sleeping Beauty
+  email: sibyl_ratke@baumbach.net
+  phone: "(696) 093-4427 x318"
+  line1: 33001 Lorenz Tunnel
+  line2:
+  city: McCulloughborough
+  state: NH
+  postal_code: '39964'
+
+sb_shipping:
+  name: Sleeping Beauty Industrial
+  email: cornelius.vonrueden@hegmann.name
+  phone: 1-572-456-4445 x145
+  line1: 2150 Muller Extension
+  line2:
+  city: Naderhaven
+  state: MA
+  postal_code: '94287'
+
+sw_billing:
+  name: Snow White
+  email: kathlyn.effertz@luettgengulgowski.biz
+  phone: 1-198-363-0174 x619
+  line1: 199 Armstrong Lights
+  line2:
+  city: South Aida
+  state: SD
+  postal_code: 27528-6163
+
+sw_shipping:
+  name: Snow White and Dwarfs
+  email: davonte@casperjast.net
+  phone: 853.834.6574 x86228
+  line1: 8887 Coty Vista
+  line2:
+  city: East Coralietown
+  state: HI
+  postal_code: '71157'
+
+hg_billing:
+  name: Hansel and Gretel
+  email: schuyler@krajcik.name
+  phone: 379-772-4947 x945
+  line1: 499 Julianne Radial
+  line2:
+  city: South Timmyville
+  state: WI
+  postal_code: '38200'
+
+hg_shipping:
+  name: Hansel and Gretel
+  email: marilie_haley@christiansen.name
+  phone: 158-160-0857
+  line1: 447 Mraz Port
+  line2:
+  city: North Markusborough
+  state: MS
+  postal_code: '51700'

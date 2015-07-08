@@ -1,9 +1,35 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
 billy:
   code: GOAT
   name: Billy Goat Gruff
-  terms: cashy
-  gl_receivables_account: recv
+  terms: cash
+  notes: Don't allow into the loading dock, eats all the things
+  gl_receivables_account: ar
   billing_address: billy_billing
   shipping_address: billy_shipping
+
+hubbard:
+  code: HUBBARD
+  name: Old Mother Hubbard
+  terms: net30
+  notes: Always ask how her children are doing
+  gl_receivables_account: ar
+  billing_address: mh_billing
+  shipping_address: mh_shipping
+
+sb:
+  code: SLEEPYB
+  name: Sleeping Beauty
+  terms: credcard
+  notes: Do not sell any sleep aids to
+  gl_receivables_account: ar
+  billing_address: sb_billing
+  shipping_address: sb_shipping
+
+sw:
+  code: SNOWWHITE
+  name: Snow White
+  terms: check
+  notes: Mention gifts for Prince Charming
+  gl_receivables_account: ar
+  billing_address: sw_billing
+  shipping_address: sw_shipping
