@@ -15,7 +15,7 @@
   number: 1115
   name: Inventory in Transist
   description: Inventory on a transfer between locations
-  
+
 -
   number: 1200
   name: Accounts Receivable
@@ -25,7 +25,7 @@
   name: Prepayment Revenue
   description: Amounts received in advance of providing goods and services but not yet delivered.
 -
-  number: 1750	
+  number: 1750
   name: Buildings
   description: Cost to purchase or construct buildings for use by the company.
 -
@@ -50,7 +50,7 @@
 -
   number: 2300
   name: Wages Payable
-  description: Amount owed to employees for hours worked but not yet paid. 
+  description: Amount owed to employees for hours worked but not yet paid.
 
 -
   number: 2400
@@ -62,7 +62,7 @@
   name: Interest Payable
   description: Amount owed for interest on Notes Payable.
 
-- 
+-
   number: 2600
   name: Inventory Receipts Clearing
   description: Inventory received but vendor invoice not yet confirmed
@@ -165,4 +165,3 @@
   number: 8100
   name: Non operating Expense
   description: Expense incurred by other means
-

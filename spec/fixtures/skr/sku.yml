@@ -1,2 +1,59 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+yarn:
+  code: GLDYARN
+  description: Yarn (golden)
+  default_vendor: rump
+  gl_asset_account: invt
+  default_uom_code: FT
+  is_other_charge: false
+  does_track_inventory: yes
+  can_backorder: no
 
+gs:
+  code: GLSHOE
+  description: Glass Shoe
+  default_vendor: cinderella
+  gl_asset_account: invt
+  default_uom_code: EA
+  is_other_charge: false
+  does_track_inventory: yes
+  can_backorder: no
+
+hat:
+  code: HAT
+  description: A Large Top Hat
+  default_vendor: bigco
+  default_uom_code: EA
+  is_other_charge: false
+  does_track_inventory: true
+  gl_asset_account: inventory
+  can_backorder: false
+
+glove:
+  code: GLOVE
+  description: A small black riding glove
+  default_vendor: bigco
+  default_uom_code: PR
+  is_other_charge: false
+  does_track_inventory: true
+  gl_asset_account: inventory
+  can_backorder: false
+
+tax:
+  code: TAX
+  description: Sales Tax
+  is_other_charge: true
+  does_track_inventory: false
+  default_vendor: bigco
+  default_uom_code: EA
+  gl_asset_account: tax
+  can_backorder: false
+
+ship:
+  code: SHIP
+  description: Sales Ship
+  is_other_charge: true
+  does_track_inventory: false
+  default_vendor: bigco
+  default_uom_code: EA
+  gl_asset_account: ship
+  can_backorder: false

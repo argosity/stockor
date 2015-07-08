@@ -1,2 +1,35 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+gsea:
+  code: EA
+  size: 1
+  sku: gs
+  price: 101.14
 
+yarnft:
+  code: FT
+  size: 1
+  sku: yarn
+  price: 21.25
+
+hatea:
+  code: EA
+  size: 1
+  sku: hat
+  price: 8.85
+
+glovepr:
+  code: PR
+  size: 1
+  sku: glove
+  price: 12.14
+
+taxea:
+  code: EA
+  size: 1
+  sku: tax
+  price: 0.0
+
+shipea:
+  code: EA
+  size: 1
+  sku: ship
+  price: 0.0
