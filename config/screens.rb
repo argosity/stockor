@@ -27,15 +27,15 @@ Lanes::Screen.for_extension 'Skr' do | screens |
     #     screen.js          = "sku-maint.js"
     #     screen.css         = "sku-maint.css"
     # end
-    # screens.define "vendor-maint" do | screen |
-    #     screen.title       = "Vendor Maintenance"
-    #     screen.icon        = "truck"
-    #     screen.group_id    = "maint"
-    #     screen.model_class = "Vendor"
-    #     screen.view_class  = "Skr.Screens.VendorMaint"
-    #     screen.js          = "vendor-maint.js"
-    #     screen.css         = "vendor-maint.css"
-    # end
+    screens.define "vendor-maint" do | screen |
+        screen.title       = "Vendor Maintenance"
+        screen.icon        = "truck"
+        screen.group_id    = "maint"
+        screen.model_class = "Vendor"
+        screen.view_class  = "VendorMaint"
+        screen.js          = "vendor-maint.js"
+        screen.css         = "vendor-maint.css"
+    end
     # screens.define "sales-order" do | screen |
     #     screen.title       = "Sales Order"
     #     screen.description = ""
