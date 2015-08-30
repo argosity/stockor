@@ -13,8 +13,8 @@ class Skr.Models.GlAccount extends Skr.Models.Base
             deps: ['number', 'name'], fn: ->
                 if @isNew() then "" else "#{@number}: #{@name}"
 
-
     @initialize: (data) ->
         this.default_ids = data.default_ids
-        ms = Lanes.Vendor.Moment.duration(this::cacheDuration...).asMilliseconds()
-        Lanes.Models.ServerCache.store(this::urlRoot(), data.accounts, ms)
+        Lanes.Models.ServerCache.storeRecordData(
+            this::urlRoot(), data.accounts, this::cacheDuration, 'id'
+        )
