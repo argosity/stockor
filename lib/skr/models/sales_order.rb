@@ -11,6 +11,7 @@ module Skr
     #     end
     #     so.save
     #
+
     #     invoice = Invoice.new( sales_order: so )
     #     invoice.lines.from_sales_order!
     #     invoice.save
@@ -41,23 +42,20 @@ module Skr
         after_save :check_if_location_changed
         before_validation :set_defaults, on: :create
 
-        delegate_and_export :customer_code, :customer_name
-        delegate_and_export :location_code, :location_name
-        delegate_and_export :terms_code,    :terms_description
         delegate_and_export :billing_address_name
-
 
         # joins the so_amount_details view which includes additional fields:
         # customer_code, customer_name, bill_addr_name, total, num_lines, total_other_charge_amount,
         # total_tax_amount, total_shipping_amount,subtotal_amount
-        scope :with_amount_details, lambda { | *args |
-            compose_query_using_detail_view(view: 'so_amount_details', join_to: 'sales_order_id')
+
+        scope :with_details, lambda { | *args |
+            compose_query_using_detail_view(view: 'skr_so_details')
         }, export: true
 
         # joins the so_allocation_details which includes the additional fields:
         # number_of_lines,  allocated_total, number_of_lines_allocated, number_of_lines_fully_allocated
         scope :with_allocation_details, lambda {
-            compose_query_using_detail_view(view: 'so_allocation_details', join_to: 'sales_order_id')
+            compose_query_using_detail_view(view: 'skr_so_allocation_details')
         }
 
         # a open SalesOrder is one who's state is not "complete" or "canceled"
