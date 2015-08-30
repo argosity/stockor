@@ -4,7 +4,9 @@ class Skr.Models.SalesOrder extends Skr.Models.Base
         id:                 {"type":"integer","required":true}
         visible_id:         {"type":"integer","required":true}
         customer_id:        {"type":"integer","required":true}
-        location_id:        {"type":"integer","required":true}
+        location_id:        {"type":"integer","required":true, default: ->
+            Skr.Models.Location.default()?.id
+        }
         shipping_address_id:{"type":"integer","required":true}
         billing_address_id: {"type":"integer","required":true}
         terms_id:           {"type":"integer","required":true}
