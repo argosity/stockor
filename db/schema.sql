@@ -475,6 +475,7 @@ CREATE TABLE skr_inv_lines (
 CREATE TABLE skr_invoices (
     id integer NOT NULL,
     visible_id integer NOT NULL,
+    state smallint DEFAULT 0 NOT NULL,
     terms_id integer NOT NULL,
     customer_id integer NOT NULL,
     location_id integer NOT NULL,
@@ -483,7 +484,6 @@ CREATE TABLE skr_invoices (
     shipping_address_id integer NOT NULL,
     billing_address_id integer NOT NULL,
     amount_paid numeric(15,2) DEFAULT 0.0 NOT NULL,
-    state character varying NOT NULL,
     hash_code character varying NOT NULL,
     invoice_date date NOT NULL,
     po_num character varying,
@@ -520,13 +520,13 @@ CREATE TABLE skr_pick_tickets (
 CREATE TABLE skr_sales_orders (
     id integer NOT NULL,
     visible_id integer NOT NULL,
+    state smallint DEFAULT 0 NOT NULL,
     customer_id integer NOT NULL,
     location_id integer NOT NULL,
     shipping_address_id integer NOT NULL,
     billing_address_id integer NOT NULL,
     terms_id integer NOT NULL,
     order_date date NOT NULL,
-    state smallint NOT NULL,
     is_revised boolean DEFAULT false NOT NULL,
     hash_code character varying NOT NULL,
     ship_partial boolean DEFAULT false NOT NULL,
@@ -644,9 +644,9 @@ ALTER SEQUENCE skr_inv_lines_id_seq OWNED BY skr_inv_lines.id;
 CREATE TABLE skr_inventory_adjustments (
     id integer NOT NULL,
     visible_id integer NOT NULL,
+    state smallint DEFAULT 0 NOT NULL,
     location_id integer NOT NULL,
     reason_id integer NOT NULL,
-    state character varying NOT NULL,
     description text NOT NULL,
     created_at timestamp without time zone NOT NULL,
     created_by_id integer NOT NULL,
@@ -959,11 +959,11 @@ ALTER SEQUENCE skr_pt_lines_id_seq OWNED BY skr_pt_lines.id;
 CREATE TABLE skr_purchase_orders (
     id integer NOT NULL,
     visible_id integer NOT NULL,
+    state smallint DEFAULT 0 NOT NULL,
     vendor_id integer NOT NULL,
     location_id integer NOT NULL,
     ship_addr_id integer NOT NULL,
     terms_id integer NOT NULL,
-    state smallint NOT NULL,
     is_revised boolean DEFAULT false NOT NULL,
     order_date date NOT NULL,
     receiving_completed_at timestamp without time zone,
@@ -1174,14 +1174,14 @@ CREATE VIEW skr_sku_qty_details AS
      LEFT JOIN ( SELECT s_1.id AS sku_id,
             sum(((sol.qty - sol.qty_canceled) * sol.uom_size)) AS qty
            FROM (((skr_so_lines sol
-             JOIN skr_sales_orders so ON (((so.id = sol.sales_order_id) AND (so.state <> ALL (ARRAY[5, 9])))))
+             JOIN skr_sales_orders so ON (((so.id = sol.sales_order_id) AND (so.state <> ALL (ARRAY[5, 10])))))
              JOIN skr_sku_locs sl ON ((sl.id = sol.sku_loc_id)))
              JOIN skr_skus s_1 ON ((s_1.id = sl.sku_id)))
           GROUP BY s_1.id) sol_ttl ON ((sol_ttl.sku_id = s.id)))
      LEFT JOIN ( SELECT s_1.id AS sku_id,
             sum(((pol.qty - pol.qty_canceled) * pol.uom_size)) AS qty
            FROM (((skr_po_lines pol
-             JOIN skr_purchase_orders po ON (((po.id = pol.purchase_order_id) AND (po.state <> ALL (ARRAY[5, 9])))))
+             JOIN skr_purchase_orders po ON (((po.id = pol.purchase_order_id) AND (po.state <> ALL (ARRAY[5, 15])))))
              JOIN skr_sku_locs sl ON ((sl.id = pol.sku_loc_id)))
              JOIN skr_skus s_1 ON ((s_1.id = sl.sku_id)))
           GROUP BY s_1.id) pol_ttl ON ((pol_ttl.sku_id = s.id)));
@@ -1271,7 +1271,7 @@ ALTER SEQUENCE skr_skus_id_seq OWNED BY skr_skus.id;
 --
 
 CREATE VIEW skr_so_allocation_details AS
- SELECT sol.sales_order_id,
+ SELECT sol.sales_order_id AS skr_sales_order_id,
     count(*) AS number_of_lines,
     sum(((sol.qty_allocated)::numeric * sol.price)) AS allocated_total,
     sum(
@@ -1296,16 +1296,37 @@ CREATE VIEW skr_so_allocation_details AS
 
 
 --
--- Name: skr_so_amount_details; Type: VIEW; Schema: public; Owner: -
+-- Name: skr_so_dailly_sales_history; Type: VIEW; Schema: public; Owner: -
 --
 
-CREATE VIEW skr_so_amount_details AS
- SELECT so.id AS sales_order_id,
+CREATE VIEW skr_so_dailly_sales_history AS
+ SELECT days_ago.days_ago,
+    date_trunc('day'::text, ((('now'::text)::date - days_ago.days_ago))::timestamp with time zone) AS day,
+    COALESCE(ttls.order_count, (0)::bigint) AS order_count,
+    COALESCE(ttls.line_count, (0)::bigint) AS line_count,
+    COALESCE(ttls.total, 0.0) AS line_total
+   FROM (generate_series(0, 120, 1) days_ago(days_ago)
+     LEFT JOIN ( SELECT count(DISTINCT sol.sales_order_id) AS order_count,
+            count(*) AS line_count,
+            sum((sol.price * (sol.qty)::numeric)) AS total,
+            date_trunc('day'::text, so.created_at) AS so_date
+           FROM (skr_so_lines sol
+             JOIN skr_sales_orders so ON ((sol.sales_order_id = so.id)))
+          GROUP BY date_trunc('day'::text, so.created_at)) ttls ON ((ttls.so_date = date_trunc('day'::text, ((('now'::text)::date - days_ago.days_ago))::timestamp with time zone))))
+  ORDER BY date_trunc('day'::text, ((('now'::text)::date - days_ago.days_ago))::timestamp with time zone) DESC;
+
+
+--
+-- Name: skr_so_details; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW skr_so_details AS
+ SELECT so.id AS skr_sales_order_id,
     to_char((so.order_date)::timestamp with time zone, 'YYYY-MM-DD'::text) AS string_order_date,
     cust.code AS customer_code,
     cust.name AS customer_name,
     addr.name AS bill_addr_name,
-    COALESCE(ttls.total, 0.0) AS total,
+    COALESCE(ttls.total, 0.0) AS order_total,
     COALESCE(ttls.num_lines, (0)::bigint) AS num_lines,
     COALESCE(ttls.other_charge_total, (0)::numeric) AS total_other_charge_amount,
     COALESCE(ttls.tax_charge_total, (0)::numeric) AS total_tax_amount,
@@ -1336,27 +1357,6 @@ CREATE VIEW skr_so_amount_details AS
              JOIN skr_sku_locs sl ON ((sl.id = sol.sku_loc_id)))
              JOIN skr_skus s ON ((s.id = sl.sku_id)))
           GROUP BY sol.sales_order_id) ttls ON ((ttls.sales_order_id = so.id)));
-
-
---
--- Name: skr_so_dailly_sales_history; Type: VIEW; Schema: public; Owner: -
---
-
-CREATE VIEW skr_so_dailly_sales_history AS
- SELECT days_ago.days_ago,
-    date_trunc('day'::text, ((('now'::text)::date - days_ago.days_ago))::timestamp with time zone) AS day,
-    COALESCE(ttls.order_count, (0)::bigint) AS order_count,
-    COALESCE(ttls.line_count, (0)::bigint) AS line_count,
-    COALESCE(ttls.total, 0.0) AS total
-   FROM (generate_series(0, 120, 1) days_ago(days_ago)
-     LEFT JOIN ( SELECT count(DISTINCT sol.sales_order_id) AS order_count,
-            count(*) AS line_count,
-            sum((sol.price * (sol.qty)::numeric)) AS total,
-            date_trunc('day'::text, so.created_at) AS so_date
-           FROM (skr_so_lines sol
-             JOIN skr_sales_orders so ON ((sol.sales_order_id = so.id)))
-          GROUP BY date_trunc('day'::text, so.created_at)) ttls ON ((ttls.so_date = date_trunc('day'::text, ((('now'::text)::date - days_ago.days_ago))::timestamp with time zone))))
-  ORDER BY date_trunc('day'::text, ((('now'::text)::date - days_ago.days_ago))::timestamp with time zone) DESC;
 
 
 --
@@ -1466,12 +1466,12 @@ ALTER SEQUENCE skr_vo_lines_id_seq OWNED BY skr_vo_lines.id;
 CREATE TABLE skr_vouchers (
     id integer NOT NULL,
     visible_id integer NOT NULL,
+    state smallint DEFAULT 0 NOT NULL,
     vendor_id integer NOT NULL,
     purchase_order_id integer,
     terms_id integer NOT NULL,
-    state character varying NOT NULL,
-    refno character varying,
     confirmation_date date,
+    refno character varying,
     created_at timestamp without time zone NOT NULL,
     created_by_id integer NOT NULL,
     updated_at timestamp without time zone NOT NULL,
@@ -1496,39 +1496,6 @@ CREATE SEQUENCE skr_vouchers_id_seq
 --
 
 ALTER SEQUENCE skr_vouchers_id_seq OWNED BY skr_vouchers.id;
-
-
---
--- Name: testers; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE testers (
-    id integer NOT NULL,
-    name character varying,
-    email character varying,
-    visits text[] DEFAULT '{}'::text[],
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
-);
-
-
---
--- Name: testers_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE testers_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: testers_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE testers_id_seq OWNED BY testers.id;
 
 
 --
@@ -1746,13 +1713,6 @@ ALTER TABLE ONLY skr_vo_lines ALTER COLUMN id SET DEFAULT nextval('skr_vo_lines_
 --
 
 ALTER TABLE ONLY skr_vouchers ALTER COLUMN id SET DEFAULT nextval('skr_vouchers_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY testers ALTER COLUMN id SET DEFAULT nextval('testers_id_seq'::regclass);
 
 
 --
@@ -2009,14 +1969,6 @@ ALTER TABLE ONLY skr_vo_lines
 
 ALTER TABLE ONLY skr_vouchers
     ADD CONSTRAINT skr_vouchers_pkey PRIMARY KEY (id);
-
-
---
--- Name: testers_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY testers
-    ADD CONSTRAINT testers_pkey PRIMARY KEY (id);
 
 
 --
@@ -2706,6 +2658,4 @@ INSERT INTO schema_migrations (version) VALUES ('20140401164740');
 INSERT INTO schema_migrations (version) VALUES ('20140422024010');
 
 INSERT INTO schema_migrations (version) VALUES ('20140615031600');
-
-INSERT INTO schema_migrations (version) VALUES ('20150220015108');
 

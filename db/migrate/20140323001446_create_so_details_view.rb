@@ -2,13 +2,14 @@ require 'skr/db/migration_helpers'
 
 class CreateSoDetailsView < ActiveRecord::Migration
     def up
+        fk = "#{skr_prefix}sales_order_id"
         execute <<-EOS.squish
-            create view #{skr_prefix}so_amount_details as
-                select so.id as sales_order_id,
+            create view #{skr_prefix}so_details as
+              select so.id as #{fk},
                 to_char(so.order_date,'YYYY-MM-DD') as string_order_date,
                 cust.code as customer_code, cust.name as customer_name,
                 addr.name as bill_addr_name,
-                coalesce( ttls.total,0.0 ) as total,
+                coalesce( ttls.total,0.0 ) as order_total,
                 coalesce( ttls.num_lines, 0 ) as num_lines,
                 coalesce( ttls.other_charge_total, 0 ) as total_other_charge_amount,
                 coalesce( ttls.tax_charge_total, 0 ) as total_tax_amount,
@@ -36,7 +37,8 @@ class CreateSoDetailsView < ActiveRecord::Migration
 
         execute <<-EOS.squish
             create view #{skr_prefix}so_allocation_details as
-              select sales_order_id, count(*) as number_of_lines, sum(sol.qty_allocated*price) as allocated_total,
+              select sales_order_id as #{fk},
+                 count(*) as number_of_lines, sum(sol.qty_allocated*price) as allocated_total,
                  sum( case when sol.qty_allocated  - sol.qty_canceled - sol.qty_picking > 0 then 1 else 0 end )
                    as number_of_lines_allocated,
                  sum( case when sol.qty_allocated = (sol.qty - sol.qty_canceled - sol.qty_picking)
@@ -57,7 +59,7 @@ class CreateSoDetailsView < ActiveRecord::Migration
               date_trunc('day', (current_date - days_ago)) as day,
               coalesce( ttls.order_count, 0 ) as order_count,
               coalesce( ttls.line_count, 0  ) as line_count,
-              coalesce(ttls.total,0.0) as total
+              coalesce(ttls.total,0.0) as line_total
               from generate_series(0, 120, 1) as days_ago
               left join (
                  select
