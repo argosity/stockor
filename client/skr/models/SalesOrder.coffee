@@ -19,6 +19,17 @@ class Skr.Models.SalesOrder extends Skr.Models.Base
         notes:              "string"
         options:            "any"
 
+    # optional from details view
+    session:
+        customer_code:      {"type":"string"}
+        order_total:        {"type":"bigdec"}
+
+    derived:
+        total: deps: ['order_total', 'lines' ], fn: ->
+            @order_total or @lines.reduce( (t, l) ->
+                t.plus(l.total)
+            , _.bigDecimal(0))
+
     enums:
         state:
             open: 1
@@ -27,11 +38,26 @@ class Skr.Models.SalesOrder extends Skr.Models.Base
 
     associations:
         customer:         { model: "Customer" }
-        location:         { model: "Location" }
-        terms:            { model: "PaymentTerm" }
-        billing_address:  { model: "Address" }
-        shipping_address: { model: "Address" }
-        lines:            { collection: "SoLine" }
-        skus:             { collection: "Sku" }
-        pick_tickets:     { collection: "PickTicket" }
+        location:         { model: "Location", default: ->
+            Skr.Models.Location.fetchById(@location_id) if @location_id
+        }
+        terms:            { model: "PaymentTerm"  }
+        billing_address:  { model: "Address"      }
+        shipping_address: { model: "Address"      }
+        skus:             { collection: "Sku"     }
         invoices:         { collection: "Invoice" }
+        lines:            { collection: "SoLine", fk: 'sales_order_id' }
+        pick_tickets:     { collection: "PickTicket" }
+
+    constructor: ->
+        super
+        @on("change:customer", @onCustomerChange)
+        @listenTo @lines, 'change:total', -> @trigger('change:order_total')
+
+    onCustomerChange: (c) ->
+        return unless @isNew()
+        associations = ['billing_address', 'shipping_address']
+        c.withAssociations(associations).then( =>
+            for name in associations
+                this[name].copyFrom(c[name])
+        )
