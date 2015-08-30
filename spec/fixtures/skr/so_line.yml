@@ -1,2 +1,12 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
+tiny_glove:
+  sales_order: tiny
+  sku_loc: glove_def
+  qty: 1
+  price: 42.88
+  sku_code: GLOVE
+  description: A Glove
+  uom_code: PR
+  uom_size: 1
+  position: 1

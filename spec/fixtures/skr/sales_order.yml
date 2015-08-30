@@ -1,2 +1,11 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
+tiny:
+  visible_id: 1
+  customer: billy
+  location: default
+  notes: Ship promptly in all organic packaging
+  billing_address: hg_billing
+  shipping_address: sw_shipping
+  terms: credcard
+  order_date: <%= 2.days.ago %>
+  state: 0

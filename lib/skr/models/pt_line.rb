@@ -61,7 +61,7 @@ module Skr
             self.sku_loc     ||= so_line.sku_loc
             self.bin         ||= sku_loc.bin
             self.price       ||= so_line.price
-            self.sku_code    = sku_loc.sku.code    if self.sku_code.blank?
+            self.sku_code    = sku_loc.sku.code
             self.description = so_line.description if self.description.blank?
             self.uom         = so_line.uom         if self.uom.blank?
             true

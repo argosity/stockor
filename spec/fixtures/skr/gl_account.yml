@@ -10,7 +10,7 @@ bank_checking:
   name: Cash
   description: Checking account balance (as shown in company records), currency, coins, checks received from customers but not yet deposited.
 
-invt:
+inventory:
   number: 1110
   name: Inventory
   description: Inventory on hand and awaiting sale

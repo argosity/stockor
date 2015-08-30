@@ -22,6 +22,12 @@ glovepr:
   sku: glove
   price: 12.14
 
+glovecs:
+  code: CS
+  size: 24
+  sku: glove
+  price: 288.00
+
 taxea:
   code: EA
   size: 1

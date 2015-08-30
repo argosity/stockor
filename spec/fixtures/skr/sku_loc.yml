@@ -1,2 +1,24 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+yarn_def:
+  sku: yarn
+  location: default
 
+gs_def:
+  sku: gs
+  location: default
+
+hat_def:
+  sku: hat
+  location: default
+
+glove_def:
+  sku: glove
+  location: default
+
+tax_def:
+  sku: tax
+  location: default
+
+ship_def:
+  sku: ship
+  location: default

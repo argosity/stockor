@@ -44,7 +44,7 @@ module Skr
             line = [ self.pt_line, self.so_line ].detect{ |l| ! l.blank? }
             if line
                 self.uom         = line.uom if self.uom.blank?
-                self.sku_code    ||= line.sku_code
+                self.sku_code    = line.sku_code
                 self.description ||= line.description
                 self.sku_loc     ||= line.sku_loc
                 self.qty         ||= line.qty

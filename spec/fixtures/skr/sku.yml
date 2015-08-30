@@ -2,7 +2,7 @@ yarn:
   code: GLDYARN
   description: Yarn (golden)
   default_vendor: rump
-  gl_asset_account: invt
+  gl_asset_account: inventory
   default_uom_code: FT
   is_other_charge: false
   does_track_inventory: yes
@@ -12,7 +12,7 @@ gs:
   code: GLSHOE
   description: Glass Shoe
   default_vendor: cinderella
-  gl_asset_account: invt
+  gl_asset_account: inventory
   default_uom_code: EA
   is_other_charge: false
   does_track_inventory: yes
