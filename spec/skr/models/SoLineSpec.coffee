@@ -1,5 +1,7 @@
 describe "Skr.Models.SoLine", ->
 
-    it "can be instantiated", ->
+    it "can sets properties from the uom", ->
         model = new Skr.Models.SoLine()
-        expect(model).toEqual(jasmine.any(Skr.Models.SoLine))
+        model.uom = new Skr.Models.Uom(size: 10, code: 'CS')
+        expect(model.uom_size).toEqual(10)
+        expect(model.uom_code).toEqual('CS')
