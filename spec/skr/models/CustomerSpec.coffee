@@ -3,7 +3,7 @@ describe "Skr.Models.Customer", ->
     beforeEach ->
         Lanes.Test.ModelSaver.setUser('admin')
 
-    xit "sends failure messages when code isn't set", (done) ->
+    it "sends failure messages when code isn't set", (done) ->
         model = new Skr.Models.Customer()
         Lanes.Test.ModelSaver.perform(model, done).then (save) ->
             expect(model.errors?.code).toContain("blank")
@@ -17,4 +17,4 @@ describe "Skr.Models.Customer", ->
         )
 
         Lanes.Test.ModelSaver.perform(model, done).then (save) ->
-            expect(model.errors).toBeNull()
+            expect(model.errors).toBeUndefined()
