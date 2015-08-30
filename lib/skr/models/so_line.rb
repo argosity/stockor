@@ -12,7 +12,7 @@ module Skr
         has_many :pt_lines,  :before_add=>:setup_new_pt_line, :inverse_of=>:so_line,
                  extend: Concerns::PT::Lines, :listen=>{save:'update_qty_picking'}
 
-        # has_many :inv_lines, :before_add=>:setup_new_inv_line, :inverse_of=>:so_line
+        has_many :inv_lines, :before_add=>:setup_new_inv_line, :inverse_of=>:so_line
 
         validates :sales_order, :sku_loc,  set: true
 
@@ -23,7 +23,7 @@ module Skr
 
         has_additional_events :qty_change
 
-        before_validation   :set_defaults_from_associations
+        before_validation :set_defaults_from_associations
         before_create  :allocate_max_available
         before_destroy :ensure_deleteable
 
@@ -76,10 +76,10 @@ module Skr
             inv_qty = self.inv_lines.sum(:qty)
             update_attributes( :qty_invoiced=> inv_qty, :qty_allocated => [ qty_allocated - inv_qty, 0 ].max )
         end
+
         def update_qty_picking( pt=nil )
             update_attributes( :qty_picking=> pt_lines.ea_picking_qty/uom_size )
         end
-
 
         def fire_after_save_events
             %w{ allocated picking invoiced canceled }.each do | event |
@@ -93,10 +93,12 @@ module Skr
 
         def set_defaults_from_associations
             self.uom         = sku.uoms.default if self.uom_code.blank?
-            self.description = sku.description if self.description.blank?
-            self.sku_code    = sku.code        if self.sku_code.blank?
+            self.description = sku.description  if self.description.blank?
+            self.sku_code    = sku.code
             if !price && sales_order && sales_order.customer && sku_loc && uom.present?
-                self.price = Skr.config.pricing_provider.price(sku_loc:sku_loc, customer:sales_order.customer, uom:uom, qty:qty)
+                self.price = Skr.config.pricing_provider.price(
+                    sku_loc:sku_loc, customer:sales_order.customer, uom:uom, qty:qty
+                )
             end
             true
         end
