@@ -47,6 +47,13 @@ module Skr
             Uom.new({ :code=>'EA',:size=>1, :price=>0.0 })
         end
 
+        export_scope :for_sku_loc, lambda{ | sku_loc_id = nil |
+            if sku_loc_id
+                Skr::Uom.joins(sku: [:sku_locs]).where(Skr::SkuLoc.table_name => {id: sku_loc_id})
+            else
+                Skr::Uom.none
+            end
+        }
     end
 
 
