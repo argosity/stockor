@@ -11,6 +11,7 @@ class Skr.Models.SkuLoc extends Skr.Models.Base
         qty_picking:  {"type":"integer","required":true,"default":"0"}
         qty_reserved: {"type":"integer","required":true,"default":"0"}
         bin:          "string"
+        sku_code:      {"type":"string","required":true}
 
     associations:
         sku:         { model: "Sku" }
