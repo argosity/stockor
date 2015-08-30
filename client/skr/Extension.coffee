@@ -9,6 +9,11 @@ class Skr.Extension extends Lanes.Extensions.Base
             accounts: data.gl_accounts
             default_ids: data.default_gl_account_ids,
         )
+        Skr.Models.Location.initialize(
+            locations: data.locations
+        )
 
     rootComponent: (viewport) ->
         Lanes.Workspace.Layout
+
+    onAvailable: ->

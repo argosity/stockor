@@ -17,7 +17,8 @@ module Skr
                     account = gl_accounts.detect{|gla|gla['number'] == number}
                     [code, account ? account['id'] : 0]
                 }],
-                gl_accounts: gl_accounts
+                gl_accounts: gl_accounts,
+                locations: Skr::Location.all.as_json
             }
         end
 
