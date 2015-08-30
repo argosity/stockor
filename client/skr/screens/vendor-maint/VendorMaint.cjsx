@@ -5,8 +5,9 @@ class Skr.Screens.VendorMaint extends Lanes.React.Screen
             @props.vendor || new Skr.Models.Vendor
         query: ->
             new Lanes.Models.Query({
-                loadAssociations: ['billing_address', 'shipping_address']
-                modelClass: Skr.Models.Vendor, fields: [
+                syncOptions:
+                    include: ['billing_address', 'shipping_address']
+                src: Skr.Models.Vendor, fields: [
                     {id:'id', visible: false}
                     'code', 'name',
                     { id: 'notes', flex: 2}
@@ -28,10 +29,11 @@ class Skr.Screens.VendorMaint extends Lanes.React.Screen
                     model={@vendor}
                     commands={@state.commands}
                     query={@query} />
-                <LC.TextField sm=8 name="name" model={@vendor} />
+                <LC.Input sm=8 name="name" model={@vendor} />
             </BS.Row>
             <BS.Row>
-               <LC.TextArea sm=12
+               <LC.Input sm=12
+                   type='textarea'
                    name="notes"
                    model={@vendor} />
             </BS.Row>

@@ -5,8 +5,9 @@ class Skr.Screens.CustomerMaint extends Lanes.React.Screen
             @props.customer || new Skr.Models.Customer
         query: ->
             new Lanes.Models.Query({
-                loadAssociations: ['billing_address', 'shipping_address']
-                modelClass: Skr.Models.Customer, fields: [
+                syncOptions:
+                    include: ['billing_address', 'shipping_address']
+                src: Skr.Models.Customer, fields: [
                     {id:'id', visible: false}
                     'code', 'name', 'notes',
                     { id: 'open_balance', flex: 0.5, textAlign: 'center' }
@@ -27,12 +28,13 @@ class Skr.Screens.CustomerMaint extends Lanes.React.Screen
                     model={@customer}
                     commands={@state.commands}
                     query={@query} />
-                <LC.TextField sm=8 name="name" model={@customer} />
+                <LC.Input sm=8 name="name" model={@customer} />
             </BS.Row>
             <BS.Row>
-               <LC.TextArea sm=12
-                   name="notes"
-                   model={@customer} />
+                <LC.Input sm=12
+                    type='textarea'
+                    name="notes"
+                    model={@customer} />
             </BS.Row>
             <BS.Row>
                 <LC.SelectField sm=6
