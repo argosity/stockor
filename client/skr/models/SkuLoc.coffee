@@ -2,16 +2,16 @@ class Skr.Models.SkuLoc extends Skr.Models.Base
 
 
     props:
-        id:           {"type":"integer","required":true}
-        sku_id:       {"type":"integer","required":true}
-        location_id:  {"type":"integer","required":true}
-        mac:          {"type":"bigdec","required":true,"default":"0.0"}
-        qty:          {"type":"integer","required":true,"default":"0"}
-        qty_allocated:{"type":"integer","required":true,"default":"0"}
-        qty_picking:  {"type":"integer","required":true,"default":"0"}
-        qty_reserved: {"type":"integer","required":true,"default":"0"}
+        id:           {type:"integer", required:true}
+        sku_id:       {type:"integer", required:true}
+        location_id:  {type:"integer", required:true}
+        mac:          {type:"bigdec", required:true, "default":"0.0"}
+        qty:          {type:"integer", required:true, "default":"0"}
+        qty_allocated:{type:"integer", required:true, "default":"0"}
+        qty_picking:  {type:"integer", required:true, "default":"0"}
+        qty_reserved: {type:"integer", required:true, "default":"0"}
         bin:          "string"
-        sku_code:      {"type":"string","required":true}
+        sku_code:      {type:"string", required:true}
 
     associations:
         sku:         { model: "Sku" }

@@ -2,12 +2,12 @@ class Skr.Models.Voucher extends Skr.Models.Base
 
 
     props:
-        id:               {"type":"integer","required":true}
-        visible_id:       {"type":"integer","required":true}
-        vendor_id:        {"type":"integer","required":true}
+        id:               {type:"integer", required:true}
+        visible_id:       {type:"integer", required:true}
+        vendor_id:        {type:"integer", required:true}
         purchase_order_id:"integer"
-        terms_id:         {"type":"integer","required":true}
-        state:            {"type":"string","required":true}
+        terms_id:         {type:"integer", required:true}
+        state:            {type:"string", required:true}
         refno:            "string"
         confirmation_date:"any"
 

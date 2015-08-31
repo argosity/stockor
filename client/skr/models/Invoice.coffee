@@ -2,19 +2,19 @@ class Skr.Models.Invoice extends Skr.Models.Base
 
 
     props:
-        id:                 {"type":"integer","required":true}
-        visible_id:         {"type":"integer","required":true}
-        terms_id:           {"type":"integer","required":true}
-        customer_id:        {"type":"integer","required":true}
-        location_id:        {"type":"integer","required":true}
+        id:                 {type:"integer", required:true}
+        visible_id:         {type:"integer", required:true}
+        terms_id:           {type:"integer", required:true}
+        customer_id:        {type:"integer", required:true}
+        location_id:        {type:"integer", required:true}
         sales_order_id:     "integer"
         pick_ticket_id:     "integer"
-        shipping_address_id:{"type":"integer","required":true}
-        billing_address_id: {"type":"integer","required":true}
-        amount_paid:        {"type":"bigdec","required":true,"default":"0.0"}
-        state:              {"type":"string","required":true}
-        hash_code:          {"type":"string","required":true}
-        invoice_date:       {"type":"any","required":true}
+        shipping_address_id:{type:"integer", required:true}
+        billing_address_id: {type:"integer", required:true}
+        amount_paid:        {type:"bigdec", required:true, "default":"0.0"}
+        state:              {type:"string", required:true}
+        hash_code:          {type:"string", required:true}
+        invoice_date:       {type:"any", required:true}
         po_num:             "string"
         options:            "any"
 

@@ -2,10 +2,10 @@ class Skr.Models.PickTicket extends Skr.Models.Base
 
 
     props:
-        id:            {"type":"integer","required":true}
-        visible_id:    {"type":"integer","required":true}
-        sales_order_id:{"type":"integer","required":true}
-        location_id:   {"type":"integer","required":true}
+        id:            {type:"integer", required:true}
+        visible_id:    {type:"integer", required:true}
+        sales_order_id:{type:"integer", required:true}
+        location_id:   {type:"integer", required:true}
         shipped_at:    "any"
         is_complete:   "boolean"
 
