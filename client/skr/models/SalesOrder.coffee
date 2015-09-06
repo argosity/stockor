@@ -52,12 +52,15 @@ class Skr.Models.SalesOrder extends Skr.Models.Base
     constructor: ->
         super
         @on("change:customer", @onCustomerChange)
-        @listenTo @lines, 'change:total', -> @trigger('change:order_total')
+        @listenTo @lines, 'change:total', ->
+            @trigger('change', @, {})
+            delete this._cache.total
+            @unset('order_total')
 
-    onCustomerChange: (c) ->
+    onCustomerChange: ->
         return unless @isNew()
         associations = ['billing_address', 'shipping_address']
-        c.withAssociations(associations).then( =>
+        @customer.withAssociations(associations).then( =>
             for name in associations
-                this[name].copyFrom(c[name])
+                this[name].copyFrom(@customer[name])
         )
