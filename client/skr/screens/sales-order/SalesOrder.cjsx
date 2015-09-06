@@ -26,11 +26,13 @@ class Skr.Screens.SalesOrder extends Lanes.React.Screen
                     { id: 'sku_code' }
                     { id: 'description', flex: 2}
                     { id: 'uom', title: 'UOM', query: false, format: (v, r, q) -> v.combined }
-                    { id: 'price', textAlign: 'right' }
+                    { id: 'qty',   textAlign: 'center' }
+                    { id: 'price', textAlign: 'right'  }
                 ]
             })
 
     getInitialState: ->
+        isEditing: true
         commands: new Lanes.Screens.Commands(this,
             modelName: 'sales_order'
             modelDidRebind: (model) => @linesQuery.src = @sales_order.lines
@@ -41,6 +43,15 @@ class Skr.Screens.SalesOrder extends Lanes.React.Screen
         @refs.finder.loadCurrentSelection()
 
     editors: (props) ->
+        sku_code: ({model}) ->
+            <LC.SelectField
+                key="sku-code"
+                editOnly writable unstyled
+                model={model}
+                syncOptions={include: 'sku', fields: 'sku_code'}
+                labelField="sku_code"
+                name="sku_loc"
+            />
         uom: ({model}) ->
             return '' unless model.sku_loc_id
             <LC.SelectField
@@ -52,17 +63,9 @@ class Skr.Screens.SalesOrder extends Lanes.React.Screen
                 name="uom"
                 collection={model.uom_choices}
             />
-        sku_code: ({model}) ->
-            <LC.SelectField
-                key="sku-code"
-                editOnly writable unstyled
-                model={model}
-                syncOptions={include: 'sku', fields: 'sku_code'}
-                labelField="sku_code"
-                name="sku_loc"
-            />
 
     render: ->
+
         <div className="sales-order flex-vertically" >
             <LC.Toolbar commands={@state.commands} />
             <LC.ErrorDisplay model={@sales_order} />
@@ -122,7 +125,7 @@ class Skr.Screens.SalesOrder extends Lanes.React.Screen
                     Total:
                 </BS.Col>
                 <BS.Col md=2>
-                    <Skr.Components.Currency amount={@sales_order.order_total} />
+                    <Skr.Components.Currency amount={@sales_order.total} />
                 </BS.Col>
             </BS.Row>
         </div>
