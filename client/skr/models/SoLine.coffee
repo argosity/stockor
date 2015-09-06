@@ -47,7 +47,7 @@ class Skr.Models.SoLine extends Skr.Models.Base
         if @uom
             @onUomChange()
         else
-            @uom = new Skr.Models.Uom(id: @sku_loc_id, size: @uom_size, code: @uom_code, price: @price)
+            @uom = new Skr.Models.Uom(size: @uom_size, code: @uom_code, price: @price)
 
     onSkuChange: (sl) ->
         @uom_choices.options.with.for_sku_loc = @sku_loc_id
