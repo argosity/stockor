@@ -21,8 +21,8 @@ class Skr.Screens.SkuMaint extends Lanes.React.Screen
 
     render: ->
         <div className="sku-maint">
-            <LC.Toolbar commands={@state.commands} />
-            <LC.ErrorDisplay model={@sku} />
+            <Lanes.Screens.CommonComponents
+                activity={@state} commands={@state.commands} model={@sku} />
             <BS.Row>
                 <LC.RecordFinder ref="finder" sm=4 autoFocus
                     model={@sku}

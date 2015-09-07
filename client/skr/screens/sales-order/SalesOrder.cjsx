@@ -66,10 +66,8 @@ class Skr.Screens.SalesOrder extends Lanes.React.Screen
 
     render: ->
         <div className="sales-order flex-vertically" >
-            <LC.NetworkActivityOverlay {...@state} />
-            <LC.Toolbar commands={@state.commands} />
-            <LC.ErrorDisplay model={@sales_order} />
-
+            <Lanes.Screens.CommonComponents
+                activity={@state} commands={@state.commands} model={@sales_order} />
             <BS.Row>
                 <LC.RecordFinder ref="finder" sm=2 autoFocus
                     model={@sales_order}
