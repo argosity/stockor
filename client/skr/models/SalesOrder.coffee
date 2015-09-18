@@ -19,13 +19,13 @@ class Skr.Models.SalesOrder extends Skr.Models.Base
         notes:              "string"
         options:            "any"
 
-    # optional from details view
+    # optional attributes from details view
     session:
         customer_code:      {type:"string"}
         order_total:        {type:"bigdec"}
 
     derived:
-        total: deps: ['order_total', 'lines' ], fn: ->
+        total: deps: ['order_total'], fn: ->
             @order_total or @lines.reduce( (t, l) ->
                 t.plus(l.total)
             , _.bigDecimal(0))
@@ -52,10 +52,11 @@ class Skr.Models.SalesOrder extends Skr.Models.Base
     constructor: ->
         super
         @on("change:customer", @onCustomerChange)
-        @listenTo @lines, 'change:total', ->
+        @lines.on('change:total', ->
             @trigger('change', @, {})
             delete this._cache.total
             @unset('order_total')
+        , this)
 
     onCustomerChange: ->
         return unless @isNew()
