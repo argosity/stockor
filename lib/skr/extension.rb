@@ -5,7 +5,7 @@ module Skr
     class Extension < Lanes::Extensions::Definition
 
         identifier "skr"
-
+        title "Stockor"
         root_path Pathname.new(__FILE__).dirname.join("..","..").expand_path
 
         components 'record-finder', 'select-field'
