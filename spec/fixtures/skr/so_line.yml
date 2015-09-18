@@ -7,6 +7,28 @@ tiny_glove:
   price: 42.88
   sku_code: GLOVE
   description: A Glove
-  uom_code: PR
-  uom_size: 1
+  uom_code: CS
+  uom_size: 24
   position: 1
+
+tiny_hat:
+  sales_order: tiny
+  sku_loc: hat_def
+  qty: 1
+  price: 8.85
+  sku_code: HAT
+  description: A Top Hat
+  uom_code: EA
+  uom_size: 1
+  position: 2
+
+tiny_yarn:
+  sales_order: tiny
+  sku_loc: yarn_def
+  qty: 3
+  price: 21.25
+  sku_code: GLDYARN
+  description: Yarn (golden)
+  uom_code: FT
+  uom_size: 1
+  position: 3
