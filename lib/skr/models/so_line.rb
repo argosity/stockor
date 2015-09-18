@@ -14,6 +14,8 @@ module Skr
 
         has_many :inv_lines, :before_add=>:setup_new_inv_line, :inverse_of=>:so_line
 
+        has_many :uom_choices, :through => :sku, :source => :uoms, export: true
+
         validates :sales_order, :sku_loc,  set: true
 
         validates :price, :qty, :numericality=>true
