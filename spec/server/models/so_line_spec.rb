@@ -2,9 +2,9 @@ require_relative '../spec_helper'
 
 class SoLineSpec < Skr::TestCase
 
-    it "can be instantiated" do
-        model = SoLine.new
-        model.must_be_instance_of(SoLine)
+    it "can load uom_choices" do
+        line = skr_so_line(:tiny_glove)
+        assert_equal ['PR', 'CS' ], line.uom_choices.pluck(:code)
     end
 
 end
