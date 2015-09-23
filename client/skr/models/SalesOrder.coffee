@@ -54,7 +54,7 @@ class Skr.Models.SalesOrder extends Skr.Models.Base
         @on("change:customer", @onCustomerChange)
         @lines.on('change:total', ->
             @trigger('change', @, {})
-            delete this._cache.total
+            @unCacheDerived('total')
             @unset('order_total')
         , this)
 
