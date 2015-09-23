@@ -6,7 +6,7 @@ class Skr.Screens.SkuMaint extends Lanes.React.Screen
         query: ->
             new Lanes.Models.Query({
                 syncOptions:
-                    include: ['default_vendor']
+                    include: ['default_vendor', 'uoms']
                 src: Skr.Models.Sku, fields: [
                     {id:'id', visible: false}
                     'code'
