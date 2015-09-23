@@ -8,7 +8,7 @@ class Skr.Models.Sku extends Skr.Models.Base
             Skr.Models.GlAccount.default_ids.asset
         }
         default_uom_code:    {type:"string", required:true}
-        code:                {type:"string", required:true}
+        code:                {type:"code",   required:true}
         description:         {type:"string", required:true}
         is_other_charge:     {type:"boolean", required:true, default:false}
         does_track_inventory:{type:"boolean", required:true, default:false}
@@ -21,4 +21,4 @@ class Skr.Models.Sku extends Skr.Models.Base
         }
         sku_locs:         { collection: "SkuLoc" }
         sku_vendors:      { collection: "SkuVendor" }
-        uoms:             { collection: "Uom" }
+        uoms:             { collection: "Uom", inverse: 'sku' }
