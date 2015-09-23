@@ -1,1 +1,2 @@
+//=require ./SkuUomList
 //=require ./SkuMaint

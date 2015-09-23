@@ -1,8 +1,8 @@
-/*
- If your screen does not use any custom styles
+.sku-uom-list {
+    .value.read-only {padding-top: 2px; }
+    ul { @extend .rw-multiselect-taglist; }
+}
 
- You should remove this file and it's reference from config/screens.rb
-
- Otherwise Lanes will continue to fetch an empty file whenever
- the screen is displayed
-*/
+.sku-uom-edit {
+    width: 280px;
+}
