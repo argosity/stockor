@@ -31,18 +31,21 @@ class Skr.Screens.SkuMaint extends Lanes.React.Screen
                 <LC.Input sm=8 name="description" model={@sku} />
             </BS.Row>
             <BS.Row>
-                <LC.SelectField sm=2
+                <LC.SelectField sm=3
                     label="Vendor"
                     name="default_vendor"
                     labelField="name"
                     model={@sku} />
 
-                <LC.SelectField sm=2
+                <LC.SelectField sm=3
                     label="Asset Account"
                     name="gl_asset_account"
                     labelField="combined_name"
                     model={@sku} />
 
+                <Skr.Components.SkuUomList label={"UOMs"} model={@sku} name='uoms' sm=6 />
+            </BS.Row>
+            <BS.Row>
                 <LC.ToggleField sm=2
                     label="Other Charge?"
                     name="is_other_charge"
@@ -58,4 +61,5 @@ class Skr.Screens.SkuMaint extends Lanes.React.Screen
                     name="can_backorder"
                     model={@sku} />
             </BS.Row>
+
         </div>
