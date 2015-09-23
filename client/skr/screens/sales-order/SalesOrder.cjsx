@@ -21,12 +21,7 @@ class Skr.Screens.SalesOrder extends Lanes.React.Screen
             })
 
     getInitialState: ->
-        isEditing: true
         commands: new Lanes.Screens.Commands(this, modelName: 'sales_order')
-
-    componentDidMount: ->
-        @sales_order.visible_id = '1'
-        @refs.finder.loadCurrentSelection()
 
     render: ->
         <div className="sales-order flex-vertically" >
