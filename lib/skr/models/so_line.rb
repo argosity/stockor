@@ -72,6 +72,10 @@ module Skr
             pt_lines.picking.each{ |ptl| ptl.cancel! }
         end
 
+        def total
+            qty * price
+        end
+
         private
 
         def update_qty_shipped
