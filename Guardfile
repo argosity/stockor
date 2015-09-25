@@ -7,7 +7,7 @@ Lanes::GuardTasks.run(self, name: "skr") do | tests |
     end
 
     tests.server do
-
+        watch(%r{^templates/print/*}) { "spec/server/print_spec.rb" }
     end
 
 end

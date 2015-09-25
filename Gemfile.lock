@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/argosity/lanes.git
-  revision: d2b28c2a3b9f6df641adf42b015e945304d92245
+  revision: 6f533197c2a1946261bc7d3f6b34d70b4133c126
   branch: master
   specs:
     lanes (0.1.9.5)
@@ -38,12 +38,13 @@ PATH
   specs:
     stockor (0.1.9)
       aasm (~> 4.1)
+      erb_latex (~> 0.2)
       lanes
 
 GEM
   remote: https://rubygems.org/
   specs:
-    aasm (4.2.0)
+    aasm (4.3.0)
     activemodel (4.2.4)
       activesupport (= 4.2.4)
       builder (~> 3.1)
@@ -76,6 +77,7 @@ GEM
     compass-import-once (1.0.5)
       sass (>= 3.2, < 3.5)
     crass (1.0.2)
+    erb_latex (0.2.0)
     execjs (2.6.0)
     faker (1.4.3)
       i18n (~> 0.5)
@@ -198,4 +200,4 @@ DEPENDENCIES
   stockor!
 
 BUNDLED WITH
-   1.10.5
+   1.10.6

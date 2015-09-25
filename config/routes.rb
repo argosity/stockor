@@ -37,5 +37,10 @@ Lanes::API.routes.draw do
     resources Skr::SalesOrder
     resources Skr::SoLine
 
+    get '/print-skr-form/:type/:id' do
+        content_type 'application/pdf'
+        print = Skr::Print.new(params[:type], params[:id])
+        print.output
+    end
 
 end
