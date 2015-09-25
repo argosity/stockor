@@ -1,4 +1,13 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+bigco:
+  name: Big Co Inc
+  email: biggy@huge.com
+  phone: "(746) 280-8087"
+  line1: 1 sweet spot
+  line2:
+  city: NY
+  state: NY
+  postal_code: '12345'
 
 billy_billing:
   name: Billy Goat Accounting Dept
