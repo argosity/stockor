@@ -21,7 +21,7 @@ class Skr.Screens.SalesOrder extends Lanes.React.Screen
             })
 
     getInitialState: ->
-        commands: new Lanes.Screens.Commands(this, modelName: 'sales_order')
+        commands: new Lanes.Screens.Commands(this, modelName: 'sales_order', print: true)
 
     render: ->
         <div className="sales-order flex-vertically" >

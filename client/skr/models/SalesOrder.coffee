@@ -19,6 +19,8 @@ class Skr.Models.SalesOrder extends Skr.Models.Base
         notes:              "string"
         options:            "any"
 
+    mixins: [ Skr.Models.Mixins.PrintSupport ]
+
     # optional attributes from details view
     session:
         customer_code:      {type:"string"}
