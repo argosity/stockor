@@ -1,0 +1,22 @@
+\documentclass[letterpaper]{article}
+\usepackage{tabu}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{graphicx}
+\usepackage{marginnote}
+\hfuzz=5pt
+\usepackage{array}
+\usepackage{hyperref}
+\hypersetup{
+  pdfinfo={
+    Creator={Stockor.com}
+  }
+}
+\usepackage{fancyhdr,lastpage}
+\usepackage[left=2cm,top=2cm,right=2cm,bottom=4cm]{geometry}
+\newcolumntype{C}{>{\centering\arraybackslash}p{2cm}}
+\pagestyle{fancy}
+\fancyhf{}
+% begin body
+<%= yield %>
+% end body

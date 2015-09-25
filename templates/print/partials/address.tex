@@ -1,0 +1,6 @@
+\begin{tabular}{l}
+<% unless @address.name.blank? %><%=q  @address.name %> \\<% end %>
+<% unless @address.line1.blank? %><%=q  @address.line1 %> \\<% end %>
+<% unless @address.line2.blank? %><%=q  @address.line2 %> \\<% end %>
+<% unless @address.city.blank? %><%=q  @address.city %>, <% end %><%=q  @address.state %> <%=q  @address.postal_code %> \\
+\end{tabular}
