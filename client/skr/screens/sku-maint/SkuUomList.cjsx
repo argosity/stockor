@@ -112,7 +112,7 @@ class UOMToken extends Lanes.React.BaseComponent
                 amount={@props.uom.price} />
         </li>
 
-class Skr.Components.SkuUomList extends Lanes.React.Component
+class Skr.Screens.SkuMaint.SkuUomList extends Lanes.React.Component
 
     mixins: [
         LC.Form.FieldMixin
@@ -132,11 +132,10 @@ class Skr.Components.SkuUomList extends Lanes.React.Component
             selected: selected
 
     onAdd: ->
-        debugger
         @refs.body.add()
 
     onOk: ->
-        @state.editing.save() # @model.uoms.copyFrom(@state.editing)
+        @state.editing.save()
         @setState(editing: false)
 
     onCancel: ->

@@ -26,6 +26,7 @@ class Skr.Screens.SkuMaint extends Lanes.React.Screen
             <BS.Row>
                 <LC.RecordFinder ref="finder" sm=4 autoFocus
                     model={@sku}
+                    label="Code"
                     commands={@state.commands}
                     query={@query} />
                 <LC.Input sm=8 name="description" model={@sku} />
@@ -43,7 +44,7 @@ class Skr.Screens.SkuMaint extends Lanes.React.Screen
                     labelField="combined_name"
                     model={@sku} />
 
-                <Skr.Components.SkuUomList label={"UOMs"} model={@sku} name='uoms' sm=6 />
+                <Skr.Screens.SkuMaint.SkuUomList label={"UOMs"} model={@sku} name='uoms' sm=6 />
             </BS.Row>
             <BS.Row>
                 <LC.ToggleField sm=2
