@@ -9,6 +9,16 @@ Lanes::Screen.define_group 'customer' do | group |
     group.icon        = "heart"
 end
 Lanes::Screen.for_extension 'Skr' do | screens |
+    screens.define "invoice" do | screen |
+        screen.title       = "Invoice"
+        screen.description = ""
+        screen.icon        = ""
+        screen.group_id    = ""
+        screen.model_class = ""
+        screen.view_class  = "Invoice"
+        screen.js          = "invoice.js"
+        screen.css         = "invoice.css"
+    end
     screens.define "customer-maint" do | screen |
         screen.title       = "Customer Maintenance"
         screen.icon        = "heartbeat"
@@ -45,5 +55,15 @@ Lanes::Screen.for_extension 'Skr' do | screens |
         screen.view_class  = "SalesOrder"
         screen.js          = "sales-order.js"
         screen.css         = "sales-order.css"
+    end
+    screens.define "invoice" do | screen |
+        screen.title       = "Invoice"
+        screen.description = "Invoices"
+        screen.icon        = "money"
+        screen.group_id    = "customer"
+        screen.model_class = "Invoice"
+        screen.view_class  = "Invoice"
+        screen.js          = "invoice.js"
+        screen.css         = "invoice.css"
     end
 end
