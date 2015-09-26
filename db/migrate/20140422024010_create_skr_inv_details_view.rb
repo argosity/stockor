@@ -13,7 +13,7 @@ class CreateSkrInvDetailsView < ActiveRecord::Migration
            to_char(inv.created_at,'YYYY-MM-DD')  as string_invoice_date,
            cust.code as customer_code, cust.name as customer_name,
            ba.name as bill_addr_name,
-           coalesce( ttls.total,0.0 ) as total,
+           coalesce( ttls.total,0.0 ) as invoice_total,
            coalesce( ttls.num_lines, 0 ) as num_lines,
            coalesce( ttls.other_charge_total, 0 ) as total_other_charge_amount,
            coalesce( ttls.total,0.0 ) - coalesce( ttls.other_charge_total, 0.0 ) as subtotal_amount

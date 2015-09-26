@@ -17,6 +17,7 @@ class CreateSkrInvoices < ActiveRecord::Migration
             t.string   "hash_code",            null: false
             t.date     "invoice_date",         null: false
             t.string   "po_num"
+            t.text     "notes"
             t.hstore   "options", default: {}
             t.skr_track_modifications
         end

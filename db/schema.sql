@@ -487,6 +487,7 @@ CREATE TABLE skr_invoices (
     hash_code character varying NOT NULL,
     invoice_date date NOT NULL,
     po_num character varying,
+    notes text,
     options hstore DEFAULT ''::hstore,
     created_at timestamp without time zone NOT NULL,
     created_by_id integer NOT NULL,
@@ -595,7 +596,7 @@ CREATE VIEW skr_inv_details AS
     cust.code AS customer_code,
     cust.name AS customer_name,
     ba.name AS bill_addr_name,
-    COALESCE(ttls.total, 0.0) AS total,
+    COALESCE(ttls.total, 0.0) AS invoice_total,
     COALESCE(ttls.num_lines, (0)::bigint) AS num_lines,
     COALESCE(ttls.other_charge_total, (0)::numeric) AS total_other_charge_amount,
     (COALESCE(ttls.total, 0.0) - COALESCE(ttls.other_charge_total, 0.0)) AS subtotal_amount
