@@ -24,3 +24,9 @@ class Skr.Models.InvLine extends Skr.Models.Base
         sku:      { model: "Sku" }
         location: { model: "Location" }
         sku_tran: { model: "SkuTran" }
+
+
+    copyFrom: (other) ->
+        super
+        if other instanceof Skr.Models.SoLine
+            @so_line.copyFrom(other)
