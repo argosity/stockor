@@ -7,5 +7,6 @@ tiny:
   billing_address: hg_billing
   shipping_address: sw_shipping
   terms: credcard
+  po_num: BAAH!
   order_date: <%= 2.days.ago %>
   state: 0
