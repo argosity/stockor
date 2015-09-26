@@ -61,7 +61,7 @@ module Skr
         }, export: true
 
         enum state: {
-            open:     0,
+            open:     1,
             paid:     5,
             partial: 10
         }
