@@ -72,7 +72,7 @@ module Skr
 
         # If {#cost} is non-zero, then create a {GlTransaction}
         def create_needed_gl_transaction
-            Skr::Core.logger.debug "Recording SkuTran in GL, mac is: #{self.mac}, cost = #{cost}"
+            Skr.logger.debug "Recording SkuTran in GL, mac is: #{self.mac}, cost = #{cost}"
             return if self.cost.nil? || self.cost.zero?
             GlTransaction.push_or_save(
               owner: self, amount: cost,
@@ -83,7 +83,7 @@ module Skr
         # Adjusts {SkuLoc#qty} by {#ea_qty}
         def adjust_sku_loc_values
             sl = self.sku_loc
-            Skr::Core.logger.debug "Adj +#{ea_qty} Sku #{sl.sku.code} location #{location.code} " +
+            Skr.logger.debug "Adj +#{ea_qty} Sku #{sl.sku.code} location #{location.code} " +
                                    "from MAC: #{sl.mac} to #{self.mac}, qty: #{sl.qty} += #{ea_qty} #{combined_uom}"
             sl.unlock_fields( :qty, :mac ) do
                 sl.mac = self.mac unless self.mac.nan? or self.mac.zero?
@@ -93,7 +93,7 @@ module Skr
             sl.reload
             sl.allocate_available_qty! if self.allocate_after_save
 
-            Skr::Core.logger.debug "After Adj Qty #{sl.qty}"
+            Skr.logger.debug "After Adj Qty #{sl.qty}"
         end
 
         def ensure_cost_and_qty_present

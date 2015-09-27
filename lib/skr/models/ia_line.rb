@@ -86,7 +86,7 @@ module Skr
                 raise "Unable to apply line, either not approved or previously applied"
             end
             set_cost_from_sku_loc
-            Core.logger.debug( "Adjusting #{self.qty} #{combined_uom} of #{sku_code} into stock")
+            Skr.logger.debug( "Adjusting #{self.qty} #{combined_uom} of #{sku_code} into stock")
             self.build_sku_tran({
                 :origin=>self, :qty => self.qty, :sku_loc=>self.sku_loc,
                 origin_description: "IA #{self.inventory_adjustment.visible_id}:#{self.sku.code}",

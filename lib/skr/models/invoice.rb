@@ -117,7 +117,7 @@ module Skr
             return unless amount_paid_changed?
             change = amount_paid - amount_paid_was
 
-            Skr::Core.logger.debug "Applying payment #{amount_paid} changed: #{change}"
+            Skr.logger.debug "Applying payment #{amount_paid} changed: #{change}"
 
             return if change.zero?
 

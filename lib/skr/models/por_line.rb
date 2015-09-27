@@ -35,7 +35,7 @@ module Skr
         private
 
         def adjust_inventory
-            Core.logger.debug( "Receiving #{self.ea_qty} into stock" )
+            logger.debug( "Receiving #{self.ea_qty} into stock" )
             tran = self.sku_trans.build({
                 origin: self, qty: self.qty,
                 sku_loc: po_line.sku_loc,

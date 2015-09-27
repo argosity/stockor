@@ -1,7 +1,7 @@
 module Skr
 
     # The UserProxy is a stand-in for the real user
-    # model that will be implementation specific by the user of Stockor Core
+    # model that will be implementation specific by the user of Stockor
     class UserProxy
 
         # The user who's currently interacting with Stockor.

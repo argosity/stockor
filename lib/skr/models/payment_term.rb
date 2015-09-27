@@ -6,7 +6,7 @@ module Skr
         has_code_identifier
 
         def discount
-            @discount_percnum ||= Core::Numbers::PercNum.new( read_attribute('discount_amount') )
+            @discount_percnum ||= Numbers::PercNum.new( read_attribute('discount_amount') )
         end
 
         def discount_amount=(value)

@@ -15,7 +15,7 @@ module Skr
 
         before_validation :set_defaults, :on=>:create
 
-        # @return [Location] the location that's specified by {Skr::Core::Configuration#default_location_code}
+        # @return [Location] the location that's specified by {Skr::Configuration#default_location_code}
         def self.default
             Location.find_by_code( Skr.config.default_location_code )
         end
