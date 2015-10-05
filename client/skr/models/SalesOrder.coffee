@@ -46,10 +46,10 @@ class Skr.Models.SalesOrder extends Skr.Models.Base
         terms:            { model: "PaymentTerm"  }
         billing_address:  { model: "Address"      }
         shipping_address: { model: "Address"      }
-        skus:             { collection: "Sku"     }
-        invoices:         { collection: "Invoice" }
-        lines:            { collection: "SoLine", fk: 'sales_order_id' }
-        pick_tickets:     { collection: "PickTicket" }
+
+        invoices:         { collection: "Invoice",    inverse: 'sales_order' }
+        lines:            { collection: "SoLine",     inverse: 'sales_order', fk: 'sales_order_id',  }
+        pick_tickets:     { collection: "PickTicket", inverse: 'sales_order' }
 
     constructor: ->
         super
