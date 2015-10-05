@@ -38,38 +38,37 @@ class Skr.Models.Invoice extends Skr.Models.Base
             partial: 9
 
     associations:
-        sales_order:      { model: "SalesOrder" }
-        customer:         { model: "Customer" }
-        location:         { model: "Location" }
-        terms:            { model: "PaymentTerm" }
-        pick_ticket:      { model: "PickTicket" }
         billing_address:  { model: "Address" }
         shipping_address: { model: "Address" }
-        gl_transactions:  { collection: "GlTransaction" }
-        lines:            { collection: "InvLine" }
-
+        sales_order:      { model: "SalesOrder",  readOnly:true }
+        customer:         { model: "Customer",    readOnly:true }
+        location:         { model: "Location",    readOnly:true }
+        terms:            { model: "PaymentTerm", readOnly:true }
+        pick_ticket:      { model: "PickTicket",  readOnly:true }
+        lines:            { collection: "InvLine", inverse: 'invoice'  }
+        gl_transactions:  { collection: "GlTransaction", readOnly:true }
 
     constructor: ->
         super
-        @on("change:customer", @onCustomerChange)
         @lines.on('change:total', ->
             @trigger('change', @, {})
             @unCacheDerived('total')
             @unset('order_total')
         , this)
 
-    onCustomerChange: ->
-        return unless @isNew()
+    setCustomer: (cust) ->
+        this.set(customer: cust)
         @copyAssociationsFrom( @customer, 'billing_address', 'shipping_address')
 
     setFromSalesOrder: (so) ->
-        debugger
+        @sales_order_id = so.id
+        @sales_order.copyFrom(so)
+
         @copyAssociationsFrom( so,
-            'customer', 'location', 'billing_address', 'shipping_address'
+            'location', 'customer', 'location', 'billing_address', 'shipping_address'
         ).then =>
-#            @sales_order.copyFrom(so)
             @notes ||= @sales_order.notes
-            so.lines.fetch(with: ['sku_code']).then =>
+            so.lines.fetch(with: ['sku_code'], include: ['sku']).then =>
                 @lines.copyFrom(so.lines)
 
     copyAssociationsFrom: ( model, associations... ) ->
@@ -78,3 +77,7 @@ class Skr.Models.Invoice extends Skr.Models.Base
                 for name in associations
                     @[name].copyFrom(model[name])
                 res(@)
+
+    dataForSave: ->
+        # only send some associations
+        super(onlyAssociations: ['lines', 'billing_address', 'shipping_address'])
