@@ -2,7 +2,12 @@ class Skr.Components.SalesOrderFinder extends Lanes.React.Component
 
     propTypes:
         onModelSet: React.PropTypes.func
-        commands: React.PropTypes.object
+        commands:   React.PropTypes.object
+        autoFocus:  React.PropTypes.bool
+
+    getDefaultProps: ->
+        autoFocus: true
+        label: 'SalesOrder ID'
 
     dataObjects:
         sales_order: ->
@@ -25,11 +30,10 @@ class Skr.Components.SalesOrderFinder extends Lanes.React.Component
                 ]
             })
 
-    getDefaultProps: ->
-        label: 'SalesOrder ID'
 
     render: ->
-        <LC.RecordFinder ref="finder" sm=2 autoFocus
+        <LC.RecordFinder ref="finder" sm=2
+            {...@props}
             model={@props.model}
             name='visible_id'
             onModelSet={@props.onModelSet}
