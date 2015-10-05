@@ -53,6 +53,7 @@ class Skr.Components.SkuLines extends Lanes.React.Component
             />
 
     onSelectionChange:  (model) ->
+        return unless model and @props.commands.isEditing()
         new _.Promise (res, rej) ->
             model.withAssociations([
                 'sku_loc', 'sku', 'uom_choices'
