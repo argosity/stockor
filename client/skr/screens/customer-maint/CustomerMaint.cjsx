@@ -3,16 +3,6 @@ class Skr.Screens.CustomerMaint extends Lanes.React.Screen
     dataObjects:
         customer: ->
             @props.customer || new Skr.Models.Customer
-        query: ->
-            new Lanes.Models.Query({
-                syncOptions:
-                    include: ['billing_address', 'shipping_address']
-                src: Skr.Models.Customer, fields: [
-                    {id:'id', visible: false}
-                    'code', 'name', 'notes',
-                    { id: 'open_balance', flex: 0.5, textAlign: 'center' }
-                ]
-            })
 
     getInitialState: ->
         commands: new Lanes.Screens.Commands(this, modelName: 'customer')
@@ -24,10 +14,8 @@ class Skr.Screens.CustomerMaint extends Lanes.React.Screen
             <Lanes.Screens.CommonComponents
                 activity={@state} commands={@state.commands} model={@customer} />
             <BS.Row>
-                <LC.RecordFinder ref="finder" sm=4 autoFocus
-                    model={@customer}
-                    commands={@state.commands}
-                    query={@query} />
+                <Skr.Components.CustomerFinder sm=4 editOnly
+                    commands={@state.commands} customer={@customer} />
                 <LC.Input sm=8 name="name" model={@customer} />
             </BS.Row>
             <BS.Row>
