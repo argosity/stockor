@@ -15,4 +15,4 @@ class Skr.Models.PickTicket extends Skr.Models.Base
         location:    { model: "Location" }
         customer:    { model: "Customer" }
         terms:       { model: "PaymentTerm" }
-        lines:       { collection: "PtLine" }
+        lines:       { collection: "PtLine", inverse: 'pick_ticket' }
