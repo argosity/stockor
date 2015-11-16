@@ -1,5 +1,4 @@
 require 'lanes/access/extension'
-
 module Skr
 
     class Extension < Lanes::Extensions::Definition
@@ -8,7 +7,10 @@ module Skr
         title "Stockor"
         root_path Pathname.new(__FILE__).dirname.join("..","..").expand_path
 
-        components 'record-finder', 'select-field'
+        components 'record-finder', 'select-field', 'calendar'
+        client_js_aliases({
+            'SC' => 'window.Lanes.Skr.Components'
+        })
 
         def client_bootstrap_data(view)
             gl_accounts = Skr::GlAccount.all.as_json
@@ -25,3 +27,5 @@ module Skr
     end
 
 end
+
+require 'skr'
