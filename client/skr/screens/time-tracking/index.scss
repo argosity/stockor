@@ -1,0 +1,37 @@
+/*
+ If your screen does not use any custom styles
+
+ You should remove this file and it's reference from config/screens.rb
+
+ Otherwise Lanes will continue to fetch an empty file whenever
+ the screen is displayed
+*/
+.time-tracking {
+
+    .calendar-header .paging {
+        text-align: center;
+        font-size: 1.8rem;
+
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+
+        button {
+            width: 5rem;
+        }
+    }
+
+    .dayz { flex: 1; }
+
+    .popover {
+        width: 400px;
+        .controls {
+            border-top: 2px solid lightgrey;
+            padding-top: 1rem;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            button { width: 6rem; }
+        }
+    }
+}

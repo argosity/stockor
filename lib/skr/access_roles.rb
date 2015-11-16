@@ -17,6 +17,7 @@ module Lanes::Access
         class Accounting < Lanes::Access::Role
             grant Skr::Customer,
                   Skr::PaymentTerm,
+                  Skr::CustomerProject,
                   Skr::Sku,
                   Skr::SalesOrder
             lock_writes Skr::Customer, :terms

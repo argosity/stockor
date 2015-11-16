@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+first:
+  customer_project: goatpens
+  lanes_user_id: 1
+  is_invoiced: false
+  start_at: <%= 5.day.ago.to_s(:db) %>
+  end_at:   <%= (5.day.ago + 8.hours + 30.minutes).to_s(:db) %>
+  description: Built pens for little goats

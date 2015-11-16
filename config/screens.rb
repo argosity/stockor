@@ -1,23 +1,51 @@
+Lanes::Screen.define_group 'accounting' do | group |
+    group.title       = "Accounting"
+    group.description = "Accounting functions"
+    group.icon        = "line-chart"
+end
+
 Lanes::Screen.define_group 'maint' do | group |
     group.title       = "Maintenance"
     group.description = "Maintain records"
     group.icon        = "pencil-square"
 end
+
 Lanes::Screen.define_group 'customer' do | group |
     group.title       = "Customer"
     group.description = "Customer records"
     group.icon        = "heart"
 end
 Lanes::Screen.for_extension 'Skr' do | screens |
-    screens.define "invoice" do | screen |
-        screen.title       = "Invoice"
+    screens.define "time-invoicing" do | screen |
+        screen.title       = "Time Invoicing"
         screen.description = ""
-        screen.icon        = ""
-        screen.group_id    = ""
+        screen.icon        = "hourglass"
+        screen.group_id    = "customer"
+        screen.model_class = "Invoice"
+        screen.view_class  = "TimeInvoicing"
+        screen.js          = "time-invoicing.js"
+        screen.css         = "time-invoicing.css"
+    end
+    screens.define "customer-projects" do | screen |
+        screen.title       = "Customer Projects"
+        screen.description = ""
+        screen.icon        = "briefcase"
+        screen.group_id    = "accounting"
         screen.model_class = ""
-        screen.view_class  = "Invoice"
-        screen.js          = "invoice.js"
-        screen.css         = "invoice.css"
+        screen.view_class  = "CustomerProjects"
+        screen.js          = "customer-projects.js"
+        screen.css         = "customer-projects.css"
+    end
+    screens.define "time-tracking" do | screen |
+        screen.title       = "Time Tracking"
+        screen.description = ""
+        screen.icon        = "clock-o"
+        screen.group_id    = "hourglass-half"
+        screen.model_class = "SalesOrder"
+        screen.view_class  = "SalesOrder"
+        screen.view_class  = "TimeTracking"
+        screen.js          = "time-tracking.js"
+        screen.css         = "time-tracking.css"
     end
     screens.define "customer-maint" do | screen |
         screen.title       = "Customer Maintenance"

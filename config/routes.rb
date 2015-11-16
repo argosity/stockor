@@ -1,6 +1,8 @@
 require 'stockor'
 
 Lanes::API.routes.draw do
+    resources Skr::CustomerProject
+    resources Skr::TimeEntry
     resources Skr::Customer
     resources Skr::Address
     resources Skr::GlAccount
@@ -21,7 +23,6 @@ Lanes::API.routes.draw do
     resources Skr::Uom
     resources Skr::Vendor
 
-
     resources Skr::PickTicket
     resources Skr::PtLine
 
@@ -36,6 +37,10 @@ Lanes::API.routes.draw do
 
     resources Skr::SalesOrder
     resources Skr::SoLine
+
+    post '/invoices/from-time-entries.json',
+         &Skr::Builders::InvoiceFromTimeEntries.handler
+
 
     get '/print-skr-form/:type/:id' do
         content_type 'application/pdf'
