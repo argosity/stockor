@@ -11,6 +11,10 @@ hat_def:
   sku: hat
   location: default
 
+labor_def:
+  sku: labor
+  location: default
+
 glove_def:
   sku: glove
   location: default

@@ -45,6 +45,11 @@ sales:
   name: Sales
   description: Amounts earned from selling physical goods. When a sale is provided on credit, both this account and Accounts Receivable will increase. When a service is provided for immediate cash, both this account and Cash will increase.
 
+labor:
+  number: 5100
+  name: Labor
+  description: Labor Costs
+
 ship:
   number: 5100
   name: Shipping

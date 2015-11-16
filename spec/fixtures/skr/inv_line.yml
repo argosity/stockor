@@ -1,2 +1,25 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
+tiny_hat:
+  invoice: tiny
+  so_line: tiny_hat
+  sku_loc: hat_def
+  qty: 1
+  price: 8.85
+  sku_code: HAT
+  description: A Top Hat
+  uom_code: EA
+  uom_size: 1
+  position: 2
+
+tiny_yarn:
+  invoice: tiny
+  so_line: tiny_yarn
+  sku_loc: yarn_def
+  qty: 3
+  price: 21.25
+  sku_code: GLDYARN
+  description: Yarn (golden)
+  uom_code: FT
+  uom_size: 1
+  position: 3

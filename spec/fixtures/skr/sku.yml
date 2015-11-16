@@ -38,6 +38,16 @@ glove:
   gl_asset_account: inventory
   can_backorder: false
 
+labor:
+  code: LABOR
+  description: Work performed
+  default_vendor: bigco
+  default_uom_code: HR
+  is_other_charge: false
+  does_track_inventory: false
+  gl_asset_account: labor
+  can_backorder: false
+
 tax:
   code: TAX
   description: Sales Tax

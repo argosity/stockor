@@ -28,6 +28,12 @@ glovecs:
   sku: glove
   price: 288.00
 
+laborea:
+  code: HR
+  size: 1
+  sku: labor
+  price: 1
+
 taxea:
   code: EA
   size: 1
