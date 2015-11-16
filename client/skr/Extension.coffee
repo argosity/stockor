@@ -17,3 +17,5 @@ class Skr.Extension extends Lanes.Extensions.Base
         Lanes.Workspace.Layout
 
     onAvailable: ->
+        # user-management time-tracking  sales-order invoice  time-invoicing sales-order
+        # Lanes.Screens.Definitions.all.get('customer-projects').display()
