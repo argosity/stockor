@@ -21,7 +21,7 @@ module Skr
         # Updates the amount the customer owes, which is the sum of the amount unpaid on open invoices
         def update_balance!(*)
             update_attributes open_balance: invoices.open_for_customer(self)
-                                                    .with_details.sum('details.total')
+                                                    .with_details.sum('details.invoice_total')
         end
 
       private
