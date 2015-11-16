@@ -9,6 +9,7 @@ class CreateSkrVendors < ActiveRecord::Migration
             t.skr_reference :terms,               null: false, to_table: :payment_terms
             t.skr_reference :gl_payables_account, null: false, to_table: :gl_accounts
             t.skr_reference :gl_freight_account,  null: false, to_table: :gl_accounts
+            t.skr_currency  :open_balance,        default: 0.0
             t.string   "code",                    null: false
             t.string   "hash_code",               null: false
             t.string   "name",                    null: false

@@ -14,8 +14,8 @@ class CreateSkrPtLines < ActiveRecord::Migration
             t.string   "bin",             null: true
             t.integer  "uom_size",        null: false, limit: 2
             t.integer  "position",        null: false, limit: 2
-            t.integer  "qty",             null: false, default: 0
-            t.integer  "qty_invoiced",    null: false, default: 0
+            t.decimal  "qty",             null: false, precision: 15, scale: 2
+            t.integer  "qty_invoiced",    null: false, default: 0, precision: 15, scale: 2
             t.boolean  "is_complete",     null: false, default: false
         end
 

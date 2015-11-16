@@ -12,12 +12,11 @@ class CreateSkrSoLines < ActiveRecord::Migration
             t.string   "uom_code",        null: false
             t.integer  "uom_size",        null: false, limit: 2
             t.integer  "position",        null: false, limit: 2
-            t.integer  "qty",             null: false, default: 0
-            t.integer  "qty_allocated",   null: false, default: 0
-            t.integer  "qty_picking",     null: false, default: 0
-            t.integer  "qty_invoiced",    null: false, default: 0
-            t.integer  "qty_canceled",    null: false, default: 0
+            t.decimal  "qty",             null: false, precision: 15, scale: 2
+            t.decimal  "qty_allocated", "qty_picking", "qty_picking",
+                       "qty_invoiced", "qty_canceled", null: false, default: 0, precision: 15, scale: 2
             t.boolean  "is_revised",      null: false, default: false
+            t.jsonb    "options"
             t.skr_track_modifications
           end
 

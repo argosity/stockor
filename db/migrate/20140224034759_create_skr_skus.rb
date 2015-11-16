@@ -10,9 +10,8 @@ class CreateSkrSkus < ActiveRecord::Migration
             t.string   "default_uom_code",      null: false
             t.string   "code",                  null: false
             t.string   "description",           null: false
-            t.boolean  "is_other_charge",       null: false, default: false
-            t.boolean  "does_track_inventory",  null: false, default: false
-            t.boolean  "can_backorder",         null: false, default: false
+            t.boolean :is_discontinued, :is_other_charge, :does_track_inventory, :can_backorder,
+                      null: false, default: false
             t.skr_track_modifications
         end
 
