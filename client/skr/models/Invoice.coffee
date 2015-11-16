@@ -5,7 +5,9 @@ class Skr.Models.Invoice extends Skr.Models.Base
         id:                 {type:"integer", required:true}
         visible_id:         {type:"integer", required:true}
         terms_id:           {type:"integer", required:true}
-        customer_id:        {type:"integer", required:true}
+        customer_id:        {type:"integer", required:true, default: ->
+            Skr.Models.Location.default()?.id
+        }
         location_id:        {type:"integer", required:true}
         sales_order_id:     "integer"
         pick_ticket_id:     "integer"
@@ -27,7 +29,7 @@ class Skr.Models.Invoice extends Skr.Models.Base
 
     derived:
         total: deps: ['invoice_total'], fn: ->
-            @order_total or @lines.reduce( (t, l) ->
+            @invoice_total or @lines.reduce( (t, l) ->
                 t.plus(l.total)
             , _.bigDecimal(0))
 
@@ -42,7 +44,9 @@ class Skr.Models.Invoice extends Skr.Models.Base
         shipping_address: { model: "Address" }
         sales_order:      { model: "SalesOrder",  readOnly:true }
         customer:         { model: "Customer",    readOnly:true }
-        location:         { model: "Location",    readOnly:true }
+        location:         { model: "Location",    readOnly:true, default: ->
+            Skr.Models.Location.fetchById(@location_id) if @location_id
+        }
         terms:            { model: "PaymentTerm", readOnly:true }
         pick_ticket:      { model: "PickTicket",  readOnly:true }
         lines:            { collection: "InvLine", inverse: 'invoice'  }
@@ -50,15 +54,17 @@ class Skr.Models.Invoice extends Skr.Models.Base
 
     constructor: ->
         super
-        @lines.on('change:total', ->
-            @trigger('change', @, {})
-            @unCacheDerived('total')
-            @unset('order_total')
-        , this)
+        @lines.on('change:total', @onChangeTotal, this)
+        @on('change:customer', @onSetCustomer)
 
-    setCustomer: (cust) ->
-        this.set(customer: cust)
-        @copyAssociationsFrom( @customer, 'billing_address', 'shipping_address')
+    onChangeTotal: ->
+        @trigger('change', @, {})
+        @unCacheDerived('total')
+        @unset('invoice_total')
+
+    onSetCustomer: (newCustomer) ->
+        return if not newCustomer or newCustomer.isNew()
+        @copyAssociationsFrom( newCustomer, 'billing_address', 'shipping_address')
 
     setFromSalesOrder: (so) ->
         @sales_order_id = so.id
