@@ -14,7 +14,7 @@ class Skr.Screens.CustomerMaint extends Lanes.React.Screen
             <Lanes.Screens.CommonComponents
                 activity={@state} commands={@state.commands} model={@customer} />
             <BS.Row>
-                <Skr.Components.CustomerFinder sm=4 editOnly
+                <Skr.Components.CustomerFinder sm=4 editOnly ref="finder"
                     commands={@state.commands} customer={@customer} />
                 <LC.Input sm=8 name="name" model={@customer} />
             </BS.Row>
