@@ -53,11 +53,11 @@ module Skr
         validate  :ensure_location_matches_so
 
         scope :open_for_customer, lambda{ | customer |
-            where([ "customer_id=? and state != 'paid'", customer.is_a?(Customer) ? customer.id : customer ])
+            where(state: :open, customer_id: customer.is_a?(Customer) ? customer.id : customer)
         }, export: true
 
         scope :with_details, lambda { |should_use=true |
-            compose_query_using_detail_view( view: 'inv_details', join_to: 'invoice_id' )
+            compose_query_using_detail_view( view: 'skr_inv_details', join_to: 'invoice_id' )
         }, export: true
 
         enum state: {

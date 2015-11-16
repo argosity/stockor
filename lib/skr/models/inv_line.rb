@@ -10,12 +10,15 @@ module Skr
         belongs_to :invoice
 
         belongs_to :so_line, export: true
+        belongs_to :time_entry, export: true
         belongs_to :pt_line, :inverse_of=>:inv_line, export: true
         belongs_to :sku_loc, export: true
 
         has_one :sku, :through => :sku_loc, export: true
         has_one :location, :through => :sku_loc
         has_one :sku_tran, :as=>:origin
+
+        has_many :uom_choices, :through => :sku, :source => :uoms, export: true
 
         validates :sku_loc,  set: true
 
@@ -35,6 +38,11 @@ module Skr
             .where(["inv_lines.created_at between ? and ?",values['from'], values['to'] ])
             .group('s.code,s.description, s.id')
         }, export: true
+
+        def total
+            qty * price
+        end
+
 
 
         private
