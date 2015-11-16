@@ -3,17 +3,6 @@ class Skr.Screens.VendorMaint extends Lanes.React.Screen
     dataObjects:
         vendor: ->
             @props.vendor || new Skr.Models.Vendor
-        query: ->
-            new Lanes.Models.Query({
-                syncOptions:
-                    include: ['billing_address', 'shipping_address']
-                src: Skr.Models.Vendor, fields: [
-                    {id:'id', visible: false}
-                    'code', 'name',
-                    { id: 'notes', flex: 2}
-
-                ]
-            })
 
     getInitialState: ->
         commands: new Lanes.Screens.Commands(this, modelName: 'vendor')
@@ -25,10 +14,9 @@ class Skr.Screens.VendorMaint extends Lanes.React.Screen
             <Lanes.Screens.CommonComponents
                 activity={@state} commands={@state.commands} model={@vendor} />
             <BS.Row>
-                <LC.RecordFinder ref="finder" sm=4 autoFocus
-                    model={@vendor}
-                    commands={@state.commands}
-                    query={@query} />
+                <Skr.Components.VendorFinder sm=4 editOnly
+                    commands={@state.commands} vendor={@vendor} />
+
                 <LC.Input sm=8 name="name" model={@vendor} />
             </BS.Row>
             <BS.Row>

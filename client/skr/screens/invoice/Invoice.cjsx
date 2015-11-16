@@ -23,38 +23,30 @@ class Skr.Screens.Invoice extends Skr.Screens.Base
     getInitialState: ->
         commands: new Lanes.Screens.Commands(this, modelName: 'invoice', print: true)
 
+    componentDidMount: ->
+        @refs.finder._setValue(1)
+        @refs.finder.loadCurrentSelection()
+        @state.commands.toggleEdit()
+
     setSalesOrder: (so) ->
         @invoice.setFromSalesOrder(so)
 
     render: ->
-        <div className="invoice flex-vertically" >
+        <div className="invoice flex-vertically">
             <Lanes.Screens.CommonComponents
                 activity={@state} commands={@state.commands} model={@invoice} />
+
             <BS.Row>
-                <LC.RecordFinder ref="finder" sm=2 autoFocus
+                <LC.RecordFinder ref="finder" sm=2 autoFocus editOnly
                     model={@invoice}
+                    name='visible_id'
                     label='Visible ID'
                     commands={@state.commands}
                     query={@query} />
-
-                <Skr.Components.SalesOrderFinder
-                    model={@invoice.sales_order}
-                    onModelSet={@setSalesOrder}/>
-
-                <LC.SelectField sm=2
-                    label="Customer"
-                    name="customer"
-                    labelField="code"
-                    getSelection={ (so) ->
-                        {label: so.customer_code, id: so.customer_id } if so.customer_id and so.customer_code
-                    }
-                    model={@invoice} />
-
-                <LC.SelectField sm=2
-                    label="Src Location"
-                    name="location"
-                    labelField="code"
-                    model={@invoice} />
+                <SC.CustomerFinder sm=2 selectField
+                    model={@invoice} customer={@invoice.customer} />
+                <SC.LocationChooser sm=2 label='Src Location' model={@invoice} />
+                <LC.Input sm=2 name='po_num' model={@sales_order} />
             </BS.Row>
 
             <BS.Row>
@@ -66,14 +58,14 @@ class Skr.Screens.Invoice extends Skr.Screens.Base
 
             <BS.Row>
                 <LC.FieldSet sm=12 title="Address" expanded={@invoice.isNew()}>
-                    <Skr.Components.Address lg=6 title="Billing"
+                    <SC.Address lg=6 title="Billing"
                         model={@invoice.billing_address}  />
-                    <Skr.Components.Address lg=6 title="Shipping"
+                    <SC.Address lg=6 title="Shipping"
                         model={@invoice.shipping_address} />
                 </LC.FieldSet>
             </BS.Row>
 
-            <Skr.Components.SkuLines commands={@state.commands} lines={@invoice.lines} />
+            <SC.SkuLines commands={@state.commands} lines={@invoice.lines} />
 
-            <Skr.Components.OrderTotals model={@invoice} />
+            <SC.TotalsLine model={@invoice} />
         </div>

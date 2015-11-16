@@ -23,31 +23,23 @@ class Skr.Screens.SalesOrder extends Lanes.React.Screen
     getInitialState: ->
         commands: new Lanes.Screens.Commands(this, modelName: 'sales_order', print: true)
 
+    componentDidMount: ->
+        finder = @refs.finder.refs.finder
+        finder._setValue(1)
+        finder.loadCurrentSelection()
+        @state.commands.toggleEdit()
+
     render: ->
-        <div className="sales-order flex-vertically" >
+        <LC.ScreenWrapper identifier="sales-order">
             <Lanes.Screens.CommonComponents
                 activity={@state} commands={@state.commands} model={@sales_order} />
             <BS.Row>
-                <LC.RecordFinder ref="finder" sm=2 autoFocus
-                    model={@sales_order}
-                    label='Visible ID'
-                    commands={@state.commands}
-                    query={@query} />
-
-                <LC.SelectField sm=2
-                    label="Customer"
-                    name="customer"
-                    labelField="code"
-                    getSelection={ (so) ->
-                        {label: so.customer_code, id: so.customer_id } if so.customer_id and so.customer_code
-                    }
-                    model={@sales_order} />
-
-                <LC.SelectField sm=2
-                    label="Src Location"
-                    name="location"
-                    labelField="code"
-                    model={@sales_order} />
+                <SC.SalesOrderFinder ref='finder' sm=2 label='Visible ID'
+                    model={@sales_order} commands={@state.commands} />
+                <SC.CustomerFinder selectField sm=2
+                    customer={@sales_order.customer} model={@sales_order} />
+                <SC.LocationChooser sm=2 label='Src Location' model={@sales_order} />
+                <LC.Input sm=6 name='po_num' model={@sales_order} />
             </BS.Row>
 
             <BS.Row>
@@ -59,14 +51,14 @@ class Skr.Screens.SalesOrder extends Lanes.React.Screen
 
             <BS.Row>
                 <LC.FieldSet sm=12 title="Address" expanded={@sales_order.isNew()}>
-                    <Skr.Components.Address lg=6 title="Billing"
+                    <SC.Address lg=6 title="Billing"
                         model={@sales_order.billing_address}  />
-                    <Skr.Components.Address lg=6 title="Shipping"
+                    <SC.Address lg=6 title="Shipping"
                         model={@sales_order.shipping_address} />
                 </LC.FieldSet>
             </BS.Row>
 
-            <Skr.Components.SkuLines commands={@state.commands} lines={@sales_order.lines} />
+            <SC.SkuLines commands={@state.commands} lines={@sales_order.lines} />
 
-            <Skr.Components.OrderTotals model={@sales_order} />
-        </div>
+            <SC.TotalsLine model={@sales_order} />
+        </LC.ScreenWrapper>

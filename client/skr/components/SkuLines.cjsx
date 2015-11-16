@@ -30,27 +30,10 @@ class Skr.Components.SkuLines extends Lanes.React.Component
 
     editors: ->
         sku_code: ({model}) ->
-            <LC.SelectField
-                key="sku-code"
-                editOnly writable unstyled
-                model={model}
-                labelField="code"
-                name="sku"
-                collection={model.sku_choices}
-            />
+            <SC.SkuFinder model={model} selectField unstyled />
+
         uom: ({model}) ->
-            props = if model.uom_choices.isEmpty() then {}
-            else {collection:model.uom_choices}
-            <LC.SelectField
-                key="uom"
-                editOnly writable unstyled
-                model={model}
-                fetchWhenOpen={false}
-                queryOrder={size: 'desc'}
-                labelField="combined"
-                name="uom"
-                {...props}
-            />
+            <SC.UOMChooser model={model} unstyled />
 
     onSelectionChange:  (model) ->
         return unless model and @props.commands.isEditing()
