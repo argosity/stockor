@@ -46,7 +46,7 @@ module Skr
         # @param debit [GlAccount]
         # @param credit [GlAccount]
         def add_posting( amount: nil, debit: nil, credit: nil )
-            Skr.logger.debug "GlTransaction add_posting #{debit} : #{credit}"
+            Lanes.logger.debug "GlTransaction add_posting #{debit} : #{credit}"
             self.credits.build( location: @location, is_debit: false,
               account: credit, amount: amount )
             self.debits.build(  location: @location, is_debit: true,
@@ -82,7 +82,7 @@ module Skr
             Thread.current[:gl_transaction] ||= []
             glt = GlTransaction.new( attributes )
             Thread.current[:gl_transaction].push( glt )
-            Skr.logger.debug "B4 GlTransaction"
+            Lanes.logger.debug "B4 GlTransaction"
             results = yield glt
             Thread.current[:gl_transaction].pop
             if results
@@ -90,7 +90,7 @@ module Skr
                     glt.assign_attributes( results[:attributes] )
                 end
                 glt._save_recorded
-                Skr.logger.debug "AF GlTransaction new=#{glt.new_record?} #{glt.errors.full_messages}"
+                Lanes.logger.debug "AF GlTransaction new=#{glt.new_record?} #{glt.errors.full_messages}"
             end
             return glt
         end
