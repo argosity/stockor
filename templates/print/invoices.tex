@@ -1,0 +1,67 @@
+% <% inv = @invoice %>
+\begin{document}
+<%= partial( 'lhead.tex', { :location => inv.location } ) %>
+\rhead{
+  \renewcommand\arraystretch{1.3}
+  \raisebox{.8\height}{
+    \begin{tabular} {rc}
+      \hline
+      \multicolumn{2}{|c|}{\textbf{\large Invoice \# <%= inv.visible_id %>}} \\
+          \hline
+          Order \# & <%=q inv.sales_order.visible_id %> \\
+          \hline
+          Date & <%=q inv.created_at.strftime('%F') %> \\
+          \hline
+          Page & \thepage{} of \pageref{LastPage} \\
+    \end{tabular}
+      }}
+      %
+      \setlength{\headheight}{1.25in}
+      \noindent\begin{tabu} to\linewidth{X[pc]X[pc]}
+      \multicolumn{1}{l}{\textbf{Bill To:}} & \multicolumn{1}{l}{\textbf{Ship To:}}\\
+      \parbox{115\unitlength}{
+        <%=partial 'address.tex', :address=>inv.billing_address %>
+      } &
+      \parbox{115\unitlength}{
+        %<% if inv.shipping_address.blank? %>
+        \emph{Same as Billing}
+        %<% else %>
+        <%=partial 'address.tex', :address=>inv.shipping_address %>
+        %<% end %>
+      } \\
+      \end{tabu}
+%
+% <% ncols = 6 %>
+{\tabulinesep 0.2cm
+\noindent\begin{longtabu} to \textwidth {lX<%='c'*(ncols-4) %>rr}
+<%= partial 'so_hdr.tex' %>
+\hline
+  \endfirsthead
+  \multicolumn{<%=ncols%>}{l}{...continued from previous page} \\
+<%= partial 'so_hdr.tex' %>
+  \endhead
+  \hline
+  \multicolumn{<%=ncols%>}{r}{Continued on next page...} \\
+  \endfoot
+  \hline
+% <% inv.other_charge_lines.each do | line | %>
+  \multicolumn{<%=ncols-1%>}{r}{{<%=q line.description%>}} &
+  <%= '%0.2f' % line.price %> \\
+%<% end %>
+  \cline{<%=ncols-3%>-<%=ncols%>}
+  \multicolumn{<%=ncols-1%>}{r}{{\textbf{Total}}} &
+  \textbf{<%= '%0.2f' % inv.total %>} \\
+  \cline{<%=ncols-3%>-<%=ncols%>}
+%  \hline
+  \endlastfoot
+% <% inv.regular_lines.each do | line | %>
+   <%=q line.sku_code %> &
+   <%=q line.description %> &
+   <%= line.qty %> &
+   <%=q line.combined_uom %> &
+   <%= '%0.2f' % line.price %> &
+   <%= '%0.2f' % line.total %> \\
+%<% end %>
+\end{longtabu}
+}
+\end{document}

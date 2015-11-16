@@ -7,6 +7,7 @@ module Skr
         def initialize(form, id)
             @model = case form
                 when 'sales-orders' then SalesOrder.find(id)
+                when 'invoices'     then Invoice.find(id)
                 else
                     raise "Unable to find model for #{form}"
                 end
