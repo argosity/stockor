@@ -2,15 +2,15 @@ class Skr.Models.SkuVendor extends Skr.Models.Base
 
 
     props:
-        id:        {type:"integer", required:true}
-        sku_id:    {type:"integer", required:true}
-        vendor_id: {type:"integer", required:true}
-        list_price:{type:"bigdec", required:true}
-        part_code: {type:"string", required:true}
-        is_active: {type:"boolean", required:true, default:true}
-        uom_size:  {type:"integer", required:true, "default":"1"}
-        uom_code:  {type:"string", required:true, "default":"EA"}
-        cost:      {type:"bigdec", required:true}
+        id:        {type:"integer"}
+        sku_id:    {type:"integer"}
+        vendor_id: {type:"integer"}
+        list_price:{type:"bigdec"}
+        part_code: {type:"string"}
+        is_active: {type:"boolean", default:true}
+        uom_size:  {type:"integer", "default":"1"}
+        uom_code:  {type:"string", "default":"EA"}
+        cost:      {type:"bigdec"}
 
     associations:
         sku:      { model: "Sku" }

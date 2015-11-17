@@ -2,7 +2,7 @@ class Skr.Models.Address extends Skr.Models.Base
 
 
     props:
-        id:         {type:"integer", required:true}
+        id:         {type:"integer"}
         name:       "string"
         email:      "string"
         phone:      "string"

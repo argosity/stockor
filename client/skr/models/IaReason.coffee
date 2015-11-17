@@ -2,10 +2,10 @@ class Skr.Models.IaReason extends Skr.Models.Base
 
 
     props:
-        id:           {type:"integer", required:true}
-        gl_account_id:{type:"integer", required:true}
-        code:         {type:"string", required:true}
-        description:  {type:"string", required:true}
+        id:           {type:"integer"}
+        gl_account_id:{type:"integer"}
+        code:         {type:"string"}
+        description:  {type:"string"}
 
     associations:
         gl_account: { model: "GlAccount" }

@@ -2,12 +2,12 @@ class Skr.Models.InventoryAdjustment extends Skr.Models.Base
 
 
     props:
-        id:         {type:"integer", required:true}
-        visible_id: {type:"integer", required:true}
-        location_id:{type:"integer", required:true}
-        reason_id:  {type:"integer", required:true}
-        state:      {type:"string", required:true}
-        description:{type:"string", required:true}
+        id:         {type:"integer"}
+        visible_id: {type:"integer"}
+        location_id:{type:"integer"}
+        reason_id:  {type:"integer"}
+        state:      {type:"string"}
+        description:{type:"string"}
 
     associations:
         gl_transaction: { model: "GlTransaction" }

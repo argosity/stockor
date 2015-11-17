@@ -2,18 +2,18 @@ class Skr.Models.SkuTran extends Skr.Models.Base
 
 
     props:
-        id:                {type:"integer", required:true}
+        id:                {type:"integer"}
         origin_id:         "integer"
         origin_type:       "string"
-        sku_loc_id:        {type:"integer", required:true}
-        cost:              {type:"bigdec", required:true}
-        origin_description:{type:"string", required:true}
-        prior_qty:         {type:"integer", required:true}
-        mac:               {type:"bigdec", required:true}
-        prior_mac:         {type:"bigdec", required:true}
-        qty:               {type:"integer", required:true, "default":"0"}
-        uom_code:          {type:"string", required:true, "default":"EA"}
-        uom_size:          {type:"integer", required:true, "default":"1"}
+        sku_loc_id:        {type:"integer"}
+        cost:              {type:"bigdec"}
+        origin_description:{type:"string"}
+        prior_qty:         {type:"integer"}
+        mac:               {type:"bigdec"}
+        prior_mac:         {type:"bigdec"}
+        qty:               {type:"integer", "default":"0"}
+        uom_code:          {type:"string", "default":"EA"}
+        uom_size:          {type:"integer", "default":"1"}
 
     associations:
         sku_loc:        { model: "SkuLoc" }

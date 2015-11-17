@@ -2,15 +2,15 @@ class Skr.Models.PurchaseOrder extends Skr.Models.Base
 
 
     props:
-        id:                    {type:"integer", required:true}
-        visible_id:            {type:"integer", required:true}
-        vendor_id:             {type:"integer", required:true}
-        location_id:           {type:"integer", required:true}
-        ship_addr_id:          {type:"integer", required:true}
-        terms_id:              {type:"integer", required:true}
+        id:                    {type:"integer"}
+        visible_id:            {type:"integer"}
+        vendor_id:             {type:"integer"}
+        location_id:           {type:"integer"}
+        ship_addr_id:          {type:"integer"}
+        terms_id:              {type:"integer"}
         state:              {type:"integer"}
-        is_revised:            {type:"boolean", required:true, default:false}
-        order_date:            {type:"any", required:true}
+        is_revised:            {type:"boolean", default:false}
+        order_date:            {type:"any"}
         receiving_completed_at:"date"
 
     enums:

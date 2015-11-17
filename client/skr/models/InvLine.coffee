@@ -4,18 +4,18 @@ class Skr.Models.InvLine extends Skr.Models.Base
 
     props:
         id:         {type:"integer"}
-        invoice_id: {type:"integer", required:true}
-        sku_loc_id: {type:"integer", required:true}
+        invoice_id: {type:"integer"}
+        sku_loc_id: {type:"integer"}
         pt_line_id: "integer"
         so_line_id: "integer"
-        price:      {type:"bigdec", required:true}
-        sku_code:   {type:"string", required:true}
-        description:{type:"string", required:true}
+        price:      {type:"bigdec"}
+        sku_code:   {type:"string"}
+        description:{type:"string"}
         uom_code:   {type:"string",  default: 'EA'}
         uom_size:   {type:"integer", default: 1}
-        position:   {type:"integer", required:true}
-        qty:        {type:"integer", required:true}
-        is_revised: {type:"boolean", required:true, default:false}
+        position:   {type:"integer"}
+        qty:        {type:"integer"}
+        is_revised: {type:"boolean", default:false}
 
     associations:
         invoice:  { model: "Invoice" }

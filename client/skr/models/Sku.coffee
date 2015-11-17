@@ -2,17 +2,17 @@ class Skr.Models.Sku extends Skr.Models.Base
 
 
     props:
-        id:                  {type:"integer", required:true}
-        default_vendor_id:   {type:"integer", required:true}
-        gl_asset_account_id: {type:"integer", required:true, default: ->
+        id:                  {type:"integer"}
+        default_vendor_id:   {type:"integer"}
+        gl_asset_account_id: {type:"integer", default: ->
             Skr.Models.GlAccount.default_ids.asset
         }
-        default_uom_code:    {type:"string", required:true}
+        default_uom_code:    {type:"string"}
         code:                {type:"code",   required:true}
-        description:         {type:"string", required:true}
-        is_other_charge:     {type:"boolean", required:true, default:false}
-        does_track_inventory:{type:"boolean", required:true, default:false}
-        can_backorder:       {type:"boolean", required:true, default:false}
+        description:         {type:"string"}
+        is_other_charge:     {type:"boolean", default:false}
+        does_track_inventory:{type:"boolean", default:false}
+        can_backorder:       {type:"boolean", default:false}
 
     associations:
         default_vendor:   { model: "Vendor" }

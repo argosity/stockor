@@ -3,12 +3,12 @@ class Skr.Models.Location extends Skr.Models.Base
     cacheDuration: [1, 'day']
 
     props:
-        id:            {type:"integer", required:true}
-        code:          {type:"string", required:true}
-        name:          {type:"string", required:true}
-        address_id:    {type:"integer", required:true}
-        is_active:     {type:"boolean", required:true, "default":true}
-        gl_branch_code:{type:"string", required:true, "default":"01"}
+        id:            {type:"integer"}
+        code:          {type:"string"}
+        name:          {type:"string"}
+        address_id:    {type:"integer"}
+        is_active:     {type:"boolean", "default":true}
+        gl_branch_code:{type:"string", "default":"01"}
 
     associations:
         address:  { model: "Address" }

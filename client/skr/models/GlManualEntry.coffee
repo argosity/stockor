@@ -2,8 +2,8 @@ class Skr.Models.GlManualEntry extends Skr.Models.Base
 
 
     props:
-        id:        {type:"integer", required:true}
-        visible_id:{type:"integer", required:true}
+        id:        {type:"integer"}
+        visible_id:{type:"integer"}
         notes:     "string"
 
     associations:

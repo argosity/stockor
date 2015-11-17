@@ -2,11 +2,11 @@ class Skr.Models.GlTransaction extends Skr.Models.Base
 
 
     props:
-        id:         {type:"integer", required:true}
-        period_id:  {type:"integer", required:true}
+        id:         {type:"integer"}
+        period_id:  {type:"integer"}
         source_id:  "integer"
         source_type:"string"
-        description:{type:"string", required:true}
+        description:{type:"string"}
 
     associations:
         source:  { model: "Source" }
