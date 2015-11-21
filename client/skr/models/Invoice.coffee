@@ -78,7 +78,6 @@ class Skr.Models.Invoice extends Skr.Models.Base
             so.lines.fetch(with: ['sku_code'], include: ['sku']).then =>
                 @lines.copyFrom(so.lines)
                 @onChangeTotal()
-                debugger
                 @trigger('change', @, {})
 
     copyAssociationsFrom: ( model, associations... ) ->
