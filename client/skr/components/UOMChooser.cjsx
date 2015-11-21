@@ -7,8 +7,8 @@ class Skr.Components.UOMChooser extends Lanes.React.Component
         label: 'UOM'
 
     render: ->
-        props = if (not @props.model.uom_choices or @props.model.uom_choices.isEmpty()) then {}
-        else {collection: @props.model.uom_choices}
+        props = _.clone(@props)
+        props.collection ||= @props.model.uom_choices
         <LC.SelectField
             key="uom"
             displayFallback={@props.model.uom.combined}
