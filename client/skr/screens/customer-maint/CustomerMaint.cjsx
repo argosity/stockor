@@ -10,11 +10,12 @@ class Skr.Screens.CustomerMaint extends Lanes.React.Screen
     modelForAccess: 'customer'
 
     render: ->
-        <div className="customer-maint">
+        <LC.ScreenWrapper identifier="customer-maint">
             <Lanes.Screens.CommonComponents
                 activity={@state} commands={@state.commands} model={@customer} />
             <BS.Row>
-                <Skr.Components.CustomerFinder sm=4 editOnly ref="finder"
+                <SC.CustomerFinder sm=4 editOnly ref="finder"
+                    syncOptions={include: ['billing_address', 'shipping_address']}
                     commands={@state.commands} customer={@customer} />
                 <LC.Input sm=8 name="name" model={@customer} />
             </BS.Row>
@@ -25,24 +26,17 @@ class Skr.Screens.CustomerMaint extends Lanes.React.Screen
                     model={@customer} />
             </BS.Row>
             <BS.Row>
-                <LC.SelectField sm=6
-                    label="Receivables Account"
-                    name="gl_receivables_account"
-                    labelField="combined_name"
-                    model={@customer} />
-                <LC.SelectField sm=6
-                    label="Payment Terms"
-                    name="terms"
-                    labelField="code"
-                    model={@customer} />
+                <SC.GlAccountChooser sm=6 model={@customer}
+                    label="Receivables Account" name="gl_receivables_account"/>
+                <SC.TermsChooser model={@customer} />
             </BS.Row>
             <BS.Row>
                 <LC.FieldSet sm=12 title="Address">
-                    <Skr.Components.Address lg=6 title="Billing"
+                    <SC.Address lg=6 title="Billing"
                         model={@customer.billing_address}  />
-                    <Skr.Components.Address lg=6 title="Shipping"
+                    <SC.Address lg=6 title="Shipping"
                         model={@customer.shipping_address} />
                 </LC.FieldSet>
             </BS.Row>
 
-        </div>
+        </LC.ScreenWrapper>
