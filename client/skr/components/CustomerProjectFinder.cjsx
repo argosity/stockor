@@ -15,11 +15,14 @@ class Skr.Components.CustomerProjectFinder extends Lanes.React.Component
             new Lanes.Models.Query({
                 syncOptions:
                     include: [ 'customer', 'sku' ]
+                    with: ['with_details']
+                title: 'Customer Project'
                 src: Skr.Models.CustomerProject, fields: [
-                    {id:'id', visible: false}
+                    { id:'id', visible: false     }
                     { id: 'code', fixedWidth: 120 }
-                    { id: 'description', flex: 1 }
-                    { id: 'notes', flex: 1.5 }
+                    { id: 'po_num', flex: 1       }
+                    { id: 'description', flex: 2  }
+                    { id: 'customer_code', fixedWidth: 120 }
                 ]
             })
 
