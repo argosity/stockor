@@ -3,16 +3,6 @@ class Skr.Screens.SkuMaint extends Lanes.React.Screen
     dataObjects:
         sku: ->
             @props.sku || new Skr.Models.Sku
-        query: ->
-            new Lanes.Models.Query({
-                syncOptions:
-                    include: ['default_vendor', 'uoms']
-                src: Skr.Models.Sku, fields: [
-                    {id:'id', visible: false}
-                    'code'
-                    { id: 'description', flex: 2}
-                ]
-            })
 
     getInitialState: ->
         commands: new Lanes.Screens.Commands(this, modelName: 'sku')
@@ -20,29 +10,21 @@ class Skr.Screens.SkuMaint extends Lanes.React.Screen
     modelForAccess: 'sku'
 
     render: ->
-        <div className="sku-maint">
+        <LC.ScreenWrapper identifier="sku-maint">
             <Lanes.Screens.CommonComponents
                 activity={@state} commands={@state.commands} model={@sku} />
             <BS.Row>
-                <LC.RecordFinder ref="finder" sm=4 autoFocus
-                    model={@sku}
-                    label="Code"
-                    commands={@state.commands}
-                    query={@query} />
+                <SC.SkuFinder model={@sku} sm=4 label='Code' editOnly autoFocus
+                    syncOptions={include: ['default_vendor', 'uoms']}
+                    autoFocus commands={@state.commands} />
+
                 <LC.Input sm=8 name="description" model={@sku} />
             </BS.Row>
             <BS.Row>
-                <LC.SelectField sm=3
-                    label="Vendor"
-                    name="default_vendor"
-                    labelField="name"
-                    model={@sku} />
+                <SC.VendorFinder model={@sku} name="default_vendor" selectField />
 
-                <LC.SelectField sm=3
-                    label="Asset Account"
-                    name="gl_asset_account"
-                    labelField="combined_name"
-                    model={@sku} />
+                <SC.GlAccountChooser sm=3 label="Asset Account"
+                    name="gl_asset_account" model={@sku} />
 
                 <Skr.Screens.SkuMaint.SkuUomList label={"UOMs"} model={@sku} name='uoms' sm=6 />
             </BS.Row>
@@ -63,4 +45,4 @@ class Skr.Screens.SkuMaint extends Lanes.React.Screen
                     model={@sku} />
             </BS.Row>
 
-        </div>
+        </LC.ScreenWrapper>

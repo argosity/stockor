@@ -7,21 +7,6 @@ class Skr.Screens.CustomerProjects extends Skr.Screens.Base
         project: ->
             @props.project || new Skr.Models.CustomerProject
 
-        query: ->
-            new Lanes.Models.Query({
-                syncOptions:
-                    include: [ 'customer', 'sku' ]
-                src: Skr.Models.CustomerProject, fields: [
-                    {id:'id', visible: false}
-                    'code',
-                    { id: 'description', flex: 1.5 }
-                    { id: 'notes', flex: 1.5 }
-                ]
-            })
-
-    componentDidMount: ->
-        @refs.finder._setValue('PENS')
-        @refs.finder.loadCurrentSelection()
 
     modelForAccess: 'customer-project'
 
@@ -34,9 +19,7 @@ class Skr.Screens.CustomerProjects extends Skr.Screens.Base
             <Lanes.Screens.CommonComponents activity={@state}
                 commands={@state.commands} model={@project} />
             <BS.Row>
-                <LC.RecordFinder autoFocus editOnly sm=3 ref="finder"
-                    model={@project} name='code' commands={@state.commands}
-                    query={@query} />
+                <SC.CustomerProjectFinder autoFocus editOnly sm=3 model={@project} />
 
                 <SC.CustomerFinder selectField sm=3
                     label='Customer' model={@project} />
