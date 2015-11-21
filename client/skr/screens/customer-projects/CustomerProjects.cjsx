@@ -19,7 +19,8 @@ class Skr.Screens.CustomerProjects extends Skr.Screens.Base
             <Lanes.Screens.CommonComponents activity={@state}
                 commands={@state.commands} model={@project} />
             <BS.Row>
-                <SC.CustomerProjectFinder autoFocus editOnly sm=3 model={@project} />
+                <SC.CustomerProjectFinder commands={@state.commands}
+                model={@project} autoFocus editOnly sm=3 />
 
                 <SC.CustomerFinder selectField sm=3
                     label='Customer' model={@project} />
