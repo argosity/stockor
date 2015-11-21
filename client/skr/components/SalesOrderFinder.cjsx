@@ -3,10 +3,12 @@ class Skr.Components.SalesOrderFinder extends Lanes.React.Component
     propTypes:
         onModelSet: React.PropTypes.func
         commands:   React.PropTypes.object
+        name:       React.PropTypes.string
         autoFocus:  React.PropTypes.bool
+        includeAssociations: React.PropTypes.array
 
     getDefaultProps: ->
-        autoFocus: true, name: 'visible_id', label: 'SalesOrder ID'
+        autoFocus: true, name: 'visible_id', label: 'SalesOrder #'
 
     dataObjects:
         sales_order: ->
@@ -16,23 +18,25 @@ class Skr.Components.SalesOrderFinder extends Lanes.React.Component
             new Lanes.Models.Query({
                 initialFieldIndex: 1
                 title: 'Sales Order'
-                syncOptions:
-                    include: [ 'billing_address', 'shipping_address', 'lines'   ]
-                    with:    [ 'with_details', 'customer_code', 'customer_name' ]
+                include: @props.includeAssociations
+                syncOptions: Lanes.Models.Query.mergedSyncOptions(
+                    @props.syncOptions, { with: [ 'with_details' ] }
+                )
                 src: Skr.Models.SalesOrder, fields: [
                     { id: 'id', visible: false }
                     { id: 'visible_id' }
                     { id: 'customer_code' }
                     { id: 'po_num', title: 'PO'}
                     { id: 'notes', flex: 2}
-                    { id: 'order_total', title: 'Total' }
+                    {
+                        id: 'order_total', title: 'Total', textAlign: 'right'
+                        format: Lanes.u.format.currency
+                    }
                 ]
             })
 
-
     render: ->
         <LC.RecordFinder ref="finder" sm=2
-            name='customer'
             {...@props}
             query={@query}
         />

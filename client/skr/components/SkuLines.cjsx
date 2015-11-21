@@ -3,6 +3,7 @@ class Skr.Components.SkuLines extends Lanes.React.Component
     propTypes:
         lines:    Lanes.PropTypes.Collection.isRequired
         commands: React.PropTypes.object.isRequired
+        location: Lanes.PropTypes.Model.isRequired
 
     componentWillMount: ->
         @createQuery(@props.lines)
@@ -29,11 +30,15 @@ class Skr.Components.SkuLines extends Lanes.React.Component
             ]
 
     editors: ->
-        sku_code: ({model}) ->
-            <SC.SkuFinder model={model} selectField unstyled />
+        sku_code: ({model, props}) ->
+            options = {
+                with: {in_location: props.location.id}
+                include: ['sku_locs', 'uoms']
+            }
+            <SC.SkuFinder model={model} selectField unstyled syncOptions={options} />
 
         uom: ({model}) ->
-            <SC.UOMChooser model={model} unstyled />
+            <SC.UOMChooser unstyled model={model} />
 
     onSelectionChange:  (model) ->
         return unless model and @props.commands.isEditing()
@@ -42,16 +47,13 @@ class Skr.Components.SkuLines extends Lanes.React.Component
                 'sku_loc', 'sku', 'uom_choices'
             ]).then -> res(model)
 
-    shouldSaveImmediatly: (model) ->
-        not model.isNew()
-
     render: ->
         <LC.Grid query={@query}
             commands={@props.commands}
             autoLoadQuery={false}
             expandY={true}
             columEditors={@editors()}
-            editorProps={syncImmediatly: @shouldSaveImmediatly}
+            editorProps={location: @props.location, syncImmediatly: @shouldSaveImmediatly}
             onSelectionChange={@onSelectionChange}
             height=200
             allowDelete={true}
