@@ -41,10 +41,10 @@ class Skr.Components.Address extends Lanes.React.Component
                 <BS.Col md=7>
                     <LC.Input name="city" model={@model} />
                 </BS.Col>
-                <BS.Col sm=8 md=3>
+                <BS.Col xs=8 md=3>
                     <LC.Input name="state" model={@model} />
                 </BS.Col>
-                <BS.Col sm=4 md=2>
+                <BS.Col xs=4 md=2>
                     <LC.Input name="postal_code" model={@model} />
                 </BS.Col>
             </BS.Row>
