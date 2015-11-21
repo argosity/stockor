@@ -168,25 +168,6 @@ CREATE TABLE skr_customer_projects (
 
 
 --
--- Name: skr_customer_projects_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE skr_customer_projects_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: skr_customer_projects_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE skr_customer_projects_id_seq OWNED BY skr_customer_projects.id;
-
-
---
 -- Name: skr_customers; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -210,6 +191,62 @@ CREATE TABLE skr_customers (
     updated_at timestamp without time zone NOT NULL,
     updated_by_id integer NOT NULL
 );
+
+
+--
+-- Name: skr_skus; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE skr_skus (
+    id integer NOT NULL,
+    default_vendor_id integer,
+    gl_asset_account_id integer NOT NULL,
+    default_uom_code character varying NOT NULL,
+    code character varying NOT NULL,
+    description character varying NOT NULL,
+    is_discontinued boolean DEFAULT false NOT NULL,
+    is_other_charge boolean DEFAULT false NOT NULL,
+    does_track_inventory boolean DEFAULT false NOT NULL,
+    can_backorder boolean DEFAULT false NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    created_by_id integer NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    updated_by_id integer NOT NULL
+);
+
+
+--
+-- Name: skr_customer_project_details; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW skr_customer_project_details AS
+ SELECT cp.id AS skr_customer_project_id,
+    c.code AS customer_code,
+    c.name AS customer_description,
+    s.code AS sku_code,
+    s.description AS sku_description
+   FROM ((skr_customer_projects cp
+     JOIN skr_skus s ON ((s.id = cp.sku_id)))
+     JOIN skr_customers c ON ((c.id = cp.customer_id)));
+
+
+--
+-- Name: skr_customer_projects_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE skr_customer_projects_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: skr_customer_projects_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE skr_customer_projects_id_seq OWNED BY skr_customer_projects.id;
 
 
 --
@@ -597,28 +634,6 @@ CREATE TABLE skr_sku_locs (
     qty_picking integer DEFAULT 0 NOT NULL,
     qty_reserved integer DEFAULT 0 NOT NULL,
     bin character varying,
-    created_at timestamp without time zone NOT NULL,
-    created_by_id integer NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
-    updated_by_id integer NOT NULL
-);
-
-
---
--- Name: skr_skus; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE skr_skus (
-    id integer NOT NULL,
-    default_vendor_id integer,
-    gl_asset_account_id integer NOT NULL,
-    default_uom_code character varying NOT NULL,
-    code character varying NOT NULL,
-    description character varying NOT NULL,
-    is_discontinued boolean DEFAULT false NOT NULL,
-    is_other_charge boolean DEFAULT false NOT NULL,
-    does_track_inventory boolean DEFAULT false NOT NULL,
-    can_backorder boolean DEFAULT false NOT NULL,
     created_at timestamp without time zone NOT NULL,
     created_by_id integer NOT NULL,
     updated_at timestamp without time zone NOT NULL,
@@ -2838,4 +2853,6 @@ INSERT INTO schema_migrations (version) VALUES ('20140401164740');
 INSERT INTO schema_migrations (version) VALUES ('20140422024010');
 
 INSERT INTO schema_migrations (version) VALUES ('20140615031600');
+
+INSERT INTO schema_migrations (version) VALUES ('20151121211323');
 

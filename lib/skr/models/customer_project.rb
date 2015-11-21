@@ -12,6 +12,10 @@ module Skr
 
         has_many :time_entries, inverse_of: :customer_project, export: true
 
+        scope :with_details, lambda { | *args |
+            compose_query_using_detail_view(view: 'skr_customer_project_details')
+        }, export: true
+
     end
 
 end
