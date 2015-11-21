@@ -14,7 +14,6 @@ class Skr.Components.LocationChooser extends Lanes.React.Component
 
     render: ->
         props = _.clone(@props)
-        s = SHARED_COLLECTION
 
         <LC.SelectField
             {...props}
@@ -22,13 +21,3 @@ class Skr.Components.LocationChooser extends Lanes.React.Component
             labelField='code'
             fetchWhenOpen={false}
             model={@props.model} />
-
-
-        # if props.selectField
-        #     <LC.SelectField sm=2
-        #         labelField="code"
-        #         setSelection={@selectSetCustomer}
-        #         getSelection={@selectGetSelection}
-        #         {...props}
-        #         model={@props.model}
-        #     />
