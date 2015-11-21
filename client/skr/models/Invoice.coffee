@@ -5,10 +5,10 @@ class Skr.Models.Invoice extends Skr.Models.Base
         id:                 {type:"integer"}
         visible_id:         {type:"integer"}
         terms_id:           {type:"integer"}
-        customer_id:        {type:"integer", default: ->
+        customer_id:        {type:"integer"}
+        location_id:        {type:"integer", default: ->
             Skr.Models.Location.default()?.id
         }
-        location_id:        {type:"integer"}
         sales_order_id:     "integer"
         pick_ticket_id:     "integer"
         shipping_address_id:{type:"integer"}
@@ -68,14 +68,18 @@ class Skr.Models.Invoice extends Skr.Models.Base
 
     setFromSalesOrder: (so) ->
         @sales_order_id = so.id
-        @sales_order.copyFrom(so)
+        for attr in ['customer_code', 'po_num', 'notes']
+            @set(attr, so[attr])
 
-        @copyAssociationsFrom( so,
-            'location', 'customer', 'location', 'billing_address', 'shipping_address'
+        @sales_order.copyFrom(so)
+        @copyAssociationsFrom(so,
+            'location', 'customer', 'location', 'terms', 'billing_address', 'shipping_address'
         ).then =>
-            @notes ||= @sales_order.notes
             so.lines.fetch(with: ['sku_code'], include: ['sku']).then =>
                 @lines.copyFrom(so.lines)
+                @onChangeTotal()
+                debugger
+                @trigger('change', @, {})
 
     copyAssociationsFrom: ( model, associations... ) ->
         new _.Promise (res, rej) =>
