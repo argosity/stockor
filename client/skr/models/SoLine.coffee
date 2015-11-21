@@ -6,9 +6,9 @@ class Skr.Models.SoLine extends Skr.Models.Base
         id:            {type:"integer"}
         sales_order_id:{type:"integer"}
         sku_loc_id:    {type:"integer"}
-        price:         {type:"bigdec",  required:true}
-        sku_code:      {type:"string",  required:true}
-        description:   {type:"string",  required:true}
+        price:         {type:"bigdec"}
+        sku_code:      {type:"string"}
+        description:   {type:"string"}
         uom_code:      {type:"string",  default: 'EA'}
         uom_size:      {type:"integer", default: 1}
         position:      {type:"integer"}
