@@ -1,7 +1,6 @@
 ASSOCIATIONS =
     uom_choices: { collection: "Uom", options: ->
         with: {for_sku_loc: @sku_loc_id}, query: {}
-
     }
     sku_choices: { collection: "Sku", options: ->
         with: {in_location: @location_id}, query: {}
@@ -13,7 +12,10 @@ ASSOCIATIONS =
 
 
 DERIVED =
-    total:  deps: ['qty', 'price'], fn: -> _.bigDecimal(@qty * @price)
+    total:  deps: ['qty', 'price'], fn: ->
+        @qty ||= 0
+        @price  ||= 0
+        _.bigDecimal(@qty * @price)
 
 Skr.Models.Mixins.SkuLine = {
 
@@ -43,18 +45,17 @@ Skr.Models.Mixins.SkuLine = {
         if sl
             @set(sku_loc: sl)
             @uom_choices.options.with.for_sku_loc = sl.id
-
         unless @sku.uoms.isEmpty()
             @uom_choices.reset(@sku.uoms.models)
             uom = @sku.uoms.findWhere(size: @uom_size) or @sku.uoms.first()
             this.set(uom: uom)
-
         @sku_code    = @sku.code if @sku.code
         @description = @sku.description if @sku.description
 
     onUomChange: (uom) ->
-        unless @unsavedAttributes().price and @price.gt(0)
-            @price = Skr.Models.PricingProvider.price({uom})
+        return unless uom
+        newPrice = Skr.Models.PricingProvider.price({uom})
+        @price = newPrice unless newPrice.eq(0)
         @uom_code = uom.code
         @uom_size = uom.size
 }
