@@ -144,7 +144,11 @@ module Skr
                 self.po_num           = sales_order.po_num if self.po_num.blank?
                 self.billing_address  = sales_order.billing_address   if self.billing_address.blank?
                 self.shipping_address = sales_order.shipping_address  if self.shipping_address.blank?
-                self.options.merge!(sales_order.options)
+                if self.options && sales_order.options
+                    self.options.merge!(sales_order.options)
+                else
+                    self.options = sales_order.options
+                end
             end
 
             if customer_project
