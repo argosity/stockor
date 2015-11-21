@@ -3,7 +3,7 @@ class Skr.Screens.TimeTracking.Entries extends Lanes.Models.Base
     session:
         date:    { type: 'object', 'required': true, default: -> _.moment() }
         display: { type: 'string', values: ['day', 'week', 'month'], default: 'week' }
-        isLoading: { type: 'bool', default: false }
+        isLoading: { type: 'boolean', default: false }
 
     derived:
         range:
@@ -33,7 +33,7 @@ class Skr.Screens.TimeTracking.Entries extends Lanes.Models.Base
 
     onLoad: ->
         delete @_cachedEvents unless @entries.requestInProgress
-        @isLoading = @entries.requestInProgress
+        @isLoading = !!@entries.requestInProgress
         @trigger('change', @)
 
     fetchEvents: ->
