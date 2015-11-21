@@ -39,13 +39,11 @@ class Skr.Components.CustomerFinder extends Lanes.React.Component
         if props.selectField
             <LC.SelectField sm=2
                 labelField="code"
-                model={@customer}
                 setSelection={@selectSetCustomer}
                 getSelection={@selectGetSelection}
                 {...props} />
         else
             <LC.RecordFinder ref="finder" sm=3 autoFocus
                 commands={@state.commands}
-                model={@props.customer}
                 query={@query}
                 {...props} />
