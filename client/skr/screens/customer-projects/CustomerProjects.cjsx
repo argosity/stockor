@@ -13,13 +13,17 @@ class Skr.Screens.CustomerProjects extends Skr.Screens.Base
     getHourlyRate: -> @project.rates?.hourly
     setHourlyRate: (value) ->
         @project.rates = _.extend({}, @project.rates, {hourly: value.replace(/[^0-9.]/g, '')})
+    componentDidMount: ->
+        finder = @refs.finder.refs.finder
+        finder._setValue('PENS')
+        finder.loadCurrentSelection()
+        @state.commands.toggleEdit()
 
     render: ->
         <LC.ScreenWrapper identifier="customer-projects">
-            <Lanes.Screens.CommonComponents activity={@state}
-                commands={@state.commands} model={@project} />
+            <Lanes.Screens.CommonComponents commands={@state.commands} />
             <BS.Row>
-                <SC.CustomerProjectFinder commands={@state.commands}
+                <SC.CustomerProjectFinder ref='finder' commands={@state.commands}
                 model={@project} autoFocus editOnly sm=3 />
 
                 <SC.CustomerFinder selectField sm=3

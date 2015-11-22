@@ -11,12 +11,11 @@ class Skr.Screens.CustomerMaint extends Lanes.React.Screen
 
     render: ->
         <LC.ScreenWrapper identifier="customer-maint">
-            <Lanes.Screens.CommonComponents
-                activity={@state} commands={@state.commands} model={@customer} />
+            <Lanes.Screens.CommonComponents commands={@state.commands} />
             <BS.Row>
                 <SC.CustomerFinder sm=4 editOnly ref="finder"
                     syncOptions={include: ['billing_address', 'shipping_address']}
-                    commands={@state.commands} customer={@customer} />
+                    commands={@state.commands} model={@customer} />
                 <LC.Input sm=8 name="name" model={@customer} />
             </BS.Row>
             <BS.Row>

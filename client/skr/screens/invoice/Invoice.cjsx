@@ -12,20 +12,12 @@ class Skr.Screens.Invoice extends Skr.Screens.Base
     getInitialState: ->
         commands: new Lanes.Screens.Commands(this, modelName: 'invoice', print: true)
 
-    componentDidMount: ->
-        finder = @refs.finder.refs.finder
-        finder._setValue(1)
-        finder.loadCurrentSelection()
-        @state.commands.toggleEdit()
-
     setSalesOrder: (so) ->
         @invoice.setFromSalesOrder(so)
 
     render: ->
         <LC.ScreenWrapper identifier="invoice">
-            <Lanes.Screens.CommonComponents
-                activity={@state} commands={@state.commands} model={@invoice} />
-
+            <Lanes.Screens.CommonComponents commands={@state.commands} />
             <BS.Row>
                 <SC.InvoiceFinder ref='finder' editOnly md=2 sm=3 xs=6
                     model={@invoice} commands={@state.commands}

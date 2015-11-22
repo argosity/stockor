@@ -11,8 +11,7 @@ class Skr.Screens.VendorMaint extends Lanes.React.Screen
 
     render: ->
         <LC.ScreenWrapper identifier="vendor-maint">
-            <Lanes.Screens.CommonComponents
-                activity={@state} commands={@state.commands} model={@vendor} />
+            <Lanes.Screens.CommonComponents commands={@state.commands} />
             <BS.Row>
                 <SC.VendorFinder sm=4 editOnly
                     commands={@state.commands} model={@vendor} />

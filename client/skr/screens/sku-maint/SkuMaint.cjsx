@@ -11,8 +11,7 @@ class Skr.Screens.SkuMaint extends Lanes.React.Screen
 
     render: ->
         <LC.ScreenWrapper identifier="sku-maint">
-            <Lanes.Screens.CommonComponents
-                activity={@state} commands={@state.commands} model={@sku} />
+            <Lanes.Screens.CommonComponents commands={@state.commands} />
             <BS.Row>
                 <SC.SkuFinder model={@sku} sm=4 label='Code' editOnly autoFocus
                     syncOptions={include: ['default_vendor', 'uoms']}
