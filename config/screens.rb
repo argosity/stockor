@@ -33,7 +33,7 @@ Lanes::Screen.for_extension 'Skr' do | screens |
         screen.description = ""
         screen.icon        = "briefcase"
         screen.group_id    = "accounting"
-        screen.model_class = ""
+        screen.model_class = "Invoice"
         screen.view_class  = "CustomerProjects"
         screen.js          = "customer-projects.js"
         screen.css         = "customer-projects.css"
