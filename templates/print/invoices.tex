@@ -8,8 +8,10 @@
       \hline
       \multicolumn{2}{|c|}{\textbf{\large Invoice \# <%= inv.visible_id %>}} \\
           \hline
+%<% if inv.sales_order %>
           Order \# & <%=q inv.sales_order.visible_id %> \\
           \hline
+%<% end %>
           Date & <%=q inv.created_at.strftime('%F') %> \\
           \hline
           Page & \thepage{} of \pageref{LastPage} \\
