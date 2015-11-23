@@ -51,14 +51,15 @@ class Skr.Models.SalesOrder extends Skr.Models.Base
         lines:            { collection: "SoLine",     inverse: 'sales_order', fk: 'sales_order_id',  }
         pick_tickets:     { collection: "PickTicket", inverse: 'sales_order' }
 
-    constructor: ->
-        super
-        @on("change:customer", @onCustomerChange)
-        @lines.on('change:total', ->
-            @trigger('change', @, {})
-            @unCacheDerived('total')
-            @unset('order_total')
-        , this)
+    events:
+        'change:total': 'onTotalChange'
+        'change:customer': 'onCustomerChange'
+        'lines change:total': 'onTotalChange'
+
+    onTotalChange: ->
+        @trigger('change', @, {})
+        @unCacheDerived('total')
+        @unset('order_total')
 
     onCustomerChange: ->
         return unless @isNew()

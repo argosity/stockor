@@ -52,10 +52,9 @@ class Skr.Models.Invoice extends Skr.Models.Base
         lines:            { collection: "InvLine", inverse: 'invoice'  }
         gl_transactions:  { collection: "GlTransaction", readOnly:true }
 
-    constructor: ->
-        super
-        @lines.on('change:total', @onChangeTotal, this)
-        @on('change:customer', @onSetCustomer)
+    events:
+        'change:customer': 'onSetCustomer'
+        'lines change:total': 'onChangeTotal'
 
     onChangeTotal: ->
         @trigger('change', @, {})
