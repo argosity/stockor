@@ -63,6 +63,8 @@ class Skr.Screens.TimeTracking extends Skr.Screens.Base
                     onEventResize={@onEventResize}
                     onEventClick={@onEventClick}
                     editComponent={@editComponent}
-                    date={@entries.date} events={@entries.calEvents()} display='week' />
+                    date={@entries.date}
+                    events={@entries.calEvents()}
+                    display={@entries.display} />
             </BS.Row>
         </LC.ScreenWrapper>
