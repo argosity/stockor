@@ -23,13 +23,15 @@ class Skr.Screens.TimeTracking.Entries extends Lanes.Models.Base
     associations:
         customer_project: { model: "CustomerProject" }
 
+    events:
+        'change:customer_project': 'fetchEvents'
+
     constructor: ->
         super
         @available_projects = Skr.Models.CustomerProject.Collection.fetch()
         @entries = new Skr.Models.TimeEntry.Collection
         @listenTo(@entries, 'request sync', @onLoad)
         @entries.fetch()
-        this.on('change:customer_project', @fetchEvents)
 
     startEditing: (editingEvent) ->
         for event in @calEvents().events
