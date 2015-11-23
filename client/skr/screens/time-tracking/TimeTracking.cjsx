@@ -17,10 +17,10 @@ class Skr.Screens.TimeTracking extends Skr.Screens.Base
         event = @entries.calEvents().add( _.extend(entry.toCalEvent(), {
             onLeft: (0.5 < ev.clientX / this.context.viewport.domRoot.clientWidth)
         }))
-        event.set(editing: true)
+        @entries.startEditing(event)
 
     onEventClick: (ev, event) ->
-        event.set(editing: !event.isEditing())
+        if event.isEditing() then event.set(editing: false) else @entries.startEditing(event)
 
     editComponent: (props) ->
         <Skr.Screens.TimeTracking.PopoverEdit {...props} entries={@entries} />

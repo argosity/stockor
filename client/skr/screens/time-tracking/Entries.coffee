@@ -31,6 +31,10 @@ class Skr.Screens.TimeTracking.Entries extends Lanes.Models.Base
         @entries.fetch()
         this.on('change:customer_project', @fetchEvents)
 
+    startEditing: (editingEvent) ->
+        for event in @calEvents().events
+            event.set(editing: (event is editingEvent))
+
     onLoad: ->
         delete @_cachedEvents unless @entries.requestInProgress
         @isLoading = !!@entries.requestInProgress
