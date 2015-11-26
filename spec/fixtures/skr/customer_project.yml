@@ -6,4 +6,15 @@ goatpens:
   po_num: gruffy
   sku: labor
   customer: billy
+  options: { color: 2 }
   rates: { 'hourly': 25.00 }
+
+
+mirror:
+  code: MIRROR
+  description: Create magic mirror
+  po_num: STEP-MOM GIFT
+  sku: labor
+  customer: sb
+  options: { color: 4 }
+  rates: { 'hourly': 85.00 }

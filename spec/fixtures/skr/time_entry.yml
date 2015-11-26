@@ -1,9 +1,82 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+# <% date = ->(day, hours=8, mins=0){ (day.days.ago.midnight + hours.hours + mins.minutes).to_s } %>
 
-first:
+siteprep:
   customer_project: goatpens
   lanes_user_id: 1
   is_invoiced: false
-  start_at: <%= 5.day.ago.to_s(:db) %>
-  end_at:   <%= (5.day.ago + 8.hours + 30.minutes).to_s(:db) %>
-  description: Built pens for little goats
+  start_at: <%= date[5] %>
+  end_at:   <%= date[5, 16, 30] %>
+  description: Purchase material, initial site prep
+
+lumber:
+  customer_project: goatpens
+  lanes_user_id: 1
+  is_invoiced: false
+  start_at: <%= date[4, 10] %>
+  end_at:   <%= date[4, 15, 15] %>
+  description: Cut lumber to size, construct pre-sized panels off-site
+
+install:
+  customer_project: goatpens
+  lanes_user_id: 1
+  is_invoiced: false
+  start_at: <%= date[3] %>
+  end_at:   <%= date[3, 19, 15] %>
+  description: Onsite install and painting of fence panels
+
+walkthrough:
+  customer_project: goatpens
+  lanes_user_id: 1
+  is_invoiced: false
+  start_at: <%= date[2, 12] %>
+  end_at:   <%= date[2, 15, 45] %>
+  description: Customer walkthrough and approval, punch down list review
+
+puchdown:
+  customer_project: goatpens
+  lanes_user_id: 1
+  is_invoiced: false
+  start_at: <%= date[1, 15] %>
+  end_at:   <%= date[1, 16, 30] %>
+  description: Tighten lag bolts, re-paint missed joints
+
+magic:
+  customer_project: mirror
+  lanes_user_id: 1
+  is_invoiced: false
+  start_at: <%= date[5, 12] %>
+  end_at:   <%= date[5, 15, 15] %>
+  description: Met with magician, described specifications and reviewed prior art
+
+prototype:
+  customer_project: mirror
+  lanes_user_id: 1
+  is_invoiced: false
+  start_at: <%= date[3, 8] %>
+  end_at:   <%= date[3, 10, 45] %>
+  description: Built test-case and tested magicians prototype against it.
+
+effects:
+  customer_project: mirror
+  lanes_user_id: 1
+  is_invoiced: false
+  start_at: <%= date[3, 12] %>
+  end_at:   <%= date[3, 15] %>
+  description: Fine-tune magical effects with magician, adjusted prophetic accuracy
+
+frame:
+  customer_project: mirror
+  lanes_user_id: 1
+  is_invoiced: false
+  start_at: <%= date[2, 10] %>
+  end_at:   <%= date[2, 15, 30] %>
+  description: Construct guilded silver frame to serve as containment field for mirror
+
+magic_train:
+  customer_project: mirror
+  lanes_user_id: 1
+  is_invoiced: false
+  start_at: <%= date[1, 13] %>
+  end_at:   <%= date[1, 15] %>
+  description: Delivered and installed mirror.  Performed on-site training in use of magical query language

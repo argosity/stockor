@@ -9,7 +9,7 @@ class InvoiceFromTimeEntriesSpec < Skr::TestCase
             project.id, project.time_entries.map(&:id), 'po_num' => 'Testing Only!'
         ).build_invoice
     }
-    let (:time_entry) { skr_time_entry(:first) }
+    let (:time_entry) { skr_time_entry(:siteprep) }
     let (:line)       { invoice.lines.first }
 
     it "raises exception if ids are not found" do
