@@ -12,9 +12,13 @@ class Skr.Screens.TimeInvoicing extends Skr.Screens.Base
                 src: Skr.Models.TimeEntry, fields: [
                     {id:'id', visible: false}
                     @gridSelections
-                    { id: 'start_at', format: Lanes.u.format.shartDateTime }
-                    { id: 'end_at',   format: Lanes.u.format.shartDateTime }
                     {
+                        id: 'start_at', fixedWidth: 200,
+                        format: Lanes.u.format.shartDateTime
+                    }, {
+                        id: 'end_at', fixedWidth: 200,
+                        format: Lanes.u.format.shartDateTime
+                    }, {
                         id: 'hours', fixedWidth: 80, textAlign: 'center', editable: false,
                         query: false, format: (v, row) -> hoursForRow(row)
                     }
