@@ -16,6 +16,7 @@ class Skr.Models.Customer extends Skr.Models.Base
         name:                     {type:"string"}
         notes:                    "string"
         website:                  "string"
+        forms:                    "any"
         options:                  "any"
 
     associations:

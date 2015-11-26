@@ -18,6 +18,7 @@ class CreateSkrSalesOrders < ActiveRecord::Migration
             t.boolean  "ship_partial",         null: false, default: false
             t.string   "po_num"
             t.text     "notes"
+            t.string   "form"
             t.jsonb    "options", default: {}
             t.skr_track_modifications
         end

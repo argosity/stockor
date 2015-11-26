@@ -17,6 +17,7 @@ class CreateSkrCustomers < ActiveRecord::Migration
             t.text     "notes"
             t.text     "website"
             t.jsonb    "options"
+            t.jsonb    "forms"
             t.skr_track_modifications
         end
     end

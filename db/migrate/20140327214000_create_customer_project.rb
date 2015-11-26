@@ -7,7 +7,9 @@ class CreateCustomerProject < ActiveRecord::Migration
             t.text :description, :po_num
             t.skr_reference :sku,      single: true
             t.skr_reference :customer, single: true
+            t.string :invoice_form
             t.jsonb :rates
+            t.jsonb :options
             t.timestamps null: false
         end
     end

@@ -20,6 +20,7 @@ class CreateSkrInvoices < ActiveRecord::Migration
             t.date     "invoice_date",         null: false
             t.string   "po_num"
             t.text     "notes"
+            t.string   "form"
             t.jsonb    "options"
             t.skr_track_modifications
         end
