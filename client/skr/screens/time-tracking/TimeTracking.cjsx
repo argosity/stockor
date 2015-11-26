@@ -13,7 +13,7 @@ class Skr.Screens.TimeTracking extends Skr.Screens.Base
     onAddEntry: (ev, date) ->
         rounded = Math.round( date.minute() / 15 ) * 15
         date.minute(rounded).second(0)
-        entry = new Skr.Models.TimeEntry(
+        entry = @entries.add(
             start_at: date, end_at: date.clone().add(2, 'hour')
         )
         event = @entries.calEvents().add( _.extend(entry.toCalEvent(), {
@@ -46,10 +46,12 @@ class Skr.Screens.TimeTracking extends Skr.Screens.Base
         @entries.display = ev.target.value
 
     ProjectOption: (props) ->
-        <div className={"color-#{props.item.options?.color}"}>{props.item.code}</div>
+        color = props.item.options?.color || 0
+        <div className={"color-#{color}"}>{props.item.code}</div>
 
     setProject: (project) ->
-        @entries.set(customer_project: project.clone())
+        @entries.set(customer_project_id: project.id)
+
     getProjects: ->
         @entries.available_projects.models
 
@@ -90,7 +92,8 @@ class Skr.Screens.TimeTracking extends Skr.Screens.Base
                     <Lanes.Vendor.ReactWidgets.DropdownList
                         data={@getProjects()}
                         valueField='id' textField='code'
-                        value={@entries.customer_project} onChange={@setProject}
+                        value={@entries.project}
+                        onChange={@setProject}
                         valueComponent={@ProjectOption}
                         itemComponent={@ProjectOption}
                     />

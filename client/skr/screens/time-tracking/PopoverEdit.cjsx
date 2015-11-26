@@ -7,6 +7,7 @@ class Skr.Screens.TimeTracking.PopoverEdit extends Lanes.React.Component
         @forceUpdate()
 
     getTarget: ->
+        return null unless @props.wrapper.isMounted()
         _.dom(@props.wrapper).el
 
     onCancel: ->
@@ -16,8 +17,9 @@ class Skr.Screens.TimeTracking.PopoverEdit extends Lanes.React.Component
             this.props.event.set(editing: false)
 
     onSave: ->
-        @props.entry.save().then (te) =>
-            @props.event.set(_.extend({editing: false}, te.toCalEvent()))
+        event = @props.event
+        @props.entry.save().then (te) ->
+            event.set(_.extend({editing: false}, te.toCalEvent()))
 
     renderBody: ->
         dtp = {sm:12, editOnly: true, model: @props.entry}

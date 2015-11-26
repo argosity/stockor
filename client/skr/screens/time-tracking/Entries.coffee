@@ -6,13 +6,18 @@ class TimeEntries extends Skr.Models.TimeEntry.Collection
     projectForEntry: (entry) ->
         @projects.get( entry.customer_project_id )
 
-    setProject: (project, range) ->
-        return if @project_id is project.id
-        @project_id = project.id
-        query = if @project_id then {customer_project_id: @project_id} else {}
+    load: (range, query = {}) ->
         query.end_at    = { op: 'gt', value: range.start.toISOString() }
         query.start_at  = { op: 'lt', value: range.end.toISOString() }
         @fetch({query})
+
+    setProjectId: (projectId, range) ->
+        return if @projectId is projectId
+        @projectId = projectId
+        query = if @projectId and @projectId isnt -1
+            {customer_project_id: @projectId}
+        else {}
+        @load(range, query)
 
 class Skr.Screens.TimeTracking.Entries extends Lanes.Models.Base
 
@@ -20,8 +25,13 @@ class Skr.Screens.TimeTracking.Entries extends Lanes.Models.Base
         date:    { type: 'object', 'required': true, default: -> _.moment() }
         display: { type: 'string', values: ['day', 'week', 'month'], default: 'week' }
         isLoading: { type: 'boolean', default: false }
+        customer_project_id: 'integer'
 
     derived:
+        project:
+            deps: ['customer_project_id'], fn: ->
+                @available_projects.get(@customer_project_id)
+
         range:
             deps: ['date', 'display'], fn: ->
                 range = _.moment.range(
@@ -36,30 +46,36 @@ class Skr.Screens.TimeTracking.Entries extends Lanes.Models.Base
             deps: ['date', 'display'], fn: ->
                 @date.format('MMMM YYYY')
 
-    associations:
-        customer_project: { model: "CustomerProject" }
-
     events:
-        'change:customer_project': 'fetchEvents'
+        'change:customer_project_id': 'fetchEvents'
 
     constructor: ->
         super
-        @available_projects = Skr.Models.CustomerProject.Collection.fetch()
+        @available_projects = Skr.Models.CustomerProject.Collection
+            .fetch().whenLoaded (cp) =>
+                cp.add({id:-1, code: 'ALL', options:{color: 1}}, at: 0)
+                @set(customer_project_id: -1)
         @entries = new TimeEntries(@available_projects)
         @listenTo(@entries, 'sync', @onLoad)
-        @entries.fetch()
 
     startEditing: (editingEvent) ->
         for event in @calEvents().events
             event.set(editing: (event is editingEvent))
+
+    add: (attrs) ->
+        attrs.customer_project = @project unless @project.id is -1
+        @entries.add(attrs)
 
     onLoad: ->
         delete @_cachedEvents unless @entries.requestInProgress
         @isLoading = !!@entries.requestInProgress
         @trigger('change', @)
 
-    fetchEvents: (project) ->
-        @entries.setProject(project, @range)
+    reset: ->
+        @entries.load(@range)
+
+    fetchEvents: ->
+        @entries.setProjectId(@customer_project_id, @range)
 
     calEvents: ->
         @_cachedEvents ||= new LC.Calendar.Events( @entries.invoke('toCalEvent') )
