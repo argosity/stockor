@@ -6,3 +6,21 @@
  Otherwise Lanes will continue to fetch an empty file whenever
  the screen is displayed
 */
+@import "lanes/screens/styles";
+
+.customer-projects {
+    .colors {
+        @include lanes-unpadded-dropdown();
+        @each $current-color in $lanes-color-selections {
+            $i: index($lanes-color-selections, $current-color);
+            .color-#{$i} {
+                background: $current-color;
+                color: nth($lanes-text-color-selections, $i);
+            }
+        }
+
+
+    }
+
+
+}
