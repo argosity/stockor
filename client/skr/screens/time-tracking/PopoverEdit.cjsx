@@ -1,39 +1,26 @@
 class Skr.Screens.TimeTracking.PopoverEdit extends Lanes.React.Component
 
-    dataObjects:
-        event: ->
-            this.props.event.isState = true
-            this.props.event
-        entry: ->
-            entry = @props.event.get('entry')
-            project = if entry.customer_project_id
-                @props.entries.available_projects.get(entry.customer_project_id)
-            else
-                @props.entries.customer_project
-            entry.set(customer_project: project)
-            entry
-
     setDataState: (change) ->
         if change.event
-            @entry.fromCalEvent(change.event)
-            change.event.set({content: @entry.content}, {silent: true})
+            @props.entry.fromCalEvent(change.event)
+            change.event.set({content: @props.entry.content}, {silent: true})
         @forceUpdate()
 
     getTarget: ->
-        _.dom(this.props.parent).el
+        _.dom(@props.wrapper).el
 
     onCancel: ->
-        if @entry.isNew()
+        if @props.entry.isNew()
             @props.event.remove()
         else
             this.props.event.set(editing: false)
 
     onSave: ->
-        @entry.save().then (te) =>
+        @props.entry.save().then (te) =>
             @props.event.set(_.extend({editing: false}, te.toCalEvent()))
 
     renderBody: ->
-        dtp = {sm:12, editOnly: true, model: @entry}
+        dtp = {sm:12, editOnly: true, model: @props.entry}
         <div className="entry-body">
             <BS.Row>
                 <LC.SelectField {...dtp} name='customer_project' labelField="code" />
@@ -43,7 +30,7 @@ class Skr.Screens.TimeTracking.PopoverEdit extends Lanes.React.Component
                 <LC.DateTime {...dtp} step={15} name="end_at"/>
 
                 <LC.Input sm={12}
-                    model={@entry}
+                    model={@props.entry}
                     autoFocus editOnly
                     name="description"
                     type="textarea"
@@ -57,10 +44,16 @@ class Skr.Screens.TimeTracking.PopoverEdit extends Lanes.React.Component
         </div>
 
     render: ->
-        placement = if this.props.event.get('onLeft') then 'left' else 'right'
+        return null unless @props.entry
+
+        placement = if @props.entries.display is 'day'
+            if @props.entry.start_at.getHours() > 12 then 'top' else 'bottom'
+        else
+            if @props.entry.start_at.getDay() > 3 then 'left' else 'right'
+
         <Lanes.Vendor.Overlay.Position
             target={@getTarget}
-            container={@props.parent}
+            container={@props.container}
             placement={placement}
         >
             <BS.Popover title="Edit" id="edit">
