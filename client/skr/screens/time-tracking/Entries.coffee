@@ -1,3 +1,19 @@
+class TimeEntries extends Skr.Models.TimeEntry.Collection
+
+    constructor: (@projects) ->
+        super()
+
+    projectForEntry: (entry) ->
+        @projects.get( entry.customer_project_id )
+
+    setProject: (project, range) ->
+        return if @project_id is project.id
+        @project_id = project.id
+        query = if @project_id then {customer_project_id: @project_id} else {}
+        query.end_at    = { op: 'gt', value: range.start.toISOString() }
+        query.start_at  = { op: 'lt', value: range.end.toISOString() }
+        @fetch({query})
+
 class Skr.Screens.TimeTracking.Entries extends Lanes.Models.Base
 
     session:
@@ -29,8 +45,8 @@ class Skr.Screens.TimeTracking.Entries extends Lanes.Models.Base
     constructor: ->
         super
         @available_projects = Skr.Models.CustomerProject.Collection.fetch()
-        @entries = new Skr.Models.TimeEntry.Collection
-        @listenTo(@entries, 'request sync', @onLoad)
+        @entries = new TimeEntries(@available_projects)
+        @listenTo(@entries, 'sync', @onLoad)
         @entries.fetch()
 
     startEditing: (editingEvent) ->
@@ -42,14 +58,8 @@ class Skr.Screens.TimeTracking.Entries extends Lanes.Models.Base
         @isLoading = !!@entries.requestInProgress
         @trigger('change', @)
 
-    fetchEvents: ->
-        query = if @customer_project.id
-            {customer_project_id: @customer_project.id}
-        else
-            {}
-        query.end_at    = { op: 'gt', value: @range.start.toISOString() }
-        query.start_at  = { op: 'lt', value: @range.end.toISOString() }
-        @entries.fetch({query})
+    fetchEvents: (project) ->
+        @entries.setProject(project, @range)
 
     calEvents: ->
         @_cachedEvents ||= new LC.Calendar.Events( @entries.invoke('toCalEvent') )

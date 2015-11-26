@@ -19,24 +19,44 @@ class Skr.Screens.CustomerProjects extends Skr.Screens.Base
         finder.loadCurrentSelection()
         @state.commands.toggleEdit()
 
+    ColorOption: (props) ->
+        <div className={"color-#{props.item.id}"}>{props.item.name}</div>
+
+    setColor: (value) ->
+        @project.options = _.extend({}, @project.options, {color: value.id})
+        @forceUpdate()
+
+    getColor: ->
+        @project.options?.color
+
     render: ->
         <LC.ScreenWrapper identifier="customer-projects">
             <Lanes.Screens.CommonComponents commands={@state.commands} />
             <BS.Row>
                 <SC.CustomerProjectFinder ref='finder' commands={@state.commands}
-                model={@project} autoFocus editOnly sm=3 />
+                    model={@project} autoFocus editOnly sm=3 />
 
                 <SC.CustomerFinder selectField sm=3
                     label='Customer' model={@project} />
 
                 <SC.SkuFinder selectField sm=3 model={@project} />
-
-                <LC.Input sm=3 name="rates" label='Hourly Rate' model={@project}
-                    setValue={@setHourlyRate} getValue={@getHourlyRate} />
+                <LC.Input name="po_num" model={@project} sm=3 />
             </BS.Row>
             <BS.Row>
-                <LC.Input name="po_num" model={@project} sm=3 />
-                <LC.Input name="description" model={@project} sm=9 />
+
+                <LC.Input sm=2 name="rates" label='Hourly Rate' model={@project}
+                    setValue={@setHourlyRate} getValue={@getHourlyRate} />
+                <LC.FormGroup sm=2 label="Entry Color">
+                    <Lanes.Vendor.ReactWidgets.DropdownList
+                        className='colors'
+                        data={Skr.Models.CustomerProject.COLORS}
+                        valueField='id' textField='name'
+                        value={@getColor()} onChange={@setColor}
+                        valueComponent={@ColorOption}
+                        disabled={!@state.commands.isEditing()}
+                        itemComponent={@ColorOption} />
+                </LC.FormGroup>
+                <LC.Input name="description" model={@project} sm=8 />
             </BS.Row>
 
         </LC.ScreenWrapper>
