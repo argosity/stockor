@@ -36,7 +36,11 @@ class Skr.Models.TimeEntry extends Skr.Models.Base
         @end_at = _.moment(@start_at).add(1, 'hour') if @start_at > @end_at
 
     toCalEvent: ->
-        {entry: this, range: @range, content: @content, resizable: {step: 15}}
+        attrs = {entry: this, range: @range, content: @content, resizable: {step: 15}}
+        project = @collection.projectForEntry(this)
+        if project?.options
+            _.extend attrs, colorIndex: project.options.color
+        attrs
 
     fromCalEvent: (event) ->
         attrs =
