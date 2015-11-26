@@ -6,18 +6,39 @@
  Otherwise Lanes will continue to fetch an empty file whenever
  the screen is displayed
 */
+@import "lanes/screens/styles";
 .time-tracking {
 
-    .calendar-header .paging {
-        text-align: center;
-        font-size: 1.8rem;
-
+    .calendar-header {
         display: flex;
-        align-items: center;
+        flex-direction: row;
         justify-content: space-around;
+        flex-wrap: wrap;
+        align-items: center;
+        .display label+label {
+            padding-left: 1rem;
+        }
+        .paging {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            .legend{
+                font-size: 2rem;
+                padding: 0 0.5rem;
+            }
+        }
+        .select {
+            width: 200px;
+            @include lanes-unpadded-dropdown();
 
-        button {
-            width: 5rem;
+            @each $current-color in $lanes-color-selections {
+                $i: index($lanes-color-selections, $current-color);
+                .color-#{$i} {
+                    background: $current-color;
+                    color: nth($lanes-text-color-selections, $i);
+                }
+            }
+
         }
     }
 
@@ -37,5 +58,9 @@
 
     .entry-body {
         min-height: 365px;
+    }
+    .dayz .label {
+        font-size: 1rem;
+        color: darkgrey;
     }
 }
