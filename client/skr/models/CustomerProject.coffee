@@ -1,12 +1,19 @@
 class Skr.Models.CustomerProject extends Skr.Models.Base
 
+    @COLORS: _.map([
+        'gray', 'blue', 'orange', 'green', 'pink',
+        'brown', 'purple', 'yellow' , 'red', 'tan'
+    ], (v, i) -> {id: i + 1, name: v})
+
     props:
-        id:         {"type":"integer" }
-        code:       {"type":"code"    }
-        description:{"type":"string"  }
-        po_num:     {"type":"string"  }
-        sku_id:     {"type":"integer" }
-        customer_id:{"type":"integer" }
+        id:           {"type":"integer" }
+        code:         {"type":"code"    }
+        description:  {"type":"string"  }
+        po_num:       {"type":"string"  }
+        invoice_form: {"type":"string"  }
+        sku_id:       {"type":"integer" }
+        customer_id:  {"type":"integer" }
+        options:    "any"
         rates:      "any"
 
     session:
