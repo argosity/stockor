@@ -19,23 +19,26 @@ class Skr.Screens.Invoice extends Skr.Screens.Base
         <LC.ScreenWrapper identifier="invoice">
             <Lanes.Screens.CommonComponents commands={@state.commands} />
             <BS.Row>
-                <SC.InvoiceFinder ref='finder' editOnly md=2 sm=3 xs=6
+                <SC.InvoiceFinder ref='finder' editOnly sm=3 xs=6
                     model={@invoice} commands={@state.commands}
                     syncOptions={@syncOptions} />
 
-                <SC.SalesOrderFinder editOnly autoFocus={false} md=2 sm=3 xs=6
+                <SC.SalesOrderFinder editOnly autoFocus={false} sm=3 xs=6
                     onModelSet={@setSalesOrder} associationName='sales_order'
                     syncOptions={@syncOptions} parentModel={@invoice} />
 
-                <SC.CustomerFinder selectField md=2 sm=3 xs=6
-                    model={@invoice} />
+                <SC.CustomerFinder selectField sm=3 xs=6 model={@invoice} />
 
-                <SC.LocationChooser md=2 sm=3 xs=6
+                <SC.LocationChooser sm=3 xs=6
                     label='Src Location' model={@invoice} />
 
-                <SC.TermsChooser model={@invoice} md=2 smd=3 xs=6 />
+                <SC.TermsChooser model={@invoice} sm=3 xs=6 />
 
-                <LC.Input name='po_num' model={@invoice} md=2 sm=9 />
+                <LC.Input name='po_num' model={@invoice} sm=3 xs=6 />
+
+                <SC.PrintFormChooser label="Print Form" sm=3
+                    model={@invoice} />
+
             </BS.Row>
 
             <BS.Row>
