@@ -55,6 +55,18 @@ class Skr.Screens.TimeTracking extends Skr.Screens.Base
     getProjects: ->
         @entries.available_projects.models
 
+    renderSummaryDays: ->
+        return null unless @entries.isMonth
+        for week in [1..5]
+            <Skr.Screens.TimeTracking.WeekSummary
+                key={week} week={week} entries={@entries} />
+
+        #     <div className="day" style={{order: 6}}>A</div>
+        #     <div className="day" style={{order: 13}}>B</div>
+        #     <div className="day" style={{order: 20}}>C</div>
+        #     <div className="day" style={{order: 27}}>D</div>
+        #     <div className="day" style={{order: 34}}>E</div>
+
     render: ->
         <LC.ScreenWrapper identifier="time-tracking">
             <BS.Row className='calendar-header'>
@@ -110,6 +122,9 @@ class Skr.Screens.TimeTracking extends Skr.Screens.Base
                     editComponent={@editComponent}
                     date={@entries.date}
                     events={@entries.calEvents()}
-                    display={@entries.display} />
+                    display={@entries.display}
+                >
+                    {@renderSummaryDays()}
+                </LC.Calendar>
             </BS.Row>
         </LC.ScreenWrapper>

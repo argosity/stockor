@@ -30,19 +30,45 @@
         .select {
             width: 200px;
             @include lanes-unpadded-dropdown();
-
-            @each $current-color in $lanes-color-selections {
-                $i: index($lanes-color-selections, $current-color);
-                .color-#{$i} {
-                    background: $current-color;
-                    color: nth($lanes-text-color-selections, $i);
-                }
-            }
-
         }
     }
 
-    .dayz { flex: 1; }
+    @each $current-color in $lanes-color-selections {
+        $i: index($lanes-color-selections, $current-color);
+        .calendar-header .select .color-#{$i} {
+            background: $current-color;
+            color: nth($lanes-text-color-selections, $i);
+        }
+        .day.summary .color-#{$i} {
+            background: $current-color;
+            color: nth($lanes-text-color-selections, $i);
+        }
+    }
+
+
+    .dayz {
+        flex: 1;
+        &.month {
+            .x-labels {
+                width: 94.5%;
+                .day-label {
+                    flex-basis: (100%/7);
+                }
+            }
+            .days {
+                .day {
+                    flex-basis: 13.5%;
+                }
+                .summary {
+                    flex-basis: 5.5%;
+                    flex-direction: column;
+                    display: flex;
+                    justify-content: center;
+                    text-align: right;
+                }
+            }
+        }
+    }
 
     .popover {
         width: 400px;

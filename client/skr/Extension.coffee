@@ -12,6 +12,12 @@ class Skr.Extension extends Lanes.Extensions.Base
         Skr.Models.Location.initialize(
             locations: data.locations
         )
+        for type, choices of data.templates
+            klass = Skr.Models[_.classify(type)]
+            if klass
+                klass.Templates = choices
+            else
+                console.log "Unable to find model for #{type}"
 
     rootComponent: (viewport) ->
         Lanes.Workspace.Layout
