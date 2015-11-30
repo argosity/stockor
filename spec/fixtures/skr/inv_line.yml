@@ -10,7 +10,7 @@ tiny_hat:
   description: A Top Hat
   uom_code: EA
   uom_size: 1
-  position: 2
+  position: 1
 
 tiny_yarn:
   invoice: tiny
@@ -21,5 +21,17 @@ tiny_yarn:
   sku_code: GLDYARN
   description: Yarn (golden)
   uom_code: FT
+  uom_size: 1
+  position: 2
+
+tiny_time:
+  invoice: tiny
+  time_entry: siteprep
+  sku_loc: labor_def
+  qty: 8.5
+  price: 25.00
+  sku_code: LABOR
+  description: Purchase material, initial site prep. Go to store and call unicorns in for questions.  Ran across lake barefoot without shoes.
+  uom_code: HOUR
   uom_size: 1
   position: 3

@@ -4,7 +4,7 @@
 siteprep:
   customer_project: goatpens
   lanes_user_id: 1
-  is_invoiced: false
+  is_invoiced: true
   start_at: <%= date[5] %>
   end_at:   <%= date[5, 16, 30] %>
   description: Purchase material, initial site prep
