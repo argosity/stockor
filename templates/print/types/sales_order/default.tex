@@ -42,7 +42,7 @@
   \multicolumn{<%=ncols%>}{r}{Continued on next page...} \\
   \endfoot
   \hline
-% <% so.other_charge_lines.each do | line | %>
+% <% so.lines.other_charge.each do | line | %>
   \multicolumn{<%=ncols-1%>}{r}{{<%=q line.description%>}} &
   <%= '%0.2f' % line.price %> \\
 %<% end %>
@@ -52,7 +52,7 @@
   \cline{<%=ncols-3%>-<%=ncols%>}
 %  \hline
   \endlastfoot
-% <% so.regular_lines.each do | line | %>
+% <% so.lines.regular.each do | line | %>
    <%=q line.sku_code %> &
    <%=q line.description %> &
    <%= line.qty %> &

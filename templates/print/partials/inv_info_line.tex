@@ -1,0 +1,12 @@
+\begin{tabu} to \textwidth { | *{3}{X[l]|} *{3}{l|}  }
+\hline
+<% unless @invoice.po_num.blank? -%>
+       PO \#:  <%=q @invoice.po_num %> &
+<% end -%>
+<% if @invoice.sales_order -%>
+       SO \#: <%=q @invoice.sales_order.visible_id %> &
+<% end -%>
+  Terms: <%=q @invoice.terms.code %> &
+  Due Date:  <%= @invoice.terms.immediate? ? 'Upon Receipt' : @invoice.due_date %> \\
+  \hline
+\end{tabu}

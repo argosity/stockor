@@ -1,0 +1,4 @@
+  \cline{<%= @ncols-3%>-<%= @ncols%>}
+  \multicolumn{<%= @ncols-1%>}{r}{{\textbf{<%= "#{@group[:title]} SubTotal" %>}}} &
+  \textbf{\textsuperscript{\$}<%= '%0.2f' % @group[:lines].sum(&:extended_price) %>} \\
+  \cline{<%= @ncols-3%>-<%= @ncols%>}

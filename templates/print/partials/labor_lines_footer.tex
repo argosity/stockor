@@ -1,0 +1,18 @@
+\multicolumn{<%= @ncols-4%>}{r}{} &
+  \textbf{<%= '%0.2f' % @invoice.lines.time_entry.sum{|l| l.time_entry.hours } %>} &
+  \textbf{Hours} &
+  \textbf{SubTotal} &
+  \textbf{<%= '%0.2f' % @invoice.lines.time_entry.sum(&:extended_price) %>} \\
+  \cline{<%= @ncols-3%>-<%= @ncols%>}
+<% if @invoice.lines.other_charge.any? -%>
+  <% @invoice.lines.other_charge.each do | line | -%>
+    \multicolumn{<%= @ncols-1%>}{r}{{<%=q line.description%>}} &
+    <%= '%0.2f' % line.price %> \\
+  <% end -%>
+  \cline{<%= @ncols-3%>-<%= @ncols%>}
+<% end -%>
+\multicolumn{<%= @ncols-2%>}{r}{} &
+  \textbf{Total} &
+  \textbf{<%= '%0.2f' % @invoice.total %>} \\
+  \cline{<%= @ncols-3%>-<%= @ncols%>}
+%  \hline

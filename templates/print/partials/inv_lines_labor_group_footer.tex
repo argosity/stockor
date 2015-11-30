@@ -1,0 +1,7 @@
+\cline{<%= @ncols-3%>-<%= @ncols%>}
+\multicolumn{<%= @ncols-4%>}{r}{} &
+  \textbf{<%= '%0.2f' % @group[:lines].sum{|l| l.time_entry.hours } %>} &
+  \textbf{Hours} &
+  \textbf{SubTotal} &
+  \textbf{\textsuperscript{\$}<%= '%0.2f' % @group[:lines].sum(&:extended_price) %>} \\
+  \cline{<%= @ncols-3%>-<%= @ncols%>} \\

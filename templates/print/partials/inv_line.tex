@@ -1,0 +1,10 @@
+   <%=q @line.sku_code %> &
+% <% if @line.time_entry %>
+   <%=q @line.time_entry.start_at.strftime('%b %e') %>. <%=q @line.description %> &
+% <% else %>
+   <%=q @line.description %> &
+% <% end %>
+   <%= @line.qty %> &
+   <%=q @line.combined_uom %> &
+   <%= '%0.2f' % @line.price %> &
+   <%= '%0.2f' % @line.total %> \\
