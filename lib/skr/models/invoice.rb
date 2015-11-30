@@ -96,6 +96,11 @@ module Skr
             unpaid_amount <= 0
         end
 
+        # @return [DateTime] when the invoice is due
+        def due_date
+            self.terms.due_date_from(invoice_date)
+        end
+
         private
 
         # attributes for GlTransaction
