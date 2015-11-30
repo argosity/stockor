@@ -7,22 +7,6 @@ module Skr
 
             module InstanceMethods
 
-                def other_charge_lines
-                    self.lines.select{|l| l.sku.is_other_charge? }
-                end
-
-                def regular_lines
-                    self.lines.reject{|l| l.sku.is_other_charge? }
-                end
-
-                def regular_lines_total
-                    self.regular_lines.sum{|l|l.extended_price}
-                end
-
-                def subtotal
-                    self.regular_lines.inject(0){|sum,line| sum + line.extended_price }
-                end
-
                 def total
                     if total = self.read_attribute('total')
                         BigDecimal.new(total)

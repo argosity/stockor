@@ -5,6 +5,22 @@ module Skr
 
             module Lines
 
+                def other_charge
+                    select{|l| l.sku.is_other_charge? }
+                end
+
+                def regular
+                    reject{|l| l.sku.is_other_charge? }
+                end
+
+                def product
+                    reject{|l| l.time_entry }
+                end
+
+                def time_entry
+                    select{|l| l.time_entry }
+                end
+
                 def from_pick_ticket!
                     proxy_association.owner.pick_ticket.lines.each do | line |
                         build({ pt_line: line, qty: line.qty_to_ship })
