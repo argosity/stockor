@@ -42,7 +42,7 @@ labor:
   code: LABOR
   description: Work performed
   default_vendor: bigco
-  default_uom_code: HR
+  default_uom_code: HOUR
   is_other_charge: false
   does_track_inventory: false
   gl_asset_account: labor

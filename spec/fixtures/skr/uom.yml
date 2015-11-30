@@ -29,7 +29,7 @@ glovecs:
   price: 288.00
 
 laborea:
-  code: HR
+  code: HOUR
   size: 1
   sku: labor
   price: 1
