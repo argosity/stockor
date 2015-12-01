@@ -9,25 +9,8 @@ class Skr.Screens.CustomerMaint extends Lanes.React.Screen
 
     modelForAccess: 'customer'
 
-    componentDidMount: ->
-        @state.commands.toggleEdit()
-        finder = @refs.finder.refs.finder
-        finder._setValue('GOAT')
-        finder.loadCurrentSelection()
-
-    setForm: (type, name) ->
-        @customer.forms = _.extend(@customer.forms, {"#{type}": name})
-
-    FormChooser: (props) ->
-        label = "#{_.field2title(props.type)} Form"
-        choices = Skr.Models[_.classify(props.type)].Templates
-        <LC.FormGroup label={label} sm=3>
-            <Lanes.Vendor.ReactWidgets.DropdownList
-                data={choices}
-                value={@customer.forms?[props.type] or 'default'}
-                onChange={_.partial(@setForm, props.type)}
-            />
-        </LC.FormGroup>
+    setForm: (val, {type}) ->
+        @customer.forms = _.extend({}, @customer.forms, {"#{type}": val})
 
     render: ->
         <LC.ScreenWrapper identifier="customer-maint">
@@ -48,8 +31,16 @@ class Skr.Screens.CustomerMaint extends Lanes.React.Screen
                 <SC.GlAccountChooser sm=3 model={@customer}
                     label="Receivables Account" name="gl_receivables_account"/>
                 <SC.TermsChooser model={@customer} sm=3 />
-                <@FormChooser type="sales_order" />
-                <@FormChooser type="invoice" />
+                <SC.PrintFormChooser
+                    label="Sales Order Form" sm=3 model={@customer}
+                    onChange={@setForm} type="sales_order"
+                    value={@customer.forms?.sales_order}
+                    choices={Skr.Models.SalesOrder.Templates} />
+                <SC.PrintFormChooser
+                    label="Invoice Form" sm=3 model={@customer}
+                    onChange={@setForm} type="invoice"
+                    value={@customer.forms?.invoice}
+                    choices={Skr.Models.Invoice.Templates} />
             </BS.Row>
             <BS.Row>
                 <LC.FieldSet sm=12 title="Address">
