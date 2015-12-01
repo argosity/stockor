@@ -1,18 +1,22 @@
 class Skr.Components.PrintFormChooser extends Lanes.React.Component
 
     propTypes:
-        label: React.PropTypes.string
+        label: React.PropTypes.string.isRequired
         model: Lanes.PropTypes.Model.isRequired
+        choices: React.PropTypes.array
 
     mixins: [
         Lanes.React.Mixins.ReadEditingState
     ]
 
-    onChange: ->
-        (f) => @invoice.form = f
+    onChange: (val) ->
+        if @props.onChange
+            @props.onChange?(val, @props)
+        else
+            @props.model[@props.name] = val
 
     renderEdit: (value) ->
-        choices = @props.model.constructor.Templates
+        choices = @props.choices || @props.model.constructor.Templates
         <Lanes.Vendor.ReactWidgets.DropdownList
             data={choices}
             value={value}
@@ -23,7 +27,7 @@ class Skr.Components.PrintFormChooser extends Lanes.React.Component
         value
 
     render: ->
-        value = @props.model[@props.name or 'form'] or 'default'
+        value = @props.value or @props.model[@props.name or 'form'] or 'default'
         props = _.omit(@props, 'choices', 'name')
         <LC.FormGroup editing={@isEditingRecord()}
             className="field" {...props}
