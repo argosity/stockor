@@ -9,18 +9,17 @@
 @import "lanes/screens/styles";
 
 .customer-projects {
-    .colors {
-        @include lanes-unpadded-dropdown();
-        @each $current-color in $lanes-color-selections {
-            $i: index($lanes-color-selections, $current-color);
-            .color-#{$i} {
-                background: $current-color;
-                color: nth($lanes-text-color-selections, $i);
-            }
+    @include lanes-unpadded-dropdown();
+    @each $current-color in $lanes-color-selections {
+        $i: index($lanes-color-selections, $current-color);
+        .color-#{$i} {
+            background: $current-color;
+            color: nth($lanes-text-color-selections, $i);
         }
-
-
     }
-
-
+    .color-selection {
+        .ro {
+            padding-left: 0.5rem;
+        }
+    }
 }
