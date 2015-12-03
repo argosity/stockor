@@ -13,18 +13,16 @@ class Skr.Screens.CustomerProjects extends Skr.Screens.Base
     getHourlyRate: -> @project.rates?.hourly
     setHourlyRate: (value) ->
         @project.rates = _.extend({}, @project.rates, {hourly: value.replace(/[^0-9.]/g, '')})
-    componentDidMount: ->
-        finder = @refs.finder.refs.finder
-        finder._setValue('PENS')
-        finder.loadCurrentSelection()
-        @state.commands.toggleEdit()
-
     ColorOption: (props) ->
         <div className={"color-#{props.item.id}"}>{props.item.name}</div>
 
     setColor: (value) ->
         @project.options = _.extend({}, @project.options, {color: value.id})
         @forceUpdate()
+    getColorReadOnly: ->
+        index = @getColor()
+        color = _.findWhere(Skr.Models.CustomerProject.COLORS, id: index)
+        <div className={"ro color-#{index}"}>{color?.name}</div>
 
     getColor: ->
         @project.options?.color
@@ -43,10 +41,14 @@ class Skr.Screens.CustomerProjects extends Skr.Screens.Base
                 <LC.Input name="po_num" model={@project} sm=3 />
             </BS.Row>
             <BS.Row>
-
                 <LC.Input sm=2 name="rates" label='Hourly Rate' model={@project}
                     setValue={@setHourlyRate} getValue={@getHourlyRate} />
-                <LC.FormGroup sm=2 label="Entry Color">
+
+                <LC.FieldWrapper sm=2
+                    label="Entry Color"
+                    className="color-selection"
+                    value={@getColorReadOnly()}
+                >
                     <Lanes.Vendor.ReactWidgets.DropdownList
                         className='colors'
                         data={Skr.Models.CustomerProject.COLORS}
@@ -55,7 +57,8 @@ class Skr.Screens.CustomerProjects extends Skr.Screens.Base
                         valueComponent={@ColorOption}
                         disabled={!@state.commands.isEditing()}
                         itemComponent={@ColorOption} />
-                </LC.FormGroup>
+                </LC.FieldWrapper>
+
                 <LC.Input name="description" model={@project} sm=8 />
             </BS.Row>
 
