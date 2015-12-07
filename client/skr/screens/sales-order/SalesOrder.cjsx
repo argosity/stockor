@@ -10,12 +10,6 @@ class Skr.Screens.SalesOrder extends Lanes.React.Screen
     getInitialState: ->
         commands: new Lanes.Screens.Commands(this, modelName: 'sales_order', print: true)
 
-    componentDidMount: ->
-        finder = @refs.finder.refs.finder
-        finder._setValue(1)
-        finder.loadCurrentSelection()
-        @state.commands.toggleEdit()
-
     render: ->
         <LC.ScreenWrapper identifier="sales-order">
             <Lanes.Screens.CommonComponents commands={@state.commands} />

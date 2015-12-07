@@ -45,10 +45,6 @@ class Skr.Screens.TimeInvoicing extends Skr.Screens.Base
             <input type="checkbox" defaultChecked={x.selected}
                 onChange={-> x.selected = ev.target.checked} />
 
-    componentDidMount: ->
-        @refs.prjfinder.refs.finder._setValue('PENS') #CECOFOCGRO')
-        @refs.prjfinder.refs.finder.loadCurrentSelection()
-
     onModelSet: (project) ->
         @request.set(customer_project: project)
         @query.syncOptions = {
