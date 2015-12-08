@@ -48,4 +48,9 @@ Lanes::API.routes.draw do
         print.output
     end
 
+    get '/' do
+        content_type 'text/html'
+        erb :lanes_root_view
+    end
+
 end
