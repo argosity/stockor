@@ -11,8 +11,7 @@ class TimeEntries extends Skr.Models.TimeEntry.Collection
         query.start_at  = { op: 'lt', value: range.end.toISOString() }
         @fetch({query})
 
-    setProjectId: (projectId, range) ->
-        return if @projectId is projectId
+    reset: (projectId, range) ->
         @projectId = projectId
         query = if @projectId and @projectId isnt -1
             {customer_project_id: @projectId}
@@ -47,6 +46,7 @@ class Skr.Screens.TimeTracking.Entries extends Lanes.Models.Base
                 @date.format('MMMM YYYY')
 
     events:
+        'change:range': 'fetchEvents'
         'change:customer_project_id': 'fetchEvents'
 
     constructor: ->
@@ -75,15 +75,15 @@ class Skr.Screens.TimeTracking.Entries extends Lanes.Models.Base
         @entries.load(@range)
 
     fetchEvents: ->
-        @entries.setProjectId(@customer_project_id, @range)
+        @entries.reset(@customer_project_id, @range)
 
     calEvents: ->
         @_cachedEvents ||= new LC.Calendar.Events( @entries.invoke('toCalEvent') )
 
     back: ->
-        @date.subtract(1, @display)
+        @date = @date.clone().subtract(1, @display)
         @trigger('change', @)
 
     forward: ->
-        @date.add(1, @display)
+        @date = @date.clone().add(1, @display)
         @trigger('change', @)
