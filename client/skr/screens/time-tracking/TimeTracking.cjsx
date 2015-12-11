@@ -61,12 +61,6 @@ class Skr.Screens.TimeTracking extends Skr.Screens.Base
             <Skr.Screens.TimeTracking.WeekSummary
                 key={week} week={week} entries={@entries} />
 
-        #     <div className="day" style={{order: 6}}>A</div>
-        #     <div className="day" style={{order: 13}}>B</div>
-        #     <div className="day" style={{order: 20}}>C</div>
-        #     <div className="day" style={{order: 27}}>D</div>
-        #     <div className="day" style={{order: 34}}>E</div>
-
     render: ->
         <LC.ScreenWrapper identifier="time-tracking">
             <BS.Row className='calendar-header'>

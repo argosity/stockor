@@ -30,13 +30,14 @@ class Skr.Screens.TimeTracking.Entries extends Lanes.Models.Base
         project:
             deps: ['customer_project_id'], fn: ->
                 @available_projects.get(@customer_project_id)
-
+        isMonth:
+            deps: ['display'], fn: -> 'month' == @display
         range:
-            deps: ['date', 'display'], fn: ->
+            deps: ['date', 'isMonth'], fn: ->
                 range = _.moment.range(
                     @date.clone().startOf( @display ), @date.clone().endOf( @display )
                 )
-                if 'month' == @display
+                if @isMonth
                     range.start.subtract(range.start.weekday(), 'days')
                     range.end.add(6 - range.end.weekday(), 'days')
                 range
@@ -54,7 +55,7 @@ class Skr.Screens.TimeTracking.Entries extends Lanes.Models.Base
         @available_projects = Skr.Models.CustomerProject.Collection
             .fetch().whenLoaded (cp) =>
                 cp.add({id:-1, code: 'ALL', options:{color: 1}}, at: 0)
-                @set(customer_project_id: -1)
+                @set(customer_project_id: Lanes.current_user.options.project_id or -1 )
         @entries = new TimeEntries(@available_projects)
         @listenTo(@entries, 'sync', @onLoad)
 
@@ -87,3 +88,15 @@ class Skr.Screens.TimeTracking.Entries extends Lanes.Models.Base
     forward: ->
         @date = @date.clone().add(1, @display)
         @trigger('change', @)
+
+    totalsForWeek: (week) ->
+        days = _.moment.range(
+            @range.start.clone().add(week - 1, 'week'),
+            @range.start.clone().add(week, 'week')
+        )
+        entries = @entries.filter (entry) -> days.overlaps( entry.range )
+        byProject = _.groupBy entries, (entry) -> entry.customer_project_id
+        _.mapValues byProject, (entries, projectId) ->
+            _.reduce( entries, (total, entry) ->
+                total.plus(entry.hours)
+            , _.bigDecimal('0'))
