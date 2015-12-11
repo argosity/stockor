@@ -19,9 +19,9 @@ class Skr.Extension extends Lanes.Extensions.Base
             else
                 console.log "Unable to find model for #{type}"
 
+
     rootComponent: (viewport) ->
         Lanes.Workspace.Layout
 
-    onAvailable: ->
-        # user-management time-tracking  sales-order invoice  time-invoicing sales-order
-        # Lanes.Screens.Definitions.all.get('customer-projects').display()
+    preferenceElement: (props) ->
+        React.createElement(SC.UserPreferences, key: 'skr')
