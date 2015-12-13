@@ -5,3 +5,8 @@ default:
   code: DEFAULT
   name: Default
   address: bigco
+
+surplus:
+  code: SURPLUS
+  name: Surplus
+  address: surplus

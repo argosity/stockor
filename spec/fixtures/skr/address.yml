@@ -9,6 +9,16 @@ bigco:
   state: NY
   postal_code: '12345'
 
+surplus:
+  name: Big Co Surplus Location
+  email: biggy@huge.com
+  phone: "(746) 280-8087"
+  line1: 1 sour spot
+  line2:
+  city: NY
+  state: NY
+  postal_code: '12345'
+
 billy_billing:
   name: Billy Goat Accounting Dept
   email: yadira_greenholt@moorefeest.biz
