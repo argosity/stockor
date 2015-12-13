@@ -12,9 +12,9 @@ Lanes::API.routes.draw do
     resources Skr::GlTransaction
     resources Skr::IaLine
     resources Skr::IaReason
-    resources Skr::InvLine
+    resources Skr::InvLine, indestructible: true
     resources Skr::InventoryAdjustment
-    resources Skr::Invoice
+    resources Skr::Invoice, indestructible: true
     resources Skr::Location
     resources Skr::PaymentTerm
     resources Skr::Sku
