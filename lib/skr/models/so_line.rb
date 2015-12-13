@@ -10,9 +10,10 @@ module Skr
         has_one :sku, :through => :sku_loc, export: true
         has_one :location, :through => :sales_order
         has_many :pt_lines,  :before_add=>:setup_new_pt_line, :inverse_of=>:so_line,
-                 extend: Concerns::PT::Lines, :listen=>{save:'update_qty_picking'}
+                 extend: Concerns::PT::Lines, :listen=>{save: :update_qty_picking}
 
-        has_many :inv_lines, :before_add=>:setup_new_inv_line, :inverse_of=>:so_line
+        has_many :inv_lines, :before_add=>:setup_new_inv_line, :inverse_of=>:so_line,
+                 extend: Concerns::INV::Lines, :listen=>{save: :update_qty_invoiced}
 
         has_many :uom_choices, :through => :sku, :source => :uoms, export: true
 
@@ -78,12 +79,13 @@ module Skr
 
         private
 
-        def update_qty_shipped
-            inv_qty = self.inv_lines.sum(:qty)
-            update_attributes( :qty_invoiced=> inv_qty, :qty_allocated => [ qty_allocated - inv_qty, 0 ].max )
+        def update_qty_invoiced(inv = nil)
+            inv_qty = inv_lines.ea_qty/uom_size
+            update_attributes( :qty_invoiced=> inv_qty,
+                               :qty_allocated => [ qty_allocated - inv_qty, 0 ].max )
         end
 
-        def update_qty_picking( pt=nil )
+        def update_qty_picking(pt = nil)
             update_attributes( :qty_picking=> pt_lines.ea_picking_qty/uom_size )
         end
 
