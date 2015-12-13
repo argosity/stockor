@@ -1,4 +1,3 @@
-
 module Skr
 
     # A transaction is a record of a business event that has financial consequences.
@@ -40,7 +39,6 @@ module Skr
         validates :source, :period,  :set=>true
         validates :description,      :presence=>true
 
-
         # Add a debit/credit pair to the transaction with amount
         # @param amount [BigDecimal] the amount to apply to each posting
         # @param debit [GlAccount]
@@ -48,9 +46,9 @@ module Skr
         def add_posting( amount: nil, debit: nil, credit: nil )
             Lanes.logger.debug "GlTransaction add_posting #{debit} : #{credit}"
             self.credits.build( location: @location, is_debit: false,
-              account: credit, amount: amount )
+                                account: credit, amount: amount )
             self.debits.build(  location: @location, is_debit: true,
-              account: debit,  amount: amount * -1 )
+                                account: debit,  amount: amount * -1 )
         end
 
         # Passes the location onto the postings.
@@ -65,7 +63,7 @@ module Skr
         # @yield [GlPosting] each posting associated with the Transaction
         def each_posting
             self.credits.each{ |posting| yield posting }
-            self.debits.each{ |posting| yield posting }
+            self.debits.each{  |posting| yield posting }
         end
 
         # @return [GlTransaction] the current transaction that's in progress
@@ -101,13 +99,10 @@ module Skr
         # @param credit  [GlAccount]
         # @param options  [Hash] options to pass to the [GlTransaction] if one is created
         def self.push_or_save( owner: nil, amount: nil, debit:nil, credit:nil, options:{} )
-            if glt = self.current # we push
+            if (glt = self.current) # we push
                 glt.add_posting( amount: amount, debit: debit, credit: credit )
             else
-                options.merge!({
-                    source: owner,
-                    location: options[:location] || owner.location
-                })
+                options.merge!(source: owner, location: options[:location] || owner.location)
                 glt = GlTransaction.new( options )
                 glt.add_posting( amount: amount, debit: debit, credit: credit )
                 glt.save
