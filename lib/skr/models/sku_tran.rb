@@ -47,11 +47,6 @@ module Skr
             self.qty * ( self.uom_size || 1 )
         end
 
-        # @return [String] a description intended for use by the #{GlTransaction}
-        # def description_for_gl_transaction(gl)
-        #     self.origin_description
-        # end
-
         private
 
         # sets {#mac} to the correct amount for the {SkuLoc}.
@@ -75,8 +70,9 @@ module Skr
             Lanes.logger.debug "Recording SkuTran in GL, mac is: #{self.mac}, cost = #{cost}"
             return if self.cost.nil? || self.cost.zero?
             GlTransaction.push_or_save(
-              owner: self, amount: cost,
-              debit: debit_gl_account, credit: credit_gl_account
+                owner: self, amount: cost,
+                debit: debit_gl_account, credit: credit_gl_account,
+                options: {description: origin_description}
             )
         end
 
@@ -92,7 +88,6 @@ module Skr
             end
             sl.reload
             sl.allocate_available_qty! if self.allocate_after_save
-
             Lanes.logger.debug "After Adj Qty #{sl.qty}"
         end
 
