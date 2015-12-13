@@ -3,7 +3,7 @@ module Skr
     class InvLine < Skr::Model
 
         acts_as_uom
-        is_immutable
+
         is_sku_loc_line parent: "invoice"
 
         locked_fields :qty, :sku_loc_id, :so_line
@@ -16,17 +16,18 @@ module Skr
 
         has_one :sku, :through => :sku_loc, export: true
         has_one :location, :through => :sku_loc
-        has_one :sku_tran, :as=>:origin
 
+        has_many :sku_trans, :as=>:origin, autosave: true
         has_many :uom_choices, :through => :sku, :source => :uoms, export: true
 
         validates :sku_loc,  set: true
-
         validates :price, :qty, :numericality=>true
         validates :uom_code, :sku_code, :description, :uom_size, :presence=>true
+        validate  :ensure_unlocked
 
         before_validation :set_defaults
-        before_save :adjust_inventory
+        before_save :perform_adjustments
+        before_destroy :prevent_destroy
 
         scope :with_details, lambda { |should_use=true |
             compose_query_using_detail_view( view: 'inv_details', join_to: 'inv_line_id' ) if should_use
@@ -40,12 +41,16 @@ module Skr
         }, export: true
 
         def total
-            qty * price
+            (qty||0) * (price||0)
         end
 
+        def ensure_unlocked
+            if invoice.is_locked?
+                self.errors.add(:invoice_date, "invoice date falls on a locked GL Period")
+            end
+        end
 
-
-        private
+      private
 
         def set_defaults
 #           puts "set_defaults #{self}"
@@ -71,28 +76,33 @@ module Skr
             true
         end
 
-        def adjust_inventory
+        def perform_adjustments
             debit  = self.sku.gl_asset_account
             credit = self.invoice.customer.gl_receivables_account
+            old_extended_price = self.price_was && self.qty_was ?
+                                     self.price_was * self.qty_was : BigDecimal.new(0)
+            price_change = self.extended_price - old_extended_price
+
             if self.sku.does_track_inventory?
-                self.build_sku_tran({
-                    origin: self, qty: self.qty*-1, sku_loc: self.sku_loc, uom: self.uom,
-                    mac: 0, cost: self.extended_price,
+                changed_qty = self.qty - (qty_was || 0)
+                self.sku_trans.build(
+                    origin: self, qty: changed_qty * -1, sku_loc: self.sku_loc, uom: self.uom,
+                    mac: 0, cost: price_change,
                     origin_description: "INV #{self.invoice.visible_id}:#{self.sku.code}",
                     debit_gl_account:  debit, credit_gl_account: credit
-                })
+                )
             else
                 GlTransaction.push_or_save(
-                  owner: self, amount: self.total,
+                  owner: self, amount: price_change,
                   debit: debit, credit: credit
                 )
             end
             true
         end
 
-
-
+        def prevent_destroy
+            errors.add(:base, "Can not destroy #{self.class.model_name}, only create/modify is allowed" )
+        end
     end
-
 
 end # Skr module
