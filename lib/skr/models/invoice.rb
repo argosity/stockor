@@ -36,22 +36,22 @@ module Skr
         belongs_to :customer_project, export: true
         belongs_to :customer,         export: true
         belongs_to :location,         export: true
+        belongs_to :pick_ticket,      inverse_of: :invoice,           export: true
         belongs_to :terms,            class_name: 'Skr::PaymentTerm', export: true
-        belongs_to :pick_ticket,      inverse_of: :invoice,      export: true
         belongs_to :billing_address,  class_name: 'Skr::Address',     export: { writable: true }
         belongs_to :shipping_address, class_name: 'Skr::Address',     export: { writable: true }
 
         has_many :gl_transactions, :as=>:source
 
         has_many :lines, -> { order(:position) }, class_name: 'Skr::InvLine', inverse_of: :invoice,
-                                                  extend: Concerns::INV::Lines, export: { writable: true }
+                 extend: Concerns::INV::Lines, export: { writable: true }
 
         before_save :maybe_mark_paid
 
         before_validation :set_defaults, on: :create
 
         validates :customer, :location, set: true
-        validate  :ensure_location_matches_so
+        validate  :ensure_unlocked, :ensure_location_matches_so
 
         scope :open_for_customer, lambda{ | customer |
             where(state: :open, customer_id: customer.is_a?(Customer) ? customer.id : customer)
@@ -101,12 +101,16 @@ module Skr
             self.terms.due_date_from(invoice_date)
         end
 
+        def is_locked?
+            GlPeriod.is_date_locked?(self.invoice_date)
+        end
+
         private
 
         # attributes for GlTransaction
         def attributes_for_gl_transaction
-            {   location: location, source: self,
-                description: "INV #{self.visible_id}" }
+            { location: location, source: self,
+              description: "INV #{self.visible_id}" }
         end
 
         # set the state if the amount_paid was changed
@@ -122,11 +126,8 @@ module Skr
         def apply_balances
             return unless amount_paid_changed?
             change = amount_paid - amount_paid_was
-
             Lanes.logger.debug "Applying payment #{amount_paid} changed: #{change}"
-
             return if change.zero?
-
             GlTransaction.push_or_save(
               owner: self, amount: change,
               debit: customer.gl_receivables_account, credit: GlAccount.default_for(:deposit_holding)
@@ -166,6 +167,12 @@ module Skr
                 self.shipping_address = customer.shipping_address if self.shipping_address.blank?
             end
 
+        end
+
+        def ensure_unlocked
+            if is_locked?
+                self.errors.add(:invoice_date, "falls on a locked GL Period")
+            end
         end
 
         def ensure_location_matches_so
