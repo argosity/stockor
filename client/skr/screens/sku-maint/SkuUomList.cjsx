@@ -168,41 +168,42 @@ class Skr.Screens.SkuMaint.SkuUomList extends Lanes.React.Component
         </BS.Popover>
 
     renderEdit: (label) ->
-        colProps = _.omit(@props, 'name')
+        colProps = _.omit(@props, 'name', 'label')
         classNames = _.classnames(@formGroupClassNames(), 'sku-uom-list')
 
         <BS.Col {...colProps}>
             <div className={classNames}>
-                <label className='field read-only'>
+                <label className='control-label'>
                     <div className="title">{label}</div>
-                    <div className="input-group">
-                        <div className="read-only form-control value" name={@props.name}>
-                            <ul>
-                            {@model.uoms.map (uom) =>
-                                <UOMToken key={uom.cid} uom=uom onEdit={@onEdit} />}
-                            </ul>
-                        </div>
-                        <span className="input-group-btn">
-                            <BS.OverlayTrigger
-                                trigger="click"
-                                ref="overlay"
-                                rootClose
-                                arrowOffsetTop={'130px'}
-                                container={@}
-                                show={@state.editing}
-                                onExit={@onCancel}
-                                placement="left"
-                                overlay={@renderEditingPopup()}>
-
-                                <BS.Button ref="addButton" onClick={ =>
-                                    @onEdit(@model.uoms.first()) }
-                                >
-                                    <LC.Icon type="gear" />
-                                </BS.Button>
-                            </BS.OverlayTrigger>
-
-                        </span>
-                    </div>
                 </label>
+                <div className="input-group">
+                    <div className="read-only form-control value" name={@props.name}>
+                        <ul>
+                        {@model.uoms.map (uom) =>
+                            <UOMToken key={uom.cid} uom=uom onEdit={@onEdit} />}
+                        </ul>
+                    </div>
+                    <span className="input-group-btn">
+                        <BS.OverlayTrigger
+                            trigger="click"
+                            ref="overlay"
+                            rootClose
+                            arrowOffsetTop={'130px'}
+                            container={@}
+                            show={@state.editing}
+                            onExit={@onCancel}
+                            placement="left"
+                            overlay={@renderEditingPopup()}>
+
+                            <BS.Button ref="addButton" onClick={ =>
+                                @onEdit(@model.uoms.first())}
+                            >
+                                <LC.Icon type="gear" />
+                            </BS.Button>
+                        </BS.OverlayTrigger>
+
+                    </span>
+                </div>
+
             </div>
         </BS.Col>
