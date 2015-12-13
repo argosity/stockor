@@ -33,6 +33,14 @@ module Skr
                     end
                 end
 
+                def ea_qty
+                    if proxy_association.loaded?
+                        inject(0){ | sum, il | sum+(il.qty*il.uom_size) }
+                    else
+                        sum('qty*uom_size')
+                    end
+                end
+
             end
 
         end
