@@ -39,6 +39,12 @@ module Skr
         validates :source, :period,  :set=>true
         validates :description,      :presence=>true
 
+        scope :with_details, lambda { | acct = nil |
+            query = compose_query_using_detail_view(view: 'skr_gl_transaction_details',
+                                                    join_to: :gl_transaction_id)
+            acct.blank? ? query : query.joins(:postings).merge( GlPosting.matching(acct) )
+        }, export: true
+
         # Add a debit/credit pair to the transaction with amount
         # @param amount [BigDecimal] the amount to apply to each posting
         # @param debit [GlAccount]
@@ -147,24 +153,5 @@ module Skr
             self.period ||= GlPeriod.current
         end
 
-        # def ensure_postings_exist
-        #     if self.new_record? and self.postings.empty?
-        #         2.times { self.postings.build }
-        #     end
-        # end
-
     end
 end
-
-__END__
-
-# export_join_tables :details
-# export_scope :with_details_for, lambda { | acct |
-#     acct = acct.gsub(/\D/,'') + '%'
-#     cs = "case when details.debit_account_number like '#{acct}' then details.debit_amount " +
-#          "when details.credit_account_number like '#{acct}' then details.credit_amount else 0 end"
-#     window = "#{cs} as amount, sum(#{cs}) over (order by created_at) as balance"
-#     joins('join gl_transaction_details as details on details.gl_transaction_id = gl_transactions.id')
-#         .select("gl_transactions.*, details.*, #{window}")
-#         .where("debit_account_number like :acct or credit_account_number like :acct", acct: acct)
-# }
