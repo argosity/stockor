@@ -1,2 +1,5 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
+tiny_inv:
+  period: current
+  source: tiny(Invoice)
+  description: INV 1

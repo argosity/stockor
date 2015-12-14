@@ -1,2 +1,25 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
+tiny_hat:
+  origin: tiny_hat(InvLine)
+  sku_loc: hat_def
+  prior_qty: 4
+  qty: -1
+  cost: 8.85
+  prior_mac: 3.3
+  mac: 0.0
+  prior_mac: 3.3000
+  origin_description: INV 1:HAT
+  uom_code: EA
+  uom_size: 1
+
+tiny_yarn:
+  origin: tiny_yarn(InvLine)
+  sku_loc: yarn_def
+  prior_qty: 4
+  prior_mac: 1.1
+  qty: -3
+  mac: 0.0
+  cost: 64.75
+  origin_description: INV 1:GLDYARN
+  uom_code: FT
+  uom_size: 1

@@ -1,2 +1,5 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
+current:
+  year: <%= Time.now.year %>
+  period: <%= Time.now.month %>

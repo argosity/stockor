@@ -2,9 +2,9 @@ require_relative '../spec_helper'
 
 class GlTransactionSpec < Skr::TestCase
 
-    it "can be instantiated" do
-        model = GlTransaction.new
-        model.must_be_instance_of(GlTransaction)
+    it "can be queried with details" do
+        models = GlTransaction.with_details
+        assert models
     end
 
 end

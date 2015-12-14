@@ -1,2 +1,23 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+tiny_inv_goods_credit:
+  gl_transaction: tiny_inv
+  account_number: 122001
+  amount: 285.1
+  is_debit: false
+  year: <%= Time.now.year %>
+  period: <%= Time.now.month %>
 
+tiny_inv_goods_debit:
+  gl_transaction: tiny_inv
+  account_number: 111001
+  amount: 72.6
+  is_debit: true
+  year: <%= Time.now.year %>
+  period: <%= Time.now.month %>
+
+tiny_inv_labor_debit:
+  gl_transaction: tiny_inv
+  account_number: 510001
+  amount: 212.5
+  is_debit: true
+  year: <%= Time.now.year %>
+  period: <%= Time.now.month %>
