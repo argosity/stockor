@@ -6,3 +6,11 @@
         padding-right: $table-cell-padding * 2;
     }
 }
+
+.currency {
+    .sym {
+        font-size: 70%;
+        vertical-align: super;
+        margin-left: 5px;
+    }
+}
