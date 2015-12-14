@@ -11,6 +11,6 @@ class Skr.Components.Currency extends Lanes.React.Component
     render: ->
         className = _.classnames 'currency', @props.className
         <span {...@props} className={className}>
-            {@props.symbol}
+            <span className="sym">{@props.symbol}</span>
             {@props.amount.toFixed(2)}
         </span>
