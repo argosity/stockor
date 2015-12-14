@@ -7,7 +7,7 @@ cash:
 
 bank_checking:
   number: 1011
-  name: Cash
+  name: Cash - Checking
   description: Checking account balance (as shown in company records), currency, coins, checks received from customers but not yet deposited.
 
 inventory:
