@@ -5,7 +5,10 @@ class Skr.Components.Currency extends Lanes.React.Component
         symbol: '$'
 
     propTypes:
-        amount: React.PropTypes.instanceOf(_.bigDecimal)
+        amount: React.PropTypes.oneOfType([
+            React.PropTypes.number,
+            React.PropTypes.instanceOf(_.bigDecimal)
+        ])
         symbol: React.PropTypes.string
 
     render: ->
