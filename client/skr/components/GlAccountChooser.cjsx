@@ -1,4 +1,4 @@
-SHARED_COLLECTION = new Skr.Models.GlAccount.Collection
+SHARED_COLLECTION = new Skr.Models.GlAccount.Collection(comparator: 'number')
 
 class Skr.Components.GlAccountChooser extends Lanes.React.Component
 
@@ -11,7 +11,7 @@ class Skr.Components.GlAccountChooser extends Lanes.React.Component
         label: 'Account', name: 'gl_account'
 
     componentWillMount: ->
-        SHARED_COLLECTION.ensureLoaded()
+        SHARED_COLLECTION.fetch({})
 
     render: ->
         props = _.clone(@props)
