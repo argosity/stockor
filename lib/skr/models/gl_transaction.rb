@@ -25,6 +25,9 @@ module Skr
         # Each transaction belongs to an accounting period
         belongs_to :period, :class_name=>'Skr::GlPeriod', export: true
 
+        has_many :postings, class_name: 'Skr::GlPosting',
+                 inverse_of: :gl_transaction, export: { writable: true }
+
         has_many :credits, ->{ where({ is_debit: false }) }, class_name: 'Skr::GlPosting',
                  extend: Concerns::GlTran::Postings,
                  inverse_of: :gl_transaction, export: { writable: true }
