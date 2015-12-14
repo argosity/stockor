@@ -27,6 +27,22 @@ Lanes::Screen.for_extension 'skr' do | screens |
         screen.model_class = "Invoice"
         screen.view_class  = "TimeInvoicing"
     end
+    screens.define "trial-balance" do | screen |
+        screen.title       = "Trial Balance"
+        screen.description = ""
+        screen.icon        = "list-alt"
+        screen.group_id    = "accounting"
+        screen.model_class = "GlTransaction"
+        screen.view_class  = "TrialBalance"
+    end
+    screens.define "gl-transactions" do | screen |
+        screen.title       = "Gl Transactions"
+        screen.description = ""
+        screen.icon        = "balance-scale"
+        screen.group_id    = "accounting"
+        screen.model_class = "GlTransaction"
+        screen.view_class  = "GlTransactions"
+    end
     screens.define "customer-projects" do | screen |
         screen.title       = "Customer Projects"
         screen.description = ""

@@ -1,0 +1,17 @@
+.gl-transactions {
+
+    .grid-body {
+
+        .posting {
+            & + .posting { margin-left: 3px; }
+            padding: 3px;
+            background-color: lightGrey;
+            border-radius: 4px;
+        }
+        .sym {
+            font-size: 70%;
+            vertical-align: super;
+            margin-left: 5px;
+        }
+    }
+}
