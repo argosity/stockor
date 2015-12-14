@@ -12,10 +12,13 @@ module Skr
         validates :amount,  numericality: true, presence: true
         validate  :ensure_accounting_validity, on: :create
 
-        scope :applying_to_period, ->(period){ where( '(period <= :period and year = :year) or (year < :year)',
-                                                      { period: period.period, year: period.year } ) }
-        scope :matching, ->(period, account_mask){
-            applying_to_period( period ).where('account_number like ?', account_mask )
+        scope :applying_to_period, -> (period) {
+            where( '(period <= :period and year = :year) or (year < :year)',
+                   { period: period.period, year: period.year } )
+        }
+
+        scope :matching, -> (account_mask) {
+            where('account_number like ?', account_mask )
         }
 
         def account=(acct)

@@ -48,7 +48,7 @@ module Skr
 
         # @return [BigDecimal] the balance for a given period
         def balance_for( period, mask = self.account_mask )
-            GlPosting.matching( period, account_mask ).sum(:amount)
+            GlPosting.applying_to_period( period ).matching( account_mask ).sum(:amount)
         end
 
     end
