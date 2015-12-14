@@ -2,26 +2,31 @@
 yarn_def:
   sku: yarn
   qty: 1
+  mac: 1.1
   location: default
 
 gs_def:
   sku: gs
   qty: 2
+  mac: 2.2
   location: default
 
 hat_def:
   sku: hat
   qty: 3
+  mac: 3.3
   location: default
 
 labor_def:
   sku: labor
   qty: 4
+  mac: 4.4
   location: default
 
 glove_def:
   sku: glove
   qty: 5
+  mac: 5.5
   location: default
 
 tax_def:
