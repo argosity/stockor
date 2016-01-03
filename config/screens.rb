@@ -17,6 +17,14 @@ Lanes::Screen.define_group 'customer' do | group |
 end
 
 Lanes::Screen.for_extension 'skr' do | screens |
+    screens.define "locations" do | screen |
+        screen.title       = "Locations"
+        screen.description = ""
+        screen.icon        = "globe"
+        screen.group_id    = "system-settings"
+        screen.model_class = "Location"
+        screen.view_class  = "Locations"
+    end
 
     ## ACCOUNTING GROUP
     screens.define "time-invoicing" do | screen |
