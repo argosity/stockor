@@ -11,9 +11,6 @@ class Skr.Components.SalesOrderFinder extends Lanes.React.Component
         autoFocus: true, name: 'visible_id', label: 'SalesOrder #'
 
     dataObjects:
-        sales_order: ->
-            @props.sales_order || new Skr.Models.SalesOrder
-
         query: ->
             new Lanes.Models.Query({
                 initialFieldIndex: 1
