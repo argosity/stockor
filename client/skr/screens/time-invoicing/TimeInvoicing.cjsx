@@ -9,6 +9,7 @@ class Skr.Screens.TimeInvoicing extends Skr.Screens.Base
         query: ->
             @gridSelections = new LC.Grid.Selections(onChange: @updateTotal)
             new Lanes.Models.Query({
+                defaultSort: 'start_at'
                 src: Skr.Models.TimeEntry, fields: [
                     {id:'id', visible: false}
                     @gridSelections
@@ -62,7 +63,10 @@ class Skr.Screens.TimeInvoicing extends Skr.Screens.Base
             @context.viewport.displayModal(@displayInvoiceResults(req))
 
     displayInvoiceResults: (req) ->
-        title: "Invoice created ..."
+        title: "Invoice created …"
+        buttons: [{ title: 'OK', style: 'primary' }]
+        autoHide: true
+        onClick: => @context.viewport.hideModal()
         body: ->
             <h3>
                 <SC.InvoiceLink invoice={req.invoice} /> was
@@ -127,7 +131,7 @@ class InvoiceRequest extends Lanes.Models.Base
         time_entry_ids: { type: 'array', default: -> [] }
 
     api_path: ->
-        'invoices/from-time-entries'
+        'skr/invoices/from-time-entries'
 
     associations:
         customer_project: { model: "CustomerProject", autoCreate: true }
