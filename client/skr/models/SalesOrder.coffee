@@ -15,6 +15,7 @@ class Skr.Models.SalesOrder extends Skr.Models.Base
         is_revised:         {type:"boolean", default:false}
         hash_code:          {type:"string"}
         ship_partial:       {type:"boolean", default:false}
+        form:               "string"
         po_num:             "string"
         notes:              "string"
         options:            "any"

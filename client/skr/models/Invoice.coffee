@@ -19,6 +19,7 @@ class Skr.Models.Invoice extends Skr.Models.Base
         invoice_date:       {type:"any"}
         notes:              "string"
         po_num:             "string"
+        form:               "string"
         options:            "any"
 
     mixins: [ Skr.Models.Mixins.PrintSupport ]
