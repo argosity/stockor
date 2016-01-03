@@ -23,7 +23,7 @@ class Skr.Screens.Invoice extends Skr.Screens.Base
                     model={@invoice} commands={@state.commands}
                     syncOptions={@syncOptions} />
 
-                <SC.SalesOrderFinder editOnly autoFocus={false} sm=3 xs=6
+                <SC.SalesOrderFinder autoFocus={false} sm=3 xs=6 editOnly={false}
                     onModelSet={@setSalesOrder} associationName='sales_order'
                     syncOptions={@syncOptions} parentModel={@invoice} />
 
