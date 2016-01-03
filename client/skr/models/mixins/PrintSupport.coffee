@@ -1,6 +1,6 @@
 Skr.Models.Mixins.PrintSupport = {
 
     pdfDownloadUrl: ->
-        '/print-skr-form' + @url()
+        "#{Lanes.config.api_path}/skr/print/#{@modelTypeIdentifier()}/#{@hash_code}.pdf"
 
 }
