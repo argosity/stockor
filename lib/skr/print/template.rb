@@ -16,7 +16,8 @@ module Skr
                     "skr/#{name}".classify.constantize
                 end
                 def path_for_record(record)
-                    @path.join( (record.form || 'default') + '.tex' )
+                    path = @path.join( record.form + '.tex' )
+                    path.exist? ? path : @path.join( 'default.tex' )
                 end
             end
 
