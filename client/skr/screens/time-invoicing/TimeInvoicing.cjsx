@@ -66,10 +66,11 @@ class Skr.Screens.TimeInvoicing extends Skr.Screens.Base
         title: "Invoice created …"
         buttons: [{ title: 'OK', style: 'primary' }]
         autoHide: true
-        onClick: => @context.viewport.hideModal()
-        body: ->
+        body: =>
             <h3>
-                <SC.InvoiceLink invoice={req.invoice} /> was
+                <SC.InvoiceLink invoice={req.invoice}
+                    onClick={ => @context.viewport.hideModal() }
+                /> was
                 successfully created.
             </h3>
 
