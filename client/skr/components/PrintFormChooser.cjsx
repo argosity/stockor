@@ -5,9 +5,8 @@ class Skr.Components.PrintFormChooser extends Lanes.React.Component
         model: Lanes.PropTypes.Model.isRequired
         choices: React.PropTypes.array
 
-    mixins: [
-        Lanes.React.Mixins.ReadEditingState
-    ]
+    getDefaultProps: ->
+        name: 'form'
 
     onChange: (val) ->
         if @props.onChange
@@ -15,22 +14,26 @@ class Skr.Components.PrintFormChooser extends Lanes.React.Component
         else
             @props.model[@props.name] = val
 
-    renderEdit: (value) ->
-        choices = @props.choices || @props.model.constructor.Templates
-        <Lanes.Vendor.ReactWidgets.DropdownList
-            data={choices}
-            value={value}
-            onChange={@onChange}
-        />
-
     renderValue: (value) ->
         value
 
     render: ->
-        value = @props.value or @props.model[@props.name or 'form'] or 'default'
-        props = _.omit(@props, 'choices', 'name')
-        <LC.FormGroup editing={@isEditingRecord()}
-            className="field" {...props}
-        >
-            {if @isEditingRecord() then @renderEdit(value) else @renderValue(value)}
-        </LC.FormGroup>
+        choices = @props.choices || @props.model.constructor.Templates
+        value = @props.value or @props.model[@props.name]
+        console.log @props.model.form, @props
+
+        <LC.FieldWrapper {...@props} value={value}>
+
+            <Lanes.Vendor.ReactWidgets.DropdownList
+                data={choices}
+                value={value}
+                onChange={@onChange}
+            />
+        </LC.FieldWrapper>
+        # value = @props.value or @props.model[@props.name]
+        # props = _.omit(@props, 'choices', 'name')
+        # <LC.FormGroup editing={@isEditingRecord()}
+        #     className="field" {...props}
+        # >
+        #     {if @isEditingRecord() then @renderEdit(value) else @renderValue(value)}
+        # </LC.FormGroup>
