@@ -146,6 +146,7 @@ module Skr
 
             if sales_order
                 self.terms          ||= sales_order.terms
+                self.form           ||= sales_order.form
                 self.customer         = sales_order.customer
                 self.po_num           = sales_order.po_num if self.po_num.blank?
                 self.billing_address  = sales_order.billing_address   if self.billing_address.blank?
@@ -163,7 +164,8 @@ module Skr
             end
 
             if customer
-                self.billing_address = customer.billing_address   if self.billing_address.blank?
+                self.form           ||= customer.forms['invoice']
+                self.billing_address  = customer.billing_address   if self.billing_address.blank?
                 self.shipping_address = customer.shipping_address if self.shipping_address.blank?
             end
 
