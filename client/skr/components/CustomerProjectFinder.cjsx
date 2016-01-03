@@ -22,7 +22,7 @@ class Skr.Components.CustomerProjectFinder extends Lanes.React.Component
                     { id: 'code', fixedWidth: 120 }
                     { id: 'po_num', flex: 1       }
                     { id: 'description', flex: 2  }
-                    { id: 'customer_code', fixedWidth: 120 }
+                    { id: 'customer_code', fixedWidth: 140 }
                 ]
             })
 
