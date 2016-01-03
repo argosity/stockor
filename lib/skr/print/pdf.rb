@@ -10,6 +10,7 @@ module Skr
                 unless @latex.exist?
                     raise("Unable to find template type for record")
                 end
+                Lanes.logger.debug "Printing #{form} #{code} using #{@latex}"
             end
 
             def output
