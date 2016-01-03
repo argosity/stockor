@@ -4,7 +4,8 @@ module Skr
 
             def initialize(project_id, entry_ids, options = {})
                 @project = CustomerProject.find(project_id)
-                @entries = TimeEntry.find(entry_ids)
+                @entry_ids = entry_ids
+
                 @location = Location.default # should be set on project maybe?
                 @sku_loc = @project.sku.sku_locs.find_by(location: @location)
                 @options = options
@@ -17,7 +18,8 @@ module Skr
                     po_num: @options['po_num'] || @project.po_num,
                     notes: @options['notes']
                 )
-                @entries.each do | entry |
+                @entry_ids.each do | entry_id |
+                    entry = TimeEntry.find(entry_id)
                     invoice.lines.build(
                         time_entry: entry,
                         sku_loc: @sku_loc,
