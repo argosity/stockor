@@ -13,10 +13,12 @@
   }
 }
 \usepackage{fancyhdr,lastpage}
-\usepackage[left=2cm,top=2cm,right=2cm,bottom=4cm]{geometry}
+\usepackage[left=2cm,top=2cm,right=2cm,bottom=2.5cm]{geometry}
 \newcolumntype{C}{>{\centering\arraybackslash}p{2cm}}
 \pagestyle{fancy}
 \fancyhf{}
+\setlength{\headheight}{2cm}
+\setlength{\headsep}{0.5cm}
 \setlength{\parindent}{0pt}
 % begin body
 <%= yield %>
