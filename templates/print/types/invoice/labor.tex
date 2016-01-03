@@ -8,6 +8,7 @@ groups.push(
   { title: 'Non Labor', lines: @invoice.lines.product }
 ) if @invoice.lines.product.any?
 -%>
+\setlength{\LTpre}{0pt}
 \begin{document}
 <%= partial( 'lhead.tex', { :location => @invoice.location } ) %>
 <%=partial 'inv_rhead.tex', invoice: @invoice %>
@@ -18,7 +19,6 @@ groups.push(
 }
 \medskip
 <%=partial 'inv_info_line.tex', invoice: @invoice -%>
-\\[-5ex]
 <%=partial 'inv_lines.tex', invoice: @invoice, lines: @invoice.lines.regular,
     footer: groups.many? ? false : 'labor_lines_footer.tex',
     groups: groups.many? ? groups : false %>
