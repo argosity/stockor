@@ -18,7 +18,7 @@ class Skr.Screens.CustomerMaint extends Lanes.React.Screen
             <BS.Row>
                 <SC.CustomerFinder sm=4 editOnly ref="finder"
                     syncOptions={include: ['billing_address', 'shipping_address']}
-                    commands={@state.commands} model={@customer} />
+                    commands={@state.commands} model={@customer} name='code' />
                 <LC.Input sm=8 name="name" model={@customer} />
             </BS.Row>
             <BS.Row>
