@@ -1,6 +1,9 @@
 require 'stockor'
 
-Lanes::API.routes.draw do
+Lanes::API.routes.for_extension 'skr' do
+
+    root { erb :lanes_root_view }
+
     resources Skr::CustomerProject
     resources Skr::TimeEntry
     resources Skr::Customer
@@ -38,19 +41,13 @@ Lanes::API.routes.draw do
     resources Skr::SalesOrder
     resources Skr::SoLine
 
-    post '/invoices/from-time-entries.json',
+    post 'invoices/from-time-entries.json',
          &Skr::Builders::InvoiceFromTimeEntries.handler
 
-
-    get '/print-skr-form/:type/:id' do
+    get 'print/:type/:id.pdf' do
         content_type 'application/pdf'
-        print = Skr::Print.new(params[:type], params[:id])
+        print = Skr::Print::PDF.new(params[:type], params[:id])
         print.output
-    end
-
-    get '/' do
-        content_type 'text/html'
-        erb :lanes_root_view
     end
 
 end
