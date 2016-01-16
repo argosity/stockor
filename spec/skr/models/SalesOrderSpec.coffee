@@ -6,7 +6,8 @@ describe "Skr.Models.SalesOrder", ->
         so.lines.add(sku_code: 'TEST', price: 2.12, qty:1)
         expect(so.total).toEqual(jasmine.any(_.bigDecimal))
         expect(so.total.toString()).toEqual('2.12')
-        so.order_total = 1.42
+        so.order_total = '1.42'
+        expect(so.order_total.toString()).toEqual('1.42')
         expect(so.total.toString()).toEqual('1.42')
         expect(so.total).toEqual(jasmine.any(_.bigDecimal))
 
