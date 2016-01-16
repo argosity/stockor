@@ -53,7 +53,6 @@ class Skr.Models.SalesOrder extends Skr.Models.Base
         pick_tickets:     { collection: "PickTicket", inverse: 'sales_order' }
 
     events:
-        'change:total': 'onTotalChange'
         'change:customer': 'onCustomerChange'
         'lines change:total': 'onTotalChange'
 
