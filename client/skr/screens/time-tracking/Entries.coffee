@@ -43,8 +43,13 @@ class Skr.Screens.TimeTracking.Entries extends Lanes.Models.Base
                 range
 
         calLegend:
-            deps: ['date', 'display'], fn: ->
-                @date.format('MMMM YYYY')
+            deps: ['range', 'display'], fn: ->
+                if @display is 'month'
+                    @date.format('MMMM YYYY')
+                else if @display is 'week'
+                    "#{@range.start.format('MMM Do')} - #{@range.end.format('MMM Do')}"
+                else if @display is 'day'
+                    @date.format('MMMM Do YYYY')
 
     events:
         'change:range': 'fetchEvents'

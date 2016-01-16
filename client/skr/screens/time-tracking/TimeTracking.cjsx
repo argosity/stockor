@@ -1,3 +1,9 @@
+##= require_self
+##= require ./EditWrapper
+##= require ./PopoverEdit
+##= require ./WeekSummary
+##= require ./Entries
+
 class Skr.Screens.TimeTracking extends Skr.Screens.Base
 
     dataObjects:
@@ -68,34 +74,38 @@ class Skr.Screens.TimeTracking extends Skr.Screens.Base
     render: ->
         <LC.ScreenWrapper identifier="time-tracking">
             <BS.Row className='calendar-header'>
-                <div className="display">
-                    <label>
-                        Month: <input type="radio"
-                                      name="style" value="month" onChange={@changeDisplay}
-                                      checked={@entries.display == 'month'} />
-                    </label><label>
-                        Week: <input type="radio"
-                                     name="style" value="week" onChange={@changeDisplay}
-                                     checked={@entries.display == 'week'} />
-                    </label><label>
-                        Day: <input type="radio"
-                                    name="style" value="day" onChange={@changeDisplay}
-                                    checked={@entries.display == 'day'} />
-                    </label>
-                </div>
 
                 <div className="paging">
-                    <BS.Button bsSize="small" onClick={@back}>
-                        <LC.Icon size='2x' type="caret-left" />
-                    </BS.Button>
 
                     <span className="legend">
                         {@entries.calLegend}
                     </span>
 
-                    <BS.Button bsSize="small" onClick={@forward}>
-                        <LC.Icon size='2x' type="caret-right"  />
-                    </BS.Button>
+                    <BS.ButtonGroup>
+                        <BS.Button bsSize="small" onClick={@back}>
+                            <LC.Icon size='2x' type="caret-left" />
+                        </BS.Button>
+                        <BS.Button bsSize="small" onClick={@forward}>
+                            <LC.Icon size='2x' type="caret-right"  />
+                        </BS.Button>
+                    </BS.ButtonGroup>
+
+                </div>
+
+                <div className="display">
+                   <BS.ButtonGroup>
+                       <BS.Button
+                           value='month' onClick={@changeDisplay}
+                           active={@entries.display == 'month'}>Month</BS.Button>
+
+                       <BS.Button
+                           value='week' onClick={@changeDisplay}
+                           active={@entries.display == 'week'}>Week</BS.Button>
+
+                       <BS.Button
+                           value='day' onClick={@changeDisplay}
+                           active={@entries.display == 'day'}>Day</BS.Button>
+                    </BS.ButtonGroup>
                 </div>
 
                 <div className="select">

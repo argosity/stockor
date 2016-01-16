@@ -1,12 +1,5 @@
-/*
- If your screen does not use any custom styles
-
- You should remove this file and it's reference from config/screens.rb
-
- Otherwise Lanes will continue to fetch an empty file whenever
- the screen is displayed
-*/
 @import "lanes/screens/styles";
+
 .time-tracking {
 
     .calendar-header {
@@ -23,8 +16,11 @@
             flex-direction: row;
             align-items: center;
             .legend{
-                font-size: 2rem;
-                padding: 0 0.5rem;
+                font-size: 1.4rem;
+                margin-right: 1rem;
+            }
+            i {
+                margin: 0 0.5em;
             }
         }
         .select {
