@@ -155,7 +155,7 @@ module Skr
 
         def set_defaults
             if customer
-                self.form           ||= customer.forms['invoice']
+                self.form           ||= customer.get_form('invoice')
                 self.billing_address  = customer.billing_address   if self.billing_address.blank?
                 self.shipping_address = customer.shipping_address if self.shipping_address.blank?
             end

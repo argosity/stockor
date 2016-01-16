@@ -26,6 +26,9 @@ module Skr
             self.terms ||= PaymentTerm.find_by_code(Skr.config.customer_terms_code)
         end
 
+        def get_form(type)
+            forms ? forms[type] : 'default'
+        end
     end
 
 end
