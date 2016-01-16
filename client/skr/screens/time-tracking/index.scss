@@ -33,6 +33,29 @@
         }
     }
 
+    .calendar-panel {
+        margin: 5px 20px 20px 20px;
+        @include flexbox();
+        @include flex-grow(1);
+        @include flex-direction(column);
+    }
+
+    .monthly-totals {
+        align-self: flex-end;
+        display: inline;
+        width: 52px;
+        position: relative;
+        top: 18px;
+
+        text-align: right;
+        border-top-right-radius: 8px;
+        border: 1px solid lightgrey;
+        border-top-left-radius: 8px;
+        border-bottom: 0;
+        padding-right: 3px;
+
+    }
+
     @each $current-color in $lanes-color-selections {
         $i: index($lanes-color-selections, $current-color);
         .calendar-header .select .color-#{$i} {
@@ -52,16 +75,15 @@
             .x-labels {
                 width: 94.5%;
                 .day-label {
-                    flex-basis: (100%/7);
+                    width: (100%/7);
                 }
             }
             .days {
                 .day {
-                    flex-basis: 13.5%;
                     width: 13.5%;
                 }
                 .summary {
-                    flex-basis: 5.5%;
+                    width: 5.5%;
                     flex-direction: column;
                     display: flex;
                     justify-content: center;

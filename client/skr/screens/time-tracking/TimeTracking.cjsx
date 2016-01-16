@@ -61,6 +61,10 @@ class Skr.Screens.TimeTracking extends Skr.Screens.Base
             <Skr.Screens.TimeTracking.WeekSummary
                 key={week} week={week} entries={@entries} />
 
+    renderTotals: ->
+        return null unless @entries.isMonth
+        <div className="monthly-totals">{@entries.totalHours().toFixed(2)}</div>
+
     render: ->
         <LC.ScreenWrapper identifier="time-tracking">
             <BS.Row className='calendar-header'>
@@ -106,8 +110,9 @@ class Skr.Screens.TimeTracking extends Skr.Screens.Base
                 </div>
 
             </BS.Row>
-            <BS.Row className="flex-expand">
+            <BS.Row className="calendar-panel">
                 <Skr.Screens.TimeTracking.PopoverEdit {...@state.edit} />
+                {@renderTotals()}
                 <LC.Calendar ref='calendar'
                     displayHours={[6, 20]}
                     onDayClick={@onAddEntry}

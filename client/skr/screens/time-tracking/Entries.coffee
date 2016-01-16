@@ -89,6 +89,11 @@ class Skr.Screens.TimeTracking.Entries extends Lanes.Models.Base
         @date = @date.clone().add(1, @display)
         @trigger('change', @)
 
+    totalHours: ->
+        @entries.reduce( (sum, entry) ->
+            sum.add(entry.hours)
+        , _.bigDecimal('0') )
+
     totalsForWeek: (week) ->
         days = _.moment.range(
             @range.start.clone().add(week - 1, 'week'),
