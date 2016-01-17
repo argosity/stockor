@@ -7,5 +7,5 @@
 % <% end %>
    <%= @line.qty %> &
    <%=q @line.combined_uom %> &
-   <%= '%0.2f' % @line.price %> &
-   <%= '%0.2f' % @line.total %> \\
+   <%= Skr::String.number_with_delimiter @line.price %> &
+   <%= Skr::String.number_with_delimiter @line.total %> \\

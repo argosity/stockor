@@ -2,7 +2,7 @@
   \textbf{<%= '%0.2f' % @invoice.lines.time_entry.sum{|l| l.time_entry.hours } %>} &
   \textbf{Hours} &
   \textbf{SubTotal} &
-  \textbf{<%= '%0.2f' % @invoice.lines.time_entry.sum(&:extended_price) %>} \\
+  \textbf{<%= Skr::String.number_with_delimiter @invoice.lines.time_entry.sum(&:extended_price) %>} \\
   \cline{<%= @ncols-3%>-<%= @ncols%>}
 <% if @invoice.lines.other_charge.any? -%>
   <% @invoice.lines.other_charge.each do | line | -%>
@@ -13,6 +13,6 @@
 <% end -%>
 \multicolumn{<%= @ncols-2%>}{r}{} &
   \textbf{Total} &
-  \textbf{<%= '%0.2f' % @invoice.total %>} \\
+  \textbf{<%= Skr::String.number_with_delimiter @invoice.total %>} \\
   \cline{<%= @ncols-3%>-<%= @ncols%>}
 %  \hline
