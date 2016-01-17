@@ -21,7 +21,7 @@ class Skr.Components.InvoiceFinder extends Lanes.React.Component
                     { id: 'visible_id' }
                     { id: 'customer_code' }
                     { id: 'notes', flex: 2}
-                    { id: 'invoice_total', title: 'Total' }
+                    { id: 'invoice_total', title: 'Total', format: Lanes.u.format.currency }
                 ]
             })
 
