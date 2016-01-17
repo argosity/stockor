@@ -4,6 +4,7 @@ require "lanes/access"
 require_relative "skr/version"
 require_relative "skr/extension"
 require_rel "skr/configuration"
+require_relative "skr/string"
 
 # The main namespace for Skr
 module Skr
