@@ -12,11 +12,11 @@ class Skr.Models.SoLine extends Skr.Models.Base
         uom_code:      {type:"string",  default: 'EA'}
         uom_size:      {type:"integer", default: 1}
         position:      {type:"integer"}
-        qty:           {type:"integer", "default":"0"}
-        qty_allocated: {type:"integer", "default":"0"}
-        qty_picking:   {type:"integer", "default":"0"}
-        qty_invoiced:  {type:"integer", "default":"0"}
-        qty_canceled:  {type:"integer", "default":"0"}
+        qty:           {type:"bigdec",  default:"0"}
+        qty_allocated: {type:"bigdec",  default:"0"}
+        qty_picking:   {type:"bigdec",  default:"0"}
+        qty_invoiced:  {type:"bigdec",  default:"0"}
+        qty_canceled:  {type:"bigdec",  default:"0"}
         is_revised:    {type:"boolean", default:false}
 
     session:

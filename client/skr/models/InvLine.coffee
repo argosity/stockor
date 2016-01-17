@@ -14,7 +14,7 @@ class Skr.Models.InvLine extends Skr.Models.Base
         uom_code:   {type:"string",  default: 'EA'}
         uom_size:   {type:"integer", default: 1}
         position:   {type:"integer"}
-        qty:        {type:"integer"}
+        qty:        {type:"bigdec",  default:"0"}
         is_revised: {type:"boolean", default:false}
 
     associations:
