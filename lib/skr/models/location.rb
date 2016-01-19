@@ -5,6 +5,8 @@ module Skr
 
         has_code_identifier :from=>'name'
 
+        mount_uploader :logo, Lanes::Concerns::ImageUploader
+
         belongs_to :address, export: { writable: true }
 
         has_many :sku_locs
