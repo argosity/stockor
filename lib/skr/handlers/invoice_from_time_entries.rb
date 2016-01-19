@@ -1,5 +1,5 @@
 module Skr
-    module Builders
+    module Handlers
         class InvoiceFromTimeEntries
 
             def initialize(project_id, entry_ids, options = {})
