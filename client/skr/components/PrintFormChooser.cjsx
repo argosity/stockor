@@ -20,20 +20,10 @@ class Skr.Components.PrintFormChooser extends Lanes.React.Component
     render: ->
         choices = @props.choices || @props.model.constructor.Templates
         value = @props.value or @props.model[@props.name]
-        console.log @props.model.form, @props
-
         <LC.FieldWrapper {...@props} value={value}>
-
             <Lanes.Vendor.ReactWidgets.DropdownList
                 data={choices}
                 value={value}
                 onChange={@onChange}
             />
         </LC.FieldWrapper>
-        # value = @props.value or @props.model[@props.name]
-        # props = _.omit(@props, 'choices', 'name')
-        # <LC.FormGroup editing={@isEditingRecord()}
-        #     className="field" {...props}
-        # >
-        #     {if @isEditingRecord() then @renderEdit(value) else @renderValue(value)}
-        # </LC.FormGroup>
