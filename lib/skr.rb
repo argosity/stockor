@@ -11,6 +11,10 @@ module Skr
     def self.table_name_prefix
         "skr_"
     end
+
+    def self.system_settings
+        Lanes::SystemSettings.for_ext('skr')
+    end
 end
 
 require_rel "skr/concerns/*.rb"
