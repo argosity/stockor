@@ -16,6 +16,9 @@ class Skr.Screens.Locations extends Skr.Screens.Base
                 <LC.Input sm=6 name='name' model={@location} />
             </BS.Row>
             <BS.Row>
+                <LC.ImageSaver label='Logo' sm=4 model={@location} name='logo' />
+            </BS.Row>
+            <BS.Row>
                 <SC.Address lg=6 model={@location.address}  />
             </BS.Row>
 
