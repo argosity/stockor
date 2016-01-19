@@ -12,6 +12,8 @@ class CreateSkrLocations < ActiveRecord::Migration
                        default: Skr.config.default_branch_code,
                        null: false,
                        limit: 2
+            t.string   "logo"
+            t.jsonb    "options"
             t.skr_track_modifications
           end
 
