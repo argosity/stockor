@@ -2,6 +2,8 @@ class Skr.Models.Location extends Skr.Models.Base
 
     cacheDuration: [1, 'day']
 
+    mixins: [ Lanes.Models.Mixins.FileSupport ]
+
     props:
         id:            {type:"integer"}
         code:          {type:"string"}
@@ -9,6 +11,8 @@ class Skr.Models.Location extends Skr.Models.Base
         address_id:    {type:"integer"}
         is_active:     {type:"boolean", "default":true}
         gl_branch_code:{type:"string", "default":"01"}
+        logo:     "file"
+        options:  "any"
 
     associations:
         address:  { model: "Address" }
