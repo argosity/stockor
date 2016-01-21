@@ -73,6 +73,7 @@ class Skr.Screens.TimeTracking extends Skr.Screens.Base
 
     render: ->
         <LC.ScreenWrapper identifier="time-tracking">
+            <LC.NetworkActivityOverlay visible={@entries.isLoading} model={@entries}/>
             <BS.Row className='calendar-header'>
 
                 <div className="paging">
