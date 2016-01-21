@@ -1,6 +1,6 @@
 require 'skr/db/migration_helpers'
 
-class GlTransactionDetails < ActiveRecord::Migration
+class CreateSkrGlTransactionDetails < ActiveRecord::Migration
 
     def up
         execute <<-EOS
