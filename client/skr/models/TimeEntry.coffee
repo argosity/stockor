@@ -26,8 +26,6 @@ class Skr.Models.TimeEntry extends Skr.Models.Base
             this.range.end.diff(this.range.start, 'hour', true).toFixed(2) +
                 " hours: " + @description
 
-        hours: deps: ['range'], fn: ->
-            @length('hours')
     events:
         'change:end_at': 'onEndChange'
         'change:start_at': 'onStartChange'
@@ -39,6 +37,11 @@ class Skr.Models.TimeEntry extends Skr.Models.Base
 
     length: (duration = 'hour') ->
         @range.end.diff(@range.start, duration, true)
+
+    lengthInRange: (range, duration = 'hour') ->
+        _.moment.min(@range.end, range.end).diff(
+            _.moment.max(@range.start, range.start), duration, true
+        )
 
     toCalEvent: ->
         attrs = {entry: this, range: @range, content: @content, resizable: {step: 15}}
