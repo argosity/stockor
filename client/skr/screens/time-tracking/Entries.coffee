@@ -34,13 +34,9 @@ class Skr.Screens.TimeTracking.Entries extends Lanes.Models.Base
             deps: ['display'], fn: -> 'month' == @display
         range:
             deps: ['date', 'isMonth'], fn: ->
-                range = _.moment.range(
+                _.moment.range(
                     @date.clone().startOf( @display ), @date.clone().endOf( @display )
                 )
-                if @isMonth
-                    range.start.subtract(range.start.weekday(), 'days')
-                    range.end.add(6 - range.end.weekday(), 'days')
-                range
 
         calLegend:
             deps: ['range', 'display'], fn: ->
@@ -62,6 +58,7 @@ class Skr.Screens.TimeTracking.Entries extends Lanes.Models.Base
                 cp.add({id:-1, code: 'ALL', options:{color: 1}}, at: 0)
                 @set(customer_project_id: Lanes.current_user.options.project_id or -1 )
         @entries = new TimeEntries(@available_projects)
+        @listenTo(@entries, 'request', @onRequest)
         @listenTo(@entries, 'sync', @onLoad)
 
     startEditing: (editingEvent) ->
@@ -71,6 +68,10 @@ class Skr.Screens.TimeTracking.Entries extends Lanes.Models.Base
     add: (attrs) ->
         attrs.customer_project = @project unless @project.id is -1
         @entries.add(attrs)
+
+    onRequest: ->
+        @isLoading = !!@entries.requestInProgress
+        @trigger('change', @)
 
     onLoad: ->
         delete @_cachedEvents unless @entries.requestInProgress
@@ -95,8 +96,8 @@ class Skr.Screens.TimeTracking.Entries extends Lanes.Models.Base
         @trigger('change', @)
 
     totalHours: ->
-        @entries.reduce( (sum, entry) ->
-            sum.add(entry.hours)
+        @entries.reduce( (sum, entry) =>
+            sum.add( entry.lengthInRange(@range, 'hours') )
         , _.bigDecimal('0') )
 
     totalsForWeek: (week) ->
@@ -108,5 +109,5 @@ class Skr.Screens.TimeTracking.Entries extends Lanes.Models.Base
         byProject = _.groupBy entries, (entry) -> entry.customer_project_id
         _.mapValues byProject, (entries, projectId) ->
             _.reduce( entries, (total, entry) ->
-                total.plus(entry.hours)
+                total.plus(entry.lengthInRange(days, 'hours'))
             , _.bigDecimal('0'))
