@@ -2,7 +2,7 @@ require_relative '../spec_helper'
 
 class InvoiceFromTimeEntriesSpec < Skr::TestCase
 
-    subject { Skr::Builders::InvoiceFromTimeEntries }
+    subject { Skr::Handlers::InvoiceFromTimeEntries }
     let (:project) { skr_customer_project(:goatpens) }
     let (:invoice) {
         subject.new(
@@ -14,7 +14,9 @@ class InvoiceFromTimeEntriesSpec < Skr::TestCase
 
     it "raises exception if ids are not found" do
         assert_raises(ActiveRecord::RecordNotFound) {
-            subject.new(project.id, [1234] )
+            subject.new(
+                project.id, [12345], 'po_num' => 'Testing Only!'
+            ).build_invoice
         }
     end
 
