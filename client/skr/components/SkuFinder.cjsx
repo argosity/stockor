@@ -9,8 +9,7 @@ class Skr.Components.SkuFinder extends Lanes.React.Component
         selectField:   React.PropTypes.bool
 
     getDefaultProps: ->
-        autoFocus: false
-        label: 'SKU'
+        autoFocus: false, label: 'SKU', name: 'code'
 
     dataObjects:
         query: ->
@@ -23,18 +22,12 @@ class Skr.Components.SkuFinder extends Lanes.React.Component
                 ]
             })
 
-    selectSetSKU: (model, cust) ->
-        if @props.onModelSet
-            @props.onModelSet(cust)
-        else
-            model.set(customer: cust)
-
     selectGetSKU: (model) ->
         if model.customer_id and model.customer_code
             {label: model.customer_code, id: model.customer_id}
 
     render: ->
-        props = _.extend( { label: 'SKU', name: 'sku' }, @props )
+        props = _.extend( {}, @props )
         if @props.selectField
             <LC.SelectField labelField="code" displayFallback={@model.sku_code} {...props} />
         else

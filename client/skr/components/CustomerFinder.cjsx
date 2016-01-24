@@ -1,6 +1,7 @@
 class Skr.Components.CustomerFinder extends Lanes.React.Component
 
     propTypes:
+        model:      Lanes.PropTypes.Model.isRequired
         onModelSet: React.PropTypes.func
         commands:   React.PropTypes.object
         autoFocus:  React.PropTypes.bool
@@ -44,6 +45,6 @@ class Skr.Components.CustomerFinder extends Lanes.React.Component
                 {...props} />
         else
             <LC.RecordFinder ref="finder" sm=3 autoFocus
-                commands={@state.commands}
+                commands={@props.commands}
                 query={@query}
                 {...props} />

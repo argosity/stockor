@@ -15,8 +15,7 @@ class Skr.Components.VendorFinder extends Lanes.React.Component
         query: ->
             new Lanes.Models.Query({
                 title: 'Vendors'
-                syncOptions:
-                    include: ['billing_address', 'shipping_address']
+                syncOptions: @props.syncOptions
                 src: Skr.Models.Vendor, fields: [
                     {id:'id', visible: false}
                     'code', 'name',
