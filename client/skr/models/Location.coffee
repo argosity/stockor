@@ -2,11 +2,11 @@ class Skr.Models.Location extends Skr.Models.Base
 
     cacheDuration: [1, 'day']
 
-    mixins: [ Lanes.Models.Mixins.FileSupport ]
+    mixins: [ 'FileSupport', 'HasCodeField' ]
 
     props:
         id:            {type:"integer"}
-        code:          {type:"string"}
+        code:          {type:"code"}
         name:          {type:"string"}
         address_id:    {type:"integer"}
         is_active:     {type:"boolean", "default":true}

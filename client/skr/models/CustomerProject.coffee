@@ -16,6 +16,8 @@ class Skr.Models.CustomerProject extends Skr.Models.Base
         options:    "any"
         rates:      "any"
 
+    mixins: ['HasCodeField']
+
     session:
         sku_code:       {type:"string"}
         customer_code:  {type:"string"}

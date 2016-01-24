@@ -8,12 +8,14 @@ class Skr.Models.Vendor extends Skr.Models.Base
         terms_id:              {type:"integer"}
         gl_payables_account_id:{type:"integer"}
         gl_freight_account_id: {type:"integer"}
-        code:                  {type:"string"}
+        code:                  {type:"code"}
         hash_code:             {type:"string"}
         name:                  {type:"string"}
         notes:                 "string"
         account_code:          "string"
         website:               "string"
+
+    mixins: ['HasCodeField']
 
     associations:
         billing_address:     { model: "Address" }
