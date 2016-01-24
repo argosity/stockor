@@ -1,11 +1,14 @@
 class Skr.Screens.SalesOrder extends Lanes.React.Screen
 
+    syncOptions:
+        include: [ 'billing_address', 'shipping_address', 'lines' ]
+
     dataObjects:
         sales_order: ->
-            @props.sales_order || new Skr.Models.SalesOrder
-
-    syncOptions:
-        include: [ 'billing_address', 'shipping_address', 'lines'   ]
+            @loadOrCreateModel({
+                syncOptions: @syncOptions, klass: Skr.Models.SalesOrder
+                prop: 'sales_order', attribute: 'visible_id'
+            })
 
     getInitialState: ->
         commands: new Lanes.Screens.Commands(this, modelName: 'sales_order', print: true)

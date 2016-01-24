@@ -1,8 +1,14 @@
 class Skr.Screens.Locations extends Skr.Screens.Base
 
+    syncOptions:
+        include: [ 'address' ]
+
     dataObjects:
         location: ->
-            @props.location || new Skr.Models.Location
+            @loadOrCreateModel({
+                syncOptions: @syncOptions, klass: Skr.Models.Location
+                prop: 'location', attribute: 'code'
+            })
 
     getInitialState: ->
         commands: new Lanes.Screens.Commands(this, modelName: 'location')

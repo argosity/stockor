@@ -1,13 +1,16 @@
 class Skr.Screens.Invoice extends Skr.Screens.Base
 
-    dataObjects:
-        invoice: ->
-            @props.invoice || new Skr.Models.Invoice
-
     modelForAccess: 'invoice'
 
     syncOptions:
         include: [ 'sales_order', 'billing_address', 'shipping_address', 'lines'   ]
+
+    dataObjects:
+        invoice: ->
+            @loadOrCreateModel({
+                syncOptions: @syncOptions, klass: Skr.Models.Invoice,
+                prop: 'invoice', attribute: 'visual_id'
+            })
 
     getInitialState: ->
         commands: new Lanes.Screens.Commands(this, modelName: 'invoice', print: true)

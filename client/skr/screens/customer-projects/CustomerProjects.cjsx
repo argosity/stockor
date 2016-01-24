@@ -5,8 +5,10 @@ class Skr.Screens.CustomerProjects extends Skr.Screens.Base
 
     dataObjects:
         project: ->
-            @props.project || new Skr.Models.CustomerProject
-
+            @loadOrCreateModel({
+                klass: Skr.Models.CustomerProject,
+                prop: 'project', attribute: 'code'
+            })
 
     modelForAccess: 'customer-project'
 
@@ -35,9 +37,9 @@ class Skr.Screens.CustomerProjects extends Skr.Screens.Base
                     model={@project} autoFocus editOnly sm=3 />
 
                 <SC.CustomerFinder selectField sm=3
-                    label='Customer' model={@project} />
+                    label='Customer' model={@project} name='customer' />
 
-                <SC.SkuFinder selectField sm=3 model={@project} />
+                <SC.SkuFinder selectField sm=3 model={@project} name='sku' />
                 <LC.Input name="po_num" model={@project} sm=3 />
             </BS.Row>
             <BS.Row>

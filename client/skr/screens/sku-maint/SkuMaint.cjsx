@@ -1,8 +1,13 @@
-class Skr.Screens.SkuMaint extends Lanes.React.Screen
+class Skr.Screens.SkuMaint extends Skr.Screens.Base
+
+    syncOptions:
+        {include: ['default_vendor', 'uoms']}
 
     dataObjects:
         sku: ->
-            @props.sku || new Skr.Models.Sku
+            @loadOrCreateModel({
+                syncOptions: @syncOptions, klass: Skr.Models.Sku, prop: 'sku', attribute: 'code'
+            })
 
     getInitialState: ->
         commands: new Lanes.Screens.Commands(this, modelName: 'sku')
@@ -14,8 +19,9 @@ class Skr.Screens.SkuMaint extends Lanes.React.Screen
             <Lanes.Screens.CommonComponents commands={@state.commands} />
             <BS.Row>
                 <SC.SkuFinder model={@sku} sm=4 label='Code' editOnly autoFocus
-                    syncOptions={include: ['default_vendor', 'uoms']}
-                    autoFocus commands={@state.commands} />
+                    syncOptions={@syncOptions}
+                    model={@sku} name='code'
+                    commands={@state.commands} />
 
                 <LC.Input sm=8 name="description" model={@sku} />
             </BS.Row>

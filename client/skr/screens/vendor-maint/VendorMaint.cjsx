@@ -1,8 +1,14 @@
 class Skr.Screens.VendorMaint extends Lanes.React.Screen
 
+    syncOptions:
+        include: ['billing_address', 'shipping_address']
+
     dataObjects:
         vendor: ->
-            @props.vendor || new Skr.Models.Vendor
+            @loadOrCreateModel({
+                syncOptions: @syncOptions, klass: Skr.Models.Vendor,
+                prop: 'vendor', attribute: 'code'
+            })
 
     getInitialState: ->
         commands: new Lanes.Screens.Commands(this, modelName: 'vendor')
@@ -13,8 +19,10 @@ class Skr.Screens.VendorMaint extends Lanes.React.Screen
         <LC.ScreenWrapper identifier="vendor-maint">
             <Lanes.Screens.CommonComponents commands={@state.commands} />
             <BS.Row>
-                <SC.VendorFinder sm=4 editOnly
-                    commands={@state.commands} model={@vendor} />
+                <SC.VendorFinder model={@vendor} sm=4 editOnly autofocus
+                    syncOptions={@syncOptions}
+                    model={@vendor} name='code'
+                    commands={@state.commands}  />
                 <LC.Input sm=8 name="name" model={@vendor} />
             </BS.Row>
             <BS.Row>

@@ -1,8 +1,12 @@
-class Skr.Screens.CustomerMaint extends Lanes.React.Screen
+class Skr.Screens.CustomerMaint extends Skr.Screens.Base
 
+    syncOptions: {include: ['billing_address', 'shipping_address']}
     dataObjects:
         customer: ->
-            @props.customer || new Skr.Models.Customer
+            @loadOrCreateModel({
+                syncOptions: @syncOptions, klass: Skr.Models.Customer,
+                prop: 'customer', attribute: 'code'
+            })
 
     getInitialState: ->
         commands: new Lanes.Screens.Commands(this, modelName: 'customer')
@@ -17,7 +21,7 @@ class Skr.Screens.CustomerMaint extends Lanes.React.Screen
             <Lanes.Screens.CommonComponents commands={@state.commands} />
             <BS.Row>
                 <SC.CustomerFinder sm=4 editOnly ref="finder"
-                    syncOptions={include: ['billing_address', 'shipping_address']}
+                    syncOptions={@syncOptions}
                     commands={@state.commands} model={@customer} name='code' />
                 <LC.Input sm=8 name="name" model={@customer} />
             </BS.Row>

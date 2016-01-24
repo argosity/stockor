@@ -2,8 +2,6 @@ require 'stockor'
 
 Lanes::API.routes.for_extension 'skr' do
 
-    root { erb :lanes_root_view }
-
     resources Skr::CustomerProject
     resources Skr::TimeEntry
     resources Skr::Customer
@@ -50,4 +48,5 @@ Lanes::API.routes.for_extension 'skr' do
         print.output
     end
 
+    root { erb :lanes_root_view }
 end
