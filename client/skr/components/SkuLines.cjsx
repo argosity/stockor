@@ -29,13 +29,21 @@ class Skr.Components.SkuLines extends Lanes.React.Component
                 { id: 'price', textAlign: 'right', format: (v, r, q) -> v?.toFixed(2) }
             ]
 
+    onSkuChange: (line, val, sel) ->
+        line.set(sku: val)
+        _.defer =>
+            _.dom(@, 'input[name="qty"]').focusAndSelect() if @isMounted()
+
     editors: ->
-        sku_code: ({model, props}) ->
+        sku_code: ({model, props}) =>
             options = {
                 with: {in_location: props.location.id}
                 include: ['sku_locs', 'uoms']
             }
-            <SC.SkuFinder model={model} selectField unstyled syncOptions={options} />
+            <SC.SkuFinder
+                setSelection={@onSkuChange}
+                model={model}
+                selectField unstyled syncOptions={options} />
 
         uom: ({model}) ->
             <SC.UOMChooser unstyled model={model} />
@@ -49,6 +57,7 @@ class Skr.Components.SkuLines extends Lanes.React.Component
 
     render: ->
         <LC.Grid query={@query}
+            ref='grid'
             commands={@props.commands}
             autoLoadQuery={false}
             expandY={true}
