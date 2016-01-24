@@ -2,7 +2,7 @@ class Skr.Models.SalesOrder extends Skr.Models.Base
 
     props:
         id:                 {type:"integer"}
-        visible_id:         {type:"integer"}
+        visible_id:         {type:"visible_id"}
         customer_id:        {type:"integer"}
         location_id:        {type:"integer", default: ->
             Skr.Models.Location.default()?.id
@@ -20,7 +20,7 @@ class Skr.Models.SalesOrder extends Skr.Models.Base
         notes:              "string"
         options:            "any"
 
-    mixins: [ Skr.Models.Mixins.PrintSupport ]
+    mixins: [ 'PrintSupport', 'HasVisibleId' ]
 
     # optional attributes from details view
     session:

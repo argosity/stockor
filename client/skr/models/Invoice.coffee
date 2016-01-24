@@ -3,7 +3,7 @@ class Skr.Models.Invoice extends Skr.Models.Base
 
     props:
         id:                 {type:"integer"}
-        visible_id:         {type:"integer"}
+        visible_id:         {type:"visible_id"}
         terms_id:           {type:"integer"}
         customer_id:        {type:"integer"}
         location_id:        {type:"integer", default: ->
@@ -22,7 +22,8 @@ class Skr.Models.Invoice extends Skr.Models.Base
         form:               "string"
         options:            "any"
 
-    mixins: [ Skr.Models.Mixins.PrintSupport ]
+    mixins: [ 'HasVisibleId', 'PrintSupport' ]
+
     # optional attributes from details view
     session:
         customer_code: {type:"string"}
@@ -64,7 +65,7 @@ class Skr.Models.Invoice extends Skr.Models.Base
 
     onSetCustomer: (newCustomer) ->
         return if not newCustomer or newCustomer.isNew()
-        @copyAssociationsFrom( newCustomer, 'billing_address', 'shipping_address')
+        @copyAssociationsFrom( newCustomer, 'billing_address', 'shipping_address', 'terms')
 
     setFromSalesOrder: (so) ->
         @sales_order_id = so.id

@@ -3,7 +3,7 @@ class Skr.Models.PurchaseOrder extends Skr.Models.Base
 
     props:
         id:                    {type:"integer"}
-        visible_id:            {type:"integer"}
+        visible_id:            {type:"visible_id"}
         vendor_id:             {type:"integer"}
         location_id:           {type:"integer"}
         ship_addr_id:          {type:"integer"}
@@ -12,6 +12,8 @@ class Skr.Models.PurchaseOrder extends Skr.Models.Base
         is_revised:            {type:"boolean", default:false}
         order_date:            {type:"any"}
         receiving_completed_at:"date"
+
+    mixins: [ 'HasVisibleId' ]
 
     enums:
         state:

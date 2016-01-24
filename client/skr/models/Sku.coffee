@@ -14,6 +14,8 @@ class Skr.Models.Sku extends Skr.Models.Base
         does_track_inventory:{type:"boolean", default:false}
         can_backorder:       {type:"boolean", default:false}
 
+    mixins: ['HasCodeField']
+
     associations:
         default_vendor:   { model: "Vendor" }
         gl_asset_account: { model: "GlAccount", default: ->

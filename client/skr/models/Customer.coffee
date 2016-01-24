@@ -19,6 +19,8 @@ class Skr.Models.Customer extends Skr.Models.Base
         forms:                    "any"
         options:                  "any"
 
+    mixins: ['HasCodeField']
+
     associations:
         billing_address:        { model: "Address" }
         shipping_address:       { model: "Address" }
