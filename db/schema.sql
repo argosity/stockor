@@ -76,9 +76,9 @@ CREATE TABLE lanes_users (
     email character varying NOT NULL,
     password_digest character varying NOT NULL,
     role_names character varying[] DEFAULT '{}'::character varying[] NOT NULL,
+    options jsonb DEFAULT '{}'::jsonb NOT NULL,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
-    options jsonb
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -434,6 +434,11 @@ CREATE TABLE skr_gl_transactions (
 CREATE VIEW skr_gl_transaction_details AS
  SELECT glt.id AS gl_transaction_id,
     to_char(glt.created_at, 'YYYY-MM-DD'::text) AS transaction_date,
+    pr.period AS accounting_period,
+    pr.year AS accounting_year,
+    ( SELECT array_agg(skr_gl_postings.account_number) AS array_agg
+           FROM skr_gl_postings
+          WHERE (skr_gl_postings.gl_transaction_id = glt.id)) AS account_numbers,
     ( SELECT array_to_json(array_agg(row_to_json(postings.*))) AS array_to_json
            FROM ( SELECT skr_gl_postings.account_number,
                     skr_gl_postings.amount
@@ -443,9 +448,7 @@ CREATE VIEW skr_gl_transaction_details AS
            FROM ( SELECT skr_gl_postings.account_number,
                     skr_gl_postings.amount
                    FROM skr_gl_postings
-                  WHERE ((skr_gl_postings.gl_transaction_id = glt.id) AND (skr_gl_postings.is_debit = false))) postings) AS credit_details,
-    pr.period AS accounting_period,
-    pr.year AS accounting_year
+                  WHERE ((skr_gl_postings.gl_transaction_id = glt.id) AND (skr_gl_postings.is_debit = false))) postings) AS credit_details
    FROM (skr_gl_transactions glt
      JOIN skr_gl_periods pr ON ((pr.id = glt.period_id)));
 
@@ -791,6 +794,8 @@ CREATE TABLE skr_locations (
     address_id integer NOT NULL,
     is_active boolean DEFAULT true NOT NULL,
     gl_branch_code character varying(2) DEFAULT '01'::character varying NOT NULL,
+    logo character varying,
+    options jsonb,
     created_at timestamp without time zone NOT NULL,
     created_by_id integer NOT NULL,
     updated_at timestamp without time zone NOT NULL,
@@ -1626,6 +1631,36 @@ ALTER SEQUENCE skr_vouchers_id_seq OWNED BY skr_vouchers.id;
 
 
 --
+-- Name: system_settings; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE system_settings (
+    id integer NOT NULL,
+    logo character varying,
+    settings jsonb DEFAULT '{}'::jsonb NOT NULL
+);
+
+
+--
+-- Name: system_settings_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE system_settings_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: system_settings_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE system_settings_id_seq OWNED BY system_settings.id;
+
+
+--
 -- Name: testers; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1887,6 +1922,13 @@ ALTER TABLE ONLY skr_vo_lines ALTER COLUMN id SET DEFAULT nextval('skr_vo_lines_
 --
 
 ALTER TABLE ONLY skr_vouchers ALTER COLUMN id SET DEFAULT nextval('skr_vouchers_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY system_settings ALTER COLUMN id SET DEFAULT nextval('system_settings_id_seq'::regclass);
 
 
 --
@@ -2166,6 +2208,14 @@ ALTER TABLE ONLY skr_vo_lines
 
 ALTER TABLE ONLY skr_vouchers
     ADD CONSTRAINT skr_vouchers_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: system_settings_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY system_settings
+    ADD CONSTRAINT system_settings_pkey PRIMARY KEY (id);
 
 
 --
@@ -2854,9 +2904,9 @@ ALTER TABLE ONLY skr_vouchers
 
 SET search_path TO "$user",public;
 
-INSERT INTO schema_migrations (version) VALUES ('20120110142845');
+INSERT INTO schema_migrations (version) VALUES ('1');
 
-INSERT INTO schema_migrations (version) VALUES ('20140110224306');
+INSERT INTO schema_migrations (version) VALUES ('20120110142845');
 
 INSERT INTO schema_migrations (version) VALUES ('20140202185309');
 
@@ -2867,6 +2917,8 @@ INSERT INTO schema_migrations (version) VALUES ('20140202193318');
 INSERT INTO schema_migrations (version) VALUES ('20140202193319');
 
 INSERT INTO schema_migrations (version) VALUES ('20140202193700');
+
+INSERT INTO schema_migrations (version) VALUES ('20140202194700');
 
 INSERT INTO schema_migrations (version) VALUES ('20140213040608');
 
