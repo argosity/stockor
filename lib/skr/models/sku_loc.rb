@@ -76,7 +76,7 @@ module Skr
         private
 
         def fire_after_save_events
-            fire_event(:qty_change) if qty_changed?
+            fire_pubsub_event(:qty_change) if qty_changed?
         end
 
         # Caches the qty of skus that are allocated to sales orders in the {#qty_allocated} field

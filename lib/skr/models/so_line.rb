@@ -92,7 +92,7 @@ module Skr
         def fire_after_save_events
             %w{ allocated picking invoiced canceled }.each do | event |
                 if changes[ "qty_#{event}" ]
-                    fire_event( :qty_change )
+                    fire_pubsub_event( :qty_change )
                     break
                 end
             end
