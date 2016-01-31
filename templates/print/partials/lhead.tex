@@ -1,7 +1,7 @@
 \lhead{
 \begin{tabular} {ll}
-% <% if @location.logo.present? %>
-\raisebox{-0.5\height}{\includegraphics[height=18mm,width=80mm,keepaspectratio]{<%= @location.logo.file.path %>} }
+% <% if @location.get_logo.present? %>
+\raisebox{-0.5\height}{\includegraphics[height=18mm,width=80mm,keepaspectratio]{<%= @location.get_logo.file.path %>} }
 % <% end %>
 \parbox{\columnwidth}{ \small <%= break_lines @location.address.to_s(include: [:email,:phone]) %> }
 \end{tabular}
