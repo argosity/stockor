@@ -17,6 +17,10 @@ module Skr
             (end_at - start_at) / 1.hour
         end
 
+        scope :open, ->{
+            where(is_invoiced: false)
+        }
+
         private
 
         def mark_as_invoiced(inv_line)
