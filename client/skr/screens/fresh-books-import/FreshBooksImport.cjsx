@@ -3,7 +3,6 @@
 ##= require ./ApiInfo
 ##= require ./ChooseRecords
 ##= require ./ViewRecords
-##= require ./data
 
 class Skr.Screens.FreshBooksImport extends Skr.Screens.Base
     modelForAccess: 'invoice'

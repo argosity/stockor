@@ -21,12 +21,8 @@ class Skr.Screens.FreshBooksImport.ApiInfo extends Lanes.React.Component
                 </BS.Col>
             </BS.Row>
             <BS.Row>
-                <LC.Input name='api_key' label='API Key' sm=7 model={@import}
-                    defaultValue='ba6642fa8d9b99e113ce0e5a1bf66de0'
-                />
-                <LC.Input name='domain' label='Company' sm=3 model={@import}
-                    defaultValue='testermctest-billing'
-                />
+                <LC.Input name='api_key' label='API Key' sm=7 model={@import} />
+                <LC.Input name='domain' label='Company' sm=3 model={@import} />
                 <LC.FormGroup className='domain' sm=2 label=''>.freshbooks.com</LC.FormGroup>
             </BS.Row>
             <BS.Row>
