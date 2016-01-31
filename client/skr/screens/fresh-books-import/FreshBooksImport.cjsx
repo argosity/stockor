@@ -10,10 +10,7 @@ class Skr.Screens.FreshBooksImport extends Skr.Screens.Base
     getInitialState: -> isEditing: true
     dataObjects:
         import: ->
-            i = new Skr.Screens.FreshBooksImport.Import
-            # i.stage = 'complete'
-            # i.job.data = { output: Skr.Screens.FreshBooksImport.DATA }
-            i
+            new Skr.Screens.FreshBooksImport.Import
 
     jobStatus: ->
         return null unless @import.job.isExecuting
@@ -25,7 +22,6 @@ class Skr.Screens.FreshBooksImport extends Skr.Screens.Base
             message={message} />
 
     render: ->
-        window.jss = @import.job
         <LC.ScreenWrapper identifier="fresh-books-import">
             <Skr.Screens.FreshBooksImport.ApiInfo import={@import} />
             {@jobStatus()}
