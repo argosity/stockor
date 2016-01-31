@@ -6,6 +6,7 @@ class CreateTimeEntries < ActiveRecord::Migration
             t.skr_reference :customer_project, single: true
             t.references    :lanes_user,  null: false, index: true, foreign_key: true
             t.boolean       :is_invoiced, null: false, default: false
+            t.jsonb         :options,     null: false, default:  {}
             t.datetime      :start_at,    null: false
             t.datetime      :end_at,      null: false
             t.text          :description, null: false
