@@ -9,7 +9,7 @@ class Skr.Screens.Invoice extends Skr.Screens.Base
         invoice: ->
             @loadOrCreateModel({
                 syncOptions: @syncOptions, klass: Skr.Models.Invoice,
-                prop: 'invoice', attribute: 'visual_id'
+                prop: 'invoice', attribute: 'visible_id'
             })
 
     getInitialState: ->
