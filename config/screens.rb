@@ -17,6 +17,17 @@ Lanes::Screen.define_group 'customer' do | group |
 end
 
 Lanes::Screen.for_extension 'skr' do | screens |
+
+    # System Settings
+    screens.define "fresh-books-import" do | screen |
+        screen.title       = "Fresh Books Import"
+        screen.description = ""
+        screen.icon        = "cloud-download"
+        screen.group_id    = "system-settings"
+        screen.model_class = "Invoice"
+        screen.view_class  = "FreshBooksImport"
+    end
+
     screens.define "locations" do | screen |
         screen.title       = "Locations"
         screen.description = ""

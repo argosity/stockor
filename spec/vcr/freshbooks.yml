@@ -1,0 +1,698 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://ba6642fa8d9b99e113ce0e5a1bf66de0:X@testermctest-billing.freshbooks.com/api/2.1/xml-in
+    body:
+      encoding: UTF-8
+      string: |
+        <?xml version="1.0" encoding="utf-8"?>
+        <request method="staff.list">
+          <per_page>25</per_page>
+          <page>1</page>
+        </request>
+    headers: {}
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Sun, 31 Jan 2016 16:41:44 GMT
+      Content-Type:
+      - application/xml; charset=utf-8
+      Content-Length:
+      - '1070'
+      Connection:
+      - keep-alive
+      Vary:
+      - Accept-Encoding
+      X-Frame-Options:
+      - SAMEORIGIN
+      P3p:
+      - 'CP="FreshBooks does not have a P3P policy. To see our privacy policy, go
+        here: http://www.freshbooks.com/policies/privacy"'
+      Strict-Transport-Security:
+      - max-age=31536000
+    body:
+      encoding: UTF-8
+      string: |
+        <?xml version="1.0" encoding="utf-8"?>
+        <response xmlns="http://www.freshbooks.com/api/" status="ok">
+          <staff_members page="1" per_page="25" pages="1" total="1">
+            <member>
+              <username>testermctest@argosity.com</username>
+              <first_name>Testing</first_name>
+              <last_name>Tester</last_name>
+              <email>testermctest@argosity.com</email>
+              <business_phone></business_phone>
+              <mobile_phone></mobile_phone>
+              <home_phone></home_phone>
+              <fax></fax>
+              <rate></rate>
+              <last_login>2016-01-30 13:50:33</last_login>
+              <number_of_logins>4</number_of_logins>
+              <signup_date>2016-01-26 10:27:04</signup_date>
+              <street1></street1>
+              <street2></street2>
+              <city></city>
+              <state></state>
+              <country></country>
+              <code></code>
+              <notes></notes>
+              <projects>
+                <project>
+                  <project_id>2020</project_id>
+                </project>
+                <project>
+                  <project_id>2022</project_id>
+                </project>
+              </projects>
+              <staff_id>1</staff_id>
+            </member>
+          </staff_members>
+        </response>
+    http_version: 
+  recorded_at: Sun, 31 Jan 2016 16:41:44 GMT
+- request:
+    method: post
+    uri: https://ba6642fa8d9b99e113ce0e5a1bf66de0:X@testermctest-billing.freshbooks.com/api/2.1/xml-in
+    body:
+      encoding: UTF-8
+      string: |
+        <?xml version="1.0" encoding="utf-8"?>
+        <request method="client.list">
+          <per_page>25</per_page>
+          <page>1</page>
+        </request>
+    headers: {}
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Sun, 31 Jan 2016 16:41:44 GMT
+      Content-Type:
+      - application/xml; charset=utf-8
+      Content-Length:
+      - '5271'
+      Connection:
+      - keep-alive
+      Vary:
+      - Accept-Encoding
+      X-Frame-Options:
+      - SAMEORIGIN
+      P3p:
+      - 'CP="FreshBooks does not have a P3P policy. To see our privacy policy, go
+        here: http://www.freshbooks.com/policies/privacy"'
+      Strict-Transport-Security:
+      - max-age=31536000
+    body:
+      encoding: UTF-8
+      string: |
+        <?xml version="1.0" encoding="utf-8"?>
+        <response xmlns="http://www.freshbooks.com/api/" status="ok">
+          <clients page="1" per_page="25" pages="1" total="3">
+            <client>
+              <client_id>27454</client_id>
+              <first_name></first_name>
+              <last_name></last_name>
+              <email>testermctest-3@argosity.com</email>
+              <username>khBDc4RWv8</username>
+              <home_phone></home_phone>
+              <mobile></mobile>
+              <contacts/>
+              <organization>ClientThree</organization>
+              <work_phone></work_phone>
+              <fax></fax>
+              <vat_name>False</vat_name>
+              <vat_number></vat_number>
+              <p_street1></p_street1>
+              <p_street2></p_street2>
+              <p_city></p_city>
+              <p_state></p_state>
+              <p_country></p_country>
+              <p_code></p_code>
+              <s_street1></s_street1>
+              <s_street2></s_street2>
+              <s_city></s_city>
+              <s_state></s_state>
+              <s_country></s_country>
+              <s_code></s_code>
+              <notes></notes>
+              <language>en</language>
+              <currency_code>USD</currency_code>
+              <folder>active</folder>
+              <updated>2016-01-29 23:12:07</updated>
+              <credits>
+                <credit currency="USD">0</credit>
+              </credits>
+              <credit currency="USD" deprecated="true">0</credit>
+              <url deprecated="true">https://testermctest-billing.freshbooks.com/view/x5e2EzVUMXiefdR</url>
+              <auth_url deprecated="true">https://testermctest-billing.freshbooks.com/clients/27454</auth_url>
+              <links>
+                <client_view>https://testermctest-billing.freshbooks.com/view/x5e2EzVUMXiefdR</client_view>
+                <view>https://testermctest-billing.freshbooks.com/clients/27454</view>
+                <statement>https://testermctest-billing.freshbooks.com/view/Vpgj8gjUTfccrVk</statement>
+              </links>
+              <notifications>
+                <late_payment_reminders>1</late_payment_reminders>
+              </notifications>
+            </client>
+            <client>
+              <client_id>15578</client_id>
+              <first_name>Client</first_name>
+              <last_name>Two</last_name>
+              <email>testermctest+client2@argosity.com</email>
+              <username>clienttwo</username>
+              <home_phone></home_phone>
+              <mobile></mobile>
+              <contacts/>
+              <organization>Organization Two</organization>
+              <work_phone></work_phone>
+              <fax></fax>
+              <vat_name></vat_name>
+              <vat_number></vat_number>
+              <p_street1></p_street1>
+              <p_street2></p_street2>
+              <p_city></p_city>
+              <p_state></p_state>
+              <p_country></p_country>
+              <p_code></p_code>
+              <s_street1></s_street1>
+              <s_street2></s_street2>
+              <s_city></s_city>
+              <s_state></s_state>
+              <s_country></s_country>
+              <s_code></s_code>
+              <notes></notes>
+              <language>en</language>
+              <currency_code>USD</currency_code>
+              <folder>active</folder>
+              <updated>2016-01-26 15:55:57</updated>
+              <credits>
+                <credit currency="USD">0</credit>
+              </credits>
+              <credit currency="USD" deprecated="true">0</credit>
+              <url deprecated="true">https://testermctest-billing.freshbooks.com/view/uCZvQ3qcsyJu5CN</url>
+              <auth_url deprecated="true">https://testermctest-billing.freshbooks.com/clients/15578</auth_url>
+              <links>
+                <client_view>https://testermctest-billing.freshbooks.com/view/uCZvQ3qcsyJu5CN</client_view>
+                <view>https://testermctest-billing.freshbooks.com/clients/15578</view>
+                <statement>https://testermctest-billing.freshbooks.com/view/9Q8GvWWjWyrWjWy</statement>
+              </links>
+              <notifications>
+                <late_payment_reminders>1</late_payment_reminders>
+              </notifications>
+            </client>
+            <client>
+              <client_id>14694</client_id>
+              <first_name>Client</first_name>
+              <last_name>One</last_name>
+              <email>testermctest+client1@argosity.com</email>
+              <username>clientone</username>
+              <home_phone></home_phone>
+              <mobile></mobile>
+              <contacts/>
+              <organization>Organization One</organization>
+              <work_phone></work_phone>
+              <fax></fax>
+              <vat_name></vat_name>
+              <vat_number></vat_number>
+              <p_street1></p_street1>
+              <p_street2></p_street2>
+              <p_city></p_city>
+              <p_state></p_state>
+              <p_country></p_country>
+              <p_code></p_code>
+              <s_street1></s_street1>
+              <s_street2></s_street2>
+              <s_city></s_city>
+              <s_state></s_state>
+              <s_country></s_country>
+              <s_code></s_code>
+              <notes></notes>
+              <language>en</language>
+              <currency_code>USD</currency_code>
+              <folder>active</folder>
+              <updated>2016-01-30 17:27:31</updated>
+              <credits>
+                <credit currency="USD">0</credit>
+              </credits>
+              <credit currency="USD" deprecated="true">0</credit>
+              <url deprecated="true">https://testermctest-billing.freshbooks.com/view/WCiyQr5mFsrtXhh</url>
+              <auth_url deprecated="true">https://testermctest-billing.freshbooks.com/clients/14694</auth_url>
+              <links>
+                <client_view>https://testermctest-billing.freshbooks.com/view/WCiyQr5mFsrtXhh</client_view>
+                <view>https://testermctest-billing.freshbooks.com/clients/14694</view>
+                <statement>https://testermctest-billing.freshbooks.com/view/3byqhHEC46HFW6Kz</statement>
+              </links>
+              <notifications>
+                <late_payment_reminders>1</late_payment_reminders>
+              </notifications>
+            </client>
+          </clients>
+        </response>
+    http_version: 
+  recorded_at: Sun, 31 Jan 2016 16:41:44 GMT
+- request:
+    method: post
+    uri: https://ba6642fa8d9b99e113ce0e5a1bf66de0:X@testermctest-billing.freshbooks.com/api/2.1/xml-in
+    body:
+      encoding: UTF-8
+      string: |
+        <?xml version="1.0" encoding="utf-8"?>
+        <request method="project.list">
+          <per_page>25</per_page>
+          <page>1</page>
+        </request>
+    headers: {}
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Sun, 31 Jan 2016 16:41:45 GMT
+      Content-Type:
+      - application/xml; charset=utf-8
+      Content-Length:
+      - '1553'
+      Connection:
+      - keep-alive
+      Vary:
+      - Accept-Encoding
+      X-Frame-Options:
+      - SAMEORIGIN
+      P3p:
+      - 'CP="FreshBooks does not have a P3P policy. To see our privacy policy, go
+        here: http://www.freshbooks.com/policies/privacy"'
+      Strict-Transport-Security:
+      - max-age=31536000
+    body:
+      encoding: UTF-8
+      string: |
+        <?xml version="1.0" encoding="utf-8"?>
+        <response xmlns="http://www.freshbooks.com/api/" status="ok">
+          <projects page="1" per_page="25" pages="1" total="2">
+            <project>
+              <project_id>2020</project_id>
+              <name>Project1</name>
+              <description></description>
+              <rate></rate>
+              <bill_method>staff-rate</bill_method>
+              <client_id>14694</client_id>
+              <project_manager_id>1</project_manager_id>
+              <external>0</external>
+              <tasks>
+                <task>
+                  <task_id>44612</task_id>
+                  <rate></rate>
+                </task>
+              </tasks>
+              <staff>
+                <staff>
+                  <staff_id>1</staff_id>
+                </staff>
+              </staff>
+              <contractors/>
+              <budget>
+                <hours>0</hours>
+              </budget>
+            </project>
+            <project>
+              <project_id>2022</project_id>
+              <name>Project2</name>
+              <description></description>
+              <rate></rate>
+              <bill_method>staff-rate</bill_method>
+              <client_id>14694</client_id>
+              <project_manager_id>1</project_manager_id>
+              <external>0</external>
+              <tasks>
+                <task>
+                  <task_id>44612</task_id>
+                  <rate></rate>
+                </task>
+                <task>
+                  <task_id>44613</task_id>
+                  <rate></rate>
+                </task>
+                <task>
+                  <task_id>44614</task_id>
+                  <rate></rate>
+                </task>
+              </tasks>
+              <staff>
+                <staff>
+                  <staff_id>1</staff_id>
+                </staff>
+              </staff>
+              <contractors/>
+              <budget>
+                <hours>0</hours>
+              </budget>
+            </project>
+          </projects>
+        </response>
+    http_version: 
+  recorded_at: Sun, 31 Jan 2016 16:41:45 GMT
+- request:
+    method: post
+    uri: https://ba6642fa8d9b99e113ce0e5a1bf66de0:X@testermctest-billing.freshbooks.com/api/2.1/xml-in
+    body:
+      encoding: UTF-8
+      string: |
+        <?xml version="1.0" encoding="utf-8"?>
+        <request method="time_entry.list">
+          <per_page>25</per_page>
+          <page>1</page>
+        </request>
+    headers: {}
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Sun, 31 Jan 2016 16:41:45 GMT
+      Content-Type:
+      - application/xml; charset=utf-8
+      Content-Length:
+      - '2701'
+      Connection:
+      - keep-alive
+      Vary:
+      - Accept-Encoding
+      X-Frame-Options:
+      - SAMEORIGIN
+      P3p:
+      - 'CP="FreshBooks does not have a P3P policy. To see our privacy policy, go
+        here: http://www.freshbooks.com/policies/privacy"'
+      Strict-Transport-Security:
+      - max-age=31536000
+    body:
+      encoding: UTF-8
+      string: |
+        <?xml version="1.0" encoding="utf-8"?>
+        <response xmlns="http://www.freshbooks.com/api/" status="ok">
+          <time_entries page="1" per_page="25" pages="1" total="7">
+            <time_entry>
+              <time_entry_id>7293</time_entry_id>
+              <staff_id>1</staff_id>
+              <project_id>2020</project_id>
+              <task_id>44612</task_id>
+              <hours>8</hours>
+              <date>2016-01-13</date>
+              <notes>FTP program is down, calculate the virtual transmitter so we can reboot the CSS panel</notes>
+              <billed>0</billed>
+            </time_entry>
+            <time_entry>
+              <time_entry_id>7292</time_entry_id>
+              <staff_id>1</staff_id>
+              <project_id>2022</project_id>
+              <task_id>44613</task_id>
+              <hours>2.8</hours>
+              <date>2016-01-07</date>
+              <notes>Use the redundant RSS feed, then you can reboot the haptic bus!</notes>
+              <billed>0</billed>
+            </time_entry>
+            <time_entry>
+              <time_entry_id>2434</time_entry_id>
+              <staff_id>1</staff_id>
+              <project_id>2020</project_id>
+              <task_id>44612</task_id>
+              <hours>8.75</hours>
+              <date>2016-01-06</date>
+              <notes>Try to compress the TCP array, maybe it will compress the back-end transmitter!</notes>
+              <billed>1</billed>
+            </time_entry>
+            <time_entry>
+              <time_entry_id>2433</time_entry_id>
+              <staff_id>1</staff_id>
+              <project_id>2020</project_id>
+              <task_id>44612</task_id>
+              <hours>8</hours>
+              <date>2016-01-05</date>
+              <notes>Use the bluetooth FTP firewall, then you can synthesize the open-source hard drive!</notes>
+              <billed>1</billed>
+            </time_entry>
+            <time_entry>
+              <time_entry_id>2432</time_entry_id>
+              <staff_id>1</staff_id>
+              <project_id>2020</project_id>
+              <task_id>44612</task_id>
+              <hours>8</hours>
+              <date>2016-01-04</date>
+              <notes>Transmit the haptic COM hard drive. Synthesize the transmitter, we can get to the EXE interface through the virtual AI sensor!"</notes>
+              <billed>0</billed>
+            </time_entry>
+            <time_entry>
+              <time_entry_id>2431</time_entry_id>
+              <staff_id>1</staff_id>
+              <project_id>2020</project_id>
+              <task_id>44612</task_id>
+              <hours>12</hours>
+              <date>2016-01-02</date>
+              <notes>The AI sensor is down, index the 1080p driver so we can bypass the PNG program!</notes>
+              <billed>1</billed>
+            </time_entry>
+            <time_entry>
+              <time_entry_id>2430</time_entry_id>
+              <staff_id>1</staff_id>
+              <project_id>2020</project_id>
+              <task_id>44612</task_id>
+              <hours>5</hours>
+              <date>2016-01-01</date>
+              <notes>hacking the alarm won't do anything, we need to back up the online IB driver!</notes>
+              <billed>0</billed>
+            </time_entry>
+          </time_entries>
+        </response>
+    http_version: 
+  recorded_at: Sun, 31 Jan 2016 16:41:45 GMT
+- request:
+    method: post
+    uri: https://ba6642fa8d9b99e113ce0e5a1bf66de0:X@testermctest-billing.freshbooks.com/api/2.1/xml-in
+    body:
+      encoding: UTF-8
+      string: |
+        <?xml version="1.0" encoding="utf-8"?>
+        <request method="invoice.list">
+          <per_page>25</per_page>
+          <page>1</page>
+        </request>
+    headers: {}
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Sun, 31 Jan 2016 16:41:46 GMT
+      Content-Type:
+      - application/xml; charset=utf-8
+      Content-Length:
+      - '6084'
+      Connection:
+      - keep-alive
+      Vary:
+      - Accept-Encoding
+      X-Frame-Options:
+      - SAMEORIGIN
+      P3p:
+      - 'CP="FreshBooks does not have a P3P policy. To see our privacy policy, go
+        here: http://www.freshbooks.com/policies/privacy"'
+      Strict-Transport-Security:
+      - max-age=31536000
+    body:
+      encoding: UTF-8
+      string: |
+        <?xml version="1.0" encoding="utf-8"?>
+        <response xmlns="http://www.freshbooks.com/api/" status="ok">
+          <invoices page="1" per_page="25" pages="1" total="1">
+            <invoice>
+              <invoice_id>00000010789</invoice_id>
+              <estimate_id></estimate_id>
+              <number>0000001</number>
+              <client_id>14694</client_id>
+              <contacts>
+                <contact>
+                  <contact_id>0</contact_id>
+                </contact>
+              </contacts>
+              <recurring_id></recurring_id>
+              <organization>Organization One</organization>
+              <first_name>Client</first_name>
+              <last_name>One</last_name>
+              <p_street1></p_street1>
+              <p_street2></p_street2>
+              <p_city></p_city>
+              <p_state></p_state>
+              <p_country></p_country>
+              <p_code></p_code>
+              <po_number></po_number>
+              <status>paid</status>
+              <amount>2198.75</amount>
+              <amount_outstanding>0.00</amount_outstanding>
+              <paid>2198.75</paid>
+              <date>2016-01-26 00:00:00</date>
+              <notes></notes>
+              <terms></terms>
+              <discount>0</discount>
+              <return_uri></return_uri>
+              <created_at>2016-01-26 16:20:18</created_at>
+              <updated>2016-01-30 17:27:30</updated>
+              <currency_code>USD</currency_code>
+              <language>en</language>
+              <vat_name></vat_name>
+              <vat_number></vat_number>
+              <folder>active</folder>
+              <staff_id>1</staff_id>
+              <lines>
+                <line>
+                  <line_id>1</line_id>
+                  <order>1</order>
+                  <name></name>
+                  <description></description>
+                  <unit_cost>0.00</unit_cost>
+                  <quantity>0</quantity>
+                  <amount>0.00</amount>
+                  <tax1_name></tax1_name>
+                  <tax2_name></tax2_name>
+                  <tax1_percent>0</tax1_percent>
+                  <tax2_percent>0</tax2_percent>
+                  <compound_tax>0</compound_tax>
+                  <type>Time</type>
+                </line>
+                <line>
+                  <line_id>2</line_id>
+                  <order>2</order>
+                  <name></name>
+                  <description></description>
+                  <unit_cost>0.00</unit_cost>
+                  <quantity>0</quantity>
+                  <amount>0.00</amount>
+                  <tax1_name></tax1_name>
+                  <tax2_name></tax2_name>
+                  <tax1_percent>0</tax1_percent>
+                  <tax2_percent>0</tax2_percent>
+                  <compound_tax>0</compound_tax>
+                  <type>Time</type>
+                </line>
+                <line>
+                  <line_id>3</line_id>
+                  <order>3</order>
+                  <name></name>
+                  <description></description>
+                  <unit_cost>0.00</unit_cost>
+                  <quantity>0</quantity>
+                  <amount>0.00</amount>
+                  <tax1_name></tax1_name>
+                  <tax2_name></tax2_name>
+                  <tax1_percent>0</tax1_percent>
+                  <tax2_percent>0</tax2_percent>
+                  <compound_tax>0</compound_tax>
+                  <type>Time</type>
+                </line>
+                <line>
+                  <line_id>4</line_id>
+                  <order>4</order>
+                  <name>General</name>
+                  <description>[Project1 01/02/16] Testing Tester: The AI sensor is down, index the 1080p driver so we can bypass the PNG program!</description>
+                  <unit_cost>85.00</unit_cost>
+                  <quantity>12</quantity>
+                  <amount>1020.00</amount>
+                  <tax1_name></tax1_name>
+                  <tax2_name></tax2_name>
+                  <tax1_percent>0</tax1_percent>
+                  <tax2_percent>0</tax2_percent>
+                  <compound_tax>0</compound_tax>
+                  <type>Time</type>
+                  <time_entries>
+                    <time_entry>
+                      <time_entry_id>2431</time_entry_id>
+                    </time_entry>
+                  </time_entries>
+                </line>
+                <line>
+                  <line_id>5</line_id>
+                  <order>5</order>
+                  <name>General</name>
+                  <description>[Project1 01/05/16] Testing Tester: Use the bluetooth FTP firewall, then you can synthesize the open-source hard drive!</description>
+                  <unit_cost>120.00</unit_cost>
+                  <quantity>8</quantity>
+                  <amount>960.00</amount>
+                  <tax1_name></tax1_name>
+                  <tax2_name></tax2_name>
+                  <tax1_percent>0</tax1_percent>
+                  <tax2_percent>0</tax2_percent>
+                  <compound_tax>0</compound_tax>
+                  <type>Time</type>
+                  <time_entries>
+                    <time_entry>
+                      <time_entry_id>2433</time_entry_id>
+                    </time_entry>
+                  </time_entries>
+                </line>
+                <line>
+                  <line_id>6</line_id>
+                  <order>6</order>
+                  <name>General</name>
+                  <description>[Project1 01/06/16] Testing Tester: Try to compress the TCP array, maybe it will compress the back-end transmitter!</description>
+                  <unit_cost>25.00</unit_cost>
+                  <quantity>8.75</quantity>
+                  <amount>218.75</amount>
+                  <tax1_name></tax1_name>
+                  <tax2_name></tax2_name>
+                  <tax1_percent>0</tax1_percent>
+                  <tax2_percent>0</tax2_percent>
+                  <compound_tax>0</compound_tax>
+                  <type>Time</type>
+                  <time_entries>
+                    <time_entry>
+                      <time_entry_id>2434</time_entry_id>
+                    </time_entry>
+                  </time_entries>
+                </line>
+                <line>
+                  <line_id>7</line_id>
+                  <order>7</order>
+                  <name></name>
+                  <description></description>
+                  <unit_cost>0.00</unit_cost>
+                  <quantity>0</quantity>
+                  <amount>0.00</amount>
+                  <tax1_name></tax1_name>
+                  <tax2_name></tax2_name>
+                  <tax1_percent>0</tax1_percent>
+                  <tax2_percent>0</tax2_percent>
+                  <compound_tax>0</compound_tax>
+                  <type>Time</type>
+                </line>
+              </lines>
+              <url deprecated="true">https://testermctest-billing.freshbooks.com/view/3wkcAkcbvg9ZFPmL</url>
+              <auth_url deprecated="true">https://testermctest-billing.freshbooks.com/invoices/10789</auth_url>
+              <links>
+                <client_view>https://testermctest-billing.freshbooks.com/view/3wkcAkcbvg9ZFPmL</client_view>
+                <view>https://testermctest-billing.freshbooks.com/invoices/10789</view>
+                <edit>https://testermctest-billing.freshbooks.com/invoices/10789/edit</edit>
+              </links>
+              <gateways/>
+            </invoice>
+          </invoices>
+        </response>
+    http_version: 
+  recorded_at: Sun, 31 Jan 2016 16:41:46 GMT
+recorded_with: VCR 3.0.0

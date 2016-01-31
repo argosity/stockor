@@ -1,5 +1,7 @@
-require_relative '../../lib/stockor'
+require 'skr'
 require 'lanes/spec_helper'
+require 'webmock/minitest'
+require 'vcr'
 
 class Lanes::TestCase
     include Skr
@@ -37,6 +39,18 @@ module StockorFixtureTestPatches
         end
         results
     end
+end
+
+VCR_OPTS = {
+    record: :all
+ #   record: :none
+}
+
+VCR.configure do |config|
+
+    config.cassette_library_dir = "spec/vcr"
+    config.hook_into :webmock
+    config.allow_http_connections_when_no_cassette = false
 end
 
 ActiveRecord::FixtureSet.send :include, StockorFixtureTestPatches

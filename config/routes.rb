@@ -48,5 +48,8 @@ Lanes::API.routes.for_extension 'skr' do
         print.output
     end
 
-    root { erb :lanes_root_view }
+    post 'fresh-books-imports.json',
+        &Skr::Handlers::FreshBooksImport.handler
+
+    root_view :lanes_root_view
 end

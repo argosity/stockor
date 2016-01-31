@@ -1,9 +1,10 @@
 GIT
   remote: git://github.com/argosity/lanes.git
-  revision: 34a96ad91052f1e3a1135bb8d8f2d56b02937564
+  revision: 41c1689ba195dd23f0087e68d127d93b5b1f7c76
   branch: master
   specs:
     lanes (0.1.9.5)
+      activejob (~> 4.2)
       activerecord (~> 4.2)
       bcrypt (~> 3.1)
       carrierwave (~> 0.10.0)
@@ -19,6 +20,7 @@ GIT
       guard-minitest (~> 2.3)
       hashie (~> 3.3)
       jasmine-core (~> 2.0)
+      jobba (~> 1.4)
       message_bus (= 2.0.0.beta.2)
       mini_magick (~> 4.3.6)
       minitest-around (~> 0.2)
@@ -29,7 +31,7 @@ GIT
       rack_csrf (~> 2.5)
       rake (~> 10.0)
       require_all (~> 1.3)
-      resque (~> 1.25.2)
+      resque (~> 1.25)
       sanitize (~> 3.0)
       sass (~> 3.4)
       sinatra (~> 1.4)
@@ -52,6 +54,9 @@ GEM
   specs:
     CFPropertyList (2.3.2)
     aasm (4.7.0)
+    activejob (4.2.5)
+      activesupport (= 4.2.5)
+      globalid (>= 0.3.0)
     activemodel (4.2.5)
       activesupport (= 4.2.5)
       builder (~> 3.1)
@@ -88,6 +93,8 @@ GEM
     compass-import-once (1.0.5)
       sass (>= 3.2, < 3.5)
     concurrent-ruby (1.0.0)
+    crack (0.4.2)
+      safe_yaml (~> 1.0.0)
     crass (1.0.2)
     erb_latex (0.2.0)
     excon (0.45.4)
@@ -209,6 +216,8 @@ GEM
       fog-core
       nokogiri (~> 1.5, >= 1.5.11)
     formatador (0.2.5)
+    globalid (0.3.6)
+      activesupport (>= 4.1.0)
     growl (1.0.3)
     guard (2.13.0)
       formatador (>= 0.2.4)
@@ -231,6 +240,7 @@ GEM
     guard-minitest (2.4.4)
       guard-compat (~> 1.2)
       minitest (>= 3.0)
+    hashdiff (0.2.3)
     hashie (3.4.3)
     httparty (0.13.7)
       json (~> 1.8)
@@ -244,6 +254,9 @@ GEM
       rack (>= 1.2.1)
       rake
     jasmine-core (2.4.1)
+    jobba (1.4.0)
+      redis (~> 3.2)
+      redis-namespace
     json (1.8.3)
     listen (3.0.5)
       rb-fsevent (>= 0.9.3)
@@ -314,14 +327,15 @@ GEM
     ruby-freshbooks (0.4.1)
       builder (>= 2.1.2)
       httparty (>= 0.5.0)
+    safe_yaml (1.0.4)
     sanitize (3.1.2)
       crass (~> 1.0.1)
       nokogiri (>= 1.4.4)
       nokogumbo (= 1.2.0)
     sass (3.4.21)
     shellany (0.0.1)
-    sinatra (1.4.6)
-      rack (~> 1.4)
+    sinatra (1.4.7)
+      rack (~> 1.5)
       rack-protection (~> 1.4)
       tilt (>= 1.3, < 3)
     slop (3.6.0)
@@ -336,8 +350,13 @@ GEM
     trollop (2.1.2)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
+    vcr (3.0.0)
     vegas (0.1.11)
       rack (>= 1.0.0)
+    webmock (1.22.3)
+      addressable (>= 2.3.6)
+      crack (>= 0.3.2)
+      hashdiff
     xml-simple (1.1.5)
     yui-compressor (0.12.0)
 
@@ -355,6 +374,8 @@ DEPENDENCIES
   puma
   rake
   stockor!
+  vcr (~> 3.0)
+  webmock (~> 1.22)
 
 BUNDLED WITH
    1.10.6

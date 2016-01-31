@@ -1,0 +1,34 @@
+.domain .value {
+    margin-top: 15px;
+}
+.job-progress {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.import-records {
+    .header {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+    h3 { margin: 0; }
+    td,th {
+        &:first-child {
+            width: 80px;
+            text-align: center;
+        }
+    }
+    .table-responsive {
+        overflow: visible;
+    }
+    table.staff {
+        td,th {
+            &:last-child {
+                width: 200px;
+            }
+        }
+    }
+}
