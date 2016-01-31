@@ -32,6 +32,8 @@ module Skr
             unless Sku.where(code: sku_data['code'].to_s).any?
                 glasset = GlAccount.where(number: sku_data.delete('gl_asset_account')).first
                 sku = Sku.new(sku_data)
+                sku.uoms << Uom.new(code: sku_data['default_uom_code'],
+                                    size:1, price: '0.0')
                 sku.gl_asset_account = glasset
                 sku.save!
             end
