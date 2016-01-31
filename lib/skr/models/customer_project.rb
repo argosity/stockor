@@ -1,6 +1,7 @@
 module Skr
 
     class CustomerProject < Model
+        has_code_identifier from: 'name'
 
         belongs_to :sku, export: true
         belongs_to :customer, export: true
