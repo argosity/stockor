@@ -117,9 +117,9 @@ module Skr
         def maybe_mark_paid
             return unless amount_paid_changed?
             if self.fully_paid? && self.may_mark_paid?
-                self.state_event = 'mark_paid'
+                self.mark_paid
             elsif self.amount_paid > 0 && self.may_mark_partial?
-                self.state_event = 'mark_partial'
+                self.mark_partial
             end
         end
 
@@ -132,7 +132,7 @@ module Skr
               owner: self, amount: change,
               debit: customer.gl_receivables_account, credit: GlAccount.default_for(:deposit_holding)
             )
-            fire_event( :amount_paid_change )
+            fire_pubsub_event( :amount_paid_change )
             true
         end
 
