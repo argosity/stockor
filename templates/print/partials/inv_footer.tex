@@ -1,11 +1,11 @@
 <% if @invoice.lines.other_charge.any? -%>
 % <% @invoice.lines.other_charge.each do | line | -%>
   \multicolumn{<%= @ncols-1%>}{r}{{<%=q line.description%>}} &
-  <%= '%0.2f' % line.price %> \\
+  <%= Skr::String.number_with_delimiter line.price %> \\
 <% end -%>
   \cline{<%= @ncols-3%>-<%= @ncols%>}
 <% end -%>
   \multicolumn{<%= @ncols-1%>}{r}{{\textbf{Total}}} &
-  \textbf{\textsuperscript{\$}<%= '%0.2f' % @invoice.total %>} \\
+  \textbf{\textsuperscript{\$}<%= Skr::String.number_with_delimiter @invoice.total %>} \\
   \cline{<%= @ncols-3%>-<%= @ncols%>}
 %  \hline
