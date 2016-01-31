@@ -27,6 +27,15 @@ module Skr
         YAML::load( seeds_path.join('payment_terms.yml').read ).each do | acct_data |
             PaymentTerm.where(code: acct_data['code'].to_s).any? || PaymentTerm.create!(acct_data)
         end
+
+        YAML::load( seeds_path.join('skus.yml').read ).each do | sku_data |
+            unless Sku.where(code: sku_data['code'].to_s).any?
+                glasset = GlAccount.where(number: sku_data.delete('gl_asset_account')).first
+                sku = Sku.new(sku_data)
+                sku.gl_asset_account = glasset
+                sku.save!
+            end
+        end
     end
 
 end

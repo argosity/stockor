@@ -1,0 +1,32 @@
+-
+  code: MISC
+  description: Miscellaneous Item
+  default_uom_code: EA
+  is_other_charge: false
+  does_track_inventory: false
+  gl_asset_account: 1110
+  can_backorder: false
+-
+  code: LABOR
+  description: Work performed
+  default_uom_code: HOUR
+  is_other_charge: false
+  does_track_inventory: false
+  gl_asset_account: 6200
+  can_backorder: false
+-
+  code: TAX
+  description: Sales Tax
+  is_other_charge: true
+  does_track_inventory: false
+  default_uom_code: EA
+  gl_asset_account: 1900
+  can_backorder: false
+-
+  code: SHIP
+  description: Sales Ship
+  is_other_charge: true
+  does_track_inventory: false
+  default_uom_code: EA
+  gl_asset_account: 6410
+  can_backorder: false
