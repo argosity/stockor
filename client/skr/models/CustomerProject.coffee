@@ -8,6 +8,7 @@ class Skr.Models.CustomerProject extends Skr.Models.Base
     props:
         id:           {"type":"integer" }
         code:         {"type":"code"    }
+        name:         {"type":"string"  }
         description:  {"type":"string"  }
         po_num:       {"type":"string"  }
         invoice_form: {"type":"string"  }

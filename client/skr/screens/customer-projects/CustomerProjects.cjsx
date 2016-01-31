@@ -61,7 +61,10 @@ class Skr.Screens.CustomerProjects extends Skr.Screens.Base
                         itemComponent={@ColorOption} />
                 </LC.FieldWrapper>
 
-                <LC.Input name="description" model={@project} sm=8 />
+                <LC.Input name="name" model={@project} sm=8 />
+            </BS.Row>
+            <BS.Row>
+                <LC.Input name="description" model={@project} sm=12 />
             </BS.Row>
 
         </LC.ScreenWrapper>
