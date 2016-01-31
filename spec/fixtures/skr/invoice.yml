@@ -1,6 +1,5 @@
-
 tiny:
-  visible_id: 1
+  visible_id: 1024
   customer: billy
   location: default
   sales_order: tiny
