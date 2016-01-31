@@ -1,3 +1,13 @@
+misc:
+  code: MISC
+  description: Miscellaneous Item
+  default_vendor: rump
+  gl_asset_account: inventory
+  default_uom_code: EA
+  is_other_charge: false
+  does_track_inventory: yes
+  can_backorder: no
+
 yarn:
   code: GLDYARN
   description: Yarn (golden)

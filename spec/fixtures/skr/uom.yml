@@ -1,3 +1,9 @@
+miscea:
+  code: EA
+  size: 1
+  sku: misc
+  price: 10
+
 gsea:
   code: EA
   size: 1
