@@ -11,7 +11,7 @@ module Skr
                 # setup the visible id to the next available #{Skr::SequentialId}
                 # @return [Integer] the assigned ID
                 def assign_visible_id!
-                    self.visible_id = Skr::SequentialId.next_for( self.class )
+                    self.visible_id ||= Skr::SequentialId.next_for( self.class )
                 end
             end
 
