@@ -58,13 +58,3 @@ module Skr
 
 
 end # Skr module
-
-
-__END__
-
-        def for_public(user=nil,options={})
-            as_json({
-                :only=>%w{ code size base_price },
-                :methods=>%w{ combined_uom dimensions volume }
-            })
-        end
