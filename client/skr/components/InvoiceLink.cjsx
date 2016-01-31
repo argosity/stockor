@@ -9,4 +9,4 @@ class Skr.Components.InvoiceLink extends Lanes.React.Component
                 .display(invoice: @props.invoice)
 
     render: ->
-        <a href='#' onClick={@onClick}>Invoice # {@props.invoice.visible_id}</a>
+        <a href='#' onClick={@onClick}>{@props.invoice.visible_id}</a>
