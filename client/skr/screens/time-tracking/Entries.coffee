@@ -63,7 +63,15 @@ class Skr.Screens.TimeTracking.Entries extends Lanes.Models.Base
 
     startEditing: (editingEvent) ->
         for event in @calEvents().events
-            event.set(editing: (event is editingEvent))
+            event.setEditing(event is editingEvent)
+
+    stopEditing: ->
+        for event in @calEvents().events when event.isEditing()
+            entry = event.get('entry')
+            if entry.isNew()
+                event.remove()
+            else
+                entry.setEditing(false)
 
     add: (attrs) ->
         attrs.customer_project = @project unless @project.id is -1

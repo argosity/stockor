@@ -17,6 +17,7 @@ class Skr.Screens.TimeTracking extends Skr.Screens.Base
         @entries.forward()
 
     onAddEntry: (ev, date) ->
+        @entries.stopEditing()
         rounded = Math.round( date.minute() / 15 ) * 15
         date.minute(rounded).second(0)
         entry = @entries.add(
