@@ -6,17 +6,17 @@ class TimeEntries extends Skr.Models.TimeEntry.Collection
     projectForEntry: (entry) ->
         @projects.get( entry.customer_project_id )
 
-    load: (range, query = {}) ->
+    loadEntries: (range, query = {}) ->
         query.end_at    = { op: 'gt', value: range.start.toISOString() }
         query.start_at  = { op: 'lt', value: range.end.toISOString() }
-        @fetch({query})
+        @fetch({query, reset: true})
 
-    reset: (projectId, range) ->
+    resetEntries: (projectId, range) ->
         @projectId = projectId
         query = if @projectId and @projectId isnt -1
             {customer_project_id: @projectId}
         else {}
-        @load(range, query)
+        @loadEntries(range, query)
 
 class Skr.Screens.TimeTracking.Entries extends Lanes.Models.Base
 
@@ -25,6 +25,8 @@ class Skr.Screens.TimeTracking.Entries extends Lanes.Models.Base
         display: { type: 'string', values: ['day', 'week', 'month'], default: 'week' }
         isLoading: { type: 'boolean', default: false }
         customer_project_id: 'integer'
+        editing: 'any'
+
 
     derived:
         project:
@@ -49,6 +51,7 @@ class Skr.Screens.TimeTracking.Entries extends Lanes.Models.Base
 
     events:
         'change:range': 'fetchEvents'
+        'change:display': 'onDisplayChange'
         'change:customer_project_id': 'fetchEvents'
 
     constructor: ->
@@ -73,9 +76,14 @@ class Skr.Screens.TimeTracking.Entries extends Lanes.Models.Base
             else
                 entry.setEditing(false)
 
-    add: (attrs) ->
-        attrs.customer_project = @project unless @project.id is -1
-        @entries.add(attrs)
+    addEvent: (date) ->
+        rounded = Math.round( date.minute() / 15 ) * 15
+        date.minute(rounded).second(0)
+        entry = @entries.add({
+            start_at: date, end_at: date.clone().add(2, 'hour')
+            customer_project: @project unless @project.id is -1
+        })
+        @calEvents().add( entry.toCalEvent() )
 
     onRequest: ->
         @isLoading = !!@entries.requestInProgress
@@ -87,21 +95,22 @@ class Skr.Screens.TimeTracking.Entries extends Lanes.Models.Base
         @trigger('change', @)
 
     reset: ->
-        @entries.load(@range)
+        @entries.loadEntries(@range.clone())
 
     fetchEvents: ->
-        @entries.reset(@customer_project_id, @range)
+        @entries.resetEntries(@customer_project_id, @range)
 
     calEvents: ->
         @_cachedEvents ||= new LC.Calendar.Events( @entries.invoke('toCalEvent') )
 
     back: ->
-        @date = @date.clone().subtract(1, @display)
-        @trigger('change', @)
+        @set(editing: false, date: @date.clone().subtract(1, @display) )
 
     forward: ->
-        @date = @date.clone().add(1, @display)
-        @trigger('change', @)
+        @set(editing: false, date: @date.clone().add(1, @display) )
+
+    onDisplayChange: ->
+        @editing = false
 
     totalHours: ->
         @entries.reduce( (sum, entry) =>

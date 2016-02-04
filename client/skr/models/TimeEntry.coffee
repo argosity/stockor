@@ -15,6 +15,11 @@ class Skr.Models.TimeEntry extends Skr.Models.Base
         }
         description:        {"type":"string", default: 'New Event'}
 
+    session:
+        hours: { "type":"bigdec" }
+
+
+
     associations:
         customer_project: { model: "CustomerProject" }
 
@@ -26,14 +31,26 @@ class Skr.Models.TimeEntry extends Skr.Models.Base
             this.range.end.diff(this.range.start, 'hour', true).toFixed(2) +
                 " hours: " + @description
 
+    initialize: ->
+        @updateHours() if @start_at and @end_at
+
     events:
-        'change:end_at': 'onEndChange'
-        'change:start_at': 'onStartChange'
+        'change:end_at'   : 'onEndChange'
+        'change:start_at' : 'onStartChange'
+        'change:hours'    : 'onHoursChange'
 
     onEndChange: (te, val) ->
         @start_at = _.moment(@end_at).add(1, 'hour') if @start_at > @end_at
+        @updateHours()
     onStartChange: (te, val) ->
         @end_at = _.moment(@start_at).add(1, 'hour') if @start_at > @end_at
+        @updateHours()
+
+    updateHours: ->
+        @set('hours', _.moment(this.end_at).diff(this.start_at, 'hour', true).toFixed(2),
+            silent: true)
+    onHoursChange: ->
+        @end_at = _.moment(@start_at).add(@hours.toFixed(), 'hour').toDate()
 
     length: (duration = 'hour') ->
         @range.end.diff(@range.start, duration, true)

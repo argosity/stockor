@@ -1,6 +1,26 @@
 @import "lanes/screens/styles";
 
 .time-tracking {
+    position: relative;
+
+    .edit-control {
+
+        .mini-controls {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            .l {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-end;
+            }
+        }
+        &.left {
+            .mini-controls {
+                flex-direction: row-reverse;
+            }
+        }
+    }
 
     .calendar-header {
         display: flex;
@@ -90,7 +110,6 @@
     }
 
     .popover {
-        width: 400px;
         .controls {
             border-top: 2px solid lightgrey;
             padding-top: 1rem;
