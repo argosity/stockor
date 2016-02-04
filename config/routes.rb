@@ -51,5 +51,5 @@ Lanes::API.routes.for_extension 'skr' do
     post 'fresh-books-imports.json',
         &Skr::Handlers::FreshBooksImport.handler
 
-    root_view :lanes_root_view
+
 end

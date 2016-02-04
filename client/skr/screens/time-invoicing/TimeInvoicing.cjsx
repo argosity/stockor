@@ -131,7 +131,7 @@ class InvoiceRequest extends Lanes.Models.Base
         time_entry_ids: { type: 'array', default: -> [] }
 
     api_path: ->
-        'skr/invoices/from-time-entries'
+        'invoices/from-time-entries'
 
     associations:
         customer_project: { model: "CustomerProject", autoCreate: true }
