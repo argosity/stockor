@@ -1,0 +1,13 @@
+\medskip
+\begingroup
+\renewcommand{\arraystretch}{1.5}
+\begin{tabu} to \textwidth { | *{3}{X[l]|} *{3}{l|}  }
+\hline
+<% unless @sales_order.po_num.blank? -%>
+       PO \#:  <%=q @sales_order.po_num %> &
+<% end -%>
+  Terms: <%=q @sales_order.terms.code %> &
+  Due Date:  <%= @sales_order.terms.immediate? ? 'Upon Receipt of Goods' : @sales_order.due_date %> \\
+  \hline
+\end{tabu}
+\endgroup

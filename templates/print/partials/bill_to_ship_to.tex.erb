@@ -1,0 +1,13 @@
+\noindent\begin{tabu} to\linewidth{X[pc]X[pc]}
+\multicolumn{1}{l}{\textbf{Bill To:}} & \multicolumn{1}{l}{\textbf{Ship To:}}\\
+\parbox{115\unitlength}{
+  <%=partial 'address.tex', address: @record.billing_address %>
+} &
+  \parbox{115\unitlength}{
+    %<% if @record.shipping_address.blank? %>
+\emph{Same as Billing}
+%<% else %>
+<%=partial 'address.tex', address: @record.shipping_address %>
+%<% end %>
+} \\
+\end{tabu}
