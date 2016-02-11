@@ -44,8 +44,8 @@ Lanes::API.routes.for_extension 'skr' do
 
     get 'print/:type/:id.pdf' do
         content_type 'application/pdf'
-        print = Skr::Print::PDF.new(params[:type], params[:id])
-        print.output
+        form = Skr::Print::Form.new(params[:type], params[:id])
+        form.as_pdf
     end
 
     post 'fresh-books-imports.json',
