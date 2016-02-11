@@ -85,7 +85,7 @@ module Skr
             ret << ', ' + postal_code.to_s unless postal_code.blank?
             include = [ *include ]
             if include.any?
-                ret << "\n" + include.map{ | field | self[ field ] }.join(' ')
+                ret << "\n" + include.map{ | field | self[ field ] }.join("\n")
             end
             ret
         end
