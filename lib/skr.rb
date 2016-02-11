@@ -5,6 +5,7 @@ require_relative "skr/version"
 require_relative "skr/extension"
 require_rel "skr/configuration"
 require_relative "skr/string"
+require_relative "skr/number"
 
 # The main namespace for Skr
 module Skr
