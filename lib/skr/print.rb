@@ -2,7 +2,7 @@ require 'erb_latex'
 # need ordinalize
 require 'active_support/core_ext/integer/inflections'
 require_relative 'print/template'
-require_relative 'print/pdf'
+require_relative 'print/form'
 
 module Skr
     module Print

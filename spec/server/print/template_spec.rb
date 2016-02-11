@@ -20,14 +20,14 @@ class PrintTemplateSpec < Skr::TestCase
     describe 'path' do
 
         it 'defaults to "default"' do
-            assert_equal Skr::Print::ROOT.join('types','sales_order','default.tex'),
+            assert_equal Skr::Print::ROOT.join('types','sales_order','default.tex.erb'),
                          template.path_for_record(Skr::SalesOrder.first)
         end
 
         it 'defaults to default if form doesnt exist' do
             so = Skr::SalesOrder.first
             so.form = 'a-custom-form'
-            assert_equal Skr::Print::ROOT.join('types','sales_order','default.tex'),
+            assert_equal Skr::Print::ROOT.join('types','sales_order','default.tex.erb'),
                          template.path_for_record(so)
         end
 

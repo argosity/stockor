@@ -1,8 +1,12 @@
 \documentclass[letterpaper]{article}
 \usepackage{tabu}
+\usepackage{tabularx}
+\usepackage{calc}
+\usepackage{multirow}
 \usepackage{booktabs}
 \usepackage{longtable}
-\usepackage{graphicx}
+\usepackage{graphbox}
+\usepackage{fancybox}
 \usepackage{marginnote}
 \hfuzz=5pt
 \usepackage{array}
@@ -12,13 +16,15 @@
     Creator={Stockor.com}
   }
 }
+\showboxdepth=\maxdimen
+\showboxbreadth=\maxdimen
 \usepackage{fancyhdr,lastpage}
-\usepackage[left=2cm,top=2cm,right=2cm,bottom=2.5cm]{geometry}
+% showframe to debug geometry
+\usepackage[includehead,includefoot, left=2cm, top=1cm, headheight=2.5cm,headsep=8pt, right=2cm, foot=18pt, bottom=1cm]{geometry}
 \newcolumntype{C}{>{\centering\arraybackslash}p{2cm}}
 \pagestyle{fancy}
 \fancyhf{}
-\setlength{\headheight}{2cm}
-\setlength{\headsep}{0.5cm}
+\renewcommand{\headrulewidth}{0pt}
 \setlength{\parindent}{0pt}
 % begin body
 <%= yield %>

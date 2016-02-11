@@ -1,6 +1,6 @@
 <% if @lines.any? -%>
 <% @lines.each do | line | %>
-<%= partial 'inv_line.tex', line: line -%>
+<%= partial 'inv_line', line: line -%>
 <% end -%>
   \multicolumn{<%= @ncols-1%>}{r}{{\textbf{<%= "#{@title} SubTotal" %>}}} &
   \textbf{<%= Skr::String.number_with_delimiter % @lines.sum(&:extended_price) %>} \\

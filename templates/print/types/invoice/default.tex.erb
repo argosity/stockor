@@ -4,6 +4,5 @@
   form_title: "Invoice # #{@invoice.visible_id}"
 } ) %>
 <%= partial 'bill_to_ship_to', record: @invoice %>
-
-<%=partial 'inv_lines.tex', invoice: @invoice, lines: @invoice.lines.regular %>
+<%=partial 'inv_lines', invoice: @invoice, lines: @invoice.lines.regular %>
 \end{document}

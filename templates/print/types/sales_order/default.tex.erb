@@ -6,15 +6,15 @@
 <%= partial 'bill_to_ship_to', record: so %>
 % <% ncols = 6 %>
 \vskip\medskipamount
-<%=partial 'so_info_line', sales_order: so -%>
+<%=partial 'sku_lines_col_hdr', sales_order: so -%>
 \vskip-\baselineskip
 {\tabulinesep 0.2cm
 \noindent\begin{longtabu} to \textwidth {lX<%='c'*(ncols-4) %>rr}
-<%= partial 'so_hdr.tex' %>
+<%= partial 'so_hdr' %>
 \hline
   \endfirsthead
   \multicolumn{<%=ncols%>}{l}{...continued from previous page} \\
-<%= partial 'so_hdr.tex' %>
+<%= partial 'so_hdr' %>
   \endhead
   \hline
   \multicolumn{<%=ncols%>}{r}{Continued on next page...} \\

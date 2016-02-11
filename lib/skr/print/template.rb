@@ -10,7 +10,9 @@ module Skr
                     @path.basename.to_s
                 end
                 def choices
-                    Pathname.glob(@path.join('*.tex')).map{|pn| pn.basename('.tex').to_s}
+                    Pathname.glob(@path.join('*.tex.erb')).map{|pn|
+                        pn.basename('.tex.erb').to_s
+                    }
                 end
                 def model
                     "skr/#{name}".classify.constantize

@@ -2,7 +2,7 @@
 groups = []
 groups.push(
   { title: 'Labor', lines: @invoice.lines.time_entry,
-    footer: 'inv_lines_labor_group_footer.tex' }
+    footer: 'inv_lines_labor_group_footer' }
 ) if @invoice.lines.time_entry.any?
 groups.push(
   { title: 'Non Labor', lines: @invoice.lines.product }
@@ -17,10 +17,10 @@ groups.push(
 \textbf{Invoice To:}
 \medskip
 \hspace*{3ex}{
-  <%=partial 'address.tex', :address=>@invoice.billing_address %>
+<%=partial 'address', :address=>@invoice.billing_address %>
 \medskip
-<%=partial 'inv_info_line.tex', invoice: @invoice -%>
-<%=partial 'inv_lines.tex', invoice: @invoice, lines: @invoice.lines.regular,
-    footer: groups.many? ? false : 'labor_lines_footer.tex',
+<%=partial 'inv_info_line', invoice: @invoice -%>
+<%=partial 'inv_lines', invoice: @invoice, lines: @invoice.lines.regular,
+    footer: groups.many? ? false : 'labor_lines_footer',
     groups: groups.many? ? groups : false %>
 \end{document}
