@@ -1,36 +1,9 @@
 \begin{document}
-<%= partial( 'lhead.tex', { :location => @invoice.location } ) %>
-\rhead{
-  \renewcommand\arraystretch{1.3}
-  \raisebox{.8\height}{
-    \begin{tabular} {rc}
-      \hline
-      \multicolumn{2}{|c|}{\textbf{\large Invoice \# <%= @invoice.visible_id %>}} \\
-          \hline
-%<% if @invoice.sales_order %>
-          Order \# & <%=q @invoice.sales_order.visible_id %> \\
-          \hline
-%<% end %>
-          Date & <%=q @invoice.created_at.strftime('%F') %> \\
-          \hline
-          Page & \thepage{} of \pageref{LastPage} \\
-    \end{tabular}
-      }}
-      %
-      \setlength{\headheight}{1.25in}
-      \noindent\begin{tabu} to\linewidth{X[pc]X[pc]}
-      \multicolumn{1}{l}{\textbf{Bill To:}} & \multicolumn{1}{l}{\textbf{Ship To:}}\\
-      \parbox{115\unitlength}{
-        <%=partial 'address.tex', :address=>@invoice.billing_address %>
-      } &
-      \parbox{115\unitlength}{
-        %<% if @invoice.shipping_address.blank? %>
-        \emph{Same as Billing}
-        %<% else %>
-        <%=partial 'address.tex', :address=>@invoice.shipping_address %>
-        %<% end %>
-      } \\
-      \end{tabu}
-%
+<%= partial( 'header', {
+  location: @invoice.location, date: @invoice.invoice_date,
+  form_title: "Invoice # #{@invoice.visible_id}"
+} ) %>
+<%= partial 'bill_to_ship_to', record: @invoice %>
+
 <%=partial 'inv_lines.tex', invoice: @invoice, lines: @invoice.lines.regular %>
 \end{document}
