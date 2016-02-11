@@ -1,9 +1,11 @@
 require_relative '../spec_helper'
 
-class FormSpec < Skr::TestCase
+class PrintSpec < Skr::TestCase
 
+    # for debugging add a generate(pdf) to one of the specs
     def generate(pdf)
         begin
+            File.open('/tmp/skr-test.tex', 'w'){|f| f.write pdf.as_latex    }
             File.open('/tmp/skr-test.pdf', 'w'){|f| f.write pdf.as_pdf.read }
         rescue ErbLatex::LatexError=>e
             puts e.log.gsub(/^\*\n/,'')
@@ -22,7 +24,6 @@ class FormSpec < Skr::TestCase
         inv = skr_invoice(:tiny)
         assert inv.update_attributes form: 'labor'
         pdf = Skr::Print::Form.new('invoice', inv.hash_code)
-        generate pdf
         assert pdf.as_latex
     end
 
