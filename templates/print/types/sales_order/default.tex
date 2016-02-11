@@ -1,35 +1,13 @@
 % <% so = @sales_order %>
 \begin{document}
-<%= partial( 'lhead.tex', { :location => so.location } ) %>
-\rhead{
-  \renewcommand\arraystretch{1.3}
-  \raisebox{.8\height}{
-    \begin{tabular} {rc}
-      \hline
-      \multicolumn{2}{|c|}{\textbf{\large Sales Order \# <%= so.visible_id %>}} \\
-          \hline
-          Date & <%=q so.created_at.strftime('%F') %> \\
-          \hline
-          Page & \thepage{} of \pageref{LastPage} \\
-    \end{tabular}
-      }}
-      %
-      \setlength{\headheight}{1.25in}
-      \noindent\begin{tabu} to\linewidth{X[pc]X[pc]}
-      \multicolumn{1}{l}{\textbf{Bill To:}} & \multicolumn{1}{l}{\textbf{Ship To:}}\\
-      \parbox{115\unitlength}{
-        <%=partial 'address.tex', :address=>so.billing_address %>
-      } &
-      \parbox{115\unitlength}{
-        %<% if so.shipping_address.blank? %>
-        \emph{Same as Billing}
-        %<% else %>
-        <%=partial 'address.tex', :address=>so.shipping_address %>
-        %<% end %>
-      } \\
-      \end{tabu}
-%
+<%= partial( 'header', {
+  location: so.location, date: so.order_date, form_title: "Sales Order # #{so.visible_id}"
+} ) %>
+<%= partial 'bill_to_ship_to', record: so %>
 % <% ncols = 6 %>
+\vskip\medskipamount
+<%=partial 'so_info_line', sales_order: so -%>
+\vskip-\baselineskip
 {\tabulinesep 0.2cm
 \noindent\begin{longtabu} to \textwidth {lX<%='c'*(ncols-4) %>rr}
 <%= partial 'so_hdr.tex' %>
