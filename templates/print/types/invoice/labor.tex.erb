@@ -8,7 +8,6 @@ groups.push(
   { title: 'Non Labor', lines: @invoice.lines.product }
 ) if @invoice.lines.product.any?
 -%>
-\setlength{\LTpre}{0pt}
 \begin{document}
 <%= partial( 'header', {
   location: @invoice.location, date: @invoice.invoice_date,
