@@ -1,0 +1,13 @@
+\lhead{
+  \begin{tabularx}{\textwidth} {lXr}
+    %<% if @location.get_logo.present? %>
+\raisebox{1mm}{\includegraphics[align=t,height=18mm,width=80mm,keepaspectratio]{<%= @location.get_logo.file.path %>}}
+  %<% end %>
+& \small <%= break_lines @location.address.to_s(include: [:email,:phone]) -%>
+& \raisebox{-6.5mm}{{\begin{tabularx}{4cm}{Xr}
+      \multicolumn{2}{c}{\Ovalbox{\parbox[c]{4cm}{\centering\bf <%=q @form_title %>}}} \\[2mm]
+  Date: & <%=q @date.strftime("%b #{Skr::Number.ordinalize(@date.day)}, %Y") %> \\[1mm]
+ Page: & \thepage{} of \pageref{LastPage} \\
+ \end{tabularx}}} \\
+\end{tabularx}
+}
