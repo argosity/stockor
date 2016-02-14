@@ -13,6 +13,10 @@ module Skr
 
         has_one :inv_line, inverse_of: :time_entry, listen: { create: :mark_as_invoiced }
 
+        export_sort :hours do | q, dir |
+            q.order("end_at-start_at #{dir}")
+        end
+
         def hours
             (end_at - start_at) / 1.hour
         end
