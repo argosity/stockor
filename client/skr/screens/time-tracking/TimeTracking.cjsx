@@ -47,7 +47,7 @@ class Skr.Screens.TimeTracking extends Skr.Screens.Base
         <div className="monthly-totals">{@entries.totalHours().toFixed(2)}</div>
 
     render: ->
-        <LC.ScreenWrapper identifier="time-tracking">
+        <LC.ScreenWrapper identifier="time-tracking" flexVertical>
             <Skr.Screens.TimeTracking.Popover entries={@entries} {...@entries.editing} />
             <LC.NetworkActivityOverlay visible={@entries.isLoading} model={@entries}/>
             <Skr.Screens.TimeTracking.Header entries={@entries} />

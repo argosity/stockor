@@ -19,7 +19,7 @@ class Skr.Screens.Invoice extends Skr.Screens.Base
         @invoice.setFromSalesOrder(so)
 
     render: ->
-        <LC.ScreenWrapper identifier="invoice">
+        <LC.ScreenWrapper identifier="invoice" flexVertical>
             <Lanes.Screens.CommonComponents commands={@state.commands} />
             <BS.Row>
                 <SC.InvoiceFinder ref='finder' editOnly sm=3 xs=6

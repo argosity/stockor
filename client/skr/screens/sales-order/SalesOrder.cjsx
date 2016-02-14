@@ -14,7 +14,7 @@ class Skr.Screens.SalesOrder extends Lanes.React.Screen
         commands: new Lanes.Screens.Commands(this, modelName: 'sales_order', print: true)
 
     render: ->
-        <LC.ScreenWrapper identifier="sales-order">
+        <LC.ScreenWrapper identifier="sales-order" flexVertical>
             <Lanes.Screens.CommonComponents commands={@state.commands} />
             <BS.Row>
                 <SC.SalesOrderFinder ref='finder' sm=2 editOnly

@@ -77,8 +77,7 @@ class Skr.Screens.TimeInvoicing extends Skr.Screens.Base
         entry.set({customer_project: @request.customer_project})
 
     render: ->
-
-        <LC.ScreenWrapper identifier="customer-projects">
+        <LC.ScreenWrapper identifier="customer-projects" flexVertical>
             <BS.Nav className="lanes-toolbar">
                 <div className="spacer"/>
                 <BS.Button navItem componentClass="button"}
