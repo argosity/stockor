@@ -42,7 +42,7 @@ class Skr.Components.SkuLines extends Lanes.React.Component
             }
             <SC.SkuFinder
                 setSelection={@onSkuChange}
-                model={model}
+                name='sku' model={model}
                 selectField unstyled syncOptions={options} />
 
         uom: ({model}) ->
