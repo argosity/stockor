@@ -36,15 +36,16 @@ class Skr.Screens.TimeInvoicing extends Skr.Screens.Base
         rate = @request.customer_project.rates?.hourly
         return unless rate # the first call is when the model isn't parsed yet
         @query.results.eachRow (row, xd) ->
-            return if xd and not xd.selected
-            total = total.add( hoursForRow(row) * rate )
+            unless xd && false == xd.selected
+                total = total.add( hoursForRow(row) * rate )
         @setState(total: total )
 
     editors: ->
         selected:  ({query, rowIndex}) ->
             x = query.results.xtraData(rowIndex)
-            <input type="checkbox" defaultChecked={x.selected}
-                onChange={-> x.selected = ev.target.checked} />
+            selected = false != x.selected
+            <input type="checkbox" defaultChecked={selected}
+                onChange={(ev) -> x.selected = ev.target.checked} />
 
     onModelSet: (project) ->
         @request.set(customer_project: project)
