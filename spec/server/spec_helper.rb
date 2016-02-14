@@ -42,8 +42,7 @@ module StockorFixtureTestPatches
 end
 
 VCR_OPTS = {
-    record: :all
- #   record: :none
+    record: :none
 }
 
 VCR.configure do |config|

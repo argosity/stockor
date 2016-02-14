@@ -20,7 +20,7 @@ http_interactions:
       Server:
       - nginx
       Date:
-      - Sun, 31 Jan 2016 16:41:44 GMT
+      - Sun, 14 Feb 2016 03:03:08 GMT
       Content-Type:
       - application/xml; charset=utf-8
       Content-Length:
@@ -75,7 +75,7 @@ http_interactions:
           </staff_members>
         </response>
     http_version: 
-  recorded_at: Sun, 31 Jan 2016 16:41:44 GMT
+  recorded_at: Sun, 14 Feb 2016 03:03:08 GMT
 - request:
     method: post
     uri: https://ba6642fa8d9b99e113ce0e5a1bf66de0:X@testermctest-billing.freshbooks.com/api/2.1/xml-in
@@ -96,7 +96,7 @@ http_interactions:
       Server:
       - nginx
       Date:
-      - Sun, 31 Jan 2016 16:41:44 GMT
+      - Sun, 14 Feb 2016 03:03:09 GMT
       Content-Type:
       - application/xml; charset=utf-8
       Content-Length:
@@ -259,7 +259,7 @@ http_interactions:
           </clients>
         </response>
     http_version: 
-  recorded_at: Sun, 31 Jan 2016 16:41:44 GMT
+  recorded_at: Sun, 14 Feb 2016 03:03:09 GMT
 - request:
     method: post
     uri: https://ba6642fa8d9b99e113ce0e5a1bf66de0:X@testermctest-billing.freshbooks.com/api/2.1/xml-in
@@ -280,7 +280,7 @@ http_interactions:
       Server:
       - nginx
       Date:
-      - Sun, 31 Jan 2016 16:41:45 GMT
+      - Sun, 14 Feb 2016 03:03:09 GMT
       Content-Type:
       - application/xml; charset=utf-8
       Content-Length:
@@ -363,7 +363,7 @@ http_interactions:
           </projects>
         </response>
     http_version: 
-  recorded_at: Sun, 31 Jan 2016 16:41:45 GMT
+  recorded_at: Sun, 14 Feb 2016 03:03:09 GMT
 - request:
     method: post
     uri: https://ba6642fa8d9b99e113ce0e5a1bf66de0:X@testermctest-billing.freshbooks.com/api/2.1/xml-in
@@ -384,7 +384,7 @@ http_interactions:
       Server:
       - nginx
       Date:
-      - Sun, 31 Jan 2016 16:41:45 GMT
+      - Sun, 14 Feb 2016 03:03:10 GMT
       Content-Type:
       - application/xml; charset=utf-8
       Content-Length:
@@ -479,7 +479,7 @@ http_interactions:
           </time_entries>
         </response>
     http_version: 
-  recorded_at: Sun, 31 Jan 2016 16:41:45 GMT
+  recorded_at: Sun, 14 Feb 2016 03:03:10 GMT
 - request:
     method: post
     uri: https://ba6642fa8d9b99e113ce0e5a1bf66de0:X@testermctest-billing.freshbooks.com/api/2.1/xml-in
@@ -500,7 +500,7 @@ http_interactions:
       Server:
       - nginx
       Date:
-      - Sun, 31 Jan 2016 16:41:46 GMT
+      - Sun, 14 Feb 2016 03:03:10 GMT
       Content-Type:
       - application/xml; charset=utf-8
       Content-Length:
@@ -694,5 +694,5 @@ http_interactions:
           </invoices>
         </response>
     http_version: 
-  recorded_at: Sun, 31 Jan 2016 16:41:46 GMT
-recorded_with: VCR 3.0.0
+  recorded_at: Sun, 14 Feb 2016 03:03:11 GMT
+recorded_with: VCR 3.0.1
