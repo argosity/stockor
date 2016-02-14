@@ -1,8 +1,7 @@
-/*
- If your screen does not use any custom styles
+.time-invoicing {
 
- You should remove this file and it's reference from config/screens.rb
+    .btn.toggle {
+        margin-left: 10px;
+    }
 
- Otherwise Lanes will continue to fetch an empty file whenever
- the screen is displayed
-*/
+}

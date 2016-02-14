@@ -76,9 +76,20 @@ class Skr.Screens.TimeInvoicing extends Skr.Screens.Base
 
     setNewEntriesProject: (entry) ->
         entry.set({customer_project: @request.customer_project})
+    onSelectAll: ->
+        rs = @query.results
+        rs.eachRow (row) ->
+            xd = rs.xtraData(row)
+            xd.selected = false == xd.selected
+        @query.changeCount++
+    renderToggleAllButton: ->
+        return null if 0 is @query.results.length
+        <BS.Button className="navbar-btn toggle" onClick={@onSelectAll} bsSize='small'>
+            <LC.Icon type="check-square-o" />Toggle
+        </BS.Button>
 
     render: ->
-        <LC.ScreenWrapper identifier="customer-projects" flexVertical>
+        <LC.ScreenWrapper identifier="time-invoicing" flexVertical>
             <BS.Nav className="lanes-toolbar">
                 <div className="spacer"/>
                 <BS.Button navItem componentClass="button"}
@@ -94,6 +105,7 @@ class Skr.Screens.TimeInvoicing extends Skr.Screens.Base
             </BS.Row>
             <BS.Row className="flex-expand">
                 <LC.Grid query={@query}
+                    toolbarChildren={@renderToggleAllButton()}
                     commands={@state.commands}
                     autoLoadQuery={false}
                     expandY={true}
@@ -131,7 +143,7 @@ class InvoiceRequest extends Lanes.Models.Base
         time_entry_ids: { type: 'array', default: -> [] }
 
     api_path: ->
-        'invoices/from-time-entries'
+        'skr/invoices/from-time-entries'
 
     associations:
         customer_project: { model: "CustomerProject", autoCreate: true }
