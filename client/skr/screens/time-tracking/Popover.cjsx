@@ -4,7 +4,7 @@
 class Skr.Screens.TimeTracking.Popover extends Lanes.React.Component
 
     componentWillReceiveProps: (nextProps) ->
-        if @state.editing
+        if @state.editing and nextProps.editing is false
             @onCancel()
         else
             @setState(isCanceled: false)
@@ -46,7 +46,7 @@ class Skr.Screens.TimeTracking.Popover extends Lanes.React.Component
         classes = _.classnames('edit-control', 'in')
         {x, y} = @props.position
         [width, height] = if @state.editing
-            [320, 320]
+            [320, 350]
         else
             [175, 60]
 
