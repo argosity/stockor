@@ -24,9 +24,6 @@ class Skr.Screens.TimeTracking extends Skr.Screens.Base
     onEventClick: (ev, event) ->
         @showPopup(ev, event.start(), event)
 
-    editComponent: (props) ->
-        <Skr.Screens.TimeTracking.EditWrapper {...props} parent={this} />
-
     stopEdit: ->
         @entries.editing = false #setState(edit: false)
 
@@ -58,7 +55,6 @@ class Skr.Screens.TimeTracking extends Skr.Screens.Base
                     onDayClick={@onDayClick}
                     onEventResize={@onEventResize}
                     onEventClick={@onEventClick}
-                    editComponent={@editComponent}
                     date={@entries.date}
                     events={@entries.calEvents()}
                     display={@entries.display}
