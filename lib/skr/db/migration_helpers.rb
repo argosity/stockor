@@ -12,10 +12,8 @@ module Skr
             end
 
             def skr_visible_id
-                column( :visible_id, :integer,  :null=>false )
-                skr_extra_indexes['visible_id'] = {
-                    function: 'CAST(visible_id AS VARCHAR)'
-                }
+                column( :visible_id, :string,  :null=>false )
+                skr_extra_indexes['visible_id'] = {}
             end
 
             def skr_state
