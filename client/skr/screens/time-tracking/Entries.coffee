@@ -118,10 +118,8 @@ class Skr.Screens.TimeTracking.Entries extends Lanes.Models.Base
         , _.bigDecimal('0') )
 
     totalsForWeek: (week) ->
-        days = _.moment.range(
-            @range.start.clone().add(week - 1, 'week'),
-            @range.start.clone().add(week, 'week')
-        )
+        start = @range.start.clone().add(week - 1, 'week').startOf('week')
+        days = _.moment.range( start, start.clone().endOf('week') )
         entries = @entries.filter (entry) -> days.overlaps( entry.range )
         byProject = _.groupBy entries, (entry) -> entry.customer_project_id
         _.mapValues byProject, (entries, projectId) ->
