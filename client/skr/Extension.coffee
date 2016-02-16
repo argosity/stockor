@@ -5,6 +5,7 @@ class Skr.Extension extends Lanes.Extensions.Base
     # Data that is provided by lib/skr/extension.rb's
     # client_bootstrap_data method ends up here
     setBootstrapData: (data) ->
+        Lanes.Models.Query.LIKE_QUERY_TYPES.push 'visible_id'
         Skr.Models.GlAccount.initialize(
             accounts: data.gl_accounts
             default_ids: data.default_gl_account_ids,
