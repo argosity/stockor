@@ -14,8 +14,8 @@ class Transactions extends Skr.Models.Base
         fields: [
             { id: 'id', visible: false }
             { id: 'created_at', title: 'Date', format: Lanes.u.format.shartDate, fixedWidth: 100 }
-            { id: 'debit_details',  title: 'Debit',  render: RenderPosting }
-            { id: 'credit_details', title: 'Credit', render: RenderPosting }
+            { id: 'debit_details',  title: 'Debit',  component: RenderPosting }
+            { id: 'credit_details', title: 'Credit', component: RenderPosting }
             { id: 'source_type', fixedWidth: 180  }
             { id: 'description' }
         ]
@@ -39,7 +39,7 @@ class Skr.Screens.GlTransactions extends Skr.Screens.Base
         transactions: -> new Transactions
 
     render: ->
-        <LC.ScreenWrapper identifier="gl-transactions">
+        <LC.ScreenWrapper flexVertical identifier="gl-transactions">
             <h3>GL Transactions</h3>
             <SC.GlAccountChooser model={@transactions} name='account'
                 includeBlankRow editOnly sm={4} />
