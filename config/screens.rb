@@ -17,8 +17,15 @@ Lanes::Screen.define_group 'customer' do | group |
 end
 
 Lanes::Screen.for_extension 'skr' do | screens |
-
     # System Settings
+    screens.define "locations" do | screen |
+        screen.title       = "Locations"
+        screen.description = ""
+        screen.icon        = "globe"
+        screen.group_id    = "system-settings"
+        screen.model_class = "Location"
+        screen.view_class  = "Locations"
+    end
     screens.define "fresh-books-import" do | screen |
         screen.title       = "Fresh Books Import"
         screen.description = ""
@@ -28,16 +35,15 @@ Lanes::Screen.for_extension 'skr' do | screens |
         screen.view_class  = "FreshBooksImport"
     end
 
-    screens.define "locations" do | screen |
-        screen.title       = "Locations"
-        screen.description = ""
-        screen.icon        = "globe"
-        screen.group_id    = "system-settings"
-        screen.model_class = "Location"
-        screen.view_class  = "Locations"
-    end
-
     ## ACCOUNTING GROUP
+    screens.define "payment-terms" do | screen |
+        screen.title       = "Payment Terms"
+        screen.description = ""
+        screen.icon        = "money"
+        screen.group_id    = "accounting"
+        screen.model_class = "PaymentTerm"
+        screen.view_class  = "PaymentTerms"
+    end
     screens.define "time-invoicing" do | screen |
         screen.title       = "Time Invoicing"
         screen.description = ""
