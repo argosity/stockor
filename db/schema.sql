@@ -165,7 +165,8 @@ CREATE TABLE skr_customer_projects (
     rates jsonb,
     options jsonb,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    name character varying
 );
 
 
@@ -313,7 +314,7 @@ ALTER SEQUENCE skr_gl_accounts_id_seq OWNED BY skr_gl_accounts.id;
 
 CREATE TABLE skr_gl_manual_entries (
     id integer NOT NULL,
-    visible_id integer NOT NULL,
+    visible_id character varying NOT NULL,
     notes text,
     created_at timestamp without time zone NOT NULL,
     created_by_id integer NOT NULL,
@@ -579,7 +580,7 @@ CREATE TABLE skr_inv_lines (
 
 CREATE TABLE skr_invoices (
     id integer NOT NULL,
-    visible_id integer NOT NULL,
+    visible_id character varying NOT NULL,
     state smallint DEFAULT 0 NOT NULL,
     terms_id integer NOT NULL,
     customer_id integer NOT NULL,
@@ -610,7 +611,7 @@ CREATE TABLE skr_invoices (
 
 CREATE TABLE skr_pick_tickets (
     id integer NOT NULL,
-    visible_id integer NOT NULL,
+    visible_id character varying NOT NULL,
     sales_order_id integer NOT NULL,
     location_id integer NOT NULL,
     shipped_at date,
@@ -628,7 +629,7 @@ CREATE TABLE skr_pick_tickets (
 
 CREATE TABLE skr_sales_orders (
     id integer NOT NULL,
-    visible_id integer NOT NULL,
+    visible_id character varying NOT NULL,
     state smallint DEFAULT 0 NOT NULL,
     customer_id integer NOT NULL,
     location_id integer NOT NULL,
@@ -733,7 +734,7 @@ ALTER SEQUENCE skr_inv_lines_id_seq OWNED BY skr_inv_lines.id;
 
 CREATE TABLE skr_inventory_adjustments (
     id integer NOT NULL,
-    visible_id integer NOT NULL,
+    visible_id character varying NOT NULL,
     state smallint DEFAULT 0 NOT NULL,
     location_id integer NOT NULL,
     reason_id integer NOT NULL,
@@ -930,7 +931,7 @@ ALTER SEQUENCE skr_po_lines_id_seq OWNED BY skr_po_lines.id;
 
 CREATE TABLE skr_po_receipts (
     id integer NOT NULL,
-    visible_id integer NOT NULL,
+    visible_id character varying NOT NULL,
     location_id integer NOT NULL,
     freight numeric(15,2) DEFAULT 0.0 NOT NULL,
     purchase_order_id integer NOT NULL,
@@ -1050,7 +1051,7 @@ ALTER SEQUENCE skr_pt_lines_id_seq OWNED BY skr_pt_lines.id;
 
 CREATE TABLE skr_purchase_orders (
     id integer NOT NULL,
-    visible_id integer NOT NULL,
+    visible_id character varying NOT NULL,
     state smallint DEFAULT 0 NOT NULL,
     vendor_id integer NOT NULL,
     location_id integer NOT NULL,
@@ -1487,7 +1488,8 @@ CREATE TABLE skr_time_entries (
     created_at timestamp without time zone NOT NULL,
     created_by_id integer NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    updated_by_id integer NOT NULL
+    updated_by_id integer NOT NULL,
+    options jsonb DEFAULT '{}'::jsonb NOT NULL
 );
 
 
@@ -1597,7 +1599,7 @@ ALTER SEQUENCE skr_vo_lines_id_seq OWNED BY skr_vo_lines.id;
 
 CREATE TABLE skr_vouchers (
     id integer NOT NULL,
-    visible_id integer NOT NULL,
+    visible_id character varying NOT NULL,
     state smallint DEFAULT 0 NOT NULL,
     vendor_id integer NOT NULL,
     purchase_order_id integer,
@@ -2279,56 +2281,56 @@ CREATE INDEX index_skr_time_entries_on_lanes_user_id ON skr_time_entries USING b
 -- Name: skr_gl_manual_entriesindx_visible_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE INDEX skr_gl_manual_entriesindx_visible_id ON skr_gl_manual_entries USING btree (((visible_id)::character varying));
+CREATE INDEX skr_gl_manual_entriesindx_visible_id ON skr_gl_manual_entries USING btree (visible_id);
 
 
 --
 -- Name: skr_inventory_adjustmentsindx_visible_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE INDEX skr_inventory_adjustmentsindx_visible_id ON skr_inventory_adjustments USING btree (((visible_id)::character varying));
+CREATE INDEX skr_inventory_adjustmentsindx_visible_id ON skr_inventory_adjustments USING btree (visible_id);
 
 
 --
 -- Name: skr_invoicesindx_visible_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE INDEX skr_invoicesindx_visible_id ON skr_invoices USING btree (((visible_id)::character varying));
+CREATE INDEX skr_invoicesindx_visible_id ON skr_invoices USING btree (visible_id);
 
 
 --
 -- Name: skr_pick_ticketsindx_visible_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE INDEX skr_pick_ticketsindx_visible_id ON skr_pick_tickets USING btree (((visible_id)::character varying));
+CREATE INDEX skr_pick_ticketsindx_visible_id ON skr_pick_tickets USING btree (visible_id);
 
 
 --
 -- Name: skr_po_receiptsindx_visible_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE INDEX skr_po_receiptsindx_visible_id ON skr_po_receipts USING btree (((visible_id)::character varying));
+CREATE INDEX skr_po_receiptsindx_visible_id ON skr_po_receipts USING btree (visible_id);
 
 
 --
 -- Name: skr_purchase_ordersindx_visible_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE INDEX skr_purchase_ordersindx_visible_id ON skr_purchase_orders USING btree (((visible_id)::character varying));
+CREATE INDEX skr_purchase_ordersindx_visible_id ON skr_purchase_orders USING btree (visible_id);
 
 
 --
 -- Name: skr_sales_ordersindx_visible_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE INDEX skr_sales_ordersindx_visible_id ON skr_sales_orders USING btree (((visible_id)::character varying));
+CREATE INDEX skr_sales_ordersindx_visible_id ON skr_sales_orders USING btree (visible_id);
 
 
 --
 -- Name: skr_vouchersindx_visible_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE INDEX skr_vouchersindx_visible_id ON skr_vouchers USING btree (((visible_id)::character varying));
+CREATE INDEX skr_vouchersindx_visible_id ON skr_vouchers USING btree (visible_id);
 
 
 --
