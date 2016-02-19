@@ -36,7 +36,7 @@ class Skr.Screens.GlTransactions extends Skr.Screens.Base
     modelForAccess: 'gl-transaction'
 
     dataObjects:
-        transactions: -> new Transactions
+        transactions: -> new Transactions(account: @props.account)
 
     render: ->
         <LC.ScreenWrapper flexVertical identifier="gl-transactions">
