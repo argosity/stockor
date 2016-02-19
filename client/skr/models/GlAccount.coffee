@@ -8,6 +8,11 @@ class Skr.Models.GlAccount extends Skr.Models.Base
         name:       {type:"string",  required:true}
         is_active:  {type:"boolean", "default":true}
 
+    # optional attributes from trial balance view
+    session:
+        balance:       {type:"bigdec"}
+        branch_number: {type:"string"}
+
     derived:
         combined_name:
             deps: ['number', 'name'], fn: ->

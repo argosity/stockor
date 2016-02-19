@@ -1,0 +1,12 @@
+.trial-balance {
+    .heading {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        .explain {
+            flex: 1;
+            text-align: center;
+        }
+    }
+
+}

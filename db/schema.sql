@@ -474,6 +474,19 @@ ALTER SEQUENCE skr_gl_transactions_id_seq OWNED BY skr_gl_transactions.id;
 
 
 --
+-- Name: skr_gl_trial_balance; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE skr_gl_trial_balance (
+    skr_gl_account_id integer,
+    branch_number text,
+    balance numeric
+);
+
+ALTER TABLE ONLY skr_gl_trial_balance REPLICA IDENTITY NOTHING;
+
+
+--
 -- Name: skr_ia_lines; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -2341,6 +2354,20 @@ CREATE UNIQUE INDEX unique_schema_migrations ON schema_migrations USING btree (v
 
 
 --
+-- Name: _RETURN; Type: RULE; Schema: public; Owner: -
+--
+
+CREATE RULE "_RETURN" AS
+    ON SELECT TO skr_gl_trial_balance DO INSTEAD  SELECT gla.id AS skr_gl_account_id,
+    "right"((glp.account_number)::text, 2) AS branch_number,
+    COALESCE(sum(glp.amount), 0.00) AS balance
+   FROM (skr_gl_accounts gla
+     LEFT JOIN skr_gl_postings glp ON (("left"((glp.account_number)::text, 4) = (gla.number)::text)))
+  GROUP BY gla.id, "right"((glp.account_number)::text, 2)
+  ORDER BY gla.number;
+
+
+--
 -- Name: fk_rails_a04e857496; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2989,4 +3016,6 @@ INSERT INTO schema_migrations (version) VALUES ('20140615031600');
 INSERT INTO schema_migrations (version) VALUES ('20150220015108');
 
 INSERT INTO schema_migrations (version) VALUES ('20151121211323');
+
+INSERT INTO schema_migrations (version) VALUES ('20160216142845');
 

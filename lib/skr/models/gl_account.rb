@@ -12,6 +12,12 @@ module Skr
 
         validates :name, :description, :presence => true
 
+        # joins the gl_trial_balance view which includes the
+        # branch_number and balance fields
+        scope :with_trial_balance, lambda { | *args |
+            compose_query_using_detail_view(view: 'skr_gl_trial_balance')
+        }, export: true
+
         # @!attribute description
         #   A short description of the GL Account
 
