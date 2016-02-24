@@ -14,19 +14,23 @@ class Skr.Components.SkuLines extends Lanes.React.Component
     createQuery: (lines) ->
         @query = new Lanes.Models.Query
             title: 'Lines'
+            defaultSort: false
             src: lines, fields: [
-                { id:'id', visible: false}
-                { id: 'sku_code' }
-                { id: 'description', flex: 2}
+                { id:'id', visible: false         }
+                { id: 'sku_code', fixedWidth: 150 }
+                { id: 'description', flex: 2      }
                 {
-                    id: 'uom', title: 'UOM', query: false,
+                    id: 'uom', title: 'UOM', query: false, fixedWidth: 100,
                     format: (v, r, q)  -> v?.combined
                     sortBy: (a, b) ->
                         Lanes.u.comparator(a.uom_size, b.uom_size) or
                             Lanes.u.comparator(a.uom_code, b.uom_code)
                 }
-                { id: 'qty',   textAlign: 'center' }
-                { id: 'price', textAlign: 'right', format: (v, r, q) -> v?.toFixed(2) }
+                { id: 'qty',   textAlign: 'center', fixedWidth: 100 }
+                {
+                    id: 'price', textAlign: 'right', fixedWidth: 130,
+                    format: (v, r, q) -> v?.toFixed(2)
+                }
             ]
 
     onSkuChange: (line, val, sel) ->
