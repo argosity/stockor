@@ -7,6 +7,8 @@ class Skr.Screens.FreshBooksImport.Import extends Skr.Models.Base
         api_key:     'string'
         stage:       {type: 'string', default: 'fetch'}
         ignored_ids: 'object'
+        user_mappings: 'object'
+        customer_codes: 'object'
 
     associations:
         job: {model: 'Lanes.Models.JobStatus'}
@@ -29,15 +31,23 @@ class Skr.Screens.FreshBooksImport.Import extends Skr.Models.Base
         @stage is 'complete'
 
     complete: ->
-        @ignored_ids = {}
         @stage = 'complete'
+
+        @ignored_ids = {}
         for type in @recordTypes
             @ignored_ids[type] = ids = []
             idprop = _.singularize(type) + '_id'
             for record in @recordsForType(type) when record.selected is false
                 ids.push(record[idprop])
+
         @user_mappings = {}
         for row in @recordsForType('staff')
             if row.mapped_user_id
                 @user_mappings[row.staff_id] = row.mapped_user_id
+
+        @customer_codes = {}
+        for row in @recordsForType('clients')
+            if row.customer_code
+                @customer_codes[row.client_id] = row.customer_code
+
         @save(excludeAssociations: true)

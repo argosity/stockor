@@ -15,7 +15,8 @@ class FreshBooksImportSpec < Skr::TestCase
                 "api_key"=>"ba6642fa8d9b99e113ce0e5a1bf66de0",
                 "stage"=>"complete",
                 "ignored_ids"=>{
-                    "clients"=>[], "projects"=>[], "invoices"=>[], "time_entries"=>[], "staff"=>[]
+                    "clients"=>[], "projects"=>[],
+                    "invoices"=>[], "time_entries"=>[], "staff"=>[]
                 }
             }.merge(options)
         )
@@ -27,6 +28,8 @@ class FreshBooksImportSpec < Skr::TestCase
                 perform_import
             end
         end
+        inv = Skr::Invoice.find_by_visible_id('1')
+        assert_equal inv.invoice_date.strftime('%Y-%m-%d'), '2016-01-26'
     end
 
     def test_invoice_balance
@@ -47,6 +50,19 @@ class FreshBooksImportSpec < Skr::TestCase
     def test_user_mappings
         assert_no_difference ->{ Lanes::User.count } do
             perform_import({'user_mappings' => { '1' => '1' }})
+        end
+    end
+
+    def test_customer_codes
+        customer = skr_customer(:billy)
+        assert_difference ->{ Skr::Customer.count }, 2 do
+            assert_difference ->{ customer.invoices.count }, 1 do
+                perform_import({'customer_codes' => {
+                                    '27454' => 'FOO',
+                                    '14694' => 'GOAT'
+                                }})
+                assert Skr::Customer.find_by_code('FOO')
+            end
         end
     end
 

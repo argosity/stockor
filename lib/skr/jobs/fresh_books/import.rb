@@ -8,8 +8,14 @@ module Skr::Jobs::FreshBooks
         end
 
         def customer_for_fb_id(id)
-            Skr::Customer.where("options ->>'freshbooks_id' = ?", id).first
+            code = @customer_codes[id]
+            if code
+                Skr::Customer.find_by_code(code)
+            else
+                Skr::Customer.where("options ->>'freshbooks_id' = ?", id).first
+            end
         end
+
 
         def is_ignored?(type, id)
             @ignored_ids[type] && @ignored_ids[type].include?(id)
@@ -25,7 +31,10 @@ module Skr::Jobs::FreshBooks
 
         def process_client(r)
             return nil if is_ignored?('clients',  r['client_id'])
+            code = @customer_codes[ r['client_id'] ]
+            return if code and Skr::Customer.find_by_code(code)
             Skr::Customer.create(
+                code: code,
                 name: r['organization'], options: { freshbooks_id: r['client_id'] },
                 notes: r['notes'], credit_limit: r['credit'],
                 billing_address_attributes: {
@@ -81,12 +90,14 @@ module Skr::Jobs::FreshBooks
 
         def process_invoice(r)
             return nil if is_ignored?('invoices',  r['invoice_id'])
+
             inv = Skr::Invoice.create(
                 visible_id: r['number'].sub(/^0+/,''),
                 options: { freshbooks_id: r['invoice_id'] },
                 customer: customer_for_fb_id(r['client_id']),
                 location: Skr::Location.default,
-                po_num: r['po_number'], invoice_date: r['date'], notes: r['notes'],
+                po_num: r['po_number'], notes: r['notes'],
+                invoice_date: DateTime.parse(r['date']),
                 terms: Skr::PaymentTerm.find_by(days: r['terms'].to_s[/\d+/, 0] || 30),
                 billing_address_attributes: {
                     name: to_name(r),
@@ -122,8 +133,11 @@ module Skr::Jobs::FreshBooks
         def perform(data)
             @ignored_ids = data['ignored_ids'] || {}
             @user_mappings = data['user_mappings'] || {}
-            process_each_type(data['domain'], data['api_key']) do | output, index |
-                save_progress(output, (index+1).to_f / STEPS.length)
+            @customer_codes = data['customer_codes'] || {}
+            Skr::Invoice.transaction do
+                process_each_type(data['domain'], data['api_key']) do | output, index |
+                    save_progress(output, (index+1).to_f / STEPS.length)
+                end
             end
             self
         end
