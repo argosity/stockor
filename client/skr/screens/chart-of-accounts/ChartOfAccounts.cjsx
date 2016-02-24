@@ -1,11 +1,11 @@
-class Skr.Screens.TrialBalance extends Skr.Screens.Base
+class Skr.Screens.ChartOfAccounts extends Skr.Screens.Base
 
     modelForAccess: 'gl-transaction'
     dataObjects:
         query: ->
             new Lanes.Models.Query
                 title: 'Lines', src: Skr.Models.GlAccount
-                syncOptions: {with: 'with_trial_balance'}
+                syncOptions: {with: 'with_balances'}
                 fields: [
                     { id:'id', visible: false }
                     { id: 'number', label: 'Acct #', fixedWidth: 120 }
@@ -24,9 +24,9 @@ class Skr.Screens.TrialBalance extends Skr.Screens.Base
             .display(props: {account: account})
 
     render: ->
-        <LC.ScreenWrapper flexVertical identifier="trial-balance">
+        <LC.ScreenWrapper flexVertical identifier="chart-of-accounts">
             <div className="heading">
-                <h3>Trial Balance</h3>
+                <h3>Chart of Accounts</h3>
                 <span className="explain">Click row to review transactions</span>
                 <BS.Button onClick={@reload}>Reload</BS.Button>
             </div>

@@ -52,13 +52,13 @@ Lanes::Screen.for_extension 'skr' do | screens |
         screen.model_class = "Invoice"
         screen.view_class  = "TimeInvoicing"
     end
-    screens.define "trial-balance" do | screen |
-        screen.title       = "Trial Balance"
+    screens.define "chart-of-accounts" do | screen |
+        screen.title       = "Chart Of Accounts"
         screen.description = ""
         screen.icon        = "list-alt"
         screen.group_id    = "accounting"
         screen.model_class = "GlTransaction"
-        screen.view_class  = "TrialBalance"
+        screen.view_class  = "ChartOfAccounts"
     end
     screens.define "gl-transactions" do | screen |
         screen.title       = "Gl Transactions"

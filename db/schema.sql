@@ -273,6 +273,19 @@ ALTER SEQUENCE skr_customers_id_seq OWNED BY skr_customers.id;
 
 
 --
+-- Name: skr_gl_account_balances; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE skr_gl_account_balances (
+    skr_gl_account_id integer,
+    branch_number text,
+    balance numeric
+);
+
+ALTER TABLE ONLY skr_gl_account_balances REPLICA IDENTITY NOTHING;
+
+
+--
 -- Name: skr_gl_accounts; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -471,19 +484,6 @@ CREATE SEQUENCE skr_gl_transactions_id_seq
 --
 
 ALTER SEQUENCE skr_gl_transactions_id_seq OWNED BY skr_gl_transactions.id;
-
-
---
--- Name: skr_gl_trial_balance; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE skr_gl_trial_balance (
-    skr_gl_account_id integer,
-    branch_number text,
-    balance numeric
-);
-
-ALTER TABLE ONLY skr_gl_trial_balance REPLICA IDENTITY NOTHING;
 
 
 --
@@ -2358,7 +2358,7 @@ CREATE UNIQUE INDEX unique_schema_migrations ON schema_migrations USING btree (v
 --
 
 CREATE RULE "_RETURN" AS
-    ON SELECT TO skr_gl_trial_balance DO INSTEAD  SELECT gla.id AS skr_gl_account_id,
+    ON SELECT TO skr_gl_account_balances DO INSTEAD  SELECT gla.id AS skr_gl_account_id,
     "right"((glp.account_number)::text, 2) AS branch_number,
     COALESCE(sum(glp.amount), 0.00) AS balance
    FROM (skr_gl_accounts gla
