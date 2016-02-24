@@ -13,6 +13,6 @@ class Skr.Models.IaLine extends Skr.Models.Base
 
     associations:
         inventory_adjustment: { model: "InventoryAdjustment" }
-        sku_loc:              { model: "SkuLoc" }
-        sku:                  { model: "Sku" }
+        sku_loc:              { model: "SkuLoc", required: true}
+        sku:                  { model: "Sku"}
         sku_tran:             { model: "SkuTran" }

@@ -3,17 +3,17 @@ class Skr.Models.TimeEntry extends Skr.Models.Base
     props:
         id:                 {"type":"integer"}
         customer_project_id:{"type":"integer"}
-        lanes_user_id:      {"type":"integer", default: ->
+        is_invoiced:        {"type":"boolean", default:false}
+        lanes_user_id:      {"type":"integer", required: true, default: ->
             Lanes.current_user.id
         }
-        is_invoiced:        {"type":"boolean", default:false}
-        start_at:           {"type":"date",    default: ->
+        start_at:           {"type":"date",    required: true, default: ->
             new Date
         }
-        end_at:             {"type":"date", default: ->
+        end_at:             {"type":"date", required: true, default: ->
             d = new Date; d.setHours(d.getHours() + 1)
         }
-        description:        {"type":"string", default: 'New Event'}
+        description:        {"type":"string", required: true, default: 'New Event'}
 
     session:
         hours: { "type":"bigdec" }
@@ -21,7 +21,7 @@ class Skr.Models.TimeEntry extends Skr.Models.Base
 
 
     associations:
-        customer_project: { model: "CustomerProject" }
+        customer_project: { model: "CustomerProject", required: true }
 
     derived:
         range: deps: ['start_at', 'end_at'], fn: ->

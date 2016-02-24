@@ -24,6 +24,6 @@ class Skr.Models.CustomerProject extends Skr.Models.Base
         customer_code:  {type:"string"}
 
     associations:
-        customer: { model: "Customer" }
-        sku:      { model: "Sku" }
+        customer: { model: "Customer", required: true }
+        sku:      { model: "Sku", required: true }
         time_entries:  { collection: 'TimeEntry', inverse: 'customer_project' }

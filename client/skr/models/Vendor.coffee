@@ -10,7 +10,7 @@ class Skr.Models.Vendor extends Skr.Models.Base
         gl_freight_account_id: {type:"integer"}
         code:                  {type:"code"}
         hash_code:             {type:"string"}
-        name:                  {type:"string"}
+        name:                  {type:"string", required: true}
         notes:                 "string"
         account_code:          "string"
         website:               "string"
@@ -20,9 +20,9 @@ class Skr.Models.Vendor extends Skr.Models.Base
     associations:
         billing_address:     { model: "Address" }
         shipping_address:    { model: "Address" }
-        terms:               { model: "PaymentTerm" }
-        gl_payables_account: { model: "GlAccount" }
-        gl_freight_account:  { model: "GlAccount" }
+        terms:               { model: "PaymentTerm", required: true }
+        gl_payables_account: { model: "GlAccount",   required: true }
+        gl_freight_account:  { model: "GlAccount",   required: true }
         purchase_orders:     { collection: "PurchaseOrder" }
         vouchers:            { collection: "Voucher" }
         vendor_skus:         { collection: "SkuVendor" }

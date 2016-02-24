@@ -13,7 +13,7 @@ class Skr.Models.Customer extends Skr.Models.Base
         credit_limit:             "bigdec"
         open_balance:             "bigdec"
         hash_code:                {type:"string"}
-        name:                     {type:"string"}
+        name:                     {type:"string", required: true}
         notes:                    "string"
         website:                  "string"
         forms:                    "any"
@@ -24,7 +24,7 @@ class Skr.Models.Customer extends Skr.Models.Base
     associations:
         billing_address:        { model: "Address" }
         shipping_address:       { model: "Address" }
-        terms:                  { model: "PaymentTerm" }
+        terms:                  { model: "PaymentTerm", required: true}
         gl_receivables_account: { model: "GlAccount", default: ->
             Skr.Models.GlAccount.fetchById(this.gl_receivables_account_id)
         }

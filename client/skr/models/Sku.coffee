@@ -9,7 +9,7 @@ class Skr.Models.Sku extends Skr.Models.Base
         }
         default_uom_code:    {type:"string"}
         code:                {type:"code",   required:true}
-        description:         {type:"string"}
+        description:         {type:"string", required:true}
         is_other_charge:     {type:"boolean", default:false}
         does_track_inventory:{type:"boolean", default:false}
         can_backorder:       {type:"boolean", default:false}
@@ -17,10 +17,10 @@ class Skr.Models.Sku extends Skr.Models.Base
     mixins: ['HasCodeField']
 
     associations:
-        default_vendor:   { model: "Vendor" }
-        gl_asset_account: { model: "GlAccount", default: ->
+        default_vendor:   { model: "Vendor", required: true}
+        gl_asset_account: { model: "GlAccount", required: true, default: ->
             Skr.Models.GlAccount.fetchById(this.gl_asset_account_id)
         }
-        sku_locs:         { collection: "SkuLoc" }
-        sku_vendors:      { collection: "SkuVendor" }
+        sku_locs:         { collection: "SkuLoc", required: true}
+        sku_vendors:      { collection: "SkuVendor", required: true }
         uoms:             { collection: "Uom", inverse: 'sku' }

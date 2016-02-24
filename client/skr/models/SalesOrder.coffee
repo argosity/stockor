@@ -42,8 +42,8 @@ class Skr.Models.SalesOrder extends Skr.Models.Base
             canceled: 9
 
     associations:
-        customer:         { model: "Customer" }
-        location:         { model: "Location", default: ->
+        customer:         { model: "Customer", required: true }
+        location:         { model: "Location", required: true, default: ->
             Skr.Models.Location.fetchById(@location_id) if @location_id
         }
         terms:            { model: "PaymentTerm"  }
