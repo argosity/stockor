@@ -9,7 +9,7 @@ class Skr.Screens.TimeInvoicing extends Skr.Screens.Base
         query: ->
             @gridSelections = new LC.Grid.Selections(onChange: @updateTotal)
             new Lanes.Models.Query({
-                defaultSort: 'start_at'
+                defaultSort: 'start_at', autoRetrieve: false
                 src: Skr.Models.TimeEntry, fields: [
                     {id:'id', visible: false}
                     @gridSelections
