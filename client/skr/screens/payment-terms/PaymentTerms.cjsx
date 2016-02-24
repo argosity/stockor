@@ -1,6 +1,5 @@
 class Skr.Screens.PaymentTerms extends Skr.Screens.Base
 
-
     dataObjects:
         term: ->
             @loadOrCreateModel({
@@ -25,5 +24,4 @@ class Skr.Screens.PaymentTerms extends Skr.Screens.Base
                 <LC.Input sm=2 name='discount_days' model={@term} />
                 <LC.Input sm=2 name='discount_amount' model={@term} />
             </BS.Row>
-
         </LC.ScreenWrapper>
