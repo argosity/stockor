@@ -19,7 +19,6 @@ module Skr
 end
 
 require_rel "skr/concerns/*.rb"
-require_rel "skr/jobs/*.rb"
 require_rel "skr/jobs/fresh_books/*.rb"
 require_relative "skr/print"
 require_relative "skr/model"
