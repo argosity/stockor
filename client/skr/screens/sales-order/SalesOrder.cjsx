@@ -17,14 +17,30 @@ class Skr.Screens.SalesOrder extends Lanes.React.Screen
         <LC.ScreenWrapper identifier="sales-order" flexVertical>
             <Lanes.Screens.CommonComponents commands={@state.commands} />
             <BS.Row>
-                <SC.SalesOrderFinder ref='finder' sm=2 editOnly
+
+                <SC.SalesOrderFinder ref='finder' sm=4 xs=6 editOnly
                     syncOptions={@syncOptions} model={@sales_order}
                     commands={@state.commands} />
-                <SC.CustomerFinder selectField sm=2
+
+                <SC.CustomerFinder selectField    sm=4 xs=6
                     customer={@sales_order.customer} model={@sales_order} />
-                <SC.LocationChooser sm=2 label='Src Location'
+
+                <LC.Input sm=3 name='po_num' model={@sales_order} sm=4 xs=6 />
+
+            </BS.Row>
+
+            <BS.Row>
+
+                <SC.TermsChooser model={@sales_order} sm=3 xs=6 />
+
+                <SC.LocationChooser label='Src Location' sm=3 xs=6
                     model={@sales_order} />
-                <LC.Input sm=6 name='po_num' model={@sales_order} />
+
+
+                 <LC.DateTime name='order_date' format='ddd, MMM Do YYYY' sm=3 xs=6
+                    model={@sales_order} />
+
+                <SC.PrintFormChooser label="Print Form" sm=3 model={@sales_order} sm=3 xs=6 />
             </BS.Row>
 
             <BS.Row>

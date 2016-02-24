@@ -39,8 +39,11 @@ class Skr.Screens.Invoice extends Skr.Screens.Base
 
                 <LC.Input name='po_num' model={@invoice} sm=3 xs=6 />
 
-                <SC.PrintFormChooser label="Print Form" sm=3
-                    model={@invoice} />
+                <LC.DateTime name='invoice_date'
+                    format='ddd, MMM Do YYYY'
+                    sm=3 model={@invoice} />
+
+                <SC.PrintFormChooser label="Print Form" sm=3 model={@invoice} />
 
             </BS.Row>
 
