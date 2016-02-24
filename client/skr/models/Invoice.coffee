@@ -16,7 +16,9 @@ class Skr.Models.Invoice extends Skr.Models.Base
         amount_paid:        {type:"bigdec", "default":"0.0"}
         state:              {type:"string"}
         hash_code:          {type:"string"}
-        invoice_date:       {type:"any"}
+        invoice_date:       {type:"date", default: ->
+            new Date
+        }
         notes:              "string"
         po_num:             "string"
         form:               "string"

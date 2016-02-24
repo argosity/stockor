@@ -10,14 +10,16 @@ class Skr.Models.SalesOrder extends Skr.Models.Base
         shipping_address_id:{type:"integer"}
         billing_address_id: {type:"integer"}
         terms_id:           {type:"integer"}
-        order_date:         {type:"any"}
+        order_date:         {type:"date", default: ->
+            new Date
+        }
         state:              {type:"integer"}
         is_revised:         {type:"boolean", default:false}
         hash_code:          {type:"string"}
         ship_partial:       {type:"boolean", default:false}
         form:               "string"
         po_num:             "string"
-        notes:              "string"
+        notes:              {type: "string"}
         options:            "any"
 
     mixins: [ 'PrintSupport', 'HasVisibleId' ]
