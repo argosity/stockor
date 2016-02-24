@@ -8,7 +8,7 @@ class Skr.Components.SalesOrderFinder extends Lanes.React.Component
         includeAssociations: React.PropTypes.array
 
     getDefaultProps: ->
-        autoFocus: true, name: 'visible_id', label: 'SalesOrder #'
+        autoFocus: true, name: 'visible_id', label: 'Sales Order #'
 
     dataObjects:
         query: ->
@@ -21,7 +21,7 @@ class Skr.Components.SalesOrderFinder extends Lanes.React.Component
                 )
                 src: Skr.Models.SalesOrder, fields: [
                     { id: 'id', visible: false }
-                    { id: 'visible_id' }
+                    { id: 'visible_id', title: 'SO #' }
                     { id: 'customer_code' }
                     { id: 'po_num', title: 'PO'}
                     { id: 'notes', flex: 2}
