@@ -51,7 +51,6 @@ class Skr.Screens.TimeTracking extends Skr.Screens.Base
             <BS.Row className="calendar-panel">
                 {@renderTotals()}
                 <LC.Calendar ref='calendar'
-                    displayHours={[6, 20]}
                     onDayClick={@onDayClick}
                     onEventResize={@onEventResize}
                     onEventClick={@onEventClick}
