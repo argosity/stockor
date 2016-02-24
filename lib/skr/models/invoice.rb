@@ -83,7 +83,8 @@ module Skr
 
         def initialize(attributes = {})
             super
-            self.invoice_date = Date.today
+            # date must be set, otherwise things like terms that are based off of it fail
+            self.invoice_date ||= Date.today
         end
 
         # @return [BigDecimal] total - amount_paid

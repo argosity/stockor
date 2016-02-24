@@ -109,7 +109,8 @@ module Skr
 
         def initialize(attributes = {})
             super
-            self.order_date = Date.today
+            # order date must be set, otherwise things like terms that are set from it fail
+            self.order_date ||= Date.today
         end
 
       private
