@@ -4,10 +4,10 @@ class Skr.Models.TimeEntry extends Skr.Models.Base
         id:                 {"type":"integer"}
         customer_project_id:{"type":"integer"}
         is_invoiced:        {"type":"boolean", default:false}
-        lanes_user_id:      {"type":"integer", required: true, default: ->
+        lanes_user_id:      {"type":"integer", default: ->
             Lanes.current_user.id
         }
-        start_at:           {"type":"date",    required: true, default: ->
+        start_at:           {"type":"date", required: true, default: ->
             new Date
         }
         end_at:             {"type":"date", required: true, default: ->

@@ -77,10 +77,11 @@ class Skr.Screens.TimeTracking.Entries extends Lanes.Models.Base
                 entry.setEditing(false)
 
     addEvent: (date) ->
+        date = date.clone()
         rounded = Math.round( date.minute() / 15 ) * 15
         date.minute(rounded).second(0)
         entry = @entries.add({
-            start_at: date, end_at: date.clone().add(2, 'hour')
+            start_at: date.subtract(1, 'hour'), end_at: date.clone().add(2, 'hour')
             customer_project: @project unless @project.id is -1
         })
         @calEvents().add( entry.toCalEvent() )

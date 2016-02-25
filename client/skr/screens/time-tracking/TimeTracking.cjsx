@@ -25,13 +25,12 @@ class Skr.Screens.TimeTracking extends Skr.Screens.Base
         @showPopup(ev, event.start(), event)
 
     stopEdit: ->
-        @entries.editing = false #setState(edit: false)
+        @entries.editing = false
 
     onEventResize: (ev, event) ->
         entry = event.get('entry')
         entry.fromCalEvent(event)
         entry.save() unless entry.isNew()
-
 
     renderSummaryDays: ->
         return null unless @entries.isMonth
