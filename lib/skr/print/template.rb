@@ -15,7 +15,7 @@ module Skr
                     }
                 end
                 def model
-                    "skr/#{name}".classify.constantize
+                    "skr/#{name}".underscore.classify.constantize
                 end
                 def path_for_record(record)
                     return nil unless record.form

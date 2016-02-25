@@ -23,7 +23,7 @@ module Skr
 
             def template
                 ErbLatex::Template.new( @latex,
-                                        data: { @template.name => @record },
+                                        data: { @template.name.underscore => @record },
                                         layout: ROOT.join('layout.tex.erb'),
                                         partials_path: ROOT.join('partials'),
                                         packages_path: ROOT.join('packages')

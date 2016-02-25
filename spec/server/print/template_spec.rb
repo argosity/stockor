@@ -2,10 +2,10 @@ require_relative '../spec_helper'
 
 class PrintTemplateSpec < Skr::TestCase
 
-    let(:template) { Skr::Print::Template.get('sales_order') }
+    let(:template) { Skr::Print::Template.get('sales-order') }
 
     it "can list templates" do
-        assert_includes Skr::Print::Template.definitions.map(&:name), 'sales_order'
+        assert_includes Skr::Print::Template.definitions.map(&:name), 'sales-order'
         assert_includes Skr::Print::Template.definitions.map(&:name), 'invoice'
     end
 
@@ -20,14 +20,14 @@ class PrintTemplateSpec < Skr::TestCase
     describe 'path' do
 
         it 'defaults to "default"' do
-            assert_equal Skr::Print::ROOT.join('types','sales_order','default.tex.erb'),
+            assert_equal Skr::Print::ROOT.join('types','sales-order','default.tex.erb'),
                          template.path_for_record(Skr::SalesOrder.first)
         end
 
         it 'defaults to default if form doesnt exist' do
             so = Skr::SalesOrder.first
             so.form = 'a-custom-form'
-            assert_equal Skr::Print::ROOT.join('types','sales_order','default.tex.erb'),
+            assert_equal Skr::Print::ROOT.join('types','sales-order','default.tex.erb'),
                          template.path_for_record(so)
         end
 
