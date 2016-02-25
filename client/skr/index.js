@@ -1,5 +1,6 @@
 //=require ./models/Base
 //=require ./screens/Base
+//=require ./screens/Commands
 //=require_tree ./models/mixins
 //=require_tree ./models
 //=require_tree ./components
