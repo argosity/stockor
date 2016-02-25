@@ -3,41 +3,6 @@
 <%= partial( 'header', {
   location: so.location, date: so.order_date, form_title: "Sales Order # #{so.visible_id}"
 } ) %>
-<%= partial 'bill_to_ship_to', record: so %>
-% <% ncols = 6 %>
-\vskip\medskipamount
-<%=partial 'sku_lines_col_hdr', sales_order: so -%>
-\vskip-\baselineskip
-{\tabulinesep 0.2cm
-\noindent\begin{longtabu} to \textwidth {lX<%='c'*(ncols-4) %>rr}
-<%= partial 'sku_lines_col_hdr' %>
-\hline
-  \endfirsthead
-  \multicolumn{<%=ncols%>}{l}{...continued from previous page} \\
-<%= partial 'sku_lines_col_hdr' %>
-  \endhead
-  \hline
-  \multicolumn{<%=ncols%>}{r}{Continued on next page...} \\
-  \endfoot
-  \hline
-% <% so.lines.other_charge.each do | line | %>
-  \multicolumn{<%=ncols-1%>}{r}{{<%=q line.description%>}} &
-  <%= '%0.2f' % line.price %> \\
-%<% end %>
-  \cline{<%=ncols-3%>-<%=ncols%>}
-  \multicolumn{<%=ncols-1%>}{r}{{\textbf{Total}}} &
-  \textbf{<%= '%0.2f' % so.total %>} \\
-  \cline{<%=ncols-3%>-<%=ncols%>}
-%  \hline
-  \endlastfoot
-% <% so.lines.regular.each do | line | %>
-   <%=q line.sku_code %> &
-   <%=q line.description %> &
-   <%= line.qty %> &
-   <%=q line.combined_uom %> &
-   <%= '%0.2f' % line.price %> &
-   <%= '%0.2f' % line.total %> \\
-%<% end %>
-\end{longtabu}
-}
+<%=partial 'bill_to_ship_to', record: so -%>
+<%=partial 'sku_lines_table', record: so, lines: so.lines -%>
 \end{document}

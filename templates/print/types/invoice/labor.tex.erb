@@ -8,6 +8,9 @@ groups.push(
   { title: 'Non Labor', lines: @invoice.lines.product }
 ) if @invoice.lines.product.any?
 -%>
+%
+%
+%
 \begin{document}
 <%= partial( 'header', {
   location: @invoice.location, date: @invoice.invoice_date,
@@ -19,7 +22,13 @@ groups.push(
 <%=partial 'address', :address=>@invoice.billing_address %>
 \medskip
 <%=partial 'inv_info_line', invoice: @invoice -%>
-<%=partial 'inv_lines', invoice: @invoice, lines: @invoice.lines.regular,
+%
+<%=partial 'sku_lines_table',
+    line_template: 'sku_lines_table_invlabor_line',
+    headings_template: 'sku_lines_labor_col_hdr',
     footer: groups.many? ? false : 'labor_lines_footer',
-    groups: groups.many? ? groups : false %>
+    groups: groups.many? ? groups : false,
+    record: @invoice, lines: @invoice.lines
+-%>
+%
 \end{document}

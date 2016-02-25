@@ -1,0 +1,6 @@
+<%=q @line.sku_code %> &
+<%=q @line.description %> &
+<%= @line.qty %> &
+<%=q @line.combined_uom %> &
+<%= Skr::String.number_with_delimiter @line.price %> &
+<%= Skr::String.number_with_delimiter @line.total %> \\

@@ -1,31 +1,31 @@
 % <% ncols = 6 %>
 {\tabulinesep 0.2cm
 \noindent\begin{longtabu} to \textwidth {lX<%='c'*(ncols-4) %>rr}
-<%= partial 'sku_lines_col_hdr' %>
+<%= partial @headings_template || 'sku_lines_col_hdr' %>
 \hline
   \endfirsthead
   \multicolumn{<%=ncols%>}{l}{...continued from previous page} \\
-<%= partial 'sku_lines_col_hdr' %>
+<%= partial @headings_template || 'sku_lines_col_hdr' %>
   \endhead
   \hline
   \multicolumn{<%=ncols%>}{r}{Continued on next page...} \\
   \endfoot
   \hline
-<%= partial @footer || 'inv_footer', invoice: @invoice, ncols: ncols %>
+<%= partial @footer || 'inv_footer', invoice: @record, ncols: ncols %>
 \endlastfoot
 <% if @groups %>
   <% @groups.each_with_index do | group, i | -%>
     \multicolumn{<%= ncols%>}{l}{\textbf{<%=q group[:title] %>}} \\
     \cline{1-1}
     <% group[:lines].each do | line | %>
-      <%= partial 'inv_line', line: line -%>
+      <%= partial @line_template || 'sku_lines_table_line', line: line -%>
     <% end -%>
     <%= partial group[:footer] || 'inv_lines_group_footer',
-        invoice: @invoice, group: group, ncols: ncols %>
+        invoice: @record, group: group, ncols: ncols %>
   <% end -%>
 <% else %>
   <% @lines.each do | line | %>
-    <%= partial 'inv_line', line: line -%>
+    <%= partial @line_template || 'sku_lines_table_line', line: line -%>
   <% end -%>
 <% end -%>
 \end{longtabu}

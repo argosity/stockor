@@ -29,7 +29,7 @@ class PrintSpec < Skr::TestCase
 
     it 'can generate sales order' do
         so = skr_sales_order(:tiny)
-        pdf = Skr::Print::Form.new('sales_order', so.hash_code)
+        pdf = Skr::Print::Form.new('sales-order', so.hash_code)
         assert pdf.as_latex
     end
 
