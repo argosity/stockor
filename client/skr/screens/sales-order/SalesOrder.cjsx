@@ -11,11 +11,11 @@ class Skr.Screens.SalesOrder extends Lanes.React.Screen
             })
 
     getInitialState: ->
-        commands: new Lanes.Screens.Commands(this, modelName: 'sales_order', print: true)
+        commands: new Skr.Screens.Commands(this, modelName: 'sales_order', print: true)
 
     render: ->
         <LC.ScreenWrapper identifier="sales-order" flexVertical>
-            <Lanes.Screens.CommonComponents commands={@state.commands} />
+            <SC.ScreenControls commands={@state.commands} />
             <BS.Row>
 
                 <SC.SalesOrderFinder ref='finder' sm=4 xs=6 editOnly

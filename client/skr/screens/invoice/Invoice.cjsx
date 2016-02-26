@@ -13,14 +13,14 @@ class Skr.Screens.Invoice extends Skr.Screens.Base
             })
 
     getInitialState: ->
-        commands: new Lanes.Screens.Commands(this, modelName: 'invoice', print: true)
+        commands: new Skr.Screens.Commands(this, modelName: 'invoice', print: true)
 
     setSalesOrder: (so) ->
         @invoice.setFromSalesOrder(so)
 
     render: ->
         <LC.ScreenWrapper identifier="invoice" flexVertical>
-            <Lanes.Screens.CommonComponents commands={@state.commands} />
+            <SC.ScreenControls commands={@state.commands} />
             <BS.Row>
                 <SC.InvoiceFinder ref='finder' editOnly sm=3 xs=6
                     model={@invoice} commands={@state.commands}

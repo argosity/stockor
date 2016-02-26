@@ -1,7 +1,7 @@
 class Skr.Screens.CustomerProjects extends Skr.Screens.Base
 
     getInitialState: ->
-        commands: new Lanes.Screens.Commands(this, modelName: 'project')
+        commands: new Skr.Screens.Commands(this, modelName: 'project')
 
     dataObjects:
         project: ->
@@ -31,7 +31,7 @@ class Skr.Screens.CustomerProjects extends Skr.Screens.Base
 
     render: ->
         <LC.ScreenWrapper identifier="customer-projects">
-            <Lanes.Screens.CommonComponents commands={@state.commands} />
+            <SC.ScreenControls commands={@state.commands} />
             <BS.Row>
                 <SC.CustomerProjectFinder ref='finder' commands={@state.commands}
                     model={@project} autoFocus editOnly sm=3 />

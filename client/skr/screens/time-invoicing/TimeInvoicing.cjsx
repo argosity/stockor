@@ -2,7 +2,7 @@ class Skr.Screens.TimeInvoicing extends Skr.Screens.Base
 
     getInitialState: ->
         isEditing: true
-        commands: new Lanes.Screens.Commands(this, modelName: 'request')
+        commands: new Skr.Screens.Commands(this, modelName: 'request')
 
     dataObjects:
         request: -> new InvoiceRequest

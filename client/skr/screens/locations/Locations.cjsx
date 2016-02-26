@@ -11,11 +11,11 @@ class Skr.Screens.Locations extends Skr.Screens.Base
             })
 
     getInitialState: ->
-        commands: new Lanes.Screens.Commands(this, modelName: 'location')
+        commands: new Skr.Screens.Commands(this, modelName: 'location')
 
     render: ->
         <LC.ScreenWrapper identifier="locations">
-            <Lanes.Screens.CommonComponents commands={@state.commands} />
+            <SC.ScreenControls commands={@state.commands} />
             <BS.Row>
                 <SC.LocationChooser label='Code' editOnly displayFinder
                     commands={@state.commands} model={@location} name="code" />

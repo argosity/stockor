@@ -10,13 +10,13 @@ class Skr.Screens.SkuMaint extends Skr.Screens.Base
             })
 
     getInitialState: ->
-        commands: new Lanes.Screens.Commands(this, modelName: 'sku')
+        commands: new Skr.Screens.Commands(this, modelName: 'sku')
 
     modelForAccess: 'sku'
 
     render: ->
         <LC.ScreenWrapper identifier="sku-maint">
-            <Lanes.Screens.CommonComponents commands={@state.commands} />
+            <SC.ScreenControls commands={@state.commands} />
             <BS.Row>
                 <SC.SkuFinder model={@sku} sm=4 label='Code' editOnly autoFocus
                     syncOptions={@syncOptions}

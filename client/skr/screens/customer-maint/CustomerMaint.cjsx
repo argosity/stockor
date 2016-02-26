@@ -9,7 +9,7 @@ class Skr.Screens.CustomerMaint extends Skr.Screens.Base
             })
 
     getInitialState: ->
-        commands: new Lanes.Screens.Commands(this, modelName: 'customer')
+        commands: new Skr.Screens.Commands(this, modelName: 'customer')
 
     modelForAccess: 'customer'
 
@@ -18,7 +18,7 @@ class Skr.Screens.CustomerMaint extends Skr.Screens.Base
 
     render: ->
         <LC.ScreenWrapper identifier="customer-maint">
-            <Lanes.Screens.CommonComponents commands={@state.commands} />
+            <SC.ScreenControls commands={@state.commands} />
             <BS.Row>
                 <SC.CustomerFinder sm=4 editOnly ref="finder"
                     syncOptions={@syncOptions}

@@ -8,11 +8,11 @@ class Skr.Screens.PaymentTerms extends Skr.Screens.Base
             })
 
     getInitialState: ->
-        commands: new Lanes.Screens.Commands(this, modelName: 'term')
+        commands: new Skr.Screens.Commands(this, modelName: 'term')
 
     render: ->
         <LC.ScreenWrapper identifier="payment-terms">
-            <Lanes.Screens.CommonComponents commands={@state.commands} />
+            <SC.ScreenControls commands={@state.commands} />
             <BS.Row>
                 <SC.TermsChooser useFinder ref='finder' name='code'
                     sm=3 autoFocus editOnly model={@term}

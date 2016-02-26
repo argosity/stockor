@@ -11,13 +11,13 @@ class Skr.Screens.VendorMaint extends Lanes.React.Screen
             })
 
     getInitialState: ->
-        commands: new Lanes.Screens.Commands(this, modelName: 'vendor')
+        commands: new Skr.Screens.Commands(this, modelName: 'vendor')
 
     modelForAccess: 'vendor'
 
     render: ->
         <LC.ScreenWrapper identifier="vendor-maint">
-            <Lanes.Screens.CommonComponents commands={@state.commands} />
+            <SC.ScreenControls commands={@state.commands} />
             <BS.Row>
                 <SC.VendorFinder model={@vendor} sm=4 editOnly autofocus
                     syncOptions={@syncOptions}
