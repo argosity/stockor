@@ -1,0 +1,7 @@
+<% if @record.lines.other_charge.any? -%>
+% <% @record.lines.other_charge.each do | line | -%>
+  \multicolumn{<%= @ncols-1%>}{r}{{<%=q line.description%>}} &
+  <%= Skr::String.number_with_delimiter line.price %> \\
+<% end -%>
+  \cline{<%= @ncols-3%>-<%= @ncols%>}
+<% end -%>

@@ -1,0 +1,25 @@
+<%= partial 'skus_table_other_charge_lines', record: @record, ncols: @ncols %>
+  \multicolumn{<%= @ncols-1%>}{r}{{\textbf{Total}}} &
+  \textbf{\textsuperscript{\$}<%= Skr::String.number_with_delimiter @record.total %>} \\
+  \cline{<%= @ncols-3%>-<%= @ncols%>}
+%  \hline
+<% unless @record.open? -%>
+  \multicolumn{<%= @ncols-1%>}{r}{{\textbf{Amount Paid}}} &
+  \textbf{\textsuperscript{\$}<%= Skr::String.number_with_delimiter @record.amount_paid %>} \\
+  \cline{<%= @ncols-3%>-<%= @ncols%>}
+%  \hline
+%
+ &
+\multicolumn{<%= 1 %>}{l}{{
+\begin{rotate}{12}
+\resizebox{!}{16pt}{\texttt{\textcolor{BrickRed}{
+<%= @record.fully_paid? ? 'PAID IN FULL' : 'PARTIALLY PAID' %>
+}}}
+\end{rotate}
+}} &
+%
+  \multicolumn{<%= @ncols-3%>}{r}{{\textbf{Unpaid Amount}}} &
+  \textbf{\textsuperscript{\$}<%= Skr::String.number_with_delimiter @record.unpaid_amount %>} \\
+  \cline{<%= @ncols-3%>-<%= @ncols%>}
+%  \hline
+<% end -%>

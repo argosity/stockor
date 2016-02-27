@@ -2,7 +2,7 @@
 groups = []
 groups.push(
   { title: 'Labor', lines: @invoice.lines.time_entry,
-    footer: 'inv_lines_labor_group_footer' }
+    footer: 'skus_table_labor_group_footer' }
 ) if @invoice.lines.time_entry.any?
 groups.push(
   { title: 'Non Labor', lines: @invoice.lines.product }
@@ -21,12 +21,12 @@ groups.push(
 \hspace*{3ex}{
 <%=partial 'address', :address=>@invoice.billing_address %>
 \medskip
-<%=partial 'inv_info_line', invoice: @invoice -%>
+<%=partial 'skus_table_invoice_info_line', invoice: @invoice -%>
 %
-<%=partial 'sku_lines_table',
-    line_template: 'sku_lines_table_invlabor_line',
-    headings_template: 'sku_lines_labor_col_hdr',
-    footer: groups.many? ? false : 'labor_lines_footer',
+<%=partial 'skus_table',
+    line_template: 'skus_table_labor_line',
+    headings_template: 'skus_table_labor_col_hdr',
+    footer: groups.many? ? false : 'skus_table_labor_group_footer',
     groups: groups.many? ? groups : false,
     record: @invoice, lines: @invoice.lines
 -%>

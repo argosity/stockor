@@ -1,0 +1,5 @@
+<%= partial 'skus_table_other_charge_lines', record: @record, ncols: @ncols %>
+  \multicolumn{<%= @ncols-1%>}{r}{{\textbf{Total}}} &
+  \textbf{\textsuperscript{\$}<%= Skr::String.number_with_delimiter @record.total %>} \\
+  \cline{<%= @ncols-3%>-<%= @ncols%>}
+%  \hline
