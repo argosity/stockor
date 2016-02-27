@@ -13,7 +13,7 @@ class Skr.Models.Invoice extends Skr.Models.Base
         pick_ticket_id:     "integer"
         shipping_address_id:{type:"integer"}
         billing_address_id: {type:"integer"}
-        amount_paid:        {type:"bigdec", "default":"0.0"}
+        amount_paid:        {type:"bigdec", "default":"0"}
         state:              {type:"string"}
         hash_code:          {type:"string"}
         invoice_date:       {type:"date", default: ->
@@ -32,6 +32,9 @@ class Skr.Models.Invoice extends Skr.Models.Base
         invoice_total: {type:"bigdec"}
 
     derived:
+        prev_amount_paid: deps:['updated_at'], fn: -> @amount_paid
+        open_amount: deps: ['total', 'amount_paid'], fn: ->
+            @total.minus(@amount_paid)
         total: deps: ['invoice_total'], fn: ->
             @invoice_total or @lines.reduce( (t, l) ->
                 t.plus(l.total)
@@ -93,3 +96,7 @@ class Skr.Models.Invoice extends Skr.Models.Base
     dataForSave: ->
         # only send some associations
         super(onlyAssociations: ['lines', 'billing_address', 'shipping_address'])
+
+
+    isPaidInFull: ->
+        @state == 'paid'
