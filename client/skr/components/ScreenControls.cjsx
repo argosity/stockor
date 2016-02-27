@@ -7,13 +7,14 @@ class SC.ScreenControls extends Lanes.React.Component
         networkActivity: React.PropTypes.bool
         toolbarProps:    React.PropTypes.object
 
-    renderPrintButton: ->
-        <BS.Button navItem componentClass="button"
-            onClick={@props.commands.printModel} className="print navbar-btn control">
+    PrintButton: ->
+        return null unless @props.commands.canPrint?()
+        <SC.ToolbarButton onClick={@props.commands.printModel} className='print'>
             <LC.Icon type="print" />Print
-        </BS.Button>
+        </SC.ToolbarButton>
 
     render: ->
         <Lanes.Screens.CommonComponents {...@props}>
-            {@renderPrintButton() if @props.commands.canPrint?()}
+            <@PrintButton />
+            {@props.children}
         </Lanes.Screens.CommonComponents>
