@@ -151,6 +151,43 @@ ALTER SEQUENCE skr_addresses_id_seq OWNED BY skr_addresses.id;
 
 
 --
+-- Name: skr_bank_accounts; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE skr_bank_accounts (
+    id integer NOT NULL,
+    code text NOT NULL,
+    name text NOT NULL,
+    description text,
+    routing_number text,
+    account_number text,
+    address_id integer NOT NULL,
+    gl_account_id integer NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: skr_bank_accounts_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE skr_bank_accounts_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: skr_bank_accounts_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE skr_bank_accounts_id_seq OWNED BY skr_bank_accounts.id;
+
+
+--
 -- Name: skr_customer_projects; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -871,6 +908,43 @@ CREATE SEQUENCE skr_payment_terms_id_seq
 --
 
 ALTER SEQUENCE skr_payment_terms_id_seq OWNED BY skr_payment_terms.id;
+
+
+--
+-- Name: skr_payments; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE skr_payments (
+    id integer NOT NULL,
+    visible_id character varying NOT NULL,
+    bank_accounts_id integer NOT NULL,
+    amount numeric(15,2) NOT NULL,
+    date date NOT NULL,
+    check_number integer NOT NULL,
+    vendor_id integer,
+    memo text,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: skr_payments_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE skr_payments_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: skr_payments_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE skr_payments_id_seq OWNED BY skr_payments.id;
 
 
 --
@@ -1726,6 +1800,13 @@ ALTER TABLE ONLY skr_addresses ALTER COLUMN id SET DEFAULT nextval('skr_addresse
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY skr_bank_accounts ALTER COLUMN id SET DEFAULT nextval('skr_bank_accounts_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY skr_customer_projects ALTER COLUMN id SET DEFAULT nextval('skr_customer_projects_id_seq'::regclass);
 
 
@@ -1818,6 +1899,13 @@ ALTER TABLE ONLY skr_locations ALTER COLUMN id SET DEFAULT nextval('skr_location
 --
 
 ALTER TABLE ONLY skr_payment_terms ALTER COLUMN id SET DEFAULT nextval('skr_payment_terms_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY skr_payments ALTER COLUMN id SET DEFAULT nextval('skr_payments_id_seq'::regclass);
 
 
 --
@@ -1970,6 +2058,14 @@ ALTER TABLE ONLY skr_addresses
 
 
 --
+-- Name: skr_bank_accounts_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY skr_bank_accounts
+    ADD CONSTRAINT skr_bank_accounts_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: skr_customer_projects_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -2079,6 +2175,14 @@ ALTER TABLE ONLY skr_locations
 
 ALTER TABLE ONLY skr_payment_terms
     ADD CONSTRAINT skr_payment_terms_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: skr_payments_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY skr_payments
+    ADD CONSTRAINT skr_payments_pkey PRIMARY KEY (id);
 
 
 --
@@ -2284,6 +2388,13 @@ CREATE INDEX index_skr_payment_terms_on_code ON skr_payment_terms USING btree (c
 
 
 --
+-- Name: index_skr_payments_on_visible_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_skr_payments_on_visible_id ON skr_payments USING btree (visible_id);
+
+
+--
 -- Name: index_skr_time_entries_on_lanes_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -2373,6 +2484,22 @@ CREATE RULE "_RETURN" AS
 
 ALTER TABLE ONLY skr_time_entries
     ADD CONSTRAINT fk_rails_a04e857496 FOREIGN KEY (lanes_user_id) REFERENCES lanes_users(id);
+
+
+--
+-- Name: skr_bank_accounts_address_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY skr_bank_accounts
+    ADD CONSTRAINT skr_bank_accounts_address_id_fk FOREIGN KEY (address_id) REFERENCES skr_addresses(id);
+
+
+--
+-- Name: skr_bank_accounts_gl_account_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY skr_bank_accounts
+    ADD CONSTRAINT skr_bank_accounts_gl_account_id_fk FOREIGN KEY (gl_account_id) REFERENCES skr_gl_accounts(id);
 
 
 --
@@ -2573,6 +2700,22 @@ ALTER TABLE ONLY skr_invoices
 
 ALTER TABLE ONLY skr_locations
     ADD CONSTRAINT skr_locations_address_id_fk FOREIGN KEY (address_id) REFERENCES skr_addresses(id);
+
+
+--
+-- Name: skr_payments_bank_accounts_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY skr_payments
+    ADD CONSTRAINT skr_payments_bank_accounts_id_fk FOREIGN KEY (bank_accounts_id) REFERENCES skr_bank_accounts(id);
+
+
+--
+-- Name: skr_payments_vendor_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY skr_payments
+    ADD CONSTRAINT skr_payments_vendor_id_fk FOREIGN KEY (vendor_id) REFERENCES skr_vendors(id);
 
 
 --
@@ -3018,4 +3161,8 @@ INSERT INTO schema_migrations (version) VALUES ('20150220015108');
 INSERT INTO schema_migrations (version) VALUES ('20151121211323');
 
 INSERT INTO schema_migrations (version) VALUES ('20160216142845');
+
+INSERT INTO schema_migrations (version) VALUES ('20160229002044');
+
+INSERT INTO schema_migrations (version) VALUES ('20160229041711');
 

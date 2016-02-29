@@ -2,7 +2,6 @@ require 'skr/db/migration_helpers'
 
 class CreateSkrCustomers < ActiveRecord::Migration
     def change
-
         create_skr_table "customers" do |t|
             t.skr_code_identifier
             t.skr_reference :billing_address,        null: false, to_table: :addresses

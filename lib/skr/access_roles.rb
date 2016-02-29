@@ -20,7 +20,10 @@ module Lanes::Access
                   Skr::Sku,
                   Skr::SalesOrder,
                   Skr::TimeEntry,
-                  Skr::GlTransaction
+                  Skr::GlTransaction,
+                  Skr::BankAccount,
+                  Skr::Payment
+
             lock_writes Skr::Customer, :terms
             lock Skr::Sku, :gl_asset_account
             lock Skr::Customer, :gl_receivables_account

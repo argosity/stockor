@@ -18,6 +18,10 @@ module Skr
             compose_query_using_detail_view(view: 'skr_gl_account_balances')
         }, export: true
 
+        scope :with_combined_name, lambda {|*args|
+            select("*, number||' '||name as combined_name")
+        }, export: true
+
         # @!attribute description
         #   A short description of the GL Account
 

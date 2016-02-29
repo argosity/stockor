@@ -36,13 +36,13 @@ Lanes::Screen.for_extension 'skr' do | screens |
     end
 
     ## ACCOUNTING GROUP
-    screens.define "payment-terms" do | screen |
-        screen.title       = "Payment Terms"
-        screen.description = ""
+    screens.define "invoice" do | screen |
+        screen.title       = "Invoice"
+        screen.description = "Invoices"
         screen.icon        = "money"
         screen.group_id    = "accounting"
-        screen.model_class = "PaymentTerm"
-        screen.view_class  = "PaymentTerms"
+        screen.model_class = "Invoice"
+        screen.view_class  = "Invoice"
     end
     screens.define "time-invoicing" do | screen |
         screen.title       = "Time Invoicing"
@@ -51,6 +51,30 @@ Lanes::Screen.for_extension 'skr' do | screens |
         screen.group_id    = "accounting"
         screen.model_class = "Invoice"
         screen.view_class  = "TimeInvoicing"
+    end
+    screens.define "payments" do | screen |
+        screen.title       = "Payments"
+        screen.description = ""
+        screen.icon        = "file-text-o"
+        screen.group_id    = "accounting"
+        screen.model_class = "Payment"
+        screen.view_class  = "Payments"
+    end
+    screens.define "bank-maint" do | screen |
+        screen.title       = "Bank Maint"
+        screen.description = ""
+        screen.icon        = "bank"
+        screen.group_id    = "accounting"
+        screen.model_class = ""
+        screen.view_class  = "BankMaint"
+    end
+    screens.define "payment-terms" do | screen |
+        screen.title       = "Payment Terms"
+        screen.description = ""
+        screen.icon        = "money"
+        screen.group_id    = "accounting"
+        screen.model_class = "PaymentTerm"
+        screen.view_class  = "PaymentTerms"
     end
     screens.define "chart-of-accounts" do | screen |
         screen.title       = "Chart Of Accounts"
@@ -76,21 +100,6 @@ Lanes::Screen.for_extension 'skr' do | screens |
         screen.model_class = "Invoice"
         screen.view_class  = "CustomerProjects"
     end
-    screens.define "invoice" do | screen |
-        screen.title       = "Invoice"
-        screen.description = "Invoices"
-        screen.icon        = "money"
-        screen.group_id    = "accounting"
-        screen.model_class = "Invoice"
-        screen.view_class  = "Invoice"
-    end
-    screens.define "customer-maint" do | screen |
-        screen.title       = "Customer Maintenance"
-        screen.icon        = "heartbeat"
-        screen.group_id    = "maint"
-        screen.model_class = "Customer"
-        screen.view_class  = "CustomerMaint"
-    end
 
     # MAINT GROUP
     screens.define "sku-maint" do | screen |
@@ -99,6 +108,13 @@ Lanes::Screen.for_extension 'skr' do | screens |
         screen.group_id    = "maint"
         screen.model_class = "Sku"
         screen.view_class  = "SkuMaint"
+    end
+    screens.define "customer-maint" do | screen |
+        screen.title       = "Customer Maintenance"
+        screen.icon        = "heartbeat"
+        screen.group_id    = "maint"
+        screen.model_class = "Customer"
+        screen.view_class  = "CustomerMaint"
     end
     screens.define "vendor-maint" do | screen |
         screen.title       = "Vendor Maintenance"

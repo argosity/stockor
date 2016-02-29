@@ -18,8 +18,12 @@ class Skr.Screens.Commands extends Lanes.Screens.Commands
           "left="  + (window.screen.width - width)   / 2].join()
 
         prn = window.open('', 'lanes-print', options)
-        model.save().then ->
+        printFn = ->
             prn.location.href = _.result(model, 'pdfDownloadUrl')
             _.delay ->
-                prn.print()
-            , 5000 # onload doesn't seem to work with PDF's.  Time needs to be long enough for doc to start download
+                prn?.print()
+            , 5000 # onload doesn't seem to work with PDF's so we just delay a bit
+        if model.isDirty
+            model.save().then printFn
+        else
+            printFn()

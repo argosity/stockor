@@ -14,3 +14,6 @@ class Skr.Models.Address extends Skr.Models.Base
 
     modelForAccess: ->
         @parent || this
+
+    clonedAttributes: ->
+        _.omit @serialize(), 'id'

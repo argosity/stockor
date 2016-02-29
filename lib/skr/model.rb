@@ -51,4 +51,6 @@ module Skr
     autoload :Voucher,              "skr/models/voucher"
     autoload :TimeEntry,            "skr/models/time_entry"
     autoload :CustomerProject,      "skr/models/customer_project"
+    autoload :BankAccount, "skr/models/bank_account"
+    autoload :Payment, "skr/models/payment"
 end

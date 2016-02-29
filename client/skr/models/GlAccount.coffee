@@ -1,7 +1,5 @@
 class Skr.Models.GlAccount extends Skr.Models.Base
 
-    cacheDuration: [1, 'day']
-
     props:
         id:         {type:"integer"}
         number:     {type:"string",  required:true}

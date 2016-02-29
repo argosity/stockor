@@ -15,6 +15,7 @@ class PrintSpec < Skr::TestCase
 
     it "can generate default invoice" do
         inv = skr_invoice(:tiny)
+        inv.update_attributes amount_paid: inv.total - 2.22
         assert inv.update_attributes form: 'default'
         pdf = Skr::Print::Form.new('invoice', inv.hash_code)
         assert pdf.as_latex

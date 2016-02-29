@@ -20,9 +20,10 @@ class Skr.Extension extends Lanes.Extensions.Base
             else
                 console.log "Unable to find model for #{type}"
 
-
     rootComponent: (viewport) ->
         Lanes.Workspace.Layout
 
     preferenceElement: (props) ->
         React.createElement(SC.UserPreferences, key: 'skr')
+    settingsElement: (props) ->
+        React.createElement(SC.SystemSettings, key: 'skr')
