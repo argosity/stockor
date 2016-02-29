@@ -97,6 +97,5 @@ class Skr.Models.Invoice extends Skr.Models.Base
         # only send some associations
         super(onlyAssociations: ['lines', 'billing_address', 'shipping_address'])
 
-
     isPaidInFull: ->
         @state == 'paid'

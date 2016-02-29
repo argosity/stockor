@@ -1,5 +1,6 @@
 SHARED_COLLECTION = new Skr.Models.PaymentTerm.Collection
 
+
 class Skr.Components.TermsChooser extends Lanes.React.Component
 
     propTypes:
@@ -36,6 +37,7 @@ class Skr.Components.TermsChooser extends Lanes.React.Component
                 {...@props} />
         else
             <LC.SelectField sm=3
+                choices={SHARED_COLLECTION.models}
                 labelField="code"
                 {...@props}
                 fetchWhenOpen={false}

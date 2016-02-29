@@ -2,6 +2,7 @@ class Skr.Screens.SalesOrder extends Lanes.React.Screen
 
     syncOptions:
         include: [ 'billing_address', 'shipping_address', 'lines' ]
+        with: [ 'with_details' ]
 
     dataObjects:
         sales_order: ->
@@ -18,24 +19,19 @@ class Skr.Screens.SalesOrder extends Lanes.React.Screen
             <SC.ScreenControls commands={@state.commands} />
             <BS.Row>
 
-                <SC.SalesOrderFinder ref='finder' sm=4 xs=6 editOnly
+                <SC.SalesOrderFinder ref='finder' sm=2 xs=3 editOnly
                     syncOptions={@syncOptions} model={@sales_order}
                     commands={@state.commands} />
 
-                <SC.CustomerFinder selectField    sm=4 xs=6
+                <SC.CustomerFinder selectField sm=3 xs=4
                     customer={@sales_order.customer} model={@sales_order} />
 
-                <LC.Input sm=3 name='po_num' model={@sales_order} sm=4 xs=6 />
-
-            </BS.Row>
-
-            <BS.Row>
+                <LC.Input sm=3 xs=4 name='po_num' model={@sales_order} />
 
                 <SC.TermsChooser model={@sales_order} sm=3 xs=6 />
 
                 <SC.LocationChooser label='Src Location' sm=3 xs=6
                     model={@sales_order} />
-
 
                  <LC.DateTime name='order_date' format='ddd, MMM Do YYYY' sm=3 xs=6
                     model={@sales_order} />

@@ -41,7 +41,6 @@ class Skr.Screens.GlTransactions extends Skr.Screens.Base
     render: ->
         <LC.ScreenWrapper flexVertical identifier="gl-transactions">
             <h3>GL Transactions</h3>
-            <SC.GlAccountChooser model={@transactions} name='account'
-                includeBlankRow editOnly sm={4} />
+            <SC.GlAccountChooser model={@transactions} name='account' editOnly sm={4} />
             <LC.Grid query={@transactions.query} />
         </LC.ScreenWrapper>

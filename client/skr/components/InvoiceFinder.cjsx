@@ -1,7 +1,6 @@
 class Skr.Components.InvoiceFinder extends Lanes.React.Component
 
     propTypes:
-        onModelSet: React.PropTypes.func
         commands:   React.PropTypes.object
         autoFocus:  React.PropTypes.bool
 

@@ -14,6 +14,7 @@ class Skr.Components.UserPreferences extends Lanes.React.Component
 
     render: ->
         <BS.Row className="skr-preferences">
+
             <LC.SelectField xs=4
                 fetchWhenOpen={false}
                 label='Default Customer Project'

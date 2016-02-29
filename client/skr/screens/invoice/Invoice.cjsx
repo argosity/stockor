@@ -6,8 +6,8 @@ class Skr.Screens.Invoice extends Skr.Screens.Base
     modelForAccess: 'invoice'
 
     syncOptions:
-        include: [ 'sales_order', 'billing_address', 'shipping_address', 'lines'   ]
         with: [ 'with_details' ]
+        include: [ 'sales_order', 'billing_address', 'shipping_address', 'lines'   ]
 
     dataObjects:
         invoice: ->
@@ -51,7 +51,9 @@ class Skr.Screens.Invoice extends Skr.Screens.Base
                     onModelSet={@setSalesOrder} associationName='sales_order'
                     syncOptions={@syncOptions} parentModel={@invoice} />
 
-                <SC.CustomerFinder selectField sm=3 xs=6 model={@invoice} />
+                <SC.CustomerFinder
+                    defaultLabel={@invoice.customer_code}
+                    selectField sm=3 xs=6 model={@invoice} />
 
                 <SC.TermsChooser model={@invoice} sm=3 xs=6 />
 

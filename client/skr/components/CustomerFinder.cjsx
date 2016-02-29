@@ -2,7 +2,6 @@ class Skr.Components.CustomerFinder extends Lanes.React.Component
 
     propTypes:
         model:      Lanes.PropTypes.Model.isRequired
-        onModelSet: React.PropTypes.func
         commands:   React.PropTypes.object
         autoFocus:  React.PropTypes.bool
         name:       React.PropTypes.string
@@ -24,25 +23,11 @@ class Skr.Components.CustomerFinder extends Lanes.React.Component
                 ]
             })
 
-    selectSetCustomer: (model, cust) ->
-        if @props.onModelSet
-            @props.onModelSet(cust)
-        else
-            model.set(customer: cust)
-
-    selectGetSelection: (model) ->
-        if model.customer_id and model.customer_code
-            {label: model.customer_code, id: model.customer_id}
-
     render: ->
         props = _.clone(@props)
 
         if props.selectField
-            <LC.SelectField sm=2
-                labelField="code"
-                setSelection={@selectSetCustomer}
-                getSelection={@selectGetSelection}
-                {...props} />
+            <LC.SelectField sm=2 labelField="code" {...props} />
         else
             <LC.RecordFinder ref="finder" sm=3 autoFocus
                 commands={@props.commands}
