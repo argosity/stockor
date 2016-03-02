@@ -26,7 +26,6 @@ groups.push(
 <%=partial 'skus_table',
     line_template: 'skus_table_labor_line',
     headings_template: 'skus_table_labor_col_hdr',
-    footer: groups.many? ? false : 'skus_table_labor_group_footer',
     groups: groups.many? ? groups : false,
     record: @invoice, lines: @invoice.lines
 -%>
