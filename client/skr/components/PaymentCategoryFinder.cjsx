@@ -1,4 +1,4 @@
-class Skr.Components.BankAccountFinder extends Lanes.React.Component
+class Skr.Components.PaymentCategoryFinder extends Lanes.React.Component
 
     propTypes:
         model:      Lanes.PropTypes.Model
@@ -8,17 +8,17 @@ class Skr.Components.BankAccountFinder extends Lanes.React.Component
         selectField:   React.PropTypes.bool
 
     getDefaultProps: ->
-        autoFocus: false, label: 'Bank Account', name: 'code'
+        autoFocus: false, label: 'Payment Category', name: 'payment_category'
 
     dataObjects:
         query: ->
             new Lanes.Models.Query({
                 syncOptions: @props.syncOptions
-                src: Skr.Models.BankAccount, fields: [
-                    {id:'id', visible: false}
-                    {id: 'code', fixedWidth: 130 },
-                    {id: 'name', flex: 1}
-                    {id: 'description', flex: 1.5}
+                src: Skr.Models.PaymentCategory, fields: [
+                    {id:'id',   visible: false}
+                    {id:'gl_account_id', visible: false}
+                    {id:'code', fixedWidth: 130 },
+                    {id:'name', flex: 1}
                 ]
             })
 
@@ -26,7 +26,7 @@ class Skr.Components.BankAccountFinder extends Lanes.React.Component
         props = _.clone(@props)
 
         if props.selectField
-            <LC.SelectField queryModel={Skr.Models.BankAccount} sm=2 {...props} />
+            <LC.SelectField queryModel={Skr.Models.PaymentCategory} sm=2 {...props} />
         else
             <LC.RecordFinder ref="finder" sm=3 autoFocus
                 commands={@props.commands}

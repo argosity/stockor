@@ -19,7 +19,8 @@ module Skr
 
         is_immutable
 
-        # A Transaction must refer to another record, such as Invoice, Inventory Adjustment, or a Manual Posting.
+        # A Transaction must refer to another record,
+        # such as Invoice, Inventory Adjustment, or a Manual Posting.
         belongs_to :source, :polymorphic=>true
 
         # Each transaction belongs to an accounting period
@@ -114,7 +115,7 @@ module Skr
                 options.merge!(source: owner, location: options[:location] || owner.location)
                 glt = GlTransaction.new( options )
                 glt.add_posting( amount: amount, debit: debit, credit: credit )
-                glt.save
+                glt.save!
             end
             glt
         end

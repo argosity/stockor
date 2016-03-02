@@ -17,3 +17,8 @@ class Skr.Models.Address extends Skr.Models.Base
 
     clonedAttributes: ->
         _.omit @serialize(), 'id'
+
+
+    toString: ->
+        line3 = _.compact([ @city, @state, @postal_code ]).join(' ')
+        _.compact([@line1, @line2, line3]).join("\n") || ''

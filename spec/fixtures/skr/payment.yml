@@ -1,2 +1,10 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
+bigco:
+  visible_id: 1024
+  amount: 42.97
+  name: 'Test One, Two, Three'
+  category: labor
+  bank_account: checking
+  notes: 'A test payment'
+  location: default
+  date: <%= 1.days.ago %>
+  check_number: 123

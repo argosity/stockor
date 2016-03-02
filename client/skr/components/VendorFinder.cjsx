@@ -1,15 +1,14 @@
 class Skr.Components.VendorFinder extends Lanes.React.Component
 
     propTypes:
-        onModelSet: React.PropTypes.func
+        model:      Lanes.PropTypes.Model.isRequired
         commands:   React.PropTypes.object
         autoFocus:  React.PropTypes.bool
-        model:      Lanes.PropTypes.Model.isRequired
+        name:       React.PropTypes.string
         selectField:   React.PropTypes.bool
 
     getDefaultProps: ->
-        autoFocus: false
-        label: 'Vendor Code'
+        autoFocus: false, name: 'vendor', label: 'Vendor Code'
 
     dataObjects:
         query: ->
@@ -24,24 +23,12 @@ class Skr.Components.VendorFinder extends Lanes.React.Component
                 ]
             })
 
-    selectSetVendor: (model, cust) ->
-        if @props.onModelSet
-            @props.onModelSet(cust)
-        else
-            model.setVendor(cust)
-
-    selectGetSelection: (model) ->
-        if model.vendor_id and model.vendor_code
-            {label: model.vendor_code, id: model.vendor_id}
-
     render: ->
         if @props.selectField
             <LC.SelectField sm=2
                 label="Vendor"
                 name="vendor"
                 labelField="code"
-                setSelection={@selectSetVendor}
-                getSelection={@selectGetSelection}
                 model={@props.model}
                 {...@props} />
         else

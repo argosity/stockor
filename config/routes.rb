@@ -12,6 +12,7 @@ Lanes::API.routes.for_extension 'skr' do
     resources Skr::GlPosting
     resources Skr::GlTransaction
     resources Skr::BankAccount
+    resources Skr::PaymentCategory
     resources Skr::Payment
     resources Skr::IaLine
     resources Skr::IaReason

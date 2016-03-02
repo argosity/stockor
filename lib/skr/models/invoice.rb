@@ -43,7 +43,8 @@ module Skr
 
         has_many :gl_transactions, :as=>:source
 
-        has_many :lines, -> { order(:position) }, class_name: 'Skr::InvLine', inverse_of: :invoice,
+        has_many :lines, -> { order(:position) },
+                 class_name: 'Skr::InvLine', inverse_of: :invoice,
                  extend: Concerns::INV::Lines, export: { writable: true }
 
         before_save :maybe_mark_paid
@@ -131,7 +132,8 @@ module Skr
             return if change.zero?
             GlTransaction.push_or_save(
               owner: self, amount: change,
-              debit: customer.gl_receivables_account, credit: GlAccount.default_for(:deposit_holding)
+              debit: customer.gl_receivables_account,
+              credit: GlAccount.default_for(:deposit_holding)
             )
             fire_pubsub_event( :amount_paid_change )
             true

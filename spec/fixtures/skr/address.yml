@@ -138,3 +138,23 @@ hg_shipping:
   city: North Markusborough
   state: MS
   postal_code: '51700'
+
+cinder_billing:
+  name: Evil Stepmom Inc
+  email: cinderalla@mom.com
+  phone: 158-160-0857
+  line1: 4 City Way
+  line2:
+  city: Johnston City
+  state: IL
+  postal_code: '91500'
+
+cinder_shipping:
+  name: Evl Stepmom WH
+  email: cinderalla@mom.com
+  phone: 158-160-0857
+  line1: 19th St WH District
+  line2:
+  city: Johnston City
+  state: IL
+  postal_code: '91500'

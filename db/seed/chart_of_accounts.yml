@@ -131,7 +131,10 @@
   number: 6420
   name: Inbound Shipping Expense
   description: Cost of vendors shipping goods to us
-
+-
+  number: 6450
+  name: Misc Expense
+  description: Miscellaneous costs incurred
 -
   number: 6500
   name: Depreciation Expense

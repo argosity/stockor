@@ -1,0 +1,8 @@
+utilities:
+  code: UTILITIES
+  name: Utilities Expense
+  gl_account: utilities
+labor:
+  code: LABOR
+  name: Payments for work performed
+  gl_account: labor

@@ -1,0 +1,12 @@
+-
+  code: MISCEXP
+  name: Miscellaneous Expenses
+  gl_account: 6450
+-
+  code: UTILITIES
+  name: Utilities Expense
+  gl_account: 6700
+-
+  code: LABOR
+  name: Payments for work performed
+  gl_account: 6200

@@ -76,6 +76,14 @@ Lanes::Screen.for_extension 'skr' do | screens |
         screen.model_class = "PaymentTerm"
         screen.view_class  = "PaymentTerms"
     end
+    screens.define "payment-category" do | screen |
+        screen.title       = "Payment Categories"
+        screen.description = ""
+        screen.icon        = "object-group"
+        screen.group_id    = "accounting"
+        screen.model_class = "PaymentCategory"
+        screen.view_class  = "PaymentCategory"
+    end
     screens.define "chart-of-accounts" do | screen |
         screen.title       = "Chart Of Accounts"
         screen.description = ""

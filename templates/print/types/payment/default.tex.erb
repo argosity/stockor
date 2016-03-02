@@ -1,0 +1,58 @@
+\font\micr="[<%= @root_path.join('fonts', 'GnuMICR.pfb').to_s %>]"
+\setlength{\TPHorizModule}{1mm}
+\setlength{\TPVertModule}{\TPHorizModule}
+\renewcommand{\headrulewidth}{0pt}
+\geometry{top=1cm,left=1cm,right=1cm,bottom=0cm}
+\begin{document}
+\noindent
+
+\begin{textblock}{195}(10,15)
+  \begin{tabu} to \columnwidth{lXX[-1m]r}
+  % <% if logo = @payment.location.get_logo %>
+    \raisebox{-.8\height}{\includegraphics[height=18mm,width=80mm,keepaspectratio]{<%=
+    logo.file.path %>} }
+  % <% end %>
+        & \small <%= break_lines @payment.location.address.to_s %>
+        & \tiny <%= break_lines @payment.bank_account.address %>
+        & \shadowbox{\large\bf {CHECK \# <%= @payment.check_number %> } }\\
+     \end{tabu}
+\end{textblock}
+%
+\begin{textblock}{185}(10,30)
+  \begin{tabu} to \columnwidth{Xrr}
+    \rowfont[c]\bfseries
+    & DATE & AMOUNT \\
+    & <%=q @payment.date %> & <%=q Skr::String.number_with_delimiter( @payment.amount ) %> \\
+    \multicolumn{3}{l}{ <%= Skr::Number.as_words(@payment.amount.fix.to_i) %> and $\frac{<%= sprintf('%02i',@payment.amount.frac*100) %>}/{100}$ U.S. Dollars  } \\
+      \tabucline[1pt on 1.5pt off 2pt]{1-1}
+    \end{tabu}
+  \end{textblock}
+%
+\begin{textblock}{200}(10,50)
+  \noindent
+  \begin{tabu} to \columnwidth{lX}
+    \parbox{5em}{\textit{PAY \newline
+        TO THE \newline
+        ORDER\newline
+        OF}}
+    & \parbox{\linewidth}{\large{<%=q @payment.name %> } \newline <%= break_lines( @payment.name ) %> } \\
+      \end{tabu}
+    \end{textblock}
+\begin{textblock}{70}(120,65)
+  \noindent
+  \begin{tabu} to \columnwidth{X[1,c,p]}
+     \\
+    \tabucline[.5pt on 1.5pt off .5pt]{1-1}
+    \small Authorized Signature
+    \\
+
+  \end{tabu}
+\end{textblock}
+%
+\begin{textblock}{6}(25,80)
+\begin{tabu} to \columnwidth{>{\hfill}p{3.4cm}ll}
+\micr <%= sprintf('%s%09i%s', 'C',@payment.check_number,'C') %> & \micr A<%= @payment.bank_account.routing_number %>A & \micr C<%=@payment.bank_account.account_number %>C \\
+\end{tabu}
+\end{textblock}
+
+\end{document}

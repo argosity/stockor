@@ -26,12 +26,21 @@ class PrintSpec < Skr::TestCase
         assert inv.update_attributes form: 'labor'
         pdf = Skr::Print::Form.new('invoice', inv.hash_code)
         assert pdf.as_latex
+        generate(pdf)
     end
 
-    it 'can generate sales order' do
-        so = skr_sales_order(:tiny)
-        pdf = Skr::Print::Form.new('sales-order', so.hash_code)
-        assert pdf.as_latex
-    end
+    # it 'can generate sales order' do
+    #     so = skr_sales_order(:tiny)
+    #     pdf = Skr::Print::Form.new('sales-order', so.hash_code)
+    #     assert pdf.as_latex
+    # end
+
+    # it 'can generate checks' do
+    #     pymnt = skr_payment(:bigco)
+    #     pdf = Skr::Print::Form.new('payment', pymnt.hash_code)
+    #     assert pdf.as_latex
+    #     generate(pdf)
+    # end
+
 
 end

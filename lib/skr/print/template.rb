@@ -18,8 +18,8 @@ module Skr
                     "skr/#{name}".underscore.classify.constantize
                 end
                 def path_for_record(record)
-                    return nil unless record.form
-                    path = @path.join( record.form + '.tex.erb' )
+                    form = record.respond_to?(:form) ? record.form : 'default'
+                    path = @path.join( form + '.tex.erb' )
                     path.exist? ? path : @path.join( 'default.tex.erb' )
                 end
             end

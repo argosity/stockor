@@ -21,9 +21,20 @@ module Skr
                 template.compile_latex
             end
 
+            def data
+                vars = {
+                    @template.name.underscore => @record,
+                    'root_path' => ::Skr::Print::ROOT
+                }
+                if @record.respond_to?(:latex_template_variables)
+                    vars.merge!(@record.latex_template_variables)
+                end
+                vars
+            end
+
             def template
                 ErbLatex::Template.new( @latex,
-                                        data: { @template.name.underscore => @record },
+                                        data: data,
                                         layout: ROOT.join('layout.tex.erb'),
                                         partials_path: ROOT.join('partials'),
                                         packages_path: ROOT.join('packages')

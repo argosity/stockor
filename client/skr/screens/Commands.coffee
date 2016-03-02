@@ -21,7 +21,7 @@ class Skr.Screens.Commands extends Lanes.Screens.Commands
         printFn = ->
             prn.location.href = _.result(model, 'pdfDownloadUrl')
             _.delay ->
-                prn?.print()
+                prn?.print?()
             , 5000 # onload doesn't seem to work with PDF's so we just delay a bit
         if model.isDirty
             model.save().then printFn

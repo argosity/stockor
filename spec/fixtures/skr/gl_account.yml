@@ -50,6 +50,11 @@ labor:
   name: Labor
   description: Labor Costs
 
+utilities:
+  number: 5150
+  name: Utilities
+  description: Utility Costs
+
 ship:
   number: 5100
   name: Shipping

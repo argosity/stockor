@@ -1,8 +1,10 @@
+require 'numbers_in_words'
+
 module Skr
 
     module Number
 
-        def  self.ordinalize(number)
+        def self.ordinalize(number)
             if (11..13).include?(number % 100)
                 "#{number}th"
             else
@@ -15,6 +17,9 @@ module Skr
             end
         end
 
+        def self.as_words(number)
+            NumbersInWords.in_words(number)
+        end
     end
 
 end

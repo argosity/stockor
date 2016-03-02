@@ -874,6 +874,39 @@ ALTER SEQUENCE skr_locations_id_seq OWNED BY skr_locations.id;
 
 
 --
+-- Name: skr_payment_categories; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE skr_payment_categories (
+    id integer NOT NULL,
+    code character varying NOT NULL,
+    name character varying NOT NULL,
+    gl_account_id integer NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: skr_payment_categories_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE skr_payment_categories_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: skr_payment_categories_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE skr_payment_categories_id_seq OWNED BY skr_payment_categories.id;
+
+
+--
 -- Name: skr_payment_terms; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -917,12 +950,17 @@ ALTER SEQUENCE skr_payment_terms_id_seq OWNED BY skr_payment_terms.id;
 CREATE TABLE skr_payments (
     id integer NOT NULL,
     visible_id character varying NOT NULL,
-    bank_accounts_id integer NOT NULL,
+    bank_account_id integer NOT NULL,
+    category_id integer NOT NULL,
+    vendor_id integer,
+    location_id integer NOT NULL,
+    hash_code character varying NOT NULL,
     amount numeric(15,2) NOT NULL,
     date date NOT NULL,
     check_number integer NOT NULL,
-    vendor_id integer,
-    memo text,
+    name text NOT NULL,
+    address text,
+    notes text,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
@@ -1898,6 +1936,13 @@ ALTER TABLE ONLY skr_locations ALTER COLUMN id SET DEFAULT nextval('skr_location
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY skr_payment_categories ALTER COLUMN id SET DEFAULT nextval('skr_payment_categories_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY skr_payment_terms ALTER COLUMN id SET DEFAULT nextval('skr_payment_terms_id_seq'::regclass);
 
 
@@ -2167,6 +2212,14 @@ ALTER TABLE ONLY skr_invoices
 
 ALTER TABLE ONLY skr_locations
     ADD CONSTRAINT skr_locations_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: skr_payment_categories_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY skr_payment_categories
+    ADD CONSTRAINT skr_payment_categories_pkey PRIMARY KEY (id);
 
 
 --
@@ -2703,11 +2756,35 @@ ALTER TABLE ONLY skr_locations
 
 
 --
--- Name: skr_payments_bank_accounts_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: skr_payment_categories_gl_account_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY skr_payment_categories
+    ADD CONSTRAINT skr_payment_categories_gl_account_id_fk FOREIGN KEY (gl_account_id) REFERENCES skr_gl_accounts(id);
+
+
+--
+-- Name: skr_payments_bank_account_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY skr_payments
-    ADD CONSTRAINT skr_payments_bank_accounts_id_fk FOREIGN KEY (bank_accounts_id) REFERENCES skr_bank_accounts(id);
+    ADD CONSTRAINT skr_payments_bank_account_id_fk FOREIGN KEY (bank_account_id) REFERENCES skr_bank_accounts(id);
+
+
+--
+-- Name: skr_payments_category_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY skr_payments
+    ADD CONSTRAINT skr_payments_category_id_fk FOREIGN KEY (category_id) REFERENCES skr_payment_categories(id);
+
+
+--
+-- Name: skr_payments_location_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY skr_payments
+    ADD CONSTRAINT skr_payments_location_id_fk FOREIGN KEY (location_id) REFERENCES skr_locations(id);
 
 
 --

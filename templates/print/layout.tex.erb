@@ -10,7 +10,11 @@
 \usepackage{marginnote}
 \hfuzz=5pt
 \usepackage{array}
+<% if @position == :absolute -%>
+\usepackage[absolute]{textpos}
+<% else -%>
 \usepackage{textpos}
+<% end -%>
 \usepackage{rotating}
 \usepackage[usenames,dvipsnames]{color}
 \usepackage{hyperref}

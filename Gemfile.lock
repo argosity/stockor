@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/argosity/lanes.git
-  revision: d7cc393d73b961cc7e740fec8b38cbed5d6b4def
+  revision: 364ed2e1f8b2ff4a0be58b481763622c324ee5b2
   branch: master
   specs:
     lanes (0.1.9.5)
@@ -53,13 +53,14 @@ PATH
       aasm (~> 4.1)
       erb_latex (= 0.3)
       lanes
+      numbers_in_words (~> 0.4.0)
       ruby-freshbooks
 
 GEM
   remote: https://rubygems.org/
   specs:
     CFPropertyList (2.3.2)
-    aasm (4.8.0)
+    aasm (4.9.0)
     activejob (4.2.5.1)
       activesupport (= 4.2.5.1)
       globalid (>= 0.3.0)
@@ -292,6 +293,8 @@ GEM
     notiffany (0.0.8)
       nenv (~> 0.1)
       shellany (~> 0.0)
+    numbers_in_words (0.4.0)
+      activesupport
     oj (2.14.5)
     pg (0.18.4)
     phantomjs (2.1.1.0)

@@ -38,6 +38,16 @@ module Skr
                 sku.save!
             end
         end
+
+        YAML::load( seeds_path.join('payment_categories.yml').read ).each do | category_data |
+            next unless Skr::PaymentCategory.where(code: category_data['code']).first
+            Skr::PaymentCategory.create!(
+                code: category_data['code'],
+                name: category_data['name'],
+                gl_account: GlAccount.find_by_number(category_data['number'])
+            )
+
+        end
     end
 
 end

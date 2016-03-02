@@ -1,2 +1,8 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
+checking:
+  code: CHECKING
+  name: A test checking account
+  description: My test account
+  routing_number: 12345
+  account_number: 123456789
+  address: bigco
+  gl_account: bank_checking
