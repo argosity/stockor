@@ -35,6 +35,9 @@ class Skr.Screens.Invoice extends Skr.Screens.Base
             <LC.Icon type="money" />Payment
         </SC.ToolbarButton>
 
+    shouldSaveLinesImmediately: ->
+        not @invoice.isNew()
+
     render: ->
         <LC.ScreenWrapper identifier="invoice" flexVertical>
 
@@ -86,6 +89,7 @@ class Skr.Screens.Invoice extends Skr.Screens.Base
             </BS.Row>
 
             <SC.SkuLines location={@invoice.location}
+                saveImmediately={@shouldSaveLinesImmediately}
                 commands={@state.commands} lines={@invoice.lines} />
 
             <SC.TotalsLine model={@invoice} />

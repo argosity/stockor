@@ -1,3 +1,6 @@
+SHARED_DATA = null
+SHARED_COLLECTION = null
+
 class Skr.Models.GlAccount extends Skr.Models.Base
 
     props:
@@ -18,6 +21,11 @@ class Skr.Models.GlAccount extends Skr.Models.Base
 
     @initialize: (data) ->
         this.default_ids = data.default_ids
-        Lanes.Models.ServerCache.storeRecordData(
-            this::urlRoot(), data.accounts, this::cacheDuration, 'id'
+        SHARED_DATA = data.accounts
+
+
+Object.defineProperty Skr.Models.GlAccount, 'all',
+    get: ->
+        SHARED_COLLECTION ||= new Skr.Models.GlAccount.Collection(
+            SHARED_DATA, comparator: 'number'
         )

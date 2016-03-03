@@ -14,6 +14,9 @@ class Skr.Screens.SalesOrder extends Lanes.React.Screen
     getInitialState: ->
         commands: new Skr.Screens.Commands(this, modelName: 'sales_order', print: true)
 
+    shouldSaveLinesImmediately: ->
+        not @sales_order.isNew()
+
     render: ->
         <LC.ScreenWrapper identifier="sales-order" flexVertical>
             <SC.ScreenControls commands={@state.commands} />
@@ -58,6 +61,7 @@ class Skr.Screens.SalesOrder extends Lanes.React.Screen
             <SC.SkuLines
                 location={@sales_order.location}
                 commands={@state.commands}
+                saveImmediately={@shouldSaveLinesImmediately}
                 lines={@sales_order.lines} />
 
             <SC.TotalsLine model={@sales_order} />

@@ -19,7 +19,7 @@ class Skr.Models.Sku extends Skr.Models.Base
     associations:
         default_vendor:   { model: "Vendor", required: true}
         gl_asset_account: { model: "GlAccount", required: true, default: ->
-            Skr.Models.GlAccount.fetchById(this.gl_asset_account_id)
+            Skr.Models.GlAccount.all.get(this.gl_asset_account_id)
         }
         sku_locs:         { collection: "SkuLoc", required: true}
         sku_vendors:      { collection: "SkuVendor", required: true }

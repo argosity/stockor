@@ -22,10 +22,6 @@ class Skr.Components.SkuFinder extends Lanes.React.Component
                 ]
             })
 
-    selectGetSKU: (model) ->
-        if model.customer_id and model.customer_code
-            {label: model.customer_code, id: model.customer_id}
-
     render: ->
         props = _.extend( {}, @props )
         if @props.selectField

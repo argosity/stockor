@@ -1,3 +1,6 @@
+SHARED_DATA = null
+SHARED_COLLECTION = null
+
 class Skr.Models.Location extends Skr.Models.Base
 
     cacheDuration: [1, 'day']
@@ -19,11 +22,14 @@ class Skr.Models.Location extends Skr.Models.Base
         sku_locs: { collection: "SkuLoc" }
 
     @initialize: (data) ->
-        Lanes.Models.ServerCache.storeRecordData(
-            this::urlRoot(), data.locations, this::cacheDuration, 'id'
-        )
+        SHARED_DATA = data.locations
 
-    @default: ->
-        @_default || (
-            _.first @Collection.fetch().where(is_active: true)
-        )
+
+Object.defineProperties Skr.Models.Location, {
+    all:
+        get: ->
+            SHARED_COLLECTION ||= new Skr.Models.Location.Collection( SHARED_DATA )
+    default:
+        get: ->
+            @all.findWhere(code: 'DEFAULT') || @all.first()
+}

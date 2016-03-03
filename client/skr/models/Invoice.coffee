@@ -7,7 +7,7 @@ class Skr.Models.Invoice extends Skr.Models.Base
         terms_id:           {type:"integer"}
         customer_id:        {type:"integer"}
         location_id:        {type:"integer", default: ->
-            Skr.Models.Location.default()?.id
+            Skr.Models.Location.default.id
         }
         sales_order_id:     "integer"
         pick_ticket_id:     "integer"

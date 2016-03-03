@@ -4,6 +4,7 @@ class Skr.Components.SkuLines extends Lanes.React.Component
         lines:    Lanes.PropTypes.Collection.isRequired
         commands: React.PropTypes.object.isRequired
         location: Lanes.PropTypes.Model.isRequired
+        saveImmediately: React.PropTypes.func.isRequired
 
     componentWillMount: ->
         @createQuery(@props.lines)
@@ -33,8 +34,8 @@ class Skr.Components.SkuLines extends Lanes.React.Component
                 }
             ]
 
-    onSkuChange: (line, val, sel) ->
-        line.set(sku: val)
+    onSkuChange: (sku, options) ->
+        options.parent.set({sku})
         _.defer =>
             _.dom(@, 'input[name="qty"]').focusAndSelect() if @isMounted()
 
@@ -66,7 +67,7 @@ class Skr.Components.SkuLines extends Lanes.React.Component
             autoLoadQuery={false}
             expandY={true}
             columEditors={@editors()}
-            editorProps={location: @props.location, syncImmediatly: @shouldSaveImmediatly}
+            editorProps={location: @props.location, syncImmediatly: @props.saveImmediately}
             onSelectionChange={@onSelectionChange}
             height=200
             allowDelete={true}
