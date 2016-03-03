@@ -11,7 +11,7 @@ class Skr.Screens.TimeInvoicing extends Skr.Screens.Base
             new Lanes.Models.Query({
                 defaultSort: 'start_at',
                 src: Skr.Models.TimeEntry, fields: [
-                    {id:'id', visible: false}
+                    { id:'id', visible: false }
                     @gridSelections
                     {
                         id: 'start_at', fixedWidth: 200,
@@ -35,10 +35,14 @@ class Skr.Screens.TimeInvoicing extends Skr.Screens.Base
         total = _.bigDecimal('0')
         rate = @request.customer_project.rates?.hourly
         return unless rate # the first call is when the model isn't parsed yet
+        selectedRows = 0
         @query.results.eachRow (row, xd) ->
             unless xd && false == xd.selected
+                selectedRows += 1
                 total = total.add( hoursForRow(row) * rate )
-        @setState(total: total )
+        selectionState = if selectedRows is @query.results.length then 'all'
+        else if selectedRows then 'some' else 'none'
+        @setState({total, selectionState})
 
     editors: ->
         selected:  ({query, rowIndex}) ->
@@ -84,8 +88,9 @@ class Skr.Screens.TimeInvoicing extends Skr.Screens.Base
         @query.changeCount++
     renderToggleAllButton: ->
         return null if 0 is @query.results.length
+
         <BS.Button className="navbar-btn toggle" onClick={@onSelectAll} bsSize='small'>
-            <LC.Icon type="check-square-o" />Toggle
+            <SC.TriState type={@state.selectionState} /> Toggle
         </BS.Button>
 
     render: ->
