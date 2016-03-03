@@ -48,14 +48,13 @@ module Skr
 
                     if parent
                         before_create do
-                            self.position ||= ( self.send( parent ).lines.maximum(:position) || 0 ) + 1
+                            self.position ||= self.send( parent ).lines.max_by{|l|
+                                l.position || 0
+                            }.position.to_i + 1
                         end
                     end
-
                     export_methods :extended_price, :optional=>false
-
                 end
-
 
             end
 

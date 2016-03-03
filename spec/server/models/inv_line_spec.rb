@@ -73,4 +73,18 @@ class InvLineSpec < Skr::TestCase
        end
    end
 
+   it 'sets position when set from attributes' do
+       inv = Invoice.new( location: skr_location(:default),
+                          customer: skr_customer( :hubbard ),
+                          lines_attributes: [
+                              {sku_loc_id: skr_sku_loc(:hat_def).id,   qty: 1, price: 0.22},
+                              {sku_loc_id: skr_sku_loc(:glove_def).id, qty: 2, price: 1.5},
+                              {sku_loc_id: skr_sku_loc(:misc_def).id,  qty: 3, price: 2.5}
+                          ])
+        assert inv.save, 'invoice failed to save'
+        inv.lines.pluck(:qty, :position).each do |qty, position|
+            assert_equal(qty.to_i, position, "Line #{qty} does not equal position")
+        end
+   end
+
 end
