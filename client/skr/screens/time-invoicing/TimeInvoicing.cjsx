@@ -60,8 +60,9 @@ class Skr.Screens.TimeInvoicing extends Skr.Screens.Base
 
     createInvoice: ->
         idIndex = @query.idIndex
+        @request.time_entry_ids = []
         @query.results.eachRow (row, xd) =>
-            return if xd and not xd.selected
+            return if xd and false == xd.selected
             @request.time_entry_ids.push(row[idIndex])
         @request.save(saveAll: true).then (req) =>
             @query.results.reload()
