@@ -1,6 +1,3 @@
-SHARED_COLLECTION = new Skr.Models.PaymentTerm.Collection
-
-
 class Skr.Components.TermsChooser extends Lanes.React.Component
 
     propTypes:
@@ -11,9 +8,6 @@ class Skr.Components.TermsChooser extends Lanes.React.Component
 
     getDefaultProps: ->
         label: 'Payment Terms', name: 'terms'
-
-    componentWillMount: ->
-        SHARED_COLLECTION.ensureLoaded()
 
     dataObjects:
         query: ->
@@ -33,13 +27,14 @@ class Skr.Components.TermsChooser extends Lanes.React.Component
     render: ->
         if @props.useFinder
             <LC.RecordFinder ref="finder"
-                commands={@props.commands} query={@query}
+                collection={Skr.Models.PaymentTerm.all}
+                commands={@props.commands}
+                query={@query}
                 {...@props} />
         else
             <LC.SelectField sm=3
-                choices={SHARED_COLLECTION.models}
+                choices={Skr.Models.PaymentTerm.all.models}
                 labelField="code"
                 {...@props}
                 fetchWhenOpen={false}
-                collection={SHARED_COLLECTION}
                 model={@props.model} />

@@ -13,6 +13,9 @@ class Skr.Extension extends Lanes.Extensions.Base
         Skr.Models.Location.initialize(
             locations: data.locations
         )
+        Skr.Models.PaymentTerm.initialize(
+            payment_terms: data.payment_terms
+        )
         for type, choices of data.templates
             klass = Skr.Models[_.classify(type)]
             if klass

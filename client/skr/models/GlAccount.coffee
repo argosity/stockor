@@ -17,7 +17,7 @@ class Skr.Models.GlAccount extends Skr.Models.Base
     derived:
         combined_name:
             deps: ['number', 'name'], fn: ->
-                if @isNew() then "" else "#{@number}: #{@name}"
+                if @number and @name then "#{@number}: #{@name}" else ''
 
     @initialize: (data) ->
         this.default_ids = data.default_ids

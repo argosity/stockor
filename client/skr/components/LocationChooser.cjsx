@@ -1,5 +1,3 @@
-SHARED_COLLECTION = new Skr.Models.Location.Collection
-
 class Skr.Components.LocationChooser extends Lanes.React.Component
 
     propTypes:
@@ -22,20 +20,18 @@ class Skr.Components.LocationChooser extends Lanes.React.Component
                 ]
             })
 
-    componentWillMount: ->
-        SHARED_COLLECTION.ensureLoaded()
-
     render: ->
         props = _.clone(@props)
         if props.displayFinder
             <LC.RecordFinder ref="finder" sm=3 autoFocus
                 commands={@state.commands}
+                choices={Skr.Models.Location.all.models}
                 query={@query}
                 {...props} />
         else
             <LC.SelectField
                 {...props}
-                collection={SHARED_COLLECTION}
+                collection={Skr.Models.Location.all}
                 labelField='code'
                 fetchWhenOpen={false}
                 model={@props.model} />

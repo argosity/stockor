@@ -20,6 +20,7 @@ module Skr
                     [code, account ? account['id'] : 0]
                 }],
                 gl_accounts: gl_accounts,
+                payment_terms: Skr::PaymentTerm.all.as_json,
                 locations: Skr::Location.all.as_json,
                 templates: Skr::Print::Template.as_json
             }
