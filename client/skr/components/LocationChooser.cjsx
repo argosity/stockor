@@ -25,13 +25,12 @@ class Skr.Components.LocationChooser extends Lanes.React.Component
         if props.displayFinder
             <LC.RecordFinder ref="finder" sm=3 autoFocus
                 commands={@state.commands}
-                choices={Skr.Models.Location.all.models}
+                collection={Skr.Models.Location.all}
                 query={@query}
                 {...props} />
         else
             <LC.SelectField
                 {...props}
-                collection={Skr.Models.Location.all}
+                choices={Skr.Models.Location.all.models}
                 labelField='code'
-                fetchWhenOpen={false}
                 model={@props.model} />
