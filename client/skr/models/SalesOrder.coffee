@@ -66,7 +66,7 @@ class Skr.Models.SalesOrder extends Skr.Models.Base
     onCustomerChange: ->
         return unless @isNew()
         associations = ['billing_address', 'shipping_address']
-        @customer.withAssociations(associations).then( =>
+
+        @customer.withAssociations(associations).then =>
             for name in associations
-                this[name].copyFrom(@customer[name])
-        )
+                @associations.replace(@, name, @customer[name])

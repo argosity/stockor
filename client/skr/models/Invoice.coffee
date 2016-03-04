@@ -70,19 +70,19 @@ class Skr.Models.Invoice extends Skr.Models.Base
 
     onSetCustomer: (newCustomer) ->
         return if not newCustomer or newCustomer.isNew()
-        @copyAssociationsFrom( newCustomer, 'billing_address', 'shipping_address', 'terms')
+        @copyAssociationsFrom( newCustomer, 'billing_address', 'shipping_address')
 
     setFromSalesOrder: (so) ->
         @sales_order_id = so.id
-        for attr in ['customer_code', 'po_num', 'notes']
+        for attr in ['customer_code', 'po_num', 'notes', 'terms_id', 'form']
             @set(attr, so[attr])
 
-        @sales_order.copyFrom(so)
+        @associations.replace(@, 'sales_order', @sales_order)
         @copyAssociationsFrom(so,
-            'location', 'customer', 'location', 'terms', 'billing_address', 'shipping_address'
+            'customer', 'billing_address', 'shipping_address'
         ).then =>
             so.lines.fetch(with: ['sku_code'], include: ['sku']).then =>
-                @lines.copyFrom(so.lines)
+                @lines.reset so.lines.map(Skr.Models.InvLine.fromSoLine)
                 @onChangeTotal()
                 @trigger('change', @, {})
 
@@ -90,7 +90,7 @@ class Skr.Models.Invoice extends Skr.Models.Base
         new _.Promise (res, rej) =>
             model.withAssociations(associations).then =>
                 for name in associations
-                    @[name].copyFrom(model[name])
+                    @associations.replace(@, name, model[name])
                 res(@)
 
     dataForSave: ->

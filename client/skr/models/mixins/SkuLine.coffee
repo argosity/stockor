@@ -37,7 +37,7 @@ Skr.Models.Mixins.SkuLine = {
 
     onUomsLoad: ->
         uom = this.uom_choices.findWhere(size: @uom_size, code: @uom_code)
-        this.uom.copyFrom(uom) if uom
+        this.uom.set( uom.serialize() ) if uom
 
     onSkuChange: ->
         return unless @sku

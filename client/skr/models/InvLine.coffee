@@ -31,13 +31,12 @@ class Skr.Models.InvLine extends Skr.Models.Base
             deps: ['invoice'], fn: ->
                 @invoice.location_id
 
-    copyFrom: (other) ->
-        super
-        if other instanceof Skr.Models.SoLine
-            @so_line.copyFrom(other)
-            @unset('id')
-        @
-
     dataForSave: ->
         # lines should never send associations
         super(excludeAssociations: true)
+
+
+    @fromSoLine: (l) ->
+        invl = new Skr.Models.InvLine( l.serialize() )
+        invl.unset('id')
+        invl

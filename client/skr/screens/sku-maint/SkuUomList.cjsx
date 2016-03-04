@@ -11,7 +11,7 @@ class UomList extends Lanes.Models.State
         @expanded = expanded or @uoms.first()
 
     save: ->
-        @sku.uoms.copyFrom(@uoms)
+        @sku.associations.replace(@sku, 'uoms', uoms)
         @sku.default_uom_code = @default.code
 
     add: ->
