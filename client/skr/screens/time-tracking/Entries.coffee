@@ -27,7 +27,6 @@ class Skr.Screens.TimeTracking.Entries extends Lanes.Models.Base
         customer_project_id: 'integer'
         editing: 'any'
 
-
     derived:
         project:
             deps: ['customer_project_id'], fn: ->
@@ -56,13 +55,17 @@ class Skr.Screens.TimeTracking.Entries extends Lanes.Models.Base
 
     constructor: ->
         super
-        @available_projects = Skr.Models.CustomerProject.Collection
-            .fetch().whenLoaded (cp) =>
-                cp.add({id:-1, code: 'ALL', options:{color: 1}}, at: 0)
-                @set(customer_project_id: Lanes.current_user.options.project_id or -1 )
+        @available_projects = new Skr.Models.CustomerProject.Collection
+        @listenTo(@available_projects, 'sync', @onProjectsRequest)
+        @available_projects.ensureLoaded()
         @entries = new TimeEntries(@available_projects)
         @listenTo(@entries, 'request', @onRequest)
         @listenTo(@entries, 'sync', @onLoad)
+
+    onProjectsRequest: ->
+        @available_projects.add({id:-1, code: 'ALL', options:{color: 1}}, at: 0)
+        @set(customer_project_id: Lanes.current_user.options.project_id or -1 )
+        @trigger('change', @)
 
     startEditing: (editingEvent) ->
         for event in @calEvents().events

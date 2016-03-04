@@ -1,4 +1,5 @@
 class Skr.Screens.TimeTracking.Header extends Lanes.React.BaseComponent
+
     back: ->
         @props.entries.back()
     forward: ->
@@ -12,6 +13,11 @@ class Skr.Screens.TimeTracking.Header extends Lanes.React.BaseComponent
         <div className={"color-#{color}"}>{props.item.code}</div>
     getProjects: ->
         @props.entries.available_projects.models
+
+    onProjectsToggle: (isOpen) ->
+        if isOpen and not @props.entries.available_projects.requestInProgress
+            @props.entries.available_projects.fetch()
+            @forceUpdate()
 
     render: ->
         <BS.Row className='calendar-header'>
@@ -52,6 +58,8 @@ class Skr.Screens.TimeTracking.Header extends Lanes.React.BaseComponent
             <div className="select">
                 <Lanes.Vendor.ReactWidgets.DropdownList
                     data={@getProjects()}
+                    busy={!!@props.entries.available_projects.requestInProgress}
+                    onToggle={@onProjectsToggle}
                     valueField='id' textField='code'
                     value={@props.entries.project}
                     onChange={@setProject}
