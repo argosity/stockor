@@ -9,6 +9,16 @@ bigco:
   state: NY
   postal_code: '12345'
 
+bigcobank:
+  name: Big Co First Federal Bankcorp
+  email: bigbank@biggybank.com
+  phone: "(888) 555-5555"
+  line1: 1 banking lane
+  line2:
+  city: NY
+  state: NY
+  postal_code: '12345'
+
 surplus:
   name: Big Co Surplus Location
   email: biggy@huge.com

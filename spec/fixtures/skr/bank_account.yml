@@ -4,5 +4,5 @@ checking:
   description: My test account
   routing_number: 12345
   account_number: 123456789
-  address: bigco
+  address: bigcobank
   gl_account: bank_checking

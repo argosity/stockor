@@ -9,12 +9,12 @@
 \begin{textblock}{195}(10,15)
   \begin{tabu} to \columnwidth{lXX[-1m]r}
   % <% if logo = @payment.location.get_logo %>
-    \raisebox{-.8\height}{\includegraphics[height=18mm,width=80mm,keepaspectratio]{<%=
-    logo.file.path %>} }
+    \includegraphics[align=t,height=14mm,keepaspectratio]{<%=
+    logo.file.path %>}
   % <% end %>
         & \small <%= break_lines @payment.location.address.to_s %>
         & \tiny <%= break_lines @payment.bank_account.address %>
-        & \shadowbox{\large\bf {CHECK \# <%= @payment.check_number %> } }\\
+        & \raisebox{-3mm}{\shadowbox{\large\bf {CHECK \# <%= @payment.check_number %> } }}\\
      \end{tabu}
 \end{textblock}
 %
@@ -50,10 +50,12 @@
   \end{tabu}
 \end{textblock}
 %
-\begin{textblock}{6}(25,80)
-\begin{tabu} to \columnwidth{>{\hfill}p{3.4cm}ll}
-\micr <%= sprintf('%s%09i%s', 'C',@payment.check_number,'C') %> & \micr A<%= @payment.bank_account.routing_number %>A & \micr C<%=@payment.bank_account.account_number %>C \\
-\end{tabu}
+\begin{textblock}{6}(20,79)
+\micr <%= sprintf('%s%07i%s', 'C', @payment.check_number, 'C') %>
 \end{textblock}
-
+%
+\begin{textblock}{20}(48.3,79)
+\micr A<%= @payment.bank_account.routing_number %>A C<%=@payment.bank_account.account_number %>C
+\end{textblock}
+%
 \end{document}

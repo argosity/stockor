@@ -4,6 +4,9 @@ class PrintSpec < Skr::TestCase
 
     # for debugging add a generate(pdf) to one of the specs
     def generate(pdf)
+        Lanes::SystemSettings.config.logo = File.open(
+            Pathname.new(__FILE__).dirname.join('../../fixtures/stockor.png')
+        )
         begin
             File.open('/tmp/skr-test.tex', 'w'){|f| f.write pdf.as_latex    }
             File.open('/tmp/skr-test.pdf', 'w'){|f| f.write pdf.as_pdf.read }
@@ -26,21 +29,19 @@ class PrintSpec < Skr::TestCase
         assert inv.update_attributes form: 'labor'
         pdf = Skr::Print::Form.new('invoice', inv.hash_code)
         assert pdf.as_latex
-        generate(pdf)
     end
 
-    # it 'can generate sales order' do
-    #     so = skr_sales_order(:tiny)
-    #     pdf = Skr::Print::Form.new('sales-order', so.hash_code)
-    #     assert pdf.as_latex
-    # end
+    it 'can generate sales order' do
+        so = skr_sales_order(:tiny)
+        pdf = Skr::Print::Form.new('sales-order', so.hash_code)
+        assert pdf.as_latex
+    end
 
-    # it 'can generate checks' do
-    #     pymnt = skr_payment(:bigco)
-    #     pdf = Skr::Print::Form.new('payment', pymnt.hash_code)
-    #     assert pdf.as_latex
-    #     generate(pdf)
-    # end
+    it 'can generate checks' do
+        pymnt = skr_payment(:bigco)
+        pdf = Skr::Print::Form.new('payment', pymnt.hash_code)
+        assert pdf.as_latex
+    end
 
 
 end
