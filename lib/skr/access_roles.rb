@@ -6,10 +6,11 @@ module Lanes::Access
 
         # re-open the exising Support role
         class Support
-            grant Skr::Customer,
-                  Skr::Sku,
-                  Skr::SalesOrder,
-                  Skr::Invoice,
+            read Skr::Invoice,
+                 Skr::Customer,
+                 Skr::Sku
+
+            grant Skr::SalesOrder,
                   Skr::TimeEntry
         end
 
