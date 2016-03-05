@@ -36,20 +36,13 @@ Lanes::Screen.for_extension 'skr' do | screens |
     end
 
     ## ACCOUNTING GROUP
-    screens.define "invoice" do | screen |
-        screen.title       = "Invoice"
-        screen.description = "Invoices"
-        screen.icon        = "money"
-        screen.group_id    = "accounting"
-        screen.model_class = "Invoice"
-        screen.view_class  = "Invoice"
-    end
     screens.define "time-invoicing" do | screen |
         screen.title       = "Time Invoicing"
         screen.description = ""
         screen.icon        = "hourglass"
         screen.group_id    = "accounting"
         screen.model_class = "Invoice"
+        screen.model_access = "write"
         screen.view_class  = "TimeInvoicing"
     end
     screens.define "payments" do | screen |
@@ -65,7 +58,7 @@ Lanes::Screen.for_extension 'skr' do | screens |
         screen.description = ""
         screen.icon        = "bank"
         screen.group_id    = "accounting"
-        screen.model_class = ""
+        screen.model_class = "BankAccount"
         screen.view_class  = "BankMaint"
     end
     screens.define "payment-terms" do | screen |
@@ -73,6 +66,7 @@ Lanes::Screen.for_extension 'skr' do | screens |
         screen.description = ""
         screen.icon        = "money"
         screen.group_id    = "accounting"
+        screen.model_access = "write"
         screen.model_class = "PaymentTerm"
         screen.view_class  = "PaymentTerms"
     end
@@ -105,6 +99,7 @@ Lanes::Screen.for_extension 'skr' do | screens |
         screen.description = ""
         screen.icon        = "briefcase"
         screen.group_id    = "accounting"
+        screen.model_access = "write"
         screen.model_class = "Invoice"
         screen.view_class  = "CustomerProjects"
     end
@@ -140,6 +135,14 @@ Lanes::Screen.for_extension 'skr' do | screens |
         screen.group_id    = "customer"
         screen.model_class = "SalesOrder"
         screen.view_class  = "SalesOrder"
+    end
+    screens.define "invoice" do | screen |
+        screen.title       = "Invoice"
+        screen.description = "Invoices"
+        screen.icon        = "money"
+        screen.group_id    = "customer"
+        screen.model_class = "Invoice"
+        screen.view_class  = "Invoice"
     end
     screens.define "time-tracking" do | screen |
         screen.title       = "Time Tracking"
