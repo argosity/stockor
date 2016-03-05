@@ -3,8 +3,6 @@
 
 class Skr.Screens.Invoice extends Skr.Screens.Base
 
-    modelForAccess: 'invoice'
-
     syncOptions:
         with: [ 'with_details' ]
         include: [ 'sales_order', 'billing_address', 'shipping_address', 'lines'   ]
@@ -17,7 +15,6 @@ class Skr.Screens.Invoice extends Skr.Screens.Base
             })
 
     getInitialState: ->
-        isEditing: true
         commands: new Skr.Screens.Commands(this, modelName: 'invoice', print: true)
 
     setSalesOrder: (so) -> @invoice.setFromSalesOrder(so)
