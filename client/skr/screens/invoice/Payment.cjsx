@@ -9,7 +9,7 @@ class Skr.Screens.Invoice.Payment extends Lanes.React.Component
     onEnter: -> @props.modal.onButton()
 
     render: ->
-        <div className='payment'>
+        <LC.ScreenWrapper identifier="payment">
             <BS.Row>
 
                 <LC.DisplayValue name='total' getValue={->
@@ -25,4 +25,4 @@ class Skr.Screens.Invoice.Payment extends Lanes.React.Component
                 } onEnter={@onEnter} name='amount_paid' align='right' model={@invoice} />
 
             </BS.Row>
-        </div>
+        </LC.ScreenWrapper>
