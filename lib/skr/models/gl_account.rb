@@ -10,7 +10,7 @@ module Skr
 
         is_immutable except: [:name, :is_active]
 
-        validates :name, :description, :presence => true
+        validates :name, :presence => true
 
         # joins the gl_balances view which includes the
         # branch_number and balance fields
