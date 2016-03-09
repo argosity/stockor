@@ -12,6 +12,10 @@ module Skr
 
         export_methods :combined_uom, mandatory: true
 
+        scope :with_combined_uom, lambda { | *args |
+            compose_query_using_detail_view(view: 'skr_combined_uom')
+        }, export: true
+
         def combined_uom
             if self.size.nil? || self.code.nil?
                 ''
