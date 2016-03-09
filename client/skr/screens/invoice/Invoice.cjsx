@@ -52,7 +52,6 @@ class Skr.Screens.Invoice extends Skr.Screens.Base
                     syncOptions={@syncOptions} parentModel={@invoice} />
 
                 <SC.CustomerFinder
-                    defaultLabel={@invoice.customer_code}
                     selectField sm=3 xs=6 model={@invoice} />
 
                 <SC.TermsChooser model={@invoice} sm=3 xs=6 />
