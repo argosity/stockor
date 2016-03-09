@@ -103,6 +103,15 @@ Lanes::Screen.for_extension 'skr' do | screens |
         screen.model_class = "Invoice"
         screen.view_class  = "CustomerProjects"
     end
+    screens.define "gl-accounts" do | screen |
+        screen.title       = "Gl Accounts"
+        screen.description = ""
+        screen.icon        = "archive"
+        screen.model_access = "write"
+        screen.group_id    = "accounting"
+        screen.model_class = "GlAccount"
+        screen.view_class  = "GlAccounts"
+    end
 
     # MAINT GROUP
     screens.define "sku-maint" do | screen |

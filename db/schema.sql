@@ -188,6 +188,40 @@ ALTER SEQUENCE skr_bank_accounts_id_seq OWNED BY skr_bank_accounts.id;
 
 
 --
+-- Name: skr_uoms; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE skr_uoms (
+    id integer NOT NULL,
+    sku_id integer NOT NULL,
+    price numeric(15,2) NOT NULL,
+    size smallint DEFAULT 1 NOT NULL,
+    code character varying DEFAULT 'EA'::character varying NOT NULL,
+    weight numeric(6,1),
+    height numeric(6,1),
+    width numeric(6,1),
+    depth numeric(6,1),
+    created_at timestamp without time zone NOT NULL,
+    created_by_id integer NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    updated_by_id integer NOT NULL
+);
+
+
+--
+-- Name: skr_combined_uom; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW skr_combined_uom AS
+ SELECT uom.id AS skr_uom_id,
+        CASE
+            WHEN (uom.size = 1) THEN (uom.code)::text
+            ELSE (((uom.code)::text || '/'::text) || uom.size)
+        END AS combined_uom
+   FROM skr_uoms uom;
+
+
+--
 -- Name: skr_customer_projects; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1254,27 +1288,6 @@ CREATE TABLE skr_sku_vendors (
     uom_size integer DEFAULT 1 NOT NULL,
     uom_code character varying DEFAULT 'EA'::character varying NOT NULL,
     cost numeric(15,2) NOT NULL,
-    created_at timestamp without time zone NOT NULL,
-    created_by_id integer NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
-    updated_by_id integer NOT NULL
-);
-
-
---
--- Name: skr_uoms; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE skr_uoms (
-    id integer NOT NULL,
-    sku_id integer NOT NULL,
-    price numeric(15,2) NOT NULL,
-    size smallint DEFAULT 1 NOT NULL,
-    code character varying DEFAULT 'EA'::character varying NOT NULL,
-    weight numeric(6,1),
-    height numeric(6,1),
-    width numeric(6,1),
-    depth numeric(6,1),
     created_at timestamp without time zone NOT NULL,
     created_by_id integer NOT NULL,
     updated_at timestamp without time zone NOT NULL,
@@ -3242,4 +3255,6 @@ INSERT INTO schema_migrations (version) VALUES ('20160216142845');
 INSERT INTO schema_migrations (version) VALUES ('20160229002044');
 
 INSERT INTO schema_migrations (version) VALUES ('20160229041711');
+
+INSERT INTO schema_migrations (version) VALUES ('20160307022705');
 
