@@ -11,7 +11,7 @@ class Skr.Screens.FreshBooksImport extends Skr.Screens.Base
         import: ->
             new Skr.Screens.FreshBooksImport.Import
 
-    jobStatus: ->
+    JobStatus: ->
         return null unless @import.job.isExecuting
         message = if @import.stage is 'complete'
             "Importing records from Fresh Books"
@@ -22,8 +22,10 @@ class Skr.Screens.FreshBooksImport extends Skr.Screens.Base
 
     render: ->
         <LC.ScreenWrapper identifier="fresh-books-import">
+            <LC.ErrorDisplay model={@import} />
+
             <Skr.Screens.FreshBooksImport.ApiInfo import={@import} />
-            {@jobStatus()}
+            <@JobStatus />
             <Skr.Screens.FreshBooksImport.ChooseRecords import={@import} />
             <Skr.Screens.FreshBooksImport.ViewRecords import={@import} />
         </LC.ScreenWrapper>
