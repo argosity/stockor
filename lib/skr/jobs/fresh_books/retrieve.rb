@@ -37,16 +37,16 @@ module Skr::Jobs::FreshBooks
 
         def self.from_request(req)
             fb = ::FreshBooks::Client.new("#{req['domain']}.freshbooks.com", req['api_key'])
-            error = nil
+            errors = nil
             begin
                 # make a test api call to validate authentication
                 resp = fb.client.list(per_page: 1)
-                error = resp['error']
+                errors = {access: resp['error']} if resp['error']
             rescue SocketError
-                error = 'Unable to resolve account'
+                errors = {network: 'Unable to resolve account'}
             end
-            if error
-                return {success: false, data: {}, error: error}
+            if errors
+                return {success: false, data: {}, errors: errors}
             else
                 job = self.perform_later(req['domain'], req['api_key'])
                 return {
