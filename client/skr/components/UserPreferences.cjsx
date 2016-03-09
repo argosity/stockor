@@ -5,7 +5,7 @@ class Skr.Components.UserPreferences extends Lanes.React.Component
 
     componentWillMount: -> @projects.ensureLoaded()
 
-    setProject: (model, project) ->
+    setProject: (project) ->
         @user.options = _.extend({}, @user.options, {project_id: project.id})
 
     getProject: ->
@@ -19,10 +19,12 @@ class Skr.Components.UserPreferences extends Lanes.React.Component
                 fetchWhenOpen={false}
                 label='Default Customer Project'
                 labelField='code'
-                model={@user} name='options'
-                collection={@projects}
+                model={@user}
+                name='options'
+                choices={@projects.models}
                 setSelection={@setProject}
                 getSelection={@getProject}
+                queryModel={Skr.Models.CustomerProject}
             />
 
         </BS.Row>
