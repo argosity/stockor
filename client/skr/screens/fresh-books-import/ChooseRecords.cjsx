@@ -13,12 +13,12 @@ class UserSelect extends Lanes.React.Component
 
     getUser: ->
         if @props.row.mapped_user_id
-            user = USERS.get(@props.row.mapped_user_id)
-            label: user.login, id: user.id
+            USERS.get(@props.row.mapped_user_id)
         else null
 
-    setUser: (val, user) ->
+    setUser: (user) ->
         @props.row.mapped_user_id = user.id
+        @forceUpdate()
 
     render: ->
         <LC.SelectField
@@ -26,10 +26,10 @@ class UserSelect extends Lanes.React.Component
             model={this.user}
             name="user"
             labelField='login'
+            queryModel={Lanes.Models.User}
             getSelection={@getUser}
             setSelection={@setUser}
-            collection={USERS}
-            fetchWhenOpen={false}
+            choices={USERS.models}
         />
 
 
