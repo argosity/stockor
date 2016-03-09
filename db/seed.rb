@@ -40,14 +40,14 @@ module Skr
         end
 
         YAML::load( seeds_path.join('payment_categories.yml').read ).each do | category_data |
-            next unless Skr::PaymentCategory.where(code: category_data['code']).first
+            next if Skr::PaymentCategory.exists?(code: category_data['code'])
             Skr::PaymentCategory.create!(
                 code: category_data['code'],
                 name: category_data['name'],
-                gl_account: GlAccount.find_by_number(category_data['number'])
+                gl_account: GlAccount.find_by_number(category_data['gl_account'])
             )
-
         end
+
     end
 
 end
