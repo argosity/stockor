@@ -24,12 +24,12 @@ Skr.Models.Mixins.SkuLine = {
         _.extend( klass::associations ||= {}, ASSOCIATIONS)
 
     initialize: ->
+        @uom.size = @uom_size
+        @uom.code = @uom_code
         @on('change:sku', @onSkuChange)
         @on('change:uom', @onUomChange)
         @on('change:location_id', @onLocationChange)
         @uom_choices.on("add", @onUomsLoad, this)
-        @uom.size = @uom_size
-        @uom.code = @uom_code
 
     onLocationChange: ->
         if @location_id
