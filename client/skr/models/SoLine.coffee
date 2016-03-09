@@ -25,6 +25,9 @@ class Skr.Models.SoLine extends Skr.Models.Base
     associations:
         sales_order: { model: "SalesOrder"  }
 
+    modelForAccess: ->
+        @sales_order || this
+
     dataForSave: ->
         # so lines should never send associations
         super(excludeAssociations: true)

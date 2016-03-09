@@ -31,6 +31,9 @@ class Skr.Models.InvLine extends Skr.Models.Base
             deps: ['invoice'], fn: ->
                 @invoice.location_id
 
+    modelForAccess: ->
+        @invoice || this
+
     dataForSave: ->
         # lines should never send associations
         super(excludeAssociations: true)
