@@ -22,7 +22,7 @@ class Skr.Components.SkuLines extends Lanes.React.Component
                 { id: 'description', flex: 2      }
                 {
                     id: 'uom', title: 'UOM', query: false, fixedWidth: 100,
-                    format: (v, r, q)  -> v?.combined
+                    format: (v, r, q)  -> v?.combined_uom
                     sortBy: (a, b) ->
                         Lanes.u.comparator(a.uom_size, b.uom_size) or
                             Lanes.u.comparator(a.uom_code, b.uom_code)
@@ -35,7 +35,7 @@ class Skr.Components.SkuLines extends Lanes.React.Component
             ]
 
     onSkuChange: (sku, options) ->
-        options.parent.set({sku})
+        options.model.set({sku})
         _.defer =>
             _.dom(@, 'input[name="qty"]').focusAndSelect() if @isMounted()
 
@@ -46,12 +46,13 @@ class Skr.Components.SkuLines extends Lanes.React.Component
                 include: ['sku_locs', 'uoms']
             }
             <SC.SkuFinder
+                writable
                 setSelection={@onSkuChange}
                 name='sku' model={model}
                 selectField unstyled syncOptions={options} />
 
         uom: ({model}) ->
-            <SC.UOMChooser unstyled model={model} />
+            <SC.UOMChooser writable unstyled model={model} />
 
     onSelectionChange:  (model) ->
         return unless model and @props.commands.isEditing()
@@ -69,7 +70,6 @@ class Skr.Components.SkuLines extends Lanes.React.Component
             columEditors={@editors()}
             editorProps={location: @props.location, syncImmediatly: @props.saveImmediately}
             onSelectionChange={@onSelectionChange}
-            height=200
             allowDelete={true}
             allowCreate={true}
             editor={true}
