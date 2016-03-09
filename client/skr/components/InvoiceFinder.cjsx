@@ -17,10 +17,15 @@ class Skr.Components.InvoiceFinder extends Lanes.React.Component
                 )
                 src: Skr.Models.Invoice, fields: [
                     { id: 'id', visible: false }
-                    { id: 'visible_id' }
-                    { id: 'customer_code' }
-                    { id: 'notes', flex: 2}
-                    { id: 'invoice_total', title: 'Total', format: Lanes.u.format.currency }
+                    { id: 'visible_id', title: 'Invoice #', fixedWidth: 100}
+                    { id: 'customer_code', title: 'Customer', fixedWidth: 120}
+                    { id: 'invoice_date', fixedWidth: 120}
+                    { id: 'po_num', title: 'PO', fixedWidth: 120}
+                    { id: 'notes', flex: 1}
+                    {
+                        id: 'invoice_total', title: 'Total', fixedWidth: 120,
+                        textAlign: 'right', format: Lanes.u.format.currency
+                    }
                 ]
             })
 
