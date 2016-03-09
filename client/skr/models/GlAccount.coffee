@@ -4,10 +4,11 @@ SHARED_COLLECTION = null
 class Skr.Models.GlAccount extends Skr.Models.Base
 
     props:
-        id:         {type:"integer"}
-        number:     {type:"string",  required:true}
-        name:       {type:"string",  required:true}
-        is_active:  {type:"boolean", "default":true}
+        id:          {type:"integer"}
+        number:      {type:"string",  required:true}
+        name:        {type:"string",  required:true}
+        description: {type: 'string', default: ''  }
+        is_active:   {type:"boolean", default: true}
 
     # optional attributes from trial balance view
     session:
