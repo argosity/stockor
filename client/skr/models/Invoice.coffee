@@ -61,7 +61,7 @@ class Skr.Models.Invoice extends Skr.Models.Base
 
     events:
         'change:customer': 'onSetCustomer'
-        'lines change:total': 'onChangeTotal'
+        'lines add remove change:total': 'onChangeTotal'
 
     onChangeTotal: ->
         @trigger('change', @, {})

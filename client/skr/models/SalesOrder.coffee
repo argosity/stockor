@@ -56,7 +56,7 @@ class Skr.Models.SalesOrder extends Skr.Models.Base
 
     events:
         'change:customer': 'onCustomerChange'
-        'lines change:total': 'onTotalChange'
+        'lines add remove change:total': 'onTotalChange'
 
     onTotalChange: ->
         @trigger('change', @, {})
