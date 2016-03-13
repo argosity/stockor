@@ -13,7 +13,7 @@ class Skr.Components.CustomerFinder extends Lanes.React.Component
     dataObjects:
         query: ->
             new Lanes.Models.Query({
-                syncOptions: @props.syncOptions
+                syncOptions: @props.syncOptions, autoRetrieve: true
                 src: Skr.Models.Customer, fields: [
                     {id:'id', visible: false}
                     { id: 'code', fixedWidth: 130 }, 'name', 'notes',

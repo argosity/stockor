@@ -13,7 +13,7 @@ class Skr.Components.PaymentCategoryFinder extends Lanes.React.Component
     dataObjects:
         query: ->
             new Lanes.Models.Query({
-                syncOptions: @props.syncOptions
+                syncOptions: @props.syncOptions, autoRetrieve: true
                 src: Skr.Models.PaymentCategory, fields: [
                     {id:'id',   visible: false}
                     {id:'gl_account_id', visible: false}

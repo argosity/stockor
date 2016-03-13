@@ -10,6 +10,7 @@ class Skr.Components.LocationChooser extends Lanes.React.Component
     dataObjects:
         query: ->
             new Lanes.Models.Query({
+                autoRetrieve: true
                 syncOptions: Lanes.Models.Query.mergedSyncOptions(
                     @props.syncOptions, { include: [ 'address' ] }
                 )

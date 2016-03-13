@@ -14,7 +14,7 @@ class Skr.Components.SkuFinder extends Lanes.React.Component
     dataObjects:
         query: ->
             new Lanes.Models.Query({
-                syncOptions: @props.syncOptions
+                syncOptions: @props.syncOptions, autoRetrieve: true
                 src: Skr.Models.Sku, fields: [
                     {id:'id', visible: false}
                     'code'

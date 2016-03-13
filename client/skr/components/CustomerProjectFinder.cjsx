@@ -13,7 +13,7 @@ class Skr.Components.CustomerProjectFinder extends Lanes.React.Component
     dataObjects:
         query: ->
             new Lanes.Models.Query({
-                syncOptions:
+                autoRetrieve: true, syncOptions:
                     include: [ 'customer', 'sku' ]
                     with: ['with_details']
                 title: 'Customer Project'

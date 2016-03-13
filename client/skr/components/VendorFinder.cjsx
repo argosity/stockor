@@ -14,7 +14,7 @@ class Skr.Components.VendorFinder extends Lanes.React.Component
         query: ->
             new Lanes.Models.Query({
                 title: 'Vendors'
-                syncOptions: @props.syncOptions
+                syncOptions: @props.syncOptions, autoRetrieve: true
                 src: Skr.Models.Vendor, fields: [
                     {id:'id', visible: false}
                     'code', 'name',

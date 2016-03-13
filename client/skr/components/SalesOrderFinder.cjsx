@@ -5,7 +5,6 @@ class Skr.Components.SalesOrderFinder extends Lanes.React.Component
         commands:   React.PropTypes.object
         name:       React.PropTypes.string
         autoFocus:  React.PropTypes.bool
-        includeAssociations: React.PropTypes.array
 
     getDefaultProps: ->
         editing: true
@@ -14,9 +13,7 @@ class Skr.Components.SalesOrderFinder extends Lanes.React.Component
     dataObjects:
         query: ->
             new Lanes.Models.Query({
-                initialFieldIndex: 1
-                title: 'Sales Order'
-                include: @props.includeAssociations
+                initialFieldIndex: 1, title: 'Sales Order', autoRetrieve: true
                 syncOptions: Lanes.Models.Query.mergedSyncOptions(
                     @props.syncOptions, { with: [ 'with_details' ] }
                 )

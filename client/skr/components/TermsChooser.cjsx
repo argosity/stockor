@@ -12,7 +12,7 @@ class Skr.Components.TermsChooser extends Lanes.React.Component
     dataObjects:
         query: ->
             new Lanes.Models.Query({
-                syncOptions: @props.syncOptions
+                syncOptions: @props.syncOptions, autoRetrieve: true
                 src: Skr.Models.PaymentTerm, fields: [
                     { id:'id', visible: false}
                     { id: 'code', fixedWidth: 130 },
