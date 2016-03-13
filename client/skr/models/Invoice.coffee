@@ -52,7 +52,7 @@ class Skr.Models.Invoice extends Skr.Models.Base
         sales_order:      { model: "SalesOrder",  readOnly:true }
         customer:         { model: "Customer",    required: true, readOnly:true }
         location:         { model: "Location",    required: true, readOnly:true, default: ->
-            Skr.Models.Location.fetchById(@location_id) if @location_id
+            Skr.Models.Location.all.get(@location_id) if @location_id
         }
         terms:            { model: "PaymentTerm", required: true, readOnly:true }
         pick_ticket:      { model: "PickTicket",  readOnly:true }

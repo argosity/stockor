@@ -26,7 +26,7 @@ class Skr.Models.Customer extends Skr.Models.Base
         shipping_address:       { model: "Address" }
         terms:                  { model: "PaymentTerm", required: true}
         gl_receivables_account: { model: "GlAccount", default: ->
-            Skr.Models.GlAccount.fetchById(this.gl_receivables_account_id)
+            Skr.Models.GlAccount.all.get(this.gl_receivables_account_id)
         }
         sales_orders:           { collection: "SalesOrder" }
         invoices:               { collection: "Invoice" }
