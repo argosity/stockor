@@ -14,10 +14,10 @@ class Skr.Screens.FreshBooksImport.Import extends Skr.Models.Base
         job: {model: 'Lanes.Models.JobStatus'}
 
     hasPendingRecords: ->
-        @stage is 'fetch' and @hasRecords()
+        @stage is 'fetch' and @hasRecords() and not @job?.isActive
 
     hasImportedRecords: ->
-        @stage is 'complete' and @hasRecords()
+        @stage is 'complete' and @hasRecords() and not @job?.isActive
 
     hasRecords: ->
         not _.isEmpty(@job.data?.output)
@@ -31,8 +31,6 @@ class Skr.Screens.FreshBooksImport.Import extends Skr.Models.Base
         @stage is 'complete'
 
     complete: ->
-        @stage = 'complete'
-
         @ignored_ids = {}
         for type in @recordTypes
             @ignored_ids[type] = ids = []
@@ -50,4 +48,5 @@ class Skr.Screens.FreshBooksImport.Import extends Skr.Models.Base
             if row.customer_code
                 @customer_codes[row.client_id] = row.customer_code
 
+        @stage = 'complete'
         @save(excludeAssociations: true)

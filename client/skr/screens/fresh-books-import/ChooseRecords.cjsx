@@ -3,7 +3,10 @@ USERS.ensureLoaded()
 IGNORED_PROPS = ['selected', 'mapped_user_id', 'customer_code']
 
 class TextInput extends Lanes.React.Component
-    setCode: (ev) -> @props.row.customer_code = ev.target.value
+    setCode: (ev) ->
+        @props.row.customer_code = ev.target.value.toUpperCase()
+        @forceUpdate()
+
     render: ->
         <input value={@props.row.customer_code} onChange={@setCode} />
 

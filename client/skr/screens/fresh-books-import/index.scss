@@ -1,38 +1,38 @@
-.domain .value {
-    margin-top: 15px;
-}
-.job-progress {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 30px 0;
-}
+.fresh-books-import {
+    .domain .value {
+        margin-top: 15px;
+    }
+    .job-executing {
+        width: 80%;
+        margin: 80px auto;
+    }
 
-.import-records {
-    .clients tbody tr td:last-child {
-        width: 130px;
-        input { width: 100%; }
-    }
-    .header {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-    }
-    h3 { margin: 0; }
-    td,th {
-        &:first-child {
-            width: 80px;
-            text-align: center;
+    .import-records {
+        .clients tbody tr td:last-child {
+            width: 130px;
+            input { width: 100%; }
         }
-    }
-    .table-responsive {
-        overflow: visible;
-    }
-    table.staff {
+        .header {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+        }
+        h3 { margin: 0; }
         td,th {
-            &:last-child {
-                width: 200px;
+            &:first-child {
+                width: 80px;
+                text-align: center;
+            }
+        }
+        .table-responsive {
+            overflow: visible;
+        }
+        table.staff {
+            td,th {
+                &:last-child {
+                    width: 200px;
+                }
             }
         }
     }
