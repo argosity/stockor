@@ -228,6 +228,7 @@ CREATE VIEW skr_combined_uom AS
 CREATE TABLE skr_customer_projects (
     id integer NOT NULL,
     code character varying NOT NULL,
+    name text,
     description text,
     po_num text,
     sku_id integer NOT NULL,
@@ -236,8 +237,7 @@ CREATE TABLE skr_customer_projects (
     rates jsonb,
     options jsonb,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
-    name character varying
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -1620,14 +1620,14 @@ CREATE TABLE skr_time_entries (
     customer_project_id integer NOT NULL,
     lanes_user_id integer NOT NULL,
     is_invoiced boolean DEFAULT false NOT NULL,
+    options jsonb DEFAULT '{}'::jsonb NOT NULL,
     start_at timestamp without time zone NOT NULL,
     end_at timestamp without time zone NOT NULL,
     description text NOT NULL,
     created_at timestamp without time zone NOT NULL,
     created_by_id integer NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    updated_by_id integer NOT NULL,
-    options jsonb DEFAULT '{}'::jsonb NOT NULL
+    updated_by_id integer NOT NULL
 );
 
 
@@ -1798,39 +1798,6 @@ CREATE SEQUENCE system_settings_id_seq
 --
 
 ALTER SEQUENCE system_settings_id_seq OWNED BY system_settings.id;
-
-
---
--- Name: testers; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE testers (
-    id integer NOT NULL,
-    name character varying,
-    email character varying,
-    visits text[] DEFAULT '{}'::text[],
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
-);
-
-
---
--- Name: testers_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE testers_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: testers_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE testers_id_seq OWNED BY testers.id;
 
 
 --
@@ -2090,13 +2057,6 @@ ALTER TABLE ONLY skr_vouchers ALTER COLUMN id SET DEFAULT nextval('skr_vouchers_
 --
 
 ALTER TABLE ONLY system_settings ALTER COLUMN id SET DEFAULT nextval('system_settings_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY testers ALTER COLUMN id SET DEFAULT nextval('testers_id_seq'::regclass);
 
 
 --
@@ -2404,14 +2364,6 @@ ALTER TABLE ONLY system_settings
 
 
 --
--- Name: testers_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY testers
-    ADD CONSTRAINT testers_pkey PRIMARY KEY (id);
-
-
---
 -- Name: index_lanes_users_on_role_names; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -2433,10 +2385,31 @@ CREATE INDEX index_skr_customers_on_code ON skr_customers USING btree (code);
 
 
 --
+-- Name: index_skr_gl_manual_entries_on_visible_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_skr_gl_manual_entries_on_visible_id ON skr_gl_manual_entries USING btree (visible_id);
+
+
+--
 -- Name: index_skr_gl_postings_on_period_and_year_and_account_number; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_skr_gl_postings_on_period_and_year_and_account_number ON skr_gl_postings USING btree (period, year, account_number);
+
+
+--
+-- Name: index_skr_inventory_adjustments_on_visible_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_skr_inventory_adjustments_on_visible_id ON skr_inventory_adjustments USING btree (visible_id);
+
+
+--
+-- Name: index_skr_invoices_on_visible_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_skr_invoices_on_visible_id ON skr_invoices USING btree (visible_id);
 
 
 --
@@ -2461,6 +2434,34 @@ CREATE INDEX index_skr_payments_on_visible_id ON skr_payments USING btree (visib
 
 
 --
+-- Name: index_skr_pick_tickets_on_visible_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_skr_pick_tickets_on_visible_id ON skr_pick_tickets USING btree (visible_id);
+
+
+--
+-- Name: index_skr_po_receipts_on_visible_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_skr_po_receipts_on_visible_id ON skr_po_receipts USING btree (visible_id);
+
+
+--
+-- Name: index_skr_purchase_orders_on_visible_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_skr_purchase_orders_on_visible_id ON skr_purchase_orders USING btree (visible_id);
+
+
+--
+-- Name: index_skr_sales_orders_on_visible_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_skr_sales_orders_on_visible_id ON skr_sales_orders USING btree (visible_id);
+
+
+--
 -- Name: index_skr_time_entries_on_lanes_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -2468,59 +2469,10 @@ CREATE INDEX index_skr_time_entries_on_lanes_user_id ON skr_time_entries USING b
 
 
 --
--- Name: skr_gl_manual_entriesindx_visible_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_skr_vouchers_on_visible_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE INDEX skr_gl_manual_entriesindx_visible_id ON skr_gl_manual_entries USING btree (visible_id);
-
-
---
--- Name: skr_inventory_adjustmentsindx_visible_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX skr_inventory_adjustmentsindx_visible_id ON skr_inventory_adjustments USING btree (visible_id);
-
-
---
--- Name: skr_invoicesindx_visible_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX skr_invoicesindx_visible_id ON skr_invoices USING btree (visible_id);
-
-
---
--- Name: skr_pick_ticketsindx_visible_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX skr_pick_ticketsindx_visible_id ON skr_pick_tickets USING btree (visible_id);
-
-
---
--- Name: skr_po_receiptsindx_visible_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX skr_po_receiptsindx_visible_id ON skr_po_receipts USING btree (visible_id);
-
-
---
--- Name: skr_purchase_ordersindx_visible_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX skr_purchase_ordersindx_visible_id ON skr_purchase_orders USING btree (visible_id);
-
-
---
--- Name: skr_sales_ordersindx_visible_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX skr_sales_ordersindx_visible_id ON skr_sales_orders USING btree (visible_id);
-
-
---
--- Name: skr_vouchersindx_visible_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX skr_vouchersindx_visible_id ON skr_vouchers USING btree (visible_id);
+CREATE INDEX index_skr_vouchers_on_visible_id ON skr_vouchers USING btree (visible_id);
 
 
 --
@@ -3245,8 +3197,6 @@ INSERT INTO schema_migrations (version) VALUES ('20140401164740');
 INSERT INTO schema_migrations (version) VALUES ('20140422024010');
 
 INSERT INTO schema_migrations (version) VALUES ('20140615031600');
-
-INSERT INTO schema_migrations (version) VALUES ('20150220015108');
 
 INSERT INTO schema_migrations (version) VALUES ('20151121211323');
 
