@@ -21,7 +21,8 @@ class Skr.Screens.PaymentTerms extends Skr.Screens.Base
                 <LC.Input sm=9 name='description' model={@term} />
             </BS.Row>
             <BS.Row>
-                <LC.Input sm=2 name='discount_days' model={@term} />
+                <LC.NumberInput sm=2 name='days' format='##' model={@term} />
+                <LC.NumberInput sm=2 name='discount_days' format='##' model={@term} />
                 <LC.Input sm=2 name='discount_amount' model={@term} />
             </BS.Row>
         </LC.ScreenWrapper>
