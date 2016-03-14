@@ -26,6 +26,7 @@ class Skr.Screens.TimeTracking.Popover extends Lanes.React.Component
         return null unless @state.editing
         <Skr.Screens.TimeTracking.EditEntry
             event={@state.editing}
+            entries={@props.entries}
             date={@props.date}
             onCancel={@onCancel}
         />
@@ -46,7 +47,7 @@ class Skr.Screens.TimeTracking.Popover extends Lanes.React.Component
         classes = _.classnames('edit-control', 'in')
         {x, y} = @props.position
         [width, height] = if @state.editing
-            [320, 350]
+            [320, 400]
         else
             [175, 60]
 
@@ -58,7 +59,7 @@ class Skr.Screens.TimeTracking.Popover extends Lanes.React.Component
         x -= width if placement is 'left'
 
         <BS.Popover className={classes}
-            style={{width}}
+            style={{width, height}}
             id='edit-controls'
             placement={placement}
             positionLeft={x}

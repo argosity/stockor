@@ -27,9 +27,11 @@ class Skr.Screens.TimeTracking.EditEntry extends Lanes.React.Component
         <div className="entry-body">
             <LC.NetworkActivityOverlay model={@entry} roundedCorners />
             <BS.Row>
-                <LC.SelectField {...props} sm={9}
+                <LC.SelectField {...props} sm={8}
+                    choices={@props.entries.available_projects.models}
                     name='customer_project' labelField="code" />
-                <LC.Input {...props} sm={3} name='hours' onEnter={@onSave} />
+                <LC.NumberInput {...props} sm={4} name='hours'
+                    step={0.25} onEnter={@onSave} />
             </BS.Row><BS.Row>
                 <LC.DateTime {...props} step={15} name="start_at"/>
             </BS.Row><BS.Row>
