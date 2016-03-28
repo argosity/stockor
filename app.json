@@ -1,0 +1,28 @@
+{
+  "name": "Stockor",
+  "description": "Stockor is a business management system.",
+  "keywords": [
+      "invoice",
+      "erp",
+      "productivity"
+  ],
+  "website": "http://stockor.org/",
+  "repository": "https://github.com/argosity/stockor",
+  "logo": "http://stockor.org/images/logo.png",
+  "success_url": "/",
+  "scripts": {
+    "postdeploy": "bundle exec lanes db migrate && bundle exec lanes db seed"
+  },
+  "env": {},
+  "image": "heroku/ruby",
+  "addons": [
+    "heroku-redis"
+  ],
+  "buildpacks": [
+    {
+      "url": "git://github.com/syphar/heroku-buildpack-tex.git"
+    }, {
+      "url": "git://github.com/heroku/heroku-buildpack-ruby.git"
+    }
+  ]
+}
