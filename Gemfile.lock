@@ -49,7 +49,7 @@ GIT
 PATH
   remote: .
   specs:
-    stockor (0.1.9)
+    stockor (0.2)
       aasm (~> 4.1)
       erb_latex (= 0.3)
       lanes
