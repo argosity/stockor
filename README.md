@@ -15,7 +15,7 @@
 
 
 ### Demo
-A demo that shows off portions of the interface is available at [demo.stockor.com]("http://demo.stockor.com/).  The demo is set to randomly create updates for the `STOCKOR` customer and vendor.  If you load one of those records you should be able to observe the updates occur.
+A demo that shows off portions of the interface is available at [demo.stockor.com](http://demo.stockor.com/).  The demo is set to randomly create updates for the `STOCKOR` customer and vendor.  If you load one of those records you should be able to observe the updates occur.
 
 ### Tech stack
 
