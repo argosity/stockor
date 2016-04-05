@@ -22,7 +22,7 @@ class Skr.Components.SkuLines extends Lanes.React.Component
                 { id: 'description', flex: 2      }
                 {
                     id: 'uom', title: 'UOM', query: false, fixedWidth: 100,
-                    format: (v, r, q)  -> v?.combined_uom
+                    format: (v, r, q)  -> v?.combined
                     sortBy: (a, b) ->
                         Lanes.u.comparator(a.uom_size, b.uom_size) or
                             Lanes.u.comparator(a.uom_code, b.uom_code)
@@ -46,16 +46,17 @@ class Skr.Components.SkuLines extends Lanes.React.Component
                 include: ['sku_locs', 'uoms']
             }
             <SC.SkuFinder
-                writable
+                writable selectField unstyled
                 setSelection={@onSkuChange}
                 name='sku' model={model}
-                selectField unstyled syncOptions={options} />
+                syncOptions={options}
+            />
 
         uom: ({model}) ->
             <SC.UOMChooser writable unstyled model={model} />
 
     onSelectionChange:  (model) ->
-        return unless model and @props.commands.isEditing()
+        return Promise.resolve() unless model and not model.isNew() and @props.commands.isEditing()
         new _.Promise (res, rej) ->
             model.withAssociations([
                 'sku_loc', 'sku', 'uom_choices'
