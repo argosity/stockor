@@ -11,7 +11,7 @@
   \multicolumn{<%=ncols%>}{r}{Continued on next page...} \\
   \endfoot
   \hline
-<%= partial @footer || 'skus_table_footer', record: @record, ncols: ncols %>
+<%= partial @footer || 'skus_table_footer', record: @record, ncols: ncols, lines: @lines %>
 \endlastfoot
 <% if @groups %>
   <% @groups.each_with_index do | group, i | -%>

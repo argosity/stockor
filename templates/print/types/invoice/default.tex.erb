@@ -4,7 +4,7 @@
   form_title: "Invoice # #{@invoice.visible_id}"
 } ) %>
 <%= partial 'bill_to_ship_to', record: @invoice -%>
-<%= partial 'invoice_paid_state', invoice: @invoice -%>
+<%=partial 'skus_table_invoice_info_line', invoice: @invoice -%>
 <%= partial 'skus_table',
     record: @invoice,
     lines: @invoice.lines.regular,
