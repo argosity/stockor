@@ -35,6 +35,12 @@ class Skr.Screens.Invoice extends Skr.Screens.Base
     shouldSaveLinesImmediately: ->
         not @invoice.isNew()
 
+    linesQueryBuilder: (attrs) ->
+        unless this.invoice.isNew()
+            sc = _.findWhere attrs.fields, id: 'sku_code'
+            sc.editable = false
+        attrs
+
     render: ->
         <LC.ScreenWrapper identifier="invoice" flexVertical>
 
@@ -85,6 +91,7 @@ class Skr.Screens.Invoice extends Skr.Screens.Base
             </BS.Row>
 
             <SC.SkuLines location={@invoice.location}
+                queryBuilder={@linesQueryBuilder}
                 saveImmediately={@shouldSaveLinesImmediately}
                 commands={@state.commands} lines={@invoice.lines} />
 
