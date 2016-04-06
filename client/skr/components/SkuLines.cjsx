@@ -4,7 +4,11 @@ class Skr.Components.SkuLines extends Lanes.React.Component
         lines:    Lanes.PropTypes.Collection.isRequired
         commands: React.PropTypes.object.isRequired
         location: Lanes.PropTypes.Model.isRequired
+        queryBuilder: React.PropTypes.func.isRequired
         saveImmediately: React.PropTypes.func.isRequired
+
+    getDefaultProps: ->
+        queryBuilder: (a) -> a
 
     componentWillMount: ->
         @createQuery(@props.lines)
@@ -13,10 +17,11 @@ class Skr.Components.SkuLines extends Lanes.React.Component
         @createQuery(nextProps.lines) if nextProps.lines
 
     createQuery: (lines) ->
-        @query = new Lanes.Models.Query
+        @query = new Lanes.Models.Query(@props.queryBuilder({
             title: 'Lines'
             defaultSort: false
-            src: lines, fields: [
+            src: lines,
+            fields: [
                 { id:'id', visible: false         }
                 { id: 'sku_code', fixedWidth: 150 }
                 { id: 'description', flex: 2      }
@@ -33,6 +38,7 @@ class Skr.Components.SkuLines extends Lanes.React.Component
                     format: (v, r, q) -> v?.toFixed(2)
                 }
             ]
+        }))
 
     onSkuChange: (sku, options) ->
         options.model.set({sku})
@@ -40,6 +46,7 @@ class Skr.Components.SkuLines extends Lanes.React.Component
             _.dom(@, 'input[name="qty"]').focusAndSelect() if @isMounted()
 
     editors: ->
+
         sku_code: ({model, props}) =>
             options = {
                 with: {in_location: props.location.id}
