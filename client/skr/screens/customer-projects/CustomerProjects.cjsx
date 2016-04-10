@@ -23,7 +23,7 @@ class Skr.Screens.CustomerProjects extends Skr.Screens.Base
         @forceUpdate()
     getColorReadOnly: ->
         index = @getColor()
-        color = _.findWhere(Skr.Models.CustomerProject.COLORS, id: index)
+        color = _.find(Skr.Models.CustomerProject.COLORS, id: index)
         <div className={"ro color-#{index}"}>{color?.name}</div>
 
     getColor: ->
