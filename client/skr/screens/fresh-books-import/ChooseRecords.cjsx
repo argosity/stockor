@@ -8,7 +8,7 @@ class TextInput extends Lanes.React.Component
         @forceUpdate()
 
     render: ->
-        <input value={@props.row.customer_code} onChange={@setCode} />
+        <input value={@props.row.customer_code || ''} onChange={@setCode} />
 
 class UserSelect extends Lanes.React.Component
     dataObjects:
