@@ -30,8 +30,5 @@ class Skr.Components.LocationChooser extends Lanes.React.Component
                 query={@query}
                 {...props} />
         else
-            <LC.SelectField
-                {...props}
-                choices={Skr.Models.Location.all.models}
-                labelField='code'
-                model={@props.model} />
+            <LC.SelectField {...props} choices={Skr.Models.Location.all.models}
+                labelField='code' model={@props.model} />

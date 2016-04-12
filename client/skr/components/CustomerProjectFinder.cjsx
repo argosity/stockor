@@ -36,11 +36,8 @@ class Skr.Components.CustomerProjectFinder extends Lanes.React.Component
         props = _.clone(@props)
 
         if props.selectField
-            <LC.SelectField sm=2
-                labelField="code"
-                {...props}
-                model={@props.model}
-            />
+            <LC.SelectField sm=2 labelField="code"
+                {...props} model={@props.model} />
         else
             <LC.RecordFinder ref="finder" sm=3 autoFocus
                 query={@query}

@@ -29,7 +29,7 @@ class Skr.Components.CustomerFinder extends Lanes.React.Component
             props.defaultLabel = @model.customer_code
 
         if props.selectField
-            <LC.SelectField sm=2 labelField="code" {...props} />
+            <LC.SelectField labelField='code' sm=2 labelField="code" {...props} />
         else
             <LC.RecordFinder ref="finder" sm=3 autoFocus
                 commands={@props.commands}

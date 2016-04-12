@@ -26,7 +26,8 @@ class Skr.Components.PaymentCategoryFinder extends Lanes.React.Component
         props = _.clone(@props)
 
         if props.selectField
-            <LC.SelectField queryModel={Skr.Models.PaymentCategory} sm=2 {...props} />
+            <LC.SelectField queryModel={Skr.Models.PaymentCategory}
+                labelField='code' sm=2 {...props} />
         else
             <LC.RecordFinder ref="finder" sm=3 autoFocus
                 commands={@props.commands}
