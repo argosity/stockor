@@ -50,7 +50,8 @@ class Skr.Models.TimeEntry extends Skr.Models.Base
         @set('hours', _.moment(this.end_at).diff(this.start_at, 'hour', true).toFixed(2),
             silent: true)
     onHoursChange: ->
-        @end_at = _.moment(@start_at).add(@hours.toFixed(), 'hour').toDate()
+        hours = @hours || _.bigDecimal('0')
+        @end_at = _.moment(@start_at).add(hours.toFixed(), 'hour').toDate()
 
     length: (duration = 'hour') ->
         @range.end.diff(@range.start, duration, true)
