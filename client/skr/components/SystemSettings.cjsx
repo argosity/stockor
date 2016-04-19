@@ -18,6 +18,7 @@ class Skr.Components.SystemSettings extends Lanes.React.Component
 
             <SC.BankAccountFinder selectField
                 sm=3 label="Default Bank Account"
+                model={Lanes.config.system_settings}
                 choices={this.banks.models}
                 setSelection={@setBankAccount}
                 getSelection={@getBankAccount}
