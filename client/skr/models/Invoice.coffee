@@ -70,6 +70,8 @@ class Skr.Models.Invoice extends Skr.Models.Base
 
     onSetCustomer: (newCustomer) ->
         return if not newCustomer or newCustomer.isNew()
+        for attr in ['terms_id']
+            @set(attr, newCustomer[attr])
         @copyAssociationsFrom( newCustomer, 'billing_address', 'shipping_address')
 
     setFromSalesOrder: (so) ->

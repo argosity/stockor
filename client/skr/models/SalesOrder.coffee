@@ -66,7 +66,8 @@ class Skr.Models.SalesOrder extends Skr.Models.Base
     onCustomerChange: ->
         return unless @isNew()
         associations = ['billing_address', 'shipping_address']
-
+        for attr in ['terms_id']
+            @set(attr, @customer[attr])
         @customer.withAssociations(associations).then =>
             for name in associations
                 @associations.replace(@, name, @customer[name])
