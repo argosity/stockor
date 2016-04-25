@@ -23,7 +23,7 @@ class Skr.Screens.FreshBooksImport.ApiInfo extends Lanes.React.Component
             <BS.Row>
                 <LC.Input name='api_key' label='API Key' sm=7 model={@import} />
                 <LC.Input name='domain' label='Company' sm=3 model={@import} />
-                <LC.FormGroup className='domain' sm=2 label=''>.freshbooks.com</LC.FormGroup>
+                <BS.FormGroup className='domain' sm=2 label=''>.freshbooks.com</BS.FormGroup>
             </BS.Row>
             <BS.Row>
                 <BS.Col smOffset=9 sm=2>

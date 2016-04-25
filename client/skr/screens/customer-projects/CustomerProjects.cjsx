@@ -15,6 +15,7 @@ class Skr.Screens.CustomerProjects extends Skr.Screens.Base
     getHourlyRate: -> @project.rates?.hourly
     setHourlyRate: (value) ->
         @project.rates = _.extend({}, @project.rates, {hourly: value.replace(/[^0-9.]/g, '')})
+
     ColorOption: (props) ->
         <div className={"color-#{props.item.id}"}>{props.item.name}</div>
 
@@ -24,7 +25,7 @@ class Skr.Screens.CustomerProjects extends Skr.Screens.Base
     getColorReadOnly: ->
         index = @getColor()
         color = _.find(Skr.Models.CustomerProject.COLORS, id: index)
-        <div className={"ro color-#{index}"}>{color?.name}</div>
+        <div className={"ro color-#{index}"}>{color?.name or ''}</div>
 
     getColor: ->
         @project.options?.color
@@ -48,14 +49,17 @@ class Skr.Screens.CustomerProjects extends Skr.Screens.Base
 
                 <LC.FieldWrapper sm=2
                     label="Entry Color"
+                    model={@project}
+                    name={'color'}
                     className="color-selection"
-                    value={@getColorReadOnly()}
+                    displayComponent={@getColorReadOnly}
                 >
                     <Lanes.Vendor.ReactWidgets.DropdownList
                         className='colors'
                         data={Skr.Models.CustomerProject.COLORS}
                         valueField='id' textField='name'
-                        value={@getColor()} onChange={@setColor}
+                        value={@getColor()}
+                        onChange={@setColor}
                         valueComponent={@ColorOption}
                         disabled={!@state.commands.isEditing()}
                         itemComponent={@ColorOption} />

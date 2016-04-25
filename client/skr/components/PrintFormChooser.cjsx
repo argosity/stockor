@@ -1,5 +1,7 @@
 class Skr.Components.PrintFormChooser extends Lanes.React.Component
 
+    mixins: [ Lanes.Components.Form.FieldMixin ]
+
     propTypes:
         label: React.PropTypes.string.isRequired
         model: Lanes.PropTypes.Model.isRequired
@@ -14,16 +16,14 @@ class Skr.Components.PrintFormChooser extends Lanes.React.Component
         else
             @props.model[@props.name] = val
 
-    renderValue: (value) ->
-        value
 
-    render: ->
+    renderEdit: (props) ->
+
         choices = @props.choices || @props.model.constructor.Templates
         value = @props.value or @props.model[@props.name]
-        <LC.FieldWrapper {...@props} value={value}>
-            <Lanes.Vendor.ReactWidgets.DropdownList
-                data={choices}
-                value={value}
-                onChange={@onChange}
-            />
-        </LC.FieldWrapper>
+
+        <Lanes.Vendor.ReactWidgets.DropdownList
+            data={choices}
+            value={value}
+            onChange={@onChange}
+        />
