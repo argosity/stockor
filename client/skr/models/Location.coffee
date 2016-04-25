@@ -21,9 +21,14 @@ class Skr.Models.Location extends Skr.Models.Base
         address:  { model: "Address" }
         sku_locs: { collection: "SkuLoc" }
 
+
     @initialize: (data) ->
         SHARED_DATA = data.locations
 
+    addChangeSet: (change) ->
+        if change.update.logo
+            change.update.logo[1] = change.update.logo[1].logo
+        super
 
 Object.defineProperties Skr.Models.Location, {
     all:
