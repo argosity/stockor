@@ -37,11 +37,10 @@ class Skr.Screens.TimeTracking.EditEntry extends Lanes.React.Component
             </BS.Row><BS.Row>
                 <LC.DateTime {...props} step={15} name="end_at"/>
             </BS.Row><BS.Row>
-                <LC.Input sm={12}
-                    model={@entry}
-                    ref='textarea'
-                    onEnter={@onSave}
+                <LC.TextArea sm={12}
                     selectOnFocus editOnly
+                    model={@entry}
+                    onEnter={@onSave}
                     name="description"
                     type="textarea"
                     label='Description'
