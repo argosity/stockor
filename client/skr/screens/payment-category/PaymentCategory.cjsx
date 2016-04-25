@@ -15,7 +15,7 @@ class Skr.Screens.PaymentCategory extends Skr.Screens.Base
             <SC.ScreenControls commands={@state.commands} />
             <BS.Row>
 
-                <SC.PaymentCategoryFinder name='code'
+                <SC.PaymentCategoryFinder name='code' editOnly
                     commands={@state.commands} model={@category} />
 
                 <LC.Input sm=9 name='name' model={@category} />
