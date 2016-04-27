@@ -32,7 +32,7 @@ class Skr.Screens.Payments extends Skr.Screens.Base
         <LC.ScreenWrapper identifier="payments">
             <SC.ScreenControls commands={@state.commands} />
             <BS.Row>
-                <LC.RecordFinder ref="finder" sm=3 autoFocus
+                <LC.RecordFinder ref="finder" sm=3 autoFocus editOnly
                     commands={@state.commands} model={@category}
                     label='Payment ID' name='visible_id' model={@payment} query={@query}
                 />
