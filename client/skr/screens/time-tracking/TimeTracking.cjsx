@@ -29,7 +29,7 @@ class Skr.Screens.TimeTracking extends Skr.Screens.Base
 
     onEventResize: (ev, event) ->
         entry = event.get('entry')
-        entry.fromCalEvent(event)
+        entry.setTimeFromCalEvent(event)
         entry.save() unless entry.isNew()
 
     renderSummaryDays: ->

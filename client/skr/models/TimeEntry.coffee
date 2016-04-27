@@ -68,9 +68,8 @@ class Skr.Models.TimeEntry extends Skr.Models.Base
             _.extend attrs, colorIndex: project.options.color
         attrs
 
-    fromCalEvent: (event) ->
-        attrs =
-            id: event.entryId,
+    setTimeFromCalEvent: (event) ->
+        return this.set(
             start_at:    event.start()
             end_at:      event.end()
-        this.set(_.pick(attrs, _.identity))
+        )
