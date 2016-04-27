@@ -8,14 +8,13 @@
 
 \begin{textblock}{195}(10,15)
   \begin{tabu} to \columnwidth{lXX[-1m]r}
-  % <% if logo = @payment.location.get_logo %>
-    \includegraphics[align=t,height=14mm,keepaspectratio]{<%=
-    logo.file.path %>}
-  % <% end %>
-        & \small <%= break_lines @payment.location.address.to_s %>
-        & \tiny <%= break_lines @payment.bank_account.address %>
-        & \raisebox{-3mm}{\shadowbox{\large\bf {CHECK \# <%= @payment.check_number %> } }}\\
-     \end{tabu}
+% <% if (logo = @payment.location.get_logo).present? -%>
+    \includegraphics[align=t,height=14mm,keepaspectratio]{<%= logo.file.path %>} &
+% <% end -%>
+  \small <%= break_lines @payment.location.address.to_s %>
+  & \tiny <%= break_lines @payment.bank_account.address %>
+  & \raisebox{-3mm}{\shadowbox{\large\bf {CHECK \# <%= @payment.check_number %> } }}\\
+  \end{tabu}
 \end{textblock}
 %
 \begin{textblock}{185}(10,30)
