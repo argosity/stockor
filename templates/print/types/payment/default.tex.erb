@@ -56,7 +56,7 @@
 \micr <%= sprintf('%s%07i%s', 'C', @payment.check_number, 'C') %>
 \end{textblock}
 %
-\begin{textblock}{20}(72,79.7)
+\begin{textblock}{80}(72,79.7)
 \micr A<%= @payment.bank_account.routing_number %>A C<%=@payment.bank_account.account_number %>C
 \end{textblock}
 %
