@@ -25,7 +25,7 @@ class Skr.Models.Payment extends Skr.Models.Base
         category:       { model: "PaymentCategory" }
         vendor:         { model: "Vendor" }
         bank_account:   { model: "BankAccount" }
-        location:       { model: "Location", required: true, default: ->
+        location:       { model: "Location", default: ->
             Skr.Models.Location.all.get(@location_id) if @location_id
         }
         gl_transaction: { model: "GlTransaction" }
@@ -33,8 +33,8 @@ class Skr.Models.Payment extends Skr.Models.Base
     events:
         'change:vendor': 'onSetVendor'
 
-    onSetVendor: (newVendor) ->
-        return unless newVendor and Lanes.u.isModel(newVendor)
-        @name = newVendor.name
-        newVendor.withAssociations(['billing_address']).then =>
-            @address = newVendor.billing_address.toString()
+    onSetVendor: ->
+        return unless @vendor and @vendor.isPersistent()
+        @name = @vendor.name
+        @vendor.withAssociations(['billing_address']).then =>
+            @address = @vendor.billing_address.toString()
