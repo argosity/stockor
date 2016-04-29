@@ -36,7 +36,7 @@ class Skr.Screens.Payments extends Skr.Screens.Base
                     commands={@state.commands} model={@category}
                     label='Payment ID' name='visible_id' model={@payment} query={@query}
                 />
-                <SC.LocationChooser hideSingle label='Location' sm=2 model={@payment} />
+                <SC.LocationChooser hideSingle sm=2 model={@payment} />
                 <SC.BankAccountFinder selectField name='bank_account'
                     model={@payment} />
                 <SC.PaymentCategoryFinder selectField name='category' labelField='code'
