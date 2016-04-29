@@ -6,15 +6,17 @@
 \begin{document}
 \noindent
 
-\begin{textblock}{195}(10,15)
-  \begin{tabu} to \columnwidth{lXX[-1m]r}
-% <% if (logo = @payment.location.get_logo).present? -%>
+\begin{textblock}{195}(10,10)
+<% if (logo = @payment.location.get_logo).present? -%>
+  \begin{tabularx}{\columnwidth}{lXXr}
     \includegraphics[align=t,height=14mm,keepaspectratio]{<%= logo.file.path %>} &
-% <% end -%>
-  \small <%= break_lines @payment.location.address.to_s %>
-  & \tiny <%= break_lines @payment.bank_account.address %>
-  & \raisebox{-3mm}{\shadowbox{\large\bf {CHECK \# <%= @payment.check_number %> } }}\\
-  \end{tabu}
+<% else -%>
+  \begin{tabularx}{\columnwidth}{XXr}
+<% end -%>
+  \small <%= break_lines @payment.location.address.to_s(include: [:email,:phone]) %> &
+  \scriptsize <%= break_lines @payment.bank_account.address.to_s %> &
+  \raisebox{-3mm}{\shadowbox{\large\bf {CHECK \# <%= @payment.check_number %> } }}\\
+ \end{tabularx}
 \end{textblock}
 %
 \begin{textblock}{185}(10,30)
@@ -52,11 +54,11 @@
   \end{tabu}
 \end{textblock}
 %
-\begin{textblock}{10}(45,79.7)
+\begin{textblock}{10}(45,80.5)
 \micr <%= sprintf('%s%07i%s', 'C', @payment.check_number, 'C') %>
 \end{textblock}
 %
-\begin{textblock}{80}(72,79.7)
+\begin{textblock}{80}(71,80.5)
 \micr A<%= @payment.bank_account.routing_number %>A C<%=@payment.bank_account.account_number %>C
 \end{textblock}
 %
