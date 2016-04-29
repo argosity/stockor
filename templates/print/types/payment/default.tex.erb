@@ -13,8 +13,8 @@
 <% else -%>
   \begin{tabularx}{\columnwidth}{XXr}
 <% end -%>
-  \small <%= break_lines @payment.location.address.to_s(include: [:email,:phone]) %> &
-  \scriptsize <%= break_lines @payment.bank_account.address.to_s %> &
+  \small <%= break_lines @payment.location.address.to_s(include: [:phone]) %> &
+  \scriptsize <%= break_lines @payment.bank_account.address.to_s(include: [:phone]) %> &
   \raisebox{-3mm}{\shadowbox{\large\bf {CHECK \# <%= @payment.check_number %> } }}\\
  \end{tabularx}
 \end{textblock}
