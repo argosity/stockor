@@ -26,6 +26,6 @@ class Skr.Screens.GlAccounts extends Skr.Screens.Base
 
             </BS.Row>
             <BS.Row>
-                <LC.Input type='textarea' sm=12 name="description" model={@account} />
+                <LC.TextArea sm=12 name="description" model={@account} />
             </BS.Row>
         </LC.ScreenWrapper>

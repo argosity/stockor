@@ -26,8 +26,7 @@ class Skr.Screens.CustomerMaint extends Skr.Screens.Base
                 <LC.Input sm=8 name="name" model={@customer} />
             </BS.Row>
             <BS.Row>
-                <LC.Input sm=12
-                    type='textarea'
+                <LC.TextArea sm=12
                     name="notes"
                     model={@customer} />
             </BS.Row>

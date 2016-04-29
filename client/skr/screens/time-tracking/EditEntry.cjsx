@@ -42,7 +42,6 @@ class Skr.Screens.TimeTracking.EditEntry extends Lanes.React.Component
                     model={@entry}
                     onEnter={@onSave}
                     name="description"
-                    type="textarea"
                     label='Description'
                 />
             </BS.Row>

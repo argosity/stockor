@@ -26,7 +26,7 @@ class Skr.Screens.VendorMaint extends Lanes.React.Screen
                 <LC.Input sm=8 name="name" model={@vendor} />
             </BS.Row>
             <BS.Row>
-               <LC.Input sm=12 type='textarea' name="notes" model={@vendor} />
+               <LC.TextArea sm=12 name="notes" model={@vendor} />
             </BS.Row>
             <BS.Row>
                 <SC.GlAccountChooser sm=4 label="Payables Account"

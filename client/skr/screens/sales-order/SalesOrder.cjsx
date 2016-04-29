@@ -43,8 +43,7 @@ class Skr.Screens.SalesOrder extends Lanes.React.Screen
             </BS.Row>
 
             <BS.Row>
-               <LC.Input sm=12
-                   type='textarea'
+               <LC.TextArea sm=12
                    name="notes"
                    model={@sales_order} />
             </BS.Row>

@@ -50,7 +50,7 @@ class Skr.Screens.Payments extends Skr.Screens.Base
                 <LC.NumberInput smOffset=1 sm=3 name="amount" align='right' model={@payment} />
             </BS.Row>
             <BS.Row>
-                <LC.Input type='textarea' smOffset=2 sm=6 name="address" model={@payment} />
+                <LC.TextArea smOffset=2 sm=6 name="address" model={@payment} />
             </BS.Row>
             <BS.Row>
                <LC.Input sm=12 name="notes" model={@payment} />

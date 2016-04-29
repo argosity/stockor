@@ -78,7 +78,7 @@ class Skr.Screens.Invoice extends Skr.Screens.Base
             </BS.Row>
 
             <BS.Row>
-               <LC.Input sm=12 type='textarea' name="notes" model={@invoice} />
+               <LC.TextArea name="notes" model={@invoice} />
             </BS.Row>
 
             <BS.Row>
