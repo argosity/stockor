@@ -3,6 +3,7 @@ class Skr.Components.LocationChooser extends Lanes.React.Component
     propTypes:
         onModelSet: React.PropTypes.func
         name:       React.PropTypes.string
+        hideSingle: React.PropTypes.bool
 
     getDefaultProps: ->
         label: 'Location', name: 'location'
@@ -22,6 +23,9 @@ class Skr.Components.LocationChooser extends Lanes.React.Component
             })
 
     render: ->
+        if @props.hideSingle and Skr.Models.Location.all.length < 2
+            return LC.SelectField.renderEmptyColumn(@props)
+
         props = _.clone(@props)
         if props.displayFinder
             <LC.RecordFinder ref="finder" sm=3 autoFocus
@@ -31,4 +35,4 @@ class Skr.Components.LocationChooser extends Lanes.React.Component
                 {...props} />
         else
             <LC.SelectField {...props} choices={Skr.Models.Location.all.models}
-                labelField='code' model={@props.model} />
+                fetchOnSelect={false} labelField='code' model={@props.model} />
