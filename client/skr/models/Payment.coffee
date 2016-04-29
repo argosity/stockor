@@ -7,7 +7,9 @@ class Skr.Models.Payment extends Skr.Models.Base
         bank_account_id:{type:"integer"}
         category_id:    {type:"integer"}
         vendor_id:      "integer"
-        location_id:    "integer"
+        location_id:    {type:"integer", default: ->
+            Skr.Models.Location.default.id
+        }
         amount:         {type:"bigdec",  required:true}
         check_number:   {type:"integer"}
         date:           {type:"date", default: ->
@@ -23,7 +25,9 @@ class Skr.Models.Payment extends Skr.Models.Base
         category:       { model: "PaymentCategory" }
         vendor:         { model: "Vendor" }
         bank_account:   { model: "BankAccount" }
-        location:       { model: "Location" }
+        location:       { model: "Location", required: true, default: ->
+            Skr.Models.Location.all.get(@location_id) if @location_id
+        }
         gl_transaction: { model: "GlTransaction" }
 
     events:
