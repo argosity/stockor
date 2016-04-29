@@ -36,11 +36,12 @@ class Skr.Screens.Payments extends Skr.Screens.Base
                     commands={@state.commands} model={@category}
                     label='Payment ID' name='visible_id' model={@payment} query={@query}
                 />
-                <SC.BankAccountFinder smOffset=1 selectField name='bank_account'
+                <SC.LocationChooser hideSingle label='Location' sm=2 model={@payment} />
+                <SC.BankAccountFinder selectField name='bank_account'
                     model={@payment} />
                 <SC.PaymentCategoryFinder selectField name='category' labelField='code'
                     model={@payment} />
-                <LC.DateTime smOffset=1 name='date' format='ddd, MMM Do YYYY'
+                <LC.DateTime name='date' format='ddd, MMM Do YYYY'
                     sm=3 model={@payment} />
             </BS.Row>
             <BS.Row>
