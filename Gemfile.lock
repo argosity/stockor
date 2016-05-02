@@ -1,3 +1,44 @@
+GIT
+  remote: git://github.com/argosity/lanes.git
+  revision: d491dbb604e4b50853d295b4860d38fb3b3ac703
+  branch: master
+  specs:
+    lanes (0.4.0)
+      activejob (~> 4.2)
+      activerecord (~> 4.2)
+      bcrypt (~> 3.1)
+      carrierwave (~> 0.10.0)
+      coffee-react (~> 4.0)
+      coffee-script (~> 2.4)
+      compass-import-once (~> 1.0)
+      execjs (~> 2.6)
+      fastimage (~> 1.8.1)
+      fog (~> 1.37.0)
+      guard (~> 2.13)
+      guard-jasmine (~> 2.0)
+      guard-minitest (~> 2.3)
+      hashie (~> 3.3)
+      jasmine-core (~> 2.0)
+      jobba (~> 1.4)
+      message_bus (= 2.0.0.beta.6)
+      mini_magick (~> 4.3.6)
+      minitest-around (~> 0.2)
+      mocha (~> 1.1)
+      oj (~> 2.1)
+      pg (~> 0.8)
+      rack-protection (~> 1.5)
+      rack-test (~> 0.6)
+      rake (~> 10.0)
+      require_all (~> 1.3)
+      resque (~> 1.25)
+      sanitize (~> 3.0)
+      sass (~> 3.4)
+      sinatra (~> 1.4)
+      sprockets (~> 3.6)
+      sprockets-helpers (~> 1.2)
+      thor (~> 0.19)
+      uglifier (~> 2.7)
+
 PATH
   remote: .
   specs:
@@ -42,7 +83,7 @@ GEM
     childprocess (0.5.9)
       ffi (~> 1.0, >= 1.0.11)
     coderay (1.1.1)
-    coffee-react (3.4.0)
+    coffee-react (4.0.0)
       execjs
     coffee-script (2.4.1)
       coffee-script-source
@@ -107,9 +148,9 @@ GEM
       fog-core (~> 1.22)
       fog-json
       inflecto (~> 0.0.2)
-    fog-core (1.37.0)
+    fog-core (1.38.0)
       builder
-      excon (~> 0.45)
+      excon (~> 0.49)
       formatador (~> 0.2)
     fog-dynect (0.0.3)
       fog-core
@@ -164,7 +205,7 @@ GEM
     fog-voxel (0.1.0)
       fog-core
       fog-xml
-    fog-vsphere (0.6.3)
+    fog-vsphere (0.6.4)
       fog-core
       rbvmomi (~> 1.8)
     fog-xenserver (0.2.3)
@@ -199,7 +240,7 @@ GEM
       guard-compat (~> 1.2)
       minitest (>= 3.0)
     hashdiff (0.3.0)
-    hashie (3.4.3)
+    hashie (3.4.4)
     httparty (0.13.7)
       json (~> 1.8)
       multi_xml (>= 0.5.2)
@@ -216,44 +257,10 @@ GEM
       redis (~> 3.2)
       redis-namespace
     json (1.8.3)
-    lanes (0.4.0)
-      activejob (~> 4.2)
-      activerecord (~> 4.2)
-      bcrypt (~> 3.1)
-      carrierwave (~> 0.10.0)
-      coffee-react (~> 3.0)
-      coffee-script (~> 2.3)
-      compass-import-once (~> 1.0)
-      execjs (~> 2.2)
-      fastimage (~> 1.8.1)
-      fog (~> 1.37.0)
-      guard (~> 2.0)
-      guard-jasmine (~> 2.0)
-      guard-minitest (~> 2.3)
-      hashie (~> 3.3)
-      jasmine-core (~> 2.0)
-      jobba (~> 1.4)
-      message_bus (= 2.0.0.beta.6)
-      mini_magick (~> 4.3.6)
-      minitest-around (~> 0.2)
-      mocha (~> 1.1)
-      oj (~> 2.1)
-      pg (~> 0.17)
-      rack-protection (~> 1.5)
-      rack-test (~> 0.6)
-      rake (~> 10.0)
-      require_all (~> 1.3)
-      resque (~> 1.25)
-      sanitize (~> 3.0)
-      sass (~> 3.4)
-      sinatra (~> 1.4)
-      sprockets (~> 3.0)
-      sprockets-helpers (~> 1.2)
-      thor (~> 0.19)
-      uglifier (~> 2.7)
-    listen (3.0.6)
+    listen (3.1.2)
       rb-fsevent (>= 0.9.3)
       rb-inotify (>= 0.9.7)
+      ruby_dep (~> 1.1)
     lumberjack (1.0.10)
     message_bus (2.0.0.beta.6)
       rack (>= 1.1.3)
@@ -270,7 +277,7 @@ GEM
     mocha (1.1.0)
       metaclass (~> 0.0.1)
     mono_logger (1.1.0)
-    multi_json (1.11.2)
+    multi_json (1.11.3)
     multi_xml (0.5.5)
     nenv (0.3.0)
     nokogiri (1.6.7.2)
@@ -319,6 +326,7 @@ GEM
     ruby-freshbooks (0.4.1)
       builder (>= 2.1.2)
       httparty (>= 0.5.0)
+    ruby_dep (1.1.0)
     safe_yaml (1.0.4)
     sanitize (3.1.2)
       crass (~> 1.0.1)
@@ -363,6 +371,7 @@ DEPENDENCIES
   growl
   guard
   guard-minitest
+  lanes!
   pry-byebug
   puma
   rake
