@@ -1,6 +1,8 @@
 module Skr
 
     class Payment < Model
+        SEQUENTIAL_ID_PREFIX = 'Pmnt-'
+
         has_visible_id
         has_random_hash_code
         has_gl_transaction
@@ -42,7 +44,7 @@ module Skr
         def set_defaults
             self.location     ||= Location.default
             self.date         ||= Date.today
-            self.check_number ||= SequentialId.next_for("Pmnt-#{bank_account.id}")
+            self.check_number ||= SequentialId.next_for(SEQUENTIAL_ID_PREFIX + bank_account.id.to_s)
         end
 
     end
