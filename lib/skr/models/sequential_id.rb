@@ -16,7 +16,12 @@ module Skr
         end
 
         def self.set_next( klass, value )
-            self.connection.raw_connection.exec( "update #{table_name} set current_value = $1 where name = $2", [ value, klass.to_s ] )
+            record = self.find_or_initialize_by(name: klass.to_s)
+            return if record.new_record? and 0 == value.to_i
+            record.unlock_fields(:current_value) do
+                record.current_value = value.to_i
+                record.save
+            end
         end
 
     end

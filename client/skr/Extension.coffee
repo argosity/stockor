@@ -26,7 +26,8 @@ class Skr.Extension extends Lanes.Extensions.Base
     rootComponent: (viewport) ->
         Lanes.Workspace.Layout
 
-    preferenceElement: (props) ->
-        React.createElement(SC.UserPreferences, key: 'skr')
-    settingsElement: (props) ->
-        React.createElement(SC.SystemSettings, key: 'skr')
+    getPreferenceElement: (props) ->
+        React.createElement(SC.UserPreferences, props)
+
+    getSettingsElement: (props) ->
+        React.createElement(SC.SystemSettings, props)
