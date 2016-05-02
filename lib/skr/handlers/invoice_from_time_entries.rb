@@ -1,22 +1,23 @@
 module Skr
     module Handlers
         class InvoiceFromTimeEntries
+            include Lanes::API::FormattedReply
 
-            def initialize(project_id, entry_ids, options = {})
-                @project = CustomerProject.find(project_id)
-                @entry_ids = entry_ids
+            def initialize(model, authentication, params, data)
 
-                @location = Location.default # should be set on project maybe?
-                @sku_loc = @project.sku.sku_locs.find_by(location: @location)
-                @options = options
+                @options   = data
+                @entry_ids = data['time_entry_ids']
+                @project   = CustomerProject.find( data['customer_project_id'] )
+                @location  = Location.default # should be set on project maybe?
+                @sku_loc   = @project.sku.sku_locs.find_by(location: @location)
             end
 
-            def build_invoice
+            def perform_creation
                 invoice = Invoice.new(
-                    customer_project: @project,
+                    notes:    @options['notes'],
+                    po_num:   @options['po_num'] || @project.po_num,
                     customer: @project.customer,
-                    po_num: @options['po_num'] || @project.po_num,
-                    notes: @options['notes']
+                    customer_project: @project
                 )
                 @entry_ids.each do | entry_id |
                     entry = TimeEntry.find(entry_id)
@@ -28,22 +29,9 @@ module Skr
                         qty: ((entry.end_at - entry.start_at) / 1.hour)
                     )
                 end
-                invoice
+                std_api_reply :create, { invoice: invoice }, success: invoice.save
             end
 
-
-            def self.handler
-                lambda do
-                    wrap_reply do
-                        builder = InvoiceFromTimeEntries.new(
-                            data['customer_project_id'], data['time_entry_ids'], data
-                        )
-                        invoice = builder.build_invoice
-                        std_api_reply :create, { invoice: invoice }, success: invoice.save
-                    end
-
-                end
-            end
         end
     end
 end

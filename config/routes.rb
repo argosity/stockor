@@ -37,8 +37,9 @@ Lanes::API.routes.for_extension 'skr' do
     resources Skr::SalesOrder
     resources Skr::SoLine
 
-    post 'invoices/from-time-entries.json',
-         &Skr::Handlers::InvoiceFromTimeEntries.handler
+    resources Skr::Invoice,
+              controller: Skr::Handlers::InvoiceFromTimeEntries,
+              path: 'invoices/from-time-entries'
 
     get 'print/:type/:id.pdf' do
         content_type 'application/pdf'

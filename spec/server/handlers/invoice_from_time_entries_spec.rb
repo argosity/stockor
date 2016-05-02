@@ -4,19 +4,26 @@ class InvoiceFromTimeEntriesSpec < Skr::TestCase
 
     subject { Skr::Handlers::InvoiceFromTimeEntries }
     let (:project) { skr_customer_project(:goatpens) }
-    let (:invoice) {
-        subject.new(
-            project.id, project.time_entries.map(&:id), 'po_num' => 'Testing Only!'
-        ).build_invoice
+    let (:data)    { {
+                         'customer_project_id' => project.id,
+                         'time_entry_ids' => project.time_entries.map(&:id),
+                         'po_num' => 'Testing Only!'
+                     }
     }
+    let (:authentication) { Lanes::API::AuthenticationProvider.new({}) }
+    let (:controller) {
+        subject.new( Invoice, authentication, {}, data )
+    }
+    let (:invoice_data)    { controller.perform_creation[:data]['invoice'] }
+    let (:invoice)         { Invoice.find(invoice_data['id']) }
     let (:time_entry) { skr_time_entry(:siteprep) }
     let (:line)       { invoice.lines.first }
 
     it "raises exception if ids are not found" do
         assert_raises(ActiveRecord::RecordNotFound) {
             subject.new(
-                project.id, [12345], 'po_num' => 'Testing Only!'
-            ).build_invoice
+                Invoice, authentication, {}, data.merge('time_entry_ids' => [12345])
+            ).perform_creation
         }
     end
 
