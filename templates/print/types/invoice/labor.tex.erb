@@ -27,7 +27,8 @@ groups.push(
     line_template: 'skus_table_labor_line',
     headings_template: 'skus_table_labor_col_hdr',
     groups: groups.many? ? groups : false,
-    record: @invoice, lines: @invoice.lines
+    record: @invoice, lines: @invoice.lines,
+    footer: 'skus_table_invoice_footer'
 -%>
 %
 \end{document}
