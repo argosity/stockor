@@ -37,8 +37,9 @@ Lanes::API.routes.for_extension 'skr' do
     resources Skr::SalesOrder
     resources Skr::SoLine
 
-    resources Skr::Invoice,
-              controller: Skr::Handlers::InvoiceFromTimeEntries,
+    resources Skr::SequentialId, controller: Skr::Handlers::SequentialIds
+
+    resources Skr::Invoice, controller: Skr::Handlers::InvoiceFromTimeEntries,
               path: 'invoices/from-time-entries'
 
     get 'print/:type/:id.pdf' do
