@@ -26,7 +26,7 @@ module Skr
         validate  :ensure_unlocked
 
         before_validation :set_defaults
-        before_save :perform_adjustments
+        after_save :perform_adjustments
         before_destroy :prevent_destroy
 
         scope :with_details, lambda { |should_use=true |
@@ -88,16 +88,21 @@ module Skr
                 self.sku_trans.build(
                     origin: self, qty: changed_qty * -1, sku_loc: self.sku_loc, uom: self.uom,
                     mac: 0, cost: price_change,
-                    origin_description: "INV #{self.invoice.visible_id}:#{self.sku.code}",
+                    origin_description: gl_origin_description,
                     debit_gl_account:  debit, credit_gl_account: credit
                 )
             else
                 GlTransaction.push_or_save(
                   owner: self, amount: price_change,
-                  debit: debit, credit: credit
+                  debit: debit, credit: credit,
+                  options: {description: gl_origin_description}
                 )
             end
             true
+        end
+
+        def gl_origin_description
+            "INV #{self.invoice.visible_id}:#{self.sku.code}"
         end
 
         def prevent_destroy
