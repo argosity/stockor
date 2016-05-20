@@ -5,7 +5,7 @@ module Skr
 
         has_code_identifier :from=>'name'
 
-        has_one :logo, as: :owner, :class_name=>'Lanes::Asset', export: { writable: false }
+        has_one :logo, as: :owner, :class_name=>'Lanes::Asset', export: { writable: false }, :dependent => :destroy
 
         belongs_to :address, export: { writable: true }
 
