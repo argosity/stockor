@@ -66,6 +66,39 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
+-- Name: assets; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE assets (
+    id integer NOT NULL,
+    file character varying NOT NULL,
+    owner_id integer NOT NULL,
+    owner_type character varying NOT NULL,
+    "order" integer,
+    metadata jsonb DEFAULT '{}'::jsonb NOT NULL
+);
+
+
+--
+-- Name: assets_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE assets_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: assets_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE assets_id_seq OWNED BY assets.id;
+
+
+--
 -- Name: lanes_users; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -879,7 +912,6 @@ CREATE TABLE skr_locations (
     address_id integer NOT NULL,
     is_active boolean DEFAULT true NOT NULL,
     gl_branch_code character varying(2) DEFAULT '01'::character varying NOT NULL,
-    logo character varying,
     options jsonb,
     created_at timestamp without time zone NOT NULL,
     created_by_id integer NOT NULL,
@@ -1801,6 +1833,46 @@ ALTER SEQUENCE system_settings_id_seq OWNED BY system_settings.id;
 
 
 --
+-- Name: testers; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE testers (
+    id integer NOT NULL,
+    name character varying,
+    email character varying,
+    visits text[] DEFAULT '{}'::text[],
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: testers_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE testers_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: testers_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE testers_id_seq OWNED BY testers.id;
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY assets ALTER COLUMN id SET DEFAULT nextval('assets_id_seq'::regclass);
+
+
+--
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -2057,6 +2129,21 @@ ALTER TABLE ONLY skr_vouchers ALTER COLUMN id SET DEFAULT nextval('skr_vouchers_
 --
 
 ALTER TABLE ONLY system_settings ALTER COLUMN id SET DEFAULT nextval('system_settings_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY testers ALTER COLUMN id SET DEFAULT nextval('testers_id_seq'::regclass);
+
+
+--
+-- Name: assets_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY assets
+    ADD CONSTRAINT assets_pkey PRIMARY KEY (id);
 
 
 --
@@ -2361,6 +2448,21 @@ ALTER TABLE ONLY skr_vouchers
 
 ALTER TABLE ONLY system_settings
     ADD CONSTRAINT system_settings_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: testers_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY testers
+    ADD CONSTRAINT testers_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: index_assets_on_owner_id_and_owner_type; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_assets_on_owner_id_and_owner_type ON assets USING btree (owner_id, owner_type);
 
 
 --
@@ -3120,6 +3222,8 @@ SET search_path TO "$user",public;
 
 INSERT INTO schema_migrations (version) VALUES ('1');
 
+INSERT INTO schema_migrations (version) VALUES ('2');
+
 INSERT INTO schema_migrations (version) VALUES ('20120110142845');
 
 INSERT INTO schema_migrations (version) VALUES ('20140202185309');
@@ -3198,6 +3302,8 @@ INSERT INTO schema_migrations (version) VALUES ('20140422024010');
 
 INSERT INTO schema_migrations (version) VALUES ('20140615031600');
 
+INSERT INTO schema_migrations (version) VALUES ('20150220015108');
+
 INSERT INTO schema_migrations (version) VALUES ('20151121211323');
 
 INSERT INTO schema_migrations (version) VALUES ('20160216142845');
@@ -3207,4 +3313,6 @@ INSERT INTO schema_migrations (version) VALUES ('20160229002044');
 INSERT INTO schema_migrations (version) VALUES ('20160229041711');
 
 INSERT INTO schema_migrations (version) VALUES ('20160307022705');
+
+INSERT INTO schema_migrations (version) VALUES ('20160517032350');
 

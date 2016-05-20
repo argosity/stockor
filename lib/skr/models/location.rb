@@ -5,7 +5,7 @@ module Skr
 
         has_code_identifier :from=>'name'
 
-        mount_uploader :logo, Lanes::Concerns::ImageUploader
+        has_one :logo, as: :owner, :class_name=>'Lanes::Asset', export: { writable: false }
 
         belongs_to :address, export: { writable: true }
 
