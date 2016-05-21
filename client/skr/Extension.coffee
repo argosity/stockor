@@ -23,6 +23,9 @@ class Skr.Extension extends Lanes.Extensions.Base
             else
                 console.log "Unable to find model for #{type}"
 
+    title: ->
+        "Stockor"
+
     rootComponent: (viewport) ->
         Lanes.Workspace.Layout
 
