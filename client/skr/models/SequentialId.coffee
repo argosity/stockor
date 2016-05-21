@@ -5,6 +5,8 @@ class Skr.Models.SequentialId extends Skr.Models.Base
         ids:
             type: 'array', required: true, default: -> []
 
+    registerforPubSub: false
+
     modelTypeIdentifier: ->
         'sequential-ids'
 
