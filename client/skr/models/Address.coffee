@@ -12,6 +12,9 @@ class Skr.Models.Address extends Skr.Models.Base
         state:      "string"
         postal_code:"string"
 
+    session:
+        parent: 'object'
+
     modelForAccess: ->
         @parent || this
 
