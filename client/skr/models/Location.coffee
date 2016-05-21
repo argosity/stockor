@@ -3,8 +3,6 @@ SHARED_COLLECTION = null
 
 class Skr.Models.Location extends Skr.Models.Base
 
-    cacheDuration: [1, 'day']
-
     mixins: [ 'FileSupport', 'HasCodeField' ]
 
     props:
