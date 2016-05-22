@@ -36,14 +36,9 @@ module Skr
                     alias_attribute :record_identifier, :visible_id
                     before_validation :assign_visible_id!, :on=>:create
 
-                    export_scope :with_visible_id, lambda{ | visid |
-                        if visid.to_s =~/%/
-                            where( 'cast(visible_id as varchar) like ?', visid.to_s )
-                        else
-                            where( 'cast(visible_id as varchar) = ?',    visid.to_s )
-                        end
-                    }
-
+                    export_sort :visible_id do | q, dir |
+                        q.order("cast(visible_id as integer) #{dir}")
+                    end
                 end
 
             end
