@@ -11,7 +11,7 @@ class UomList extends Lanes.Models.State
         @expanded = expanded or @uoms.first()
 
     save: ->
-        @sku.associations.replace(@sku, 'uoms', uoms)
+        @sku.associations.replace(@sku, 'uoms', @uoms)
         @sku.default_uom_code = @default.code
 
     add: ->
@@ -60,18 +60,16 @@ class UomEdit extends Lanes.React.Component
                 </span>
             </div>
 
-        <BS.Panel ref="panel" className='form-horizontal' collapsible
+        <BS.Panel ref="panel" collapsible
             expanded={@list.expanded is @uom} header={header}>
-
-            <LC.Input type="text"  label='Price' name='price' labelClassName="col-xs-3"
-                model={@props.uom} wrapperClassName="col-xs-6" />
-
-            <LC.Input type="number" label='Size' name='size'  labelClassName="col-xs-3"
-                model={@props.uom} wrapperClassName="col-xs-6" />
-
-            <LC.Input type="text"  label='Code' name='code'  labelClassName="col-xs-3"
-                model={@props.uom} wrapperClassName="col-xs-6"/>
-
+            <BS.Row>
+                <LC.Input type="text"  label='Code'
+                    name='code' model={@props.uom} xs=4 />
+                <LC.NumberInput type="number" label='Size' name='size' format='#,###'
+                    model={@props.uom} xs=3 />
+                <LC.NumberInput type="text"  label='Price' name='price'
+                    model={@props.uom} xs=5 />
+            </BS.Row>
         </BS.Panel>
 
 
@@ -146,6 +144,7 @@ class Skr.Screens.SkuMaint.SkuUomList extends Lanes.React.Component
 
         <BS.Popover
             ref="popover"
+            className='sm'
             id='sku-edit-uoms'
             title={header} placement='left'>
 
@@ -161,7 +160,6 @@ class Skr.Screens.SkuMaint.SkuUomList extends Lanes.React.Component
                     </div>
                 </div>
         </BS.Popover>
-
 
     renderDisplay: ->
         value = @model.uoms.map (uom) ->

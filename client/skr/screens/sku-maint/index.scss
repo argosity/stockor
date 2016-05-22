@@ -49,9 +49,11 @@
             }
         }
     }
-
+    .popover {
+        max-width: inherit;
+    }
     .sku-uom-edit {
-        width: 280px;
+        width: 320px;
     }
 
 }
