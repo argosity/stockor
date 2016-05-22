@@ -14,7 +14,12 @@ module Skr
             end
 
             def as_pdf
-                template.to_stringio
+                begin
+                    template.to_stringio
+                rescue => e
+                    Lanes.logger.warn e.log
+                    raise
+                end
             end
 
             def as_latex
