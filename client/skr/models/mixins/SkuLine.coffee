@@ -40,7 +40,7 @@ Skr.Models.Mixins.SkuLine = {
         this.uom.set( uom.serialize() ) if uom
 
     onSkuChange: ->
-        return unless @sku
+        return if @sku.isProxy
         sl = @sku.sku_locs.findWhere(sku_id: @sku.id)
         if sl
             @set(sku_loc: sl)
