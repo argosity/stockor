@@ -18,6 +18,7 @@ class Skr.Screens.Locations extends Skr.Screens.Base
             <SC.ScreenControls commands={@state.commands} />
             <BS.Row>
                 <SC.LocationChooser label='Code' editOnly displayFinder
+                    syncOptions={@syncOptions}
                     commands={@state.commands} model={@location} name="code" />
                 <LC.Input sm=6 name='name' model={@location} />
             </BS.Row>
