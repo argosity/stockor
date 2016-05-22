@@ -55,8 +55,8 @@ class Skr.Models.SalesOrder extends Skr.Models.Base
         pick_tickets:     { collection: "PickTicket", inverse: 'sales_order' }
 
     events:
-        'change:customer': 'onCustomerChange'
         'lines add remove change:total': 'onTotalChange'
+        'change:customer': 'onCustomerChange'
 
     onTotalChange: ->
         @trigger('change', @, {})
@@ -64,10 +64,14 @@ class Skr.Models.SalesOrder extends Skr.Models.Base
         @unset('order_total')
 
     onCustomerChange: ->
-        return unless @isNew()
+        return if @customer.isProxy or not @isNew()
+
         associations = ['billing_address', 'shipping_address']
         for attr in ['terms_id']
             @set(attr, @customer[attr])
+
         @customer.withAssociations(associations).then =>
             for name in associations
-                @associations.replace(@, name, @customer[name])
+                @[name].set(
+                    _.omit( @customer[name].serialize(), 'id' )
+                )
