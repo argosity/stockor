@@ -26,8 +26,9 @@ class Skr.Screens.SalesOrder extends Lanes.React.Screen
                     syncOptions={@syncOptions} model={@sales_order}
                     commands={@state.commands} />
 
-                <SC.CustomerFinder selectField sm=3 xs=4
-                    customer={@sales_order.customer} model={@sales_order} />
+                <SC.CustomerFinder
+                    syncOptions={ include: ['billing_address', 'shipping_address' ] }
+                    selectField sm=3 xs=4 model={@sales_order} />
 
                 <LC.Input sm=3 xs=4 name='po_num' model={@sales_order} />
 
