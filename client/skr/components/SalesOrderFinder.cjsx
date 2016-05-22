@@ -20,7 +20,7 @@ class Skr.Components.SalesOrderFinder extends Lanes.React.Component
                 src: Skr.Models.SalesOrder, fields: [
                     { id: 'id', visible: false }
                     { id: 'visible_id', title: 'SO #', fixedWidth: 100}
-                    { id: 'customer_code', title: 'Customer', fixedWidth: 120}
+                    { id: 'customer_code', title: 'Customer', fixedWidth: 150}
                     { id: 'order_date', fixedWidth: 120}
                     { id: 'po_num', title: 'PO', fixedWidth: 120}
                     { id: 'notes', flex: 1}
