@@ -14,6 +14,7 @@ class Skr.Components.SalesOrderFinder extends Lanes.React.Component
         query: ->
             new Lanes.Models.Query({
                 initialFieldIndex: 1, title: 'Sales Order', autoRetrieve: true
+                defaultSort: 'visible_id', sortAscending: false
                 syncOptions: Lanes.Models.Query.mergedSyncOptions(
                     @props.syncOptions, { with: [ 'with_details' ] }
                 )

@@ -12,6 +12,7 @@ class Skr.Components.InvoiceFinder extends Lanes.React.Component
             new Lanes.Models.Query({
                 initialFieldIndex: 1
                 title: 'Invoice'
+                defaultSort: 'visible_id', sortAscending: false
                 syncOptions: Lanes.Models.Query.mergedSyncOptions(
                     @props.syncOptions, { with: [ 'with_details' ] }
                 ), autoRetrieve: true
