@@ -89,9 +89,14 @@ class Skr.Models.Invoice extends Skr.Models.Base
                 @trigger('change', @, {})
 
     copyAssociationsFrom: ( model, associations... ) ->
+        addrs = ['billing_address', 'shipping_address']
         new _.Promise (res, rej) =>
             model.withAssociations(associations).then =>
-                for name in associations
+                for name in addrs
+                    @[name].set(
+                        _.omit( @customer[name].serialize(), 'id' )
+                    )
+                for name in _.without associations, addrs
                     @associations.replace(@, name, model[name])
                 res(@)
 
