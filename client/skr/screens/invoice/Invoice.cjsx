@@ -49,9 +49,11 @@ class Skr.Screens.Invoice extends Skr.Screens.Base
 
                 <SC.SalesOrderFinder autoFocus={false} sm=2 xs=3 editOnly={false}
                     onModelSet={@setSalesOrder} associationName='sales_order'
-                    syncOptions={@syncOptions} parentModel={@invoice} />
+                    syncOptions={ include: ['customer', 'billing_address', 'shipping_address' ] }
+                    parentModel={@invoice} />
 
                 <SC.CustomerFinder
+                    syncOptions={ include: ['billing_address', 'shipping_address' ] }
                     selectField sm=3 xs=6 model={@invoice} />
 
                 <SC.TermsChooser model={@invoice} sm=3 xs=6 />
