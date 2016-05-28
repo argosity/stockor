@@ -30,7 +30,7 @@ module Skr
             super do | entry |
                 yield entry
             end
-            yield standard_client_path.join('api.js')
+            yield 'skr/api.js'
         end
     end
 
