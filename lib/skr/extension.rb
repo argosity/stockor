@@ -26,6 +26,12 @@ module Skr
             }
         end
 
+        def each_static_asset
+            super do | entry |
+                yield entry
+            end
+            yield standard_client_path.join('api.js')
+        end
     end
 
 end

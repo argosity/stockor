@@ -1,7 +1,14 @@
-# This file will be loaded if the current extension is the
-# one controlling Lanes.
+# This file will be loaded as part of Lanes startup.
 #
-# It will not be evaluated if another extension is loading this one
+# Extensions are called in load order, so be aware latter extensions may
+# override config options specified
 Lanes.configure do | config |
 
+
+end
+
+Lanes.config.get(:environment) do | env |
+    unless Lanes.env.production?
+        ActiveMerchant::Billing::Base.mode = :test
+    end
 end

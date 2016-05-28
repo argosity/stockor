@@ -25,9 +25,10 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency 'aasm', '~>4.1'
   spec.add_dependency 'erb_latex', '0.3'
-  spec.add_dependency 'lanes', '~> 0.4.0'
+  spec.add_dependency 'lanes', '~> 0.5.0'
   spec.add_dependency 'numbers_in_words', '~> 0.4.0'
-  spec.add_dependency 'ruby-freshbooks'
+  spec.add_dependency 'ruby-freshbooks', '~> 0.4'
+  spec.add_dependency 'activemerchant', '~> 1.59'
 
   spec.add_development_dependency "bundler", "~> 1.5"
   spec.add_development_dependency "rake"
