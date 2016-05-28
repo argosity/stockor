@@ -5,6 +5,8 @@ class Skr.Components.SystemSettings extends Lanes.React.Component
             Skr.Models.BankAccount.Collection.fetch()
         sequentialIds: ->
             new Skr.Models.SequentialId
+        ccgateway: ->
+            Skr.Models.CreditCardGateway.fetchById()
 
     componentWillMount: ->
         @sequentialIds.fetch()
@@ -20,16 +22,40 @@ class Skr.Components.SystemSettings extends Lanes.React.Component
 
     SequentialId: ({si}) ->
         {id, name, count} = si
-        onChange = (ev) => @sequentialIds.updateValue(id, ev.target.value)
+        onChange = (num) => @sequentialIds.updateValue(id, num)
         <BS.Row>
             <BS.Col sm=8>{name}</BS.Col>
             <BS.Col sm=4>
-                <input type="number" value={count} onChange={onChange} />
+                <Lanes.Vendor.ReactWidgets.NumberPicker value={count} onChange={onChange} />
             </BS.Col>
         </BS.Row>
 
     onSave: ->
         @sequentialIds.save() if @sequentialIds.isDirty
+        @ccgateway.save()
+
+
+    setGatewayType: (type) ->
+        @ccgateway.type = type.id
+
+    renderCreditCardGateway: ->
+
+        <BS.Col sm=4>
+
+            <LC.FormGroup sm=12 label="Credit Card Gateway">
+                <Lanes.Vendor.ReactWidgets.DropdownList
+                    ref="ccgateway"
+                    data={Skr.Models.CreditCardGateway.allTypes()}
+                    valueField='id' textField='name'
+                    value={@ccgateway.type}
+                    onChange={@setGatewayType}
+                />
+            </LC.FormGroup>
+            <LC.Input sm=12 name='login' model={@ccgateway} />
+            <LC.Input sm=12 type='password' name='password' model={@ccgateway} />
+        </BS.Col>
+
+
 
     render: ->
         <div className="skr-system-settings">
@@ -43,11 +69,13 @@ class Skr.Components.SystemSettings extends Lanes.React.Component
                         getSelection={@getBankAccount}
                     />
                 </BS.Col>
-                <BS.Col sm=4>
-                    <h4>Auto Assigned next ID</h4>
+
+                <LC.FormGroup sm=4 label="Auto Assigned next ID">
                     {for si in @sequentialIds.ids
                         <@SequentialId si={si} key={si.id} />}
-                </BS.Col>
+                </LC.FormGroup>
+
+                {@renderCreditCardGateway()}
 
             </BS.Row>
 

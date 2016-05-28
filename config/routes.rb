@@ -42,6 +42,9 @@ Lanes::API.routes.for_extension 'skr' do
     resources Skr::Invoice, controller: Skr::Handlers::InvoiceFromTimeEntries,
               path: 'invoices/from-time-entries'
 
+    get  'credit-card-gateways.json', &Skr::Handlers::CreditCardGateway.get
+    post 'credit-card-gateways.json', &Skr::Handlers::CreditCardGateway.update
+
     get 'print/:type/:id.pdf' do
         content_type 'application/pdf'
         form = Skr::Print::Form.new(params[:type], params[:id])
