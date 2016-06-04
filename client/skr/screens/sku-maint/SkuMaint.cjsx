@@ -35,6 +35,11 @@ class Skr.Screens.SkuMaint extends Skr.Screens.Base
             </BS.Row>
             <BS.Row>
                 <LC.ToggleField sm=2
+                    label="Is Public?"
+                    name="is_public"
+                    model={@sku} />
+
+                <LC.ToggleField sm=2
                     label="Other Charge?"
                     name="is_other_charge"
                     model={@sku} />
