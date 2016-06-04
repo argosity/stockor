@@ -77,3 +77,13 @@ ship:
   default_uom_code: EA
   gl_asset_account: ship
   can_backorder: false
+
+event:
+  code: EVENT
+  description: An Awesome Event
+  default_vendor: rump
+  gl_asset_account: inventory
+  default_uom_code: TCKT
+  is_other_charge: false
+  does_track_inventory: no
+  can_backorder: no

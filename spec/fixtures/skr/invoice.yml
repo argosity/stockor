@@ -11,3 +11,20 @@ tiny:
   form: labor
   invoice_date: <%= 1.days.ago %>
   state: 0
+
+
+event:
+  visible_id: 13024
+  customer: anon1
+  location: default
+  billing_address: hg_billing
+  shipping_address: sw_shipping
+  terms: cash
+  form: ticket
+  invoice_date: <%= 1.days.ago %>
+  state: 0
+  options:
+    event_info: |
+      Show at 7:30 pm (doors open at 6:30pm)
+
+      Dress code: Business Casual

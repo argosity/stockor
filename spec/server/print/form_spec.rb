@@ -4,9 +4,15 @@ class PrintSpec < Skr::TestCase
 
     # for debugging add a generate(pdf) to one of the specs
     def generate(pdf)
-        Lanes::SystemSettings.config.logo = File.open(
-            Pathname.new(__FILE__).dirname.join('../../fixtures/stockor.png')
-        )
+        config =  Lanes::SystemSettings.config
+        unless config.logo
+            logo = config.build_logo
+            logo.store_uploaded_file(
+                filename: Pathname.new(__FILE__).dirname.join('../../fixtures/stockor.png')
+            )
+            logo.save!
+            config.save!
+        end
         begin
             File.open('/tmp/skr-test.tex', 'w'){|f| f.write pdf.as_latex    }
             File.open('/tmp/skr-test.pdf', 'w'){|f| f.write pdf.as_pdf.read }
@@ -40,6 +46,13 @@ class PrintSpec < Skr::TestCase
     it 'can generate checks' do
         pymnt = skr_payment(:bigco)
         pdf = Skr::Print::Form.new('payment', pymnt.hash_code)
+        assert pdf.as_latex
+    end
+
+    it 'can generate tickets' do
+        inv = skr_invoice(:event)
+        assert inv.update_attributes form: 'ticket'
+        pdf = Skr::Print::Form.new('invoice', inv.hash_code)
         assert pdf.as_latex
     end
 

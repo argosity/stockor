@@ -51,3 +51,9 @@ shipea:
   size: 1
   sku: ship
   price: 0.0
+
+eventtx:
+  code: TCKT
+  size: 1
+  sku: event
+  price: 49.98

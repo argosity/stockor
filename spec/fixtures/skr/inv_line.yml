@@ -35,3 +35,15 @@ tiny_time:
   uom_code: HOUR
   uom_size: 1
   position: 3
+
+event_line:
+  invoice: event
+  time_entry: siteprep
+  sku_loc: event_def
+  qty: 2
+  price: 49.98
+  sku_code: EVENT
+  description: An Awesome Event
+  uom_code: TCKT
+  uom_size: 1
+  position: 1

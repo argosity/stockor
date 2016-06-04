@@ -33,3 +33,13 @@ sw:
   gl_receivables_account: ar
   billing_address: sw_billing
   shipping_address: sw_shipping
+
+
+anon1:
+  code: ANON
+  name: Anonymous
+  terms: cash
+  notes: Walk-In Customer
+  gl_receivables_account: ar
+  billing_address: sw_billing
+  shipping_address: sw_shipping

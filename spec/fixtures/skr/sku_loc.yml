@@ -41,3 +41,7 @@ tax_def:
 ship_def:
   sku: ship
   location: default
+
+event_def:
+  sku: event
+  location: default
