@@ -77,12 +77,14 @@ module Skr
         #             PO Box 87
         #             Nowhereville, Urgandishly ASCN 1ZZ
         #             877-5550-5555
-        def to_s( include: [] )
+        def to_s( include: [], without: [] )
             ret = ""
-            %w{ name line1 line2 }.each{ |a| ret << self[a] + "\n" unless self[a].blank? }
-            ret << city.to_s
-            ret << ' ' + state unless state.blank?
-            ret << ', ' + postal_code.to_s unless postal_code.blank?
+            [ :name, :line1, :line2 ].each{ |a|
+                ret << self[a] + "\n" unless without.include?(a) || self[a].blank?
+            }
+            ret << city.to_s unless without.include?(:city)
+            ret << ' ' + state unless without.include?(:state) || state.blank?
+            ret << ', ' + postal_code.to_s unless without.include?(:postal_code) || postal_code.blank?
             include = [ *include ]
             if include.any?
                 ret << "\n" + include.map{ | field | self[ field ] }.join("\n")
