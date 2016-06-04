@@ -40,6 +40,7 @@ module Skr
             def template
                 ErbLatex::Template.new( @latex,
                                         data: data,
+                                        context: Skr::Print::Context,
                                         layout: ROOT.join('layout.tex.erb'),
                                         partials_path: ROOT.join('partials'),
                                         packages_path: ROOT.join('packages')

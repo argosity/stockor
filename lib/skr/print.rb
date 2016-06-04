@@ -3,6 +3,7 @@ require 'erb_latex'
 require 'active_support/core_ext/integer/inflections'
 require_relative 'print/template'
 require_relative 'print/form'
+require_relative 'print/context'
 
 module Skr
     module Print
