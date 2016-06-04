@@ -17,7 +17,7 @@ module Skr
             delegate_and_export :terms_code, :terms_description
 
             validates :name,  presence: true
-            validates :terms, :billing_address, :shipping_address, set: true
+            validates :terms, set: true
 
             before_validation :set_defaults, :on=>:create
         end

@@ -13,9 +13,9 @@ module Skr
                 def customer=(cust)
                     super
                     self.terms ||= cust.terms
-                    self.is_tax_exempt    = cust.is_tax_exempt        if     self.is_tax_exempt.nil?
-                    self.billing_address  = cust.billing_address.dup  unless self.billing_address.present?
-                    self.shipping_address = cust.shipping_address.dup unless self.shipping_address.present?
+                    self.is_tax_exempt    = cust.is_tax_exempt        if self.is_tax_exempt.nil?
+                    self.billing_address  = cust.billing_address.dup  if self.billing_address.nil? and cust.billing_address
+                    self.shipping_address = cust.shipping_address.dup if self.shipping_address.nil? and cust.shipping_address
                 end
 
                 protected

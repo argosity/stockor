@@ -281,8 +281,8 @@ CREATE TABLE skr_customer_projects (
 CREATE TABLE skr_customers (
     id integer NOT NULL,
     code character varying NOT NULL,
-    billing_address_id integer NOT NULL,
-    shipping_address_id integer NOT NULL,
+    billing_address_id integer,
+    shipping_address_id integer,
     terms_id integer NOT NULL,
     gl_receivables_account_id integer NOT NULL,
     credit_limit numeric(15,2) DEFAULT 0.0,
@@ -319,7 +319,8 @@ CREATE TABLE skr_skus (
     created_at timestamp without time zone NOT NULL,
     created_by_id integer NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    updated_by_id integer NOT NULL
+    updated_by_id integer NOT NULL,
+    is_public boolean DEFAULT true NOT NULL
 );
 
 
@@ -705,8 +706,8 @@ CREATE TABLE skr_invoices (
     customer_project_id integer,
     sales_order_id integer,
     pick_ticket_id integer,
-    shipping_address_id integer NOT NULL,
-    billing_address_id integer NOT NULL,
+    shipping_address_id integer,
+    billing_address_id integer,
     amount_paid numeric(15,2) DEFAULT 0.0 NOT NULL,
     is_tax_exempt boolean DEFAULT false NOT NULL,
     hash_code character varying NOT NULL,
@@ -750,8 +751,8 @@ CREATE TABLE skr_sales_orders (
     state smallint DEFAULT 0 NOT NULL,
     customer_id integer NOT NULL,
     location_id integer NOT NULL,
-    shipping_address_id integer NOT NULL,
-    billing_address_id integer NOT NULL,
+    shipping_address_id integer,
+    billing_address_id integer,
     terms_id integer NOT NULL,
     is_tax_exempt boolean DEFAULT false NOT NULL,
     order_date date NOT NULL,
@@ -1333,8 +1334,8 @@ CREATE TABLE skr_sku_vendors (
 
 CREATE TABLE skr_vendors (
     id integer NOT NULL,
-    billing_address_id integer NOT NULL,
-    shipping_address_id integer NOT NULL,
+    billing_address_id integer,
+    shipping_address_id integer,
     terms_id integer NOT NULL,
     gl_payables_account_id integer NOT NULL,
     gl_freight_account_id integer NOT NULL,
@@ -1808,7 +1809,6 @@ ALTER SEQUENCE skr_vouchers_id_seq OWNED BY skr_vouchers.id;
 
 CREATE TABLE system_settings (
     id integer NOT NULL,
-    logo character varying,
     settings jsonb DEFAULT '{}'::jsonb NOT NULL
 );
 
@@ -3315,4 +3315,8 @@ INSERT INTO schema_migrations (version) VALUES ('20160229041711');
 INSERT INTO schema_migrations (version) VALUES ('20160307022705');
 
 INSERT INTO schema_migrations (version) VALUES ('20160517032350');
+
+INSERT INTO schema_migrations (version) VALUES ('20160531014306');
+
+INSERT INTO schema_migrations (version) VALUES ('20160604195848');
 

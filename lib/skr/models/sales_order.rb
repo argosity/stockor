@@ -36,7 +36,7 @@ module Skr
         has_many   :invoices,     inverse_of: :sales_order, listen: { save: 'on_invoice' }
 
         validates :location, :terms, :customer, set: true
-        validates :billing_address, :shipping_address, :order_date, presence: true
+        validates :order_date, presence: true
         validate  :ensure_location_changes_are_valid
 
         after_save :check_if_location_changed
