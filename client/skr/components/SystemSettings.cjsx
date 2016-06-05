@@ -78,5 +78,10 @@ class Skr.Components.SystemSettings extends Lanes.React.Component
                 {@renderCreditCardGateway()}
 
             </BS.Row>
+            <BS.Row>
+                <BS.Col sm=6>
+                    <SC.LatexSnippets settings={@props.settings} />
+                </BS.Col>
+            </BS.Row>
 
         </div>
