@@ -2,7 +2,7 @@
 //=require ./api/namespace
 //=require skr/vendor
 //=require ./api/Models/Base
-//=require_tree ./Models/mixins
+//=require_tree ./models/mixins
 //=require ./api/Components/Base
 //=require_tree ./api
 //=require_self
