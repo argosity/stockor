@@ -6,3 +6,4 @@ log/
 secrets.yml
 .DS_Store
 pkg
+npm-build/node_modules
