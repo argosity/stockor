@@ -10,6 +10,11 @@ Lanes::Screen.define_group 'maint' do | group |
     group.icon        = "pencil-square"
 end
 
+Lanes::Screen.define_group 'reports' do | group |
+    group.title       = "Reports"
+    group.icon        = "question-circle-o"
+end
+
 Lanes::Screen.define_group 'customer' do | group |
     group.title       = "Customer"
     group.description = "Customer records"
@@ -17,7 +22,9 @@ Lanes::Screen.define_group 'customer' do | group |
 end
 
 Lanes::Screen.for_extension 'skr' do | screens |
-    # System Settings
+    ##################################################################
+    ## System Settings                                              ##
+    ##################################################################
     screens.define "locations" do | screen |
         screen.title       = "Locations"
         screen.description = ""
@@ -35,7 +42,9 @@ Lanes::Screen.for_extension 'skr' do | screens |
         screen.view_class  = "FreshBooksImport"
     end
 
-    ## ACCOUNTING GROUP
+    ##################################################################
+    ## ACCOUNTING GROUP                                             ##
+    ##################################################################
     screens.define "time-invoicing" do | screen |
         screen.title       = "Time Invoicing"
         screen.description = ""
@@ -86,14 +95,6 @@ Lanes::Screen.for_extension 'skr' do | screens |
         screen.model_class = "GlTransaction"
         screen.view_class  = "ChartOfAccounts"
     end
-    screens.define "gl-transactions" do | screen |
-        screen.title       = "Gl Transactions"
-        screen.description = ""
-        screen.icon        = "balance-scale"
-        screen.group_id    = "accounting"
-        screen.model_class = "GlTransaction"
-        screen.view_class  = "GlTransactions"
-    end
     screens.define "customer-projects" do | screen |
         screen.title       = "Customer Projects"
         screen.description = ""
@@ -113,7 +114,9 @@ Lanes::Screen.for_extension 'skr' do | screens |
         screen.view_class  = "GlAccounts"
     end
 
-    # MAINT GROUP
+    ##################################################################
+    ## MAINT GROUP                                                  ##
+    ##################################################################
     screens.define "sku-maint" do | screen |
         screen.title       = "SKU Maintenance"
         screen.icon        = "archive"
@@ -136,7 +139,30 @@ Lanes::Screen.for_extension 'skr' do | screens |
         screen.view_class  = "VendorMaint"
     end
 
-    # CUSTOMER
+    ##################################################################
+    ## REPORTS                                                      ##
+    ##################################################################
+    screens.define "sale-report" do | screen |
+        screen.title       = "Sale Report"
+        screen.description = ""
+        screen.icon        = "line-chart"
+        screen.group_id    = "reports"
+        screen.model_class = "Invoice"
+        screen.view_class  = "SaleReport"
+    end
+    screens.define "gl-transactions" do | screen |
+        screen.title       = "Gl Transactions"
+        screen.description = ""
+        screen.icon        = "balance-scale"
+        screen.group_id    = "accounting"
+        screen.model_class = "GlTransaction"
+        screen.view_class  = "GlTransactions"
+    end
+
+
+    ##################################################################
+    ## CUSTOMER                                                     ##
+    ##################################################################
     screens.define "sales-order" do | screen |
         screen.title       = "Sales Order"
         screen.description = ""
