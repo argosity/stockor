@@ -1,0 +1,41 @@
+<% line = @invoice.lines.first
+   qty  = line.qty.to_i %>
+\usepackage{xcolor}
+\geometry{a6paper, margin=3mm, right=6mm, headheight=0mm, landscape}
+\usepackage[]{qrcode}
+
+
+\begin{document}
+\noindent
+\pagecolor{yellow!25}
+\fancypage{\Ovalbox}{}
+
+\begin{tabu} to \textwidth{X[-1,m,l]X[0,m,c]r}
+<% if (logo = @invoice.location.get_logo).present? -%>
+\includegraphics[align=t,height=14mm,keepaspectratio]{<%= logo.file.path %>}
+<% end -%> &
+  {\bf \LARGE <%=q @invoice.location.address.name %>}
+
+  \small <%= break_lines @invoice.location.address.to_s(include: [:phone], without:[:name]) %> &
+  \qrcode[]{<%= @invoice.hash_code %>} \\
+ \end{tabu}
+
+\bigskip
+
+
+{\bf \large This ticket admits <%= Skr::Number.as_words(qty) %> (<%= qty %>) <%= pluralize(qty, 'person') %> to:}
+\begin{center}
+<% if (snippet = get_snippet(@invoice.options['print_content'])) %>
+<%= snippet %>
+<% else %>
+
+\bigskip
+\bigskip
+
+{\bf\LARGE <%= line.description %>}
+\vfill
+<%= @invoice.options['event_info'] %>
+<% end %>
+
+\end{center}
+\end{document}
