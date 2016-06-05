@@ -30,7 +30,7 @@ module Skr
             super do | entry |
                 yield entry
             end
-            yield 'skr/api.js'
+            [ 'skr/api.js', 'skr/api.css' ].each { | asset | yield asset }
         end
     end
 
