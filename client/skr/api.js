@@ -1,9 +1,20 @@
-//=require lanes/vendor/standalone/data
-//=require lanes/lib/namespace
-//=require lanes/lib/ModuleSupport
-//=require lanes/lib/MakeBaseClass
+//=require lanes/remote/api
+//=require ./api/namespace
+//=require skr/vendor
+//=require ./api/Models/Base
+//=require_tree ./Models/mixins
+//=require ./api/Components/Base
+//=require_tree ./api
 //=require_self
-//=require ./api/Cart
 
 
-Lanes.Models.State = Lanes.lib.MakeBaseClass( Lanes.Vendor.Ampersand.State, State )
+var previousSkr = window.Skr;
+window.Skr = Lanes.Skr;
+
+window.Skr._lanes = window.Lanes.noConflict();
+
+Skr.noConflict = function(){
+    var Skr = window.Skr;
+    window.Skr = previousSkr;
+    return Skr;
+};
