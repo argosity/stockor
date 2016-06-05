@@ -13,7 +13,7 @@ class Transactions extends Skr.Models.Base
         syncOptions: { with: ['with_details'] }
         fields: [
             { id: 'id', visible: false }
-            { id: 'created_at', title: 'Date', format: Lanes.u.format.shartDate, fixedWidth: 100 }
+            { id: 'created_at', title: 'Date', format: Lanes.u.format.shortDate, fixedWidth: 100 }
             { id: 'debit_details',  title: 'Debit',  component: RenderPosting }
             { id: 'credit_details', title: 'Credit', component: RenderPosting }
             { id: 'source_type', fixedWidth: 180  }

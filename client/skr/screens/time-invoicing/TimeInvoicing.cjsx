@@ -15,10 +15,10 @@ class Skr.Screens.TimeInvoicing extends Skr.Screens.Base
                     @gridSelections
                     {
                         id: 'start_at', fixedWidth: 200,
-                        format: Lanes.u.format.shartDateTime
+                        format: Lanes.u.format.shortDateTime
                     }, {
                         id: 'end_at', fixedWidth: 200,
-                        format: Lanes.u.format.shartDateTime
+                        format: Lanes.u.format.shortDateTime
                     }, {
                         id: 'hours', fixedWidth: 80, textAlign: 'center', editable: false,
                         query: false, format: (v, row) -> hoursForRow(row)
