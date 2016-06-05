@@ -25,9 +25,6 @@ class Skr.Components.CustomerFinder extends Lanes.React.Component
 
     render: ->
         props = _.clone(@props)
-        if @model.hasAttribute('customer_code')
-            props.defaultLabel = @model.customer_code
-
         if props.selectField
             <LC.SelectField labelField='code' sm=2 labelField="code" {...props} />
         else
