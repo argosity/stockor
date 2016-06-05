@@ -22,9 +22,7 @@ class Skr.Api.Components.CreditCardForm extends Skr.Api.Components.Base
 
             <form  className="credit-card section">
                 <input {...fieldProps}
-                    placeholder="Card number"
-                    value="4111 1111 1111 1111"
-                    name="number" />
+                    placeholder="Card number" name="number" />
                 <input {...fieldProps} value={@card.name}
                     placeholder="Full name" name="name" />
                 <div className="row">
