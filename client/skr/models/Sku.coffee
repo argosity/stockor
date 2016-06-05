@@ -5,7 +5,7 @@ class Skr.Models.Sku extends Skr.Models.Base
         id:                  {type:"integer"}
         default_vendor_id:   {type:"integer"}
         gl_asset_account_id: {type:"integer", default: ->
-            Skr.Models.GlAccount.default_ids.asset
+            Skr.Models.GlAccount.default_ids?.asset
         }
         default_uom_code:    {type:"string"}
         code:                {type:"code",   required:true}
