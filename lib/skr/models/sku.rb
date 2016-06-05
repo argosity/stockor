@@ -54,6 +54,9 @@ module Skr
             with_qty_details.where("details.qty_on_order > details.qty_on_hand")
         }, export: true
 
+        def price
+            uoms.default.price
+        end
 
         # Rebuilding is sometimes needed for cases where the location's
         # allocation/on order/reserved counts get out of sync with the
