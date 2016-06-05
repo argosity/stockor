@@ -1,10 +1,8 @@
 module Skr
     module Handlers
-        class InvoiceFromTimeEntries
-            include Lanes::API::FormattedReply
+        class InvoiceFromTimeEntries < ::Lanes::API::ControllerBase
 
             def initialize(model, authentication, params, data)
-
                 @options   = data
                 @entry_ids = data['time_entry_ids']
                 @project   = CustomerProject.find( data['customer_project_id'] )
