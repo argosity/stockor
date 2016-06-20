@@ -47,9 +47,14 @@ module Skr
         # joins the so_amount_details view which includes additional fields:
         # customer_code, customer_name, bill_addr_name, total, num_lines, total_other_charge_amount,
         # total_tax_amount, total_shipping_amount,subtotal_amount
-
         scope :with_details, lambda { | *args |
             compose_query_using_detail_view(view: 'skr_so_details')
+        }, export: true
+
+        scope :with_sku_id, lambda { | sku_id |
+            joins("join (select skr_sku_so_xref.sales_order_id from skr_sku_so_xref " +
+                  "where sku_id=#{sku_id.to_i} group by skr_sku_so_xref.sales_order_id) as sku_so " +
+                  "on sku_so.sales_order_id = skr_sales_orders.id")
         }, export: true
 
         # joins the so_allocation_details which includes the additional fields:

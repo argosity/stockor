@@ -1,6 +1,6 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 tiny:
-  visible_id: 1
+  visible_id: 1021
   customer: billy
   location: default
   notes: Ship promptly in all organic packaging

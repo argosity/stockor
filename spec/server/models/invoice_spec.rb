@@ -36,4 +36,20 @@ class InvoiceSpec < Skr::TestCase
         end
     end
 
+    it 'queries using view helper scopes' do
+        tiny = skr_invoice(:tiny)
+        tiny.payments.create!( amount: 10.10, bank_account: skr_bank_account(:checking) )
+        assert_equal Skr::Invoice.with_sku_id(skr_sku(:yarn).id).pluck(:id), [tiny.id]
+        attrs = Skr::Invoice.with_details.where(id: tiny.id).first.attributes
+        assert_equal( attrs.slice('customer_code', 'customer_name', 'bill_addr_name',
+                                  'invoice_total', 'sales_order_visible_id', 'invoice_total', 'amount_paid'), {
+                         "customer_code"  => "GOAT",
+                         "customer_name"  => "Billy Goat Gruff",
+                         "bill_addr_name" => "Hansel and Gretel",
+                         "sales_order_visible_id" => '1021',
+                         'amount_paid' => BigDecimal.new('10.1'),
+                         "invoice_total"  => BigDecimal.new('285.10')
+        })
+    end
+
 end

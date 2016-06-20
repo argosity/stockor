@@ -47,15 +47,26 @@ module Skr
                  class_name: 'Skr::InvLine', inverse_of: :invoice,
                  extend: Concerns::INV::Lines, export: { writable: true }
 
-        before_save :maybe_mark_paid
+        has_many :payments, inverse_of: :invoice,
+                 extend: Concerns::INV::Payments,
+                 listen: { save: :apply_payment }
+
+#        before_save :maybe_mark_paid
 
         before_validation :set_defaults, on: :create
 
         validates :customer, :location, set: true
         validate  :ensure_unlocked, :ensure_location_matches_so
 
+        # used to update customer account balances when invoices created / paid
         scope :open_for_customer, lambda{ | customer |
             where(state: :open, customer_id: customer.is_a?(Customer) ? customer.id : customer)
+        }, export: true
+
+        scope :with_sku_id, lambda { | sku_id |
+            joins("join (select skr_sku_inv_xref.invoice_id as invoice_id from skr_sku_inv_xref " +
+                  "where sku_id=#{sku_id.to_i} group by skr_sku_inv_xref.invoice_id) as sku_inv " +
+                  "on sku_inv.invoice_id = skr_invoices.id")
         }, export: true
 
         scope :with_details, lambda { |should_use=true |

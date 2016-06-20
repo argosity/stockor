@@ -19,4 +19,16 @@ class SalesOrderSpec < Skr::TestCase
         assert model.save
     end
 
+    it 'queries using view helper scopes' do
+        tiny = skr_sales_order(:tiny)
+        assert_equal Skr::SalesOrder.with_sku_id(skr_sku(:yarn).id).pluck(:id), [tiny.id]
+        attrs = Skr::SalesOrder.with_details.where(id: tiny.id).first.attributes
+        assert_equal( attrs.slice('customer_code', 'customer_name', 'bill_addr_name', 'invoice_total', 'order_total'), {
+                         "customer_code"  => "GOAT",
+                         "customer_name"  => "Billy Goat Gruff",
+                         "bill_addr_name" => "Hansel and Gretel",
+                         "order_total"    => BigDecimal.new('115.48')
+        })
+    end
+
 end
