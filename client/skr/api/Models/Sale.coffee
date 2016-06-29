@@ -1,4 +1,5 @@
 ##= require 'skr/models/Address'
+##= require 'skr/models/CreditCard'
 
 class SaleSku extends Lanes.Models.State
 
@@ -27,7 +28,7 @@ class Skr.Api.Models.Sale extends Skr.Api.Models.Base
         skus: { collection: SaleSku }
         billing_address: { model: 'Address', autoCreate: true }
         credit_card:
-            model: 'Skr.Api.Models.CreditCard', autoCreate: true
+            model: 'Skr.Models.CreditCard', autoCreate: true
             options: ->
                 linkToAddress: @billing_address
 

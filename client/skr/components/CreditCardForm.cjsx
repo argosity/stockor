@@ -1,8 +1,7 @@
-class Skr.Api.Components.CreditCardForm extends Skr.Api.Components.Base
+class Skr.Components.CreditCardForm extends Lanes.React.Component
 
     dataObjects:
         card: 'props'
-
 
     setField: (ev) ->
         @card[ev.target.name] = ev.target.value
@@ -22,12 +21,15 @@ class Skr.Api.Components.CreditCardForm extends Skr.Api.Components.Base
 
             <form  className="credit-card section">
                 <input {...fieldProps}
+                    value={@card.number || ''}
                     placeholder="Card number" name="number" />
-                <input {...fieldProps} value={@card.name}
+                <input {...fieldProps} value={@card.name || ''}
                     placeholder="Full name" name="name" />
                 <div className="row">
-                    <input {...fieldProps} placeholder="MM/YY" name="expiry" />
-                    <input {...fieldProps} placeholder="CVC" name="cvc" />
+                    <input {...fieldProps}
+                        value={@card.expiry} placeholder="MM/YY" name="expiry" />
+                    <input {...fieldProps}
+                        value={@card.cvc} placeholder="CVC" name="cvc" />
                 </div>
             </form>
         </div>

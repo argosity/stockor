@@ -35,7 +35,7 @@ class OrderingForm extends Skr.Api.Components.Base
                 <Skr.Api.Components.AddressForm address={@sale.billing_address} />
             </div>
             <div className="section">
-                <Skr.Api.Components.CreditCardForm card={@sale.credit_card } />
+                <Skr.Components.CreditCardForm card={@sale.credit_card } />
             </div>
             <button className="purchase" onClick={@onPurchase}>Purchase</button>
         </div>
