@@ -1,7 +1,10 @@
 require 'lanes/access'
 require_relative "model"
 
+# Access control
 module Lanes::Access
+
+    # Roles specific to Stockor
     module Roles
 
         # re-open the exising Support role
@@ -14,6 +17,7 @@ module Lanes::Access
                   Skr::TimeEntry
         end
 
+        # Accounting role for members who deal with finance
         class Accounting < Lanes::Access::Role
             grant Skr::Customer,
                   Skr::PaymentTerm,
@@ -30,13 +34,14 @@ module Lanes::Access
             lock Skr::Customer, :gl_receivables_account
         end
 
-
+        # Purchase (PO's, Vendors)
         class Purchasing < Lanes::Access::Role
             read Skr::Customer
             grant Skr::Sku,
                   Skr::SalesOrder
         end
 
+        # Standard employee role
         class Workforce < Lanes::Access::Role
             read Skr::Customer,
                  Skr::Sku
