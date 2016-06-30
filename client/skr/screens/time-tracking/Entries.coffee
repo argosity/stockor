@@ -11,8 +11,7 @@ class TimeEntries extends Skr.Models.TimeEntry.Collection
         query.start_at  = { op: 'lt', value: range.end.toISOString() }
         @fetch({query, reset: true})
 
-    resetEntries: (projectId, range) ->
-        @projectId = projectId
+    resetEntries: (@projectId, range) ->
         query = if @projectId and @projectId isnt -1
             {customer_project_id: @projectId}
         else {}
@@ -85,7 +84,7 @@ class Skr.Screens.TimeTracking.Entries extends Lanes.Models.Base
         date.minute(rounded).second(0)
         entry = @entries.add({
             start_at: date.subtract(1, 'hour'), end_at: date.clone().add(2, 'hour')
-            customer_project: @project unless @project.id is -1
+            customer_project: @project unless @project?.id is -1
         })
         @calEvents().add( entry.toCalEvent() )
 
@@ -105,7 +104,7 @@ class Skr.Screens.TimeTracking.Entries extends Lanes.Models.Base
         @entries.resetEntries(@customer_project_id, @range)
 
     calEvents: ->
-        @_cachedEvents ||= new LC.Calendar.Events( @entries.invoke('toCalEvent') )
+        @_cachedEvents ||= new LC.Calendar.Events( @entries.invokeMap('toCalEvent') )
 
     back: ->
         @set(editing: false, date: @date.clone().subtract(1, @display) )
