@@ -31,14 +31,6 @@ module Skr
 
         private
 
-        def attributes_for_gl_transaction
-            {   location: location, source: self,
-                description: "PO RECPT #{self.visible_id}" }
-        end
-
-        def logit
-        end
-
         def record_freight
             GlTransaction.current.add_posting( amount: self.freight,
               debit: GlAccount.default_for( :inventory_receipts_clearing ),

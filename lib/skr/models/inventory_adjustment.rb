@@ -38,11 +38,6 @@ module Skr
             state_event == :mark_applied
         end
 
-        def attributes_for_gl_transaction
-            { source: self, location: location,
-             description: "IA #{self.visible_id}" }
-        end
-
         def ensure_state_is_savable
             if applied? && state_was == 'applied'
                 errors.add('base' , "Cannot update record once it's approved and applied")

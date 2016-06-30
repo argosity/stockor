@@ -49,6 +49,14 @@ module Skr
                     end
                 end
 
+                def attributes_for_gl_transaction
+                    identifier = has_attribute?(:visible_id) ? visible_id : id
+                    {
+                        source: self,
+                        location: location,
+                        description: "#{self.class.to_s.demodulize} #{identifier}"
+                    }
+                end
             end
 
             module ClassMethods
