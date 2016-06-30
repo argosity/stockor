@@ -113,6 +113,9 @@ module Skr
                 glt.add_posting( amount: amount, debit: debit, credit: credit )
             else
                 options.merge!(source: owner, location: options[:location] || owner.location)
+                if owner.respond_to?(:attributes_for_gl_transaction)
+                    options.reverse_merge!( owner.attributes_for_gl_transaction )
+                end
                 glt = GlTransaction.new( options )
                 glt.add_posting( amount: amount, debit: debit, credit: credit )
                 glt.save!
