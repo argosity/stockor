@@ -36,6 +36,26 @@ class InvoiceSpec < Skr::TestCase
         end
     end
 
+    it "applies payments" do
+        inv = skr_invoice(:tiny)
+        amount = '10.1'
+
+        ar_account   = inv.customer.gl_receivables_account
+        bank_account = skr_bank_account(:checking)
+
+        assert_difference ->{ bank_account.gl_account.trial_balance }, BigDecimal.new(amount) do
+            assert_difference ->{ ar_account.trial_balance }, BigDecimal.new(amount) * -1 do
+                assert_difference ->{ GlTransaction.count }, 1 do
+                    assert inv.payments.create!(
+                               amount: 10.10, bank_account: bank_account
+                           )
+                    inv.mark_partialy_paid!
+                    assert inv.reload.partialy_paid?
+                end
+            end
+        end
+    end
+
     it 'queries using view helper scopes' do
         tiny = skr_invoice(:tiny)
         tiny.payments.create!( amount: 10.10, bank_account: skr_bank_account(:checking) )

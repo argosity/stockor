@@ -125,7 +125,9 @@ module Skr::Jobs::FreshBooks
                 }.compact
             )
             if r['paid'].to_f > 0
-                inv.update_attributes(amount_paid: r['paid'])
+                inv.payments.create!(
+                    amount: r['paid'], bank_account: Skr::BankAccount.default
+                )
             end
             inv
         end

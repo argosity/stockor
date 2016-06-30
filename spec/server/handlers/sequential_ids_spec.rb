@@ -11,7 +11,7 @@ class SequentialIdsSpec < Skr::TestCase
     it "retrieves the list of sequential ids" do
         assert_kind_of Array, sids
 
-        sids[0...sids.length-1].each do | si |
+        sids[0...sids.length-2].each do | si |
             assert_includes Skr::Handlers::SequentialIds::TYPES, si['id']
             assert_kind_of Fixnum, si['count']
         end

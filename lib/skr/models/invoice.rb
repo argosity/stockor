@@ -30,7 +30,6 @@ module Skr
         has_random_hash_code
         has_gl_transaction
         is_order_like
-        has_additional_events :amount_paid_change
 
         belongs_to :sales_order,      export: true
         belongs_to :customer_project, export: true
@@ -49,9 +48,8 @@ module Skr
 
         has_many :payments, inverse_of: :invoice,
                  extend: Concerns::INV::Payments,
-                 listen: { save: :apply_payment }
-
-#        before_save :maybe_mark_paid
+                 listen: { save: :apply_payment },
+                 export: { writable: true }
 
         before_validation :set_defaults, on: :create
 
@@ -76,20 +74,18 @@ module Skr
         enum state: {
             open:     1,
             paid:     5,
-            partial: 10
+            partialy_paid: 10
         }
 
         state_machine do
             state :open, initial: true
             state :paid
-            state :partial
+            state :partialy_paid
             event :mark_paid do
-                transitions from: [:open,:partial], to: :paid
-                before :apply_balances
+                transitions from: [:open,:partialy_paid], to: :paid
             end
-            event :mark_partial do
-                transitions from: [:open,:partial], to: :partial
-                before :apply_balances
+            event :mark_partialy_paid do
+                transitions from: :open, to: :partialy_paid
             end
         end
 
@@ -101,7 +97,7 @@ module Skr
 
         # @return [BigDecimal] total - amount_paid
         def unpaid_amount
-            self.total - amount_paid
+            self.total - self.payments.total
         end
 
         # @return [Boolean] is the invoice paid in full
@@ -120,36 +116,18 @@ module Skr
 
         private
 
-        # attributes for GlTransaction
-        def attributes_for_gl_transaction
-            { location: location, source: self,
-              description: "INV #{self.visible_id}" }
-        end
-
         # set the state if the amount_paid was changed
-        def maybe_mark_paid
-            return unless amount_paid_changed?
+        def apply_payment(pymnt)
             if self.fully_paid? && self.may_mark_paid?
-                self.mark_paid
-            elsif self.amount_paid > 0 && self.may_mark_partial?
-                self.mark_partial
+                self.mark_paid!
+            elsif self.payments.total > 0 && self.may_mark_partialy_paid?
+                Lanes.logger_debug('paying')
+
+                #self.mark_partialy_paid!
+
+                Lanes.logger_debug('paid')
             end
         end
-
-        def apply_balances
-            return unless amount_paid_changed?
-            change = amount_paid - amount_paid_was
-            Lanes.logger.debug "Applying payment #{amount_paid} changed: #{change}"
-            return if change.zero?
-            GlTransaction.push_or_save(
-              owner: self, amount: change,
-              debit: customer.gl_receivables_account,
-              credit: GlAccount.default_for(:deposit_holding)
-            )
-            fire_pubsub_event( :amount_paid_change )
-            true
-        end
-
 
         def set_defaults
 

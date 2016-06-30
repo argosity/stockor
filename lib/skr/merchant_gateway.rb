@@ -4,6 +4,9 @@ module Skr
 
     module MerchantGateway
 
+        class InvalidCard < StandardError
+        end
+
         def self.get
             @gateway || _create_gateway
         end
@@ -22,6 +25,11 @@ module Skr
                 raise ActiveRecord::RecordNotFound
             end
             gateway.new(settings.except('type'))
+        end
+
+        def purchase(amount, card)
+            raise InvalidCard.new(credit_card.validate) unless credit_card.validate.empty?
+            gw.purchase(amount, card)
         end
 
     end

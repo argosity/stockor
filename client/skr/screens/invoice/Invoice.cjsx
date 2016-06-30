@@ -5,7 +5,7 @@ class Skr.Screens.Invoice extends Skr.Screens.Base
 
     syncOptions:
         with: [ 'with_details' ]
-        include: [ 'sales_order', 'billing_address', 'shipping_address', 'lines'   ]
+        include: [ 'sales_order', 'billing_address', 'shipping_address', 'lines', 'payments' ]
 
     dataObjects:
         invoice: ->
@@ -18,17 +18,13 @@ class Skr.Screens.Invoice extends Skr.Screens.Base
         commands: new Skr.Screens.Commands(this, modelName: 'invoice', print: true)
 
     setSalesOrder: (so) -> @invoice.setFromSalesOrder(so)
-    onPayment: -> @invoice.save()
 
-    getPayment: ->
-        @context.viewport.displayModal
-            title: "Accept Payment", autoHide: true, size: 'sm', onOk: @onPayment,
-            body: =>
-                <Skr.Screens.Invoice.Payment invoice={@invoice} />
+    showPayment: ->
+        Skr.Screens.Invoice.Payment.display(@context.viewport, @invoice)
 
     PaymentButton: ->
-        return null if @invoice.isNew() or @invoice.isPaidInFull()
-        <SC.ToolbarButton onClick={@getPayment}>
+        return null if @invoice.isNew()
+        <SC.ToolbarButton onClick={@showPayment}>
             <LC.Icon type="money" />Payment
         </SC.ToolbarButton>
 

@@ -1,0 +1,32 @@
+.invoice {
+
+
+
+}
+
+.invoice-payment {
+    .credit-card-form {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+    }
+
+    .input-fields {
+        display: flex;
+        justify-content: space-around;
+        margin-top: 15px;
+        padding-top: 15px;
+        border-top: 2px solid lightgray;
+    }
+
+    .toggles {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        label {
+            input{ margin-top: 0; }
+            display: flex;
+            align-items: center;
+        }
+    }
+}

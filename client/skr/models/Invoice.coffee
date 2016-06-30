@@ -13,7 +13,6 @@ class Skr.Models.Invoice extends Skr.Models.Base
         pick_ticket_id:     "integer"
         shipping_address_id:{type:"integer"}
         billing_address_id: {type:"integer"}
-        amount_paid:        {type:"bigdec", "default":"0"}
         state:              {type:"string"}
         hash_code:          {type:"string"}
         invoice_date:       {type:"date", default: ->
@@ -30,6 +29,7 @@ class Skr.Models.Invoice extends Skr.Models.Base
     session:
         customer_code: {type:"string"}
         invoice_total: {type:"bigdec"}
+        amount_paid:   {type:"bigdec", "default":"0"}
 
     derived:
         prev_amount_paid: deps:['updated_at'], fn: -> @amount_paid
@@ -58,6 +58,7 @@ class Skr.Models.Invoice extends Skr.Models.Base
         pick_ticket:      { model: "PickTicket",  readOnly:true }
         lines:            { collection: "InvLine", inverse: 'invoice'  }
         gl_transactions:  { collection: "GlTransaction", readOnly:true }
+        payments:         { collection: "Payment", inverse: 'invoice' }
 
     events:
         'change:customer': 'onSetCustomer'
@@ -68,8 +69,8 @@ class Skr.Models.Invoice extends Skr.Models.Base
         @unCacheDerived('total')
         @unset('invoice_total')
 
-    onSetCustomer: (newCustomer) ->
-        return if not newCustomer or newCustomer.isNew()
+    onSetCustomer: ->
+        return if not @customer or @customer.isNew() or @customer.id is @customer_id
         for attr in ['terms_id']
             @set(attr, newCustomer[attr])
         @copyAssociationsFrom( newCustomer, 'billing_address', 'shipping_address')
@@ -102,7 +103,9 @@ class Skr.Models.Invoice extends Skr.Models.Base
 
     dataForSave: ->
         # only send some associations
-        super(onlyAssociations: ['lines', 'billing_address', 'shipping_address'])
+        super(onlyAssociations: [
+            'lines', 'billing_address', 'shipping_address', 'payments', 'credit_card'
+        ])
 
     isPaidInFull: ->
         @state == 'paid'

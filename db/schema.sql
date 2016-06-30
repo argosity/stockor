@@ -708,7 +708,6 @@ CREATE TABLE skr_invoices (
     pick_ticket_id integer,
     shipping_address_id integer,
     billing_address_id integer,
-    amount_paid numeric(15,2) DEFAULT 0.0 NOT NULL,
     is_tax_exempt boolean DEFAULT false NOT NULL,
     hash_code character varying NOT NULL,
     invoice_date date NOT NULL,
@@ -720,6 +719,31 @@ CREATE TABLE skr_invoices (
     created_by_id integer NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     updated_by_id integer NOT NULL
+);
+
+
+--
+-- Name: skr_payments; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE skr_payments (
+    id integer NOT NULL,
+    visible_id character varying NOT NULL,
+    bank_account_id integer NOT NULL,
+    category_id integer,
+    vendor_id integer,
+    location_id integer NOT NULL,
+    hash_code character varying NOT NULL,
+    amount numeric(15,2) NOT NULL,
+    date date NOT NULL,
+    check_number integer,
+    name text NOT NULL,
+    address text,
+    notes text,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    invoice_id integer,
+    metadata jsonb DEFAULT '{}'::jsonb
 );
 
 
@@ -807,8 +831,9 @@ CREATE VIEW skr_inv_details AS
     COALESCE(ttls.total, 0.0) AS invoice_total,
     COALESCE(ttls.num_lines, (0)::bigint) AS num_lines,
     COALESCE(ttls.other_charge_total, (0)::numeric) AS total_other_charge_amount,
-    (COALESCE(ttls.total, 0.0) - COALESCE(ttls.other_charge_total, 0.0)) AS subtotal_amount
-   FROM (((((skr_invoices inv
+    (COALESCE(ttls.total, 0.0) - COALESCE(ttls.other_charge_total, 0.0)) AS subtotal_amount,
+    COALESCE(payments.amount_paid, (0)::numeric) AS amount_paid
+   FROM ((((((skr_invoices inv
      JOIN skr_customers cust ON ((cust.id = inv.customer_id)))
      LEFT JOIN skr_addresses ba ON ((ba.id = inv.billing_address_id)))
      LEFT JOIN skr_sales_orders so ON ((so.id = inv.sales_order_id)))
@@ -824,7 +849,12 @@ CREATE VIEW skr_inv_details AS
            FROM ((skr_inv_lines ivl
              JOIN skr_sku_locs sl ON ((sl.id = ivl.sku_loc_id)))
              JOIN skr_skus s ON ((s.id = sl.sku_id)))
-          GROUP BY ivl.invoice_id) ttls ON ((ttls.invoice_id = inv.id)));
+          GROUP BY ivl.invoice_id) ttls ON ((ttls.invoice_id = inv.id)))
+     LEFT JOIN ( SELECT skr_payments.invoice_id,
+            sum(skr_payments.amount) AS amount_paid
+           FROM skr_payments
+          WHERE (skr_payments.invoice_id IS NOT NULL)
+          GROUP BY skr_payments.invoice_id) payments ON ((payments.invoice_id = inv.id)));
 
 
 --
@@ -1008,29 +1038,6 @@ CREATE SEQUENCE skr_payment_terms_id_seq
 --
 
 ALTER SEQUENCE skr_payment_terms_id_seq OWNED BY skr_payment_terms.id;
-
-
---
--- Name: skr_payments; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE skr_payments (
-    id integer NOT NULL,
-    visible_id character varying NOT NULL,
-    bank_account_id integer NOT NULL,
-    category_id integer NOT NULL,
-    vendor_id integer,
-    location_id integer NOT NULL,
-    hash_code character varying NOT NULL,
-    amount numeric(15,2) NOT NULL,
-    date date NOT NULL,
-    check_number integer NOT NULL,
-    name text NOT NULL,
-    address text,
-    notes text,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
-);
 
 
 --
@@ -1308,6 +1315,17 @@ CREATE TABLE skr_sequential_ids (
 
 
 --
+-- Name: skr_sku_inv_xref; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW skr_sku_inv_xref AS
+ SELECT skr_inv_lines.invoice_id,
+    skr_sku_locs.sku_id
+   FROM (skr_inv_lines
+     JOIN skr_sku_locs ON ((skr_sku_locs.id = skr_inv_lines.sku_loc_id)));
+
+
+--
 -- Name: skr_sku_vendors; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1451,6 +1469,17 @@ CREATE VIEW skr_sku_qty_details AS
              JOIN skr_sku_locs sl ON ((sl.id = pol.sku_loc_id)))
              JOIN skr_skus s_1 ON ((s_1.id = sl.sku_id)))
           GROUP BY s_1.id) pol_ttl ON ((pol_ttl.sku_id = s.id)));
+
+
+--
+-- Name: skr_sku_so_xref; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW skr_sku_so_xref AS
+ SELECT skr_so_lines.sales_order_id,
+    skr_sku_locs.sku_id
+   FROM (skr_so_lines
+     JOIN skr_sku_locs ON ((skr_sku_locs.id = skr_so_lines.sku_loc_id)));
 
 
 --
@@ -2501,6 +2530,13 @@ CREATE INDEX index_skr_gl_postings_on_period_and_year_and_account_number ON skr_
 
 
 --
+-- Name: index_skr_inv_lines_on_sku_loc_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_skr_inv_lines_on_sku_loc_id ON skr_inv_lines USING btree (sku_loc_id);
+
+
+--
 -- Name: index_skr_inventory_adjustments_on_visible_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -2561,6 +2597,20 @@ CREATE INDEX index_skr_purchase_orders_on_visible_id ON skr_purchase_orders USIN
 --
 
 CREATE INDEX index_skr_sales_orders_on_visible_id ON skr_sales_orders USING btree (visible_id);
+
+
+--
+-- Name: index_skr_sku_locs_on_sku_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_skr_sku_locs_on_sku_id ON skr_sku_locs USING btree (sku_id);
+
+
+--
+-- Name: index_skr_so_lines_on_sku_loc_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_skr_so_lines_on_sku_loc_id ON skr_so_lines USING btree (sku_loc_id);
 
 
 --
@@ -3319,4 +3369,10 @@ INSERT INTO schema_migrations (version) VALUES ('20160517032350');
 INSERT INTO schema_migrations (version) VALUES ('20160531014306');
 
 INSERT INTO schema_migrations (version) VALUES ('20160604195848');
+
+INSERT INTO schema_migrations (version) VALUES ('20160605024432');
+
+INSERT INTO schema_migrations (version) VALUES ('20160608023553');
+
+INSERT INTO schema_migrations (version) VALUES ('20160620010455');
 
