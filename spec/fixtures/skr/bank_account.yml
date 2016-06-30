@@ -1,3 +1,12 @@
+default:
+  code: DEFAULT
+  name: The default bank account
+  description: My default account
+  routing_number: 12345
+  account_number: 123456789
+  address: bigcobank
+  gl_account: bank_checking
+
 checking:
   code: CHECKING
   name: A test checking account
