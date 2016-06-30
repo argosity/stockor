@@ -7,13 +7,12 @@
 \noindent
 
 \begin{textblock}{195}(10,10)
+\begin{tabularx}{\columnwidth}{l>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}Xr}
 <% if (logo = @payment.location.get_logo).present? -%>
-  \begin{tabularx}{\columnwidth}{lXXr}
-    \includegraphics[align=t,height=14mm,keepaspectratio]{<%= logo.file.path %>} &
-<% else -%>
-  \begin{tabularx}{\columnwidth}{XXr}
+    \includegraphics[align=t,height=14mm,keepaspectratio]{<%= logo.file.path %>}
 <% end -%>
-  \small <%= break_lines @payment.location.address.to_s(include: [:phone]) %> &
+ &
+ \small <%= break_lines @payment.location.address.to_s(include: [:phone]) %> &
   \scriptsize <%= break_lines @payment.bank_account.address.to_s(include: [:phone]) %> &
   \raisebox{-3mm}{\shadowbox{\large\bf {CHECK \# <%= @payment.check_number %> } }}\\
  \end{tabularx}
@@ -32,17 +31,18 @@
     \end{tabu}
   \end{textblock}
 %
+\renewcommand{\tabularxcolumn}[1]{>{\large}m{#1}}
 \begin{textblock}{200}(10,50)
   \noindent
-  \begin{tabu} to \columnwidth{lX}
+  \begin{tabularx}{\columnwidth}{l>{\raggedright\arraybackslash}X}
     \parbox{5em}{\textit{PAY \newline
         TO THE \newline
         ORDER\newline
         OF}}
-    & \parbox{\linewidth}{\large{<%=q @payment.name %> } \newline
-    <%= break_lines( @payment.address ) %> } \\
-      \end{tabu}
-    \end{textblock}
+    & <%=q @payment.name %> \newline
+    <%= break_lines( @payment.address ) %> \\
+  \end{tabularx}
+\end{textblock}
 \begin{textblock}{70}(120,65)
   \noindent
   \begin{tabu} to \columnwidth{X[1,c,p]}
