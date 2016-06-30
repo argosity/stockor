@@ -17,6 +17,8 @@ module Skr
         # Transactions that do not specify a location will use the one that's identified by this code
         config_option :default_location_code, 'DEFAULT'
 
+        config_option :default_bank_account_code, 'DEFAULT'
+
         # Do freshly created SKUs default to being backorderable?
         config_option :skus_backorder_default, true
 

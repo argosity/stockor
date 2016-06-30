@@ -14,6 +14,12 @@ module Skr
     Lanes::User.scoped_to(user) do
         seeds_path = Pathname.new(__FILE__).dirname.join('seed')
 
+        unless BankAccount.default
+            BankAccount.create(code: Skr.config.default_bank_account_code, name: "System default",
+              address: Address.new(name:"System default")
+            )
+        end
+
         unless Location.default
             Location.create( code: Skr.config.default_location_code, name: "System default",
               address: Address.new(name:"System default")
