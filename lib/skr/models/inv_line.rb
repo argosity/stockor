@@ -26,7 +26,7 @@ module Skr
         validate  :ensure_unlocked
 
         before_validation :set_defaults
-        after_save :perform_adjustments
+        before_save :perform_adjustments
         before_destroy :prevent_destroy
 
         scope :with_details, lambda { |should_use=true |
