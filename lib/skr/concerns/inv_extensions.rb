@@ -3,6 +3,17 @@ module Skr
 
         module INV
 
+            module Payments
+                def total
+                    if proxy_association.loaded?
+                        inject(0){ | sum, pymnt | sum+pymnt.amount }
+                    else
+                        sum('amount')
+                    end
+                end
+
+            end
+
             module Lines
 
                 def other_charge
