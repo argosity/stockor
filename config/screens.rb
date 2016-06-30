@@ -1,7 +1,7 @@
 Lanes::Screen.define_group 'accounting' do | group |
     group.title       = "Accounting"
     group.description = "Accounting functions"
-    group.icon        = "line-chart"
+    group.icon        = "balance-scale"
 end
 
 Lanes::Screen.define_group 'maint' do | group |
@@ -12,7 +12,7 @@ end
 
 Lanes::Screen.define_group 'reports' do | group |
     group.title       = "Reports"
-    group.icon        = "question-circle-o"
+    group.icon        = "file-text-o"
 end
 
 Lanes::Screen.define_group 'customer' do | group |
