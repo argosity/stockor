@@ -14,10 +14,9 @@ class Skr.Screens.TimeTracking extends Skr.Screens.Base
         @showPopup(ev, date)
 
     showPopup: (ev, date, eventEditing = false) ->
-        rect = _.dom(this).el.getBoundingClientRect()
+        rect = _.dom(this).bounds
         @entries.editing = {
-            event: eventEditing,
-            date: date, bounds: rect,
+            date: date, event: eventEditing, bounds: rect
             position: {x: ev.clientX - rect.left, y: ev.clientY - rect.top}
         }
 
@@ -42,9 +41,17 @@ class Skr.Screens.TimeTracking extends Skr.Screens.Base
         return null unless @entries.isMonth
         <div className="monthly-totals">{@entries.totalHours().toFixed(2)}</div>
 
+    getHeight: ->
+        _.dom(@).getBoundingClientRect().height
+
     render: ->
+
         <LC.ScreenWrapper identifier="time-tracking" flexVertical>
-            <Skr.Screens.TimeTracking.Popover entries={@entries} {...@entries.editing} />
+            <Skr.Screens.TimeTracking.Popover
+                getHeight={@getHeight}
+                entries={@entries}
+                {...@entries.editing}
+            />
             <LC.NetworkActivityOverlay visible={@entries.isLoading} model={@entries}/>
             <Skr.Screens.TimeTracking.Header entries={@entries} />
             <BS.Row className="calendar-panel">

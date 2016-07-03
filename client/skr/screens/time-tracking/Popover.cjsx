@@ -1,6 +1,7 @@
 ##= require ./PopoverMiniControls
 ##= require ./EditEntry
 
+MARGIN = 10
 class Skr.Screens.TimeTracking.Popover extends Lanes.React.Component
 
     componentWillReceiveProps: (nextProps) ->
@@ -10,8 +11,11 @@ class Skr.Screens.TimeTracking.Popover extends Lanes.React.Component
             @setState(isCanceled: false)
 
     onCancel: ->
-        if @state.editing?.get('entry').isNew()
+        entry = @state.editing.get('entry')
+        if entry.isNew()
             @state.editing.remove()
+            @props.entries.removeEntry(entry)
+
         @props.entries.stopEditing()
         @setState(isCanceled: true, editing: null)
 
@@ -51,19 +55,20 @@ class Skr.Screens.TimeTracking.Popover extends Lanes.React.Component
         else
             [175, 60]
 
-        # expand to show edit button
         width += 60 if @props.event and not @state.editing
-
-        placement = if x > (this.props.bounds.width / 2) then 'left' else 'right'
-
+        placement = if x > (@props.bounds.width / 2) then 'left' else 'right'
         x -= width if placement is 'left'
+        top = Math.max( MARGIN, y - (height / 2) )
+        if top + height > @props.bounds.height
+            top = @props.bounds.height - height - MARGIN
 
         <BS.Popover className={classes}
             style={{width, height}}
             id='edit-controls'
+            arrowOffsetTop={y - top}
             placement={placement}
             positionLeft={x}
-            positionTop={y - (height / 2)}
+            positionTop={top}
         >
             <@MiniControls />
             <@EditEntry />

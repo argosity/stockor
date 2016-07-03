@@ -70,6 +70,9 @@ class Skr.Screens.TimeTracking.Entries extends Lanes.Models.Base
         for event in @calEvents().events
             event.setEditing(event is editingEvent)
 
+    removeEntry: (entry) ->
+        @entries.remove(entry)
+
     stopEditing: ->
         for event in @calEvents().events when event.isEditing()
             entry = event.get('entry')
