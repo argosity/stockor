@@ -16,8 +16,11 @@ module Skr
             def as_pdf
                 begin
                     template.to_stringio
-                rescue => e
+                rescue ErbLatex::LatexError => e
                     Lanes.logger.warn e.log
+                    raise
+                rescue => e
+                    Lanes.logger.warn e
                     raise
                 end
             end
