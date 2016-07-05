@@ -1,9 +1,9 @@
 GIT
   remote: git://github.com/argosity/lanes.git
-  revision: c328b798109f5db9cd507992303eff4e1a259bc6
+  revision: e7a2ad06f5600e20d4f3c0dbfa4dc2360aafba23
   branch: master
   specs:
-    lanes (0.5.5)
+    lanes (0.5.6)
       activejob (~> 4.2)
       activerecord (~> 4.2)
       bcrypt (~> 3.1)
@@ -50,7 +50,7 @@ GIT
 PATH
   remote: .
   specs:
-    stockor (0.4.0)
+    stockor (0.4.5)
       aasm (~> 4.10.1)
       activemerchant (~> 1.59)
       erb_latex (= 1.0)
@@ -65,7 +65,7 @@ GEM
     activejob (4.2.6)
       activesupport (= 4.2.6)
       globalid (>= 0.3.0)
-    activemerchant (1.59.0)
+    activemerchant (1.60.0)
       activesupport (>= 3.2.14, < 5.1)
       builder (>= 2.1.2, < 4.0.0)
       i18n (>= 0.6.9)
@@ -235,7 +235,7 @@ GEM
       rack-protection (~> 1.4)
       tilt (>= 1.3, < 3)
     slop (3.6.0)
-    sprockets (3.6.2)
+    sprockets (3.6.3)
       concurrent-ruby (~> 1.0)
       rack (> 1, < 3)
     sprockets-helpers (1.2.1)
