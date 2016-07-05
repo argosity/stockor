@@ -10,7 +10,7 @@ module Skr
                 @sku_loc   = @project.sku.sku_locs.find_by(location: @location)
             end
 
-            def perform_creation
+            def create
                 invoice = Invoice.new(
                     notes:    @options['notes'],
                     po_num:   @options['po_num'] || @project.po_num,
