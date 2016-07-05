@@ -14,22 +14,25 @@
 
 %  \hline
 <% unless @record.open? -%>
-  \multicolumn{<%= @ncols-1%>}{r}{{\textbf{Amount Paid}}} &
-  \textbf{\textsuperscript{\$}<%= Skr::String.number_with_delimiter @record.amount_paid %>} \\
-  \cline{<%= @ncols-3%>-<%= @ncols%>}
-%  \hline
-%
- &
-\multicolumn{<%= 1 %>}{l}{{
-\begin{rotate}{12}
-\resizebox{!}{16pt}{\texttt{\textcolor{BrickRed}{
-<%= @record.fully_paid? ? 'PAID IN FULL' : 'PARTIALLY PAID' %>
-}}}
-\end{rotate}
-}} &
-%
-  \multicolumn{<%= @ncols-3%>}{r}{{\textbf{Unpaid Amount}}} &
-  \textbf{\textsuperscript{\$}<%= Skr::String.number_with_delimiter @record.unpaid_amount %>} \\
-  \cline{<%= @ncols-3%>-<%= @ncols%>}
-%  \hline
-<% end -%>
+    \multicolumn{<%= @ncols-1%>}{r}{{\textbf{Amount Paid}}} &
+    \textbf{\textsuperscript{\$}<%= Skr::String.number_with_delimiter @record.payments.total %>} \\
+    \cline{<%= @ncols-3%>-<%= @ncols%>}
+  %  \hline
+  %
+   &
+  \multicolumn{<%= 1 %>}{l}{{
+  \begin{rotate}{12}
+  \resizebox{!}{16pt}{\texttt{\textcolor{BrickRed}{
+  <%= @record.fully_paid? ? 'PAID IN FULL' : 'PARTIALLY PAID' %>
+  }}}
+  \end{rotate}
+  }} &
+    <% if @record.unpaid_amount < 0 %>
+      \multicolumn{<%= @ncols-3%>}{r}{{\textbf{Overpaid Amount}}} &
+      \textbf{\textsuperscript{\$}<%= Skr::String.number_with_delimiter( @record.unpaid_amount * -1 ) %>} \\
+    <% else %>
+      \multicolumn{<%= @ncols-3%>}{r}{{\textbf{Unpaid Amount}}} &
+      \textbf{\textsuperscript{\$}<%= Skr::String.number_with_delimiter @record.unpaid_amount %>} \\
+    <% end -%>
+    \cline{<%= @ncols-3%>-<%= @ncols%>}
+<% end %>
