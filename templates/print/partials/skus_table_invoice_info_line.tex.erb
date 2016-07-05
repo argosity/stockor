@@ -1,8 +1,12 @@
+<% cols = 2
+   cols += 1 unless @invoice.po_num.blank?
+   cols += 1 if @invoice.sales_order
+%>
 \medskip
 \begingroup
 \renewcommand{\arraystretch}{1.5}
 \setlength{\LTpre}{0pt}
-\begin{tabu} to \textwidth { | *{3}{X[l]|} *{3}{l|}  }
+\begin{tabu} to \textwidth { |*{<%=cols%>}{X[l]|} }
 \hline
 <% unless @invoice.po_num.blank? -%>
        PO \#:  <%=q @invoice.po_num %> &
