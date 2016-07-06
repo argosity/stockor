@@ -1,28 +1,28 @@
 module Skr
     module Print
 
+        # finds and generates a pdf verison of a document
         class Form
 
             def initialize(form, code)
-                @template = Template.get(form) || raise("Unable to find template for #{form}")
+                @template = Template.get(form) ||
+                            fail("Unable to find template for #{form}")
                 @record   = @template.model.where(hash_code: code).first!
                 @latex    = @template.path_for_record(@record)
                 unless @latex.exist?
-                    raise("Unable to find template type for record")
+                    fail("Unable to find template type for record")
                 end
                 Lanes.logger.debug "Printing #{form} #{code} using #{@latex}"
             end
 
             def as_pdf
-                begin
-                    template.to_stringio
-                rescue ErbLatex::LatexError => e
-                    Lanes.logger.warn e.log
-                    raise
-                rescue => e
-                    Lanes.logger.warn e
-                    raise
-                end
+                template.to_stringio
+            rescue ErbLatex::LatexError => e
+                Lanes.logger.warn e.log
+                raise
+            rescue => e
+                Lanes.logger.warn e
+                raise
             end
 
             def as_latex
@@ -41,12 +41,12 @@ module Skr
             end
 
             def template
-                ErbLatex::Template.new( @latex,
-                                        data: data,
-                                        context: Skr::Print::Context,
-                                        layout: ROOT.join('layout.tex.erb'),
-                                        partials_path: ROOT.join('partials'),
-                                        packages_path: ROOT.join('packages')
+                ErbLatex::Template.new(@latex,
+                                       data: data,
+                                       context: Skr::Print::Context,
+                                       layout: ROOT.join('layout.tex.erb'),
+                                       partials_path: ROOT.join('partials'),
+                                       packages_path: ROOT.join('packages')
                                       )
             end
         end
