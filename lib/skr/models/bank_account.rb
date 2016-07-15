@@ -9,6 +9,8 @@ module Skr
         belongs_to :address,  class_name: 'Skr::Address',
                    export: { writable: true }, dependent: :destroy
 
+        before_validation :set_defaults, :on=>:create
+
         def self.default
             account = nil
             if default_id = Skr.system_settings['bank_acount_id']
@@ -17,6 +19,13 @@ module Skr
             account ||
                 BankAccount.find_by_code( Skr.config.default_bank_account_code ) ||
                 BankAccount.first
+        end
+
+      private
+
+        def set_defaults
+            self.gl_account ||= GlAccount.default_for(:bank)
+            true
         end
 
     end
