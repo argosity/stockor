@@ -14,18 +14,6 @@ module Skr
     Lanes::User.scoped_to(user) do
         seeds_path = Pathname.new(__FILE__).dirname.join('seed')
 
-        unless BankAccount.default
-            BankAccount.create(code: Skr.config.default_bank_account_code, name: "System default",
-              address: Address.new(name:"System default")
-            )
-        end
-
-        unless Location.default
-            Location.create( code: Skr.config.default_location_code, name: "System default",
-              address: Address.new(name:"System default")
-            )
-        end
-
         YAML::load( seeds_path.join('chart_of_accounts.yml').read ).each do | acct_data |
             GlAccount.where(number: acct_data['number'].to_s).any? || GlAccount.create!(acct_data)
         end
@@ -51,6 +39,18 @@ module Skr
                 code: category_data['code'],
                 name: category_data['name'],
                 gl_account: GlAccount.find_by_number(category_data['gl_account'])
+            )
+        end
+
+        unless BankAccount.default
+            BankAccount.create(code: Skr.config.default_bank_account_code, name: "System default",
+              address: Address.new(name:"System default")
+            )
+        end
+
+        unless Location.default
+            Location.create( code: Skr.config.default_location_code, name: "System default",
+              address: Address.new(name:"System default")
             )
         end
 
