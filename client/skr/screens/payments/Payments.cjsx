@@ -32,17 +32,23 @@ class Skr.Screens.Payments extends Skr.Screens.Base
         <LC.ScreenWrapper identifier="payments">
             <SC.ScreenControls commands={@state.commands} />
             <BS.Row>
-                <LC.RecordFinder ref="finder" sm=3 autoFocus editOnly
+                <LC.RecordFinder ref="finder" sm=2 autoFocus editOnly
                     commands={@state.commands} model={@category}
                     label='Payment ID' name='visible_id' model={@payment} query={@query}
                 />
                 <SC.LocationChooser hideSingle sm=2 model={@payment} />
                 <SC.BankAccountFinder selectField name='bank_account'
                     model={@payment} />
-                <SC.PaymentCategoryFinder selectField name='category' labelField='code'
+                <SC.PaymentCategoryFinder selectField name='category' sm=2
+                    labelField='code' label="Cateogry" model={@payment} />
+                <LC.DateTime name='date' format='ddd, MMM Do YYYY' sm=3
                     model={@payment} />
-                <LC.DateTime name='date' format='ddd, MMM Do YYYY'
-                    sm=3 model={@payment} />
+                {<LC.DisplayValue align='right' label='Number' model={@payment}
+                    name='check_number' sm=1
+                /> unless @payment.isNew()}
+            </BS.Row>
+            <BS.Row>
+
             </BS.Row>
             <BS.Row>
                 <SC.VendorFinder sm=2 selectField
