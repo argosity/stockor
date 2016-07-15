@@ -48,7 +48,9 @@ module Skr
             # Clearing account for inventory that's been
             inventory_receipts_clearing: '2600',
             # Holding account for funds that are awaiting deposit
-            deposit_holding: '1010'
+            deposit_holding: '1010',
+            # Bank Account
+            bank: '1000'
         }
     end
 
