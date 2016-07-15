@@ -1,5 +1,8 @@
 class Skr.Components.LatexSnippets extends Lanes.React.Component
 
+    propTypes:
+        settings: React.PropTypes.object.isRequired
+
     getInitialState: ->
         name: ''
         latex: ''

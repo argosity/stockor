@@ -1,5 +1,8 @@
 class Skr.Components.SystemSettings extends Lanes.React.Component
 
+    propTypes:
+        settings: React.PropTypes.object.isRequired
+
     modelBindings:
         banks: ->
             Skr.Models.BankAccount.Collection.fetch()
