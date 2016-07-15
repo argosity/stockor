@@ -3,7 +3,7 @@ class Skr.Screens.CustomerProjects extends Skr.Screens.Base
     getInitialState: ->
         commands: new Skr.Screens.Commands(this, modelName: 'project')
 
-    dataObjects:
+    modelBindings:
         project: ->
             @loadOrCreateModel({
                 klass: Skr.Models.CustomerProject,

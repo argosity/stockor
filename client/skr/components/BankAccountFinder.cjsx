@@ -10,7 +10,7 @@ class Skr.Components.BankAccountFinder extends Lanes.React.Component
     getDefaultProps: ->
         autoFocus: false, label: 'Bank Account', name: 'code'
 
-    dataObjects:
+    modelBindings:
         query: ->
             new Lanes.Models.Query({
                 syncOptions: @props.syncOptions, autoRetrieve: true

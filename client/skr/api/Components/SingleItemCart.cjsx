@@ -1,6 +1,6 @@
 class Skr.Api.Components.SingleItemCart extends Skr.Api.Components.Base
 
-    dataObjects:
+    modelBindings:
         cart: 'props'
 
     item: -> @cart.skus.first()

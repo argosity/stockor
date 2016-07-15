@@ -9,7 +9,7 @@ class Skr.Components.TermsChooser extends Lanes.React.Component
     getDefaultProps: ->
         label: 'Payment Terms', name: 'terms'
 
-    dataObjects:
+    modelBindings:
         query: ->
             new Lanes.Models.Query({
                 syncOptions: @props.syncOptions, autoRetrieve: true

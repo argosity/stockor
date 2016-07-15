@@ -1,6 +1,6 @@
 class Skr.Screens.GlAccounts extends Skr.Screens.Base
 
-    dataObjects:
+    modelBindings:
         account: ->
             @loadOrCreateModel({
                 klass: Skr.Models.GlAccount,

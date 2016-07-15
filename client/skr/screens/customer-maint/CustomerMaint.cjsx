@@ -1,7 +1,7 @@
 class Skr.Screens.CustomerMaint extends Skr.Screens.Base
 
     syncOptions: {include: ['billing_address', 'shipping_address']}
-    dataObjects:
+    modelBindings:
         customer: ->
             @loadOrCreateModel({
                 syncOptions: @syncOptions, klass: Skr.Models.Customer,

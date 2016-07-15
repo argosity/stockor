@@ -1,7 +1,7 @@
 class Skr.Screens.ChartOfAccounts extends Skr.Screens.Base
 
     modelForAccess: 'gl-transaction'
-    dataObjects:
+    modelBindings:
         query: ->
             new Lanes.Models.Query
                 title: 'Lines', src: Skr.Models.GlAccount

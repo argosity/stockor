@@ -1,6 +1,6 @@
 class Skr.Screens.PaymentCategory extends Skr.Screens.Base
 
-    dataObjects:
+    modelBindings:
         category: ->
             @loadOrCreateModel({
                 klass: Skr.Models.PaymentCategory

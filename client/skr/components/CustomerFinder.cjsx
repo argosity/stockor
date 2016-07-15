@@ -10,7 +10,7 @@ class Skr.Components.CustomerFinder extends Lanes.React.Component
     getDefaultProps: ->
         autoFocus: false, label: 'Customer Code', name: 'customer'
 
-    dataObjects:
+    modelBindings:
         query: ->
             new Lanes.Models.Query({
                 syncOptions: @props.syncOptions, autoRetrieve: true

@@ -10,7 +10,7 @@ class Skr.Components.VendorFinder extends Lanes.React.Component
     getDefaultProps: ->
         autoFocus: false, name: 'vendor', label: 'Vendor Code'
 
-    dataObjects:
+    modelBindings:
         query: ->
             new Lanes.Models.Query({
                 title: 'Vendors'

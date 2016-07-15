@@ -11,7 +11,7 @@ class TextInput extends Lanes.React.Component
         <input value={@props.row.customer_code || ''} onChange={@setCode} />
 
 class UserSelect extends Lanes.React.Component
-    dataObjects:
+    modelBindings:
         user: -> new Lanes.Models.User
 
     getUser: ->
@@ -58,7 +58,7 @@ class RecordRow extends Lanes.React.BaseComponent
 
 class Skr.Screens.FreshBooksImport.ChooseRecords extends Lanes.React.Component
     listenNetworkEvents: true
-    dataObjects:
+    modelBindings:
         import: 'props'
         job: -> @props.import.job
 

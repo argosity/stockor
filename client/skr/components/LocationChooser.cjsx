@@ -8,7 +8,7 @@ class Skr.Components.LocationChooser extends Lanes.React.Component
     getDefaultProps: ->
         label: 'Location', name: 'location'
 
-    dataObjects:
+    modelBindings:
         query: ->
             new Lanes.Models.Query({
                 autoRetrieve: true

@@ -2,7 +2,7 @@ class Skr.Screens.BankMaint extends Skr.Screens.Base
     syncOptions:
         include: [ 'address' ]
 
-    dataObjects:
+    modelBindings:
         bank: ->
             @loadOrCreateModel({
                 syncOptions: @syncOptions, klass: Skr.Models.BankAccount

@@ -3,7 +3,7 @@ class Skr.Screens.VendorMaint extends Lanes.React.Screen
     syncOptions:
         include: ['billing_address', 'shipping_address']
 
-    dataObjects:
+    modelBindings:
         vendor: ->
             @loadOrCreateModel({
                 syncOptions: @syncOptions, klass: Skr.Models.Vendor,

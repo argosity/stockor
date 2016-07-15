@@ -9,7 +9,7 @@ class Skr.Components.GlAccountChooser extends Lanes.React.Component
     getDefaultProps: ->
         label: 'Account', name: 'gl_account'
 
-    dataObjects:
+    modelBindings:
         query: ->
             new Lanes.Models.Query({
                 syncOptions: @props.syncOptions, autoRetrieve: true

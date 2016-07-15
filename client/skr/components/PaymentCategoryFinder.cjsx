@@ -10,7 +10,7 @@ class Skr.Components.PaymentCategoryFinder extends Lanes.React.Component
     getDefaultProps: ->
         autoFocus: false, label: 'Payment Category', name: 'payment_category'
 
-    dataObjects:
+    modelBindings:
         query: ->
             new Lanes.Models.Query({
                 syncOptions: @props.syncOptions, autoRetrieve: true

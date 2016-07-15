@@ -36,7 +36,7 @@ class Filters extends Lanes.Models.State
 
 class Skr.Screens.SaleReport extends Skr.Screens.Base
 
-    dataObjects:
+    modelBindings:
         filters: -> new Filters
 
     resetQuery: ->

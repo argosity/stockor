@@ -1,7 +1,7 @@
 # coffeelint: disable=max_line_length
 class Skr.Screens.FreshBooksImport.ViewRecords extends Lanes.React.Component
     listenNetworkEvents: true
-    dataObjects:
+    modelBindings:
         import: 'props'
         job: -> @props.import.job
 

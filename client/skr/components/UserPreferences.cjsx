@@ -1,5 +1,5 @@
 class Skr.Components.UserPreferences extends Lanes.React.Component
-    dataObjects:
+    modelBindings:
         user: -> Lanes.current_user
         projects: -> new Skr.Models.CustomerProject.Collection
 

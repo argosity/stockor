@@ -35,7 +35,7 @@ class UomEdit extends Lanes.React.Component
         list: React.PropTypes.instanceOf(UomList).isRequired
         uom:  React.PropTypes.instanceOf(Skr.Models.Uom).isRequired
 
-    dataObjects:
+    modelBindings:
         list: 'props'
         uom:  'props'
 
@@ -79,7 +79,7 @@ class EditBody extends Lanes.React.Component
         selected: React.PropTypes.instanceOf(Skr.Models.Uom)
         uoms: Lanes.PropTypes.Collection.isRequired
 
-    dataObjects:
+    modelBindings:
         uoms: 'props'
 
     add: ->

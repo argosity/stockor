@@ -7,7 +7,7 @@ class Skr.Screens.Invoice extends Skr.Screens.Base
         with: [ 'with_details' ]
         include: [ 'sales_order', 'billing_address', 'shipping_address', 'lines', 'payments' ]
 
-    dataObjects:
+    modelBindings:
         invoice: ->
             @loadOrCreateModel({
                 syncOptions: @syncOptions, klass: Skr.Models.Invoice,

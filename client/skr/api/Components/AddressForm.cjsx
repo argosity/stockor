@@ -1,6 +1,6 @@
 class Skr.Api.Components.AddressForm extends Skr.Api.Components.Base
 
-    dataObjects:
+    modelBindings:
         address: 'props'
 
     setField: (ev) ->

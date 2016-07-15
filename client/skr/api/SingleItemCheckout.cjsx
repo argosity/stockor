@@ -1,6 +1,6 @@
 class OrderingForm extends Skr.Api.Components.Base
 
-    dataObjects:
+    modelBindings:
         sale: 'props'
 
     onPurchase: (ev) ->
@@ -42,7 +42,7 @@ class OrderingForm extends Skr.Api.Components.Base
 
 class OrderingComplete extends Skr.Api.Components.Base
 
-    dataObjects:
+    modelBindings:
         sale: 'props'
 
     render: ->
@@ -75,7 +75,7 @@ class Skr.SingleItemCheckout extends Skr.Api.Components.Base
     getInitialState: ->
         showingOrder: true
 
-    dataObjects:
+    modelBindings:
         cart: -> new Skr.Api.Models.Cart
         sale: -> new Skr.Api.Models.Sale(@props.sale_options)
 

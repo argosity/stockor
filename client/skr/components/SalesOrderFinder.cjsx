@@ -10,7 +10,7 @@ class Skr.Components.SalesOrderFinder extends Lanes.React.Component
         editing: true
         autoFocus: true, name: 'visible_id', label: 'Sales Order #'
 
-    dataObjects:
+    modelBindings:
         query: ->
             new Lanes.Models.Query({
                 initialFieldIndex: 1, title: 'Sales Order', autoRetrieve: true

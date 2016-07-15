@@ -1,6 +1,6 @@
 class Skr.Screens.PaymentTerms extends Skr.Screens.Base
 
-    dataObjects:
+    modelBindings:
         term: ->
             @loadOrCreateModel({
                 klass: Skr.Models.PaymentTerm

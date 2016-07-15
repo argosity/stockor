@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/argosity/lanes.git
-  revision: e7a2ad06f5600e20d4f3c0dbfa4dc2360aafba23
+  revision: 2bc004a8afb8f82518ed0ef9cd10c3fbe5cb56e0
   branch: master
   specs:
     lanes (0.5.6)
@@ -62,22 +62,22 @@ GEM
   remote: https://rubygems.org/
   specs:
     aasm (4.10.1)
-    activejob (4.2.6)
-      activesupport (= 4.2.6)
+    activejob (4.2.7)
+      activesupport (= 4.2.7)
       globalid (>= 0.3.0)
     activemerchant (1.60.0)
       activesupport (>= 3.2.14, < 5.1)
       builder (>= 2.1.2, < 4.0.0)
       i18n (>= 0.6.9)
       nokogiri (~> 1.4)
-    activemodel (4.2.6)
-      activesupport (= 4.2.6)
+    activemodel (4.2.7)
+      activesupport (= 4.2.7)
       builder (~> 3.1)
-    activerecord (4.2.6)
-      activemodel (= 4.2.6)
-      activesupport (= 4.2.6)
+    activerecord (4.2.7)
+      activemodel (= 4.2.7)
+      activesupport (= 4.2.7)
       arel (~> 6.0)
-    activesupport (4.2.6)
+    activesupport (4.2.7)
       i18n (~> 0.7)
       json (~> 1.7, >= 1.7.7)
       minitest (~> 5.1)
@@ -110,11 +110,11 @@ GEM
     crass (1.0.2)
     erb_latex (1.0.0)
     execjs (2.7.0)
-    faker (1.6.3)
+    faker (1.6.5)
       i18n (~> 0.5)
     fastimage (1.8.1)
       addressable (~> 2.3, >= 2.3.5)
-    ffi (1.9.10)
+    ffi (1.9.14)
     formatador (0.2.5)
     globalid (0.3.6)
       activesupport (>= 4.1.0)
@@ -189,11 +189,11 @@ GEM
       shellany (~> 0.0)
     numbers_in_words (0.4.0)
       activesupport
-    oj (2.16.1)
+    oj (2.17.1)
     pg (0.18.4)
     phantomjs (2.1.1.0)
     pkg-config (1.1.7)
-    pry (0.10.3)
+    pry (0.10.4)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
       slop (~> 3.4)

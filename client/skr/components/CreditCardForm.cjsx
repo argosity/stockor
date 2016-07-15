@@ -1,6 +1,6 @@
 class Skr.Components.CreditCardForm extends Lanes.React.Component
 
-    dataObjects:
+    modelBindings:
         card: 'props'
 
     setField: (ev) ->

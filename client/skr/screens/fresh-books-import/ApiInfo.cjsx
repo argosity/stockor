@@ -1,6 +1,6 @@
 class Skr.Screens.FreshBooksImport.ApiInfo extends Lanes.React.Component
     listenNetworkEvents: true
-    dataObjects:
+    modelBindings:
         import: 'props'
     startImport: ->
         @import.save()

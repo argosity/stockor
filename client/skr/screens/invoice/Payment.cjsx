@@ -23,7 +23,7 @@ class Skr.Screens.Invoice.Payment extends Lanes.React.Component
     getInitialState: ->
         type: 'credit-card'
 
-    dataObjects:
+    modelBindings:
         invoice: 'props'
         payment: ->
             payment = @props.invoice.payments.find (pymnt) -> pymnt.isNew()

@@ -1,6 +1,6 @@
 class Skr.Components.SystemSettings extends Lanes.React.Component
 
-    dataObjects:
+    modelBindings:
         banks: ->
             Skr.Models.BankAccount.Collection.fetch()
         sequentialIds: ->

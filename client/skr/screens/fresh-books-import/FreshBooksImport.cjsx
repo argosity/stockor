@@ -7,7 +7,7 @@
 class Skr.Screens.FreshBooksImport extends Skr.Screens.Base
     modelForAccess: 'invoice'
     getInitialState: -> isEditing: true
-    dataObjects:
+    modelBindings:
         import: ->
             new Skr.Screens.FreshBooksImport.Import
 

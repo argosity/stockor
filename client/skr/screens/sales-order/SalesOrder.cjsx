@@ -4,7 +4,7 @@ class Skr.Screens.SalesOrder extends Lanes.React.Screen
         include: [ 'billing_address', 'shipping_address', 'lines' ]
         with: [ 'with_details' ]
 
-    dataObjects:
+    modelBindings:
         sales_order: ->
             @loadOrCreateModel({
                 syncOptions: @syncOptions, klass: Skr.Models.SalesOrder

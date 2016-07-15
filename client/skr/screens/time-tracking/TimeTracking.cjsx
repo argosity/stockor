@@ -6,7 +6,7 @@
 
 class Skr.Screens.TimeTracking extends Skr.Screens.Base
 
-    dataObjects:
+    modelBindings:
         entries: ->
             new Skr.Screens.TimeTracking.Entries
 

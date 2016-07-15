@@ -3,7 +3,7 @@ class Skr.Screens.Locations extends Skr.Screens.Base
     syncOptions:
         include: [ 'address', 'logo' ]
 
-    dataObjects:
+    modelBindings:
         location: ->
             @loadOrCreateModel({
                 syncOptions: @syncOptions, klass: Skr.Models.Location

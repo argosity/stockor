@@ -1,9 +1,9 @@
 class Skr.Screens.TimeTracking.EditEntry extends Lanes.React.Component
 
-    dataObjects:
+    modelBindings:
         entry: -> @props.event?.get('entry')
 
-    setDataState: (change) ->
+    setModelState: (change) ->
         if change.event
             @entry.fromCalEvent(change.event)
             change.event.set({content: @entry.content}, {silent: true})

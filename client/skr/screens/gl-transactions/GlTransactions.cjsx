@@ -35,7 +35,7 @@ class Skr.Screens.GlTransactions extends Skr.Screens.Base
 
     modelForAccess: 'gl-transaction'
 
-    dataObjects:
+    modelBindings:
         transactions: -> new Transactions(account: @props.account)
 
     render: ->

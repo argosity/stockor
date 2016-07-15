@@ -11,7 +11,7 @@ class Skr.Components.SkuFinder extends Lanes.React.Component
     getDefaultProps: ->
         autoFocus: false, label: 'SKU', name: 'code'
 
-    dataObjects:
+    modelBindings:
         query: ->
             new Lanes.Models.Query({
                 syncOptions: @props.syncOptions, autoRetrieve: true

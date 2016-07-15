@@ -7,7 +7,7 @@ class Skr.Components.InvoiceFinder extends Lanes.React.Component
     getDefaultProps: ->
         autoFocus: true, name: 'visible_id', label: 'Invoice #'
 
-    dataObjects:
+    modelBindings:
         query: ->
             new Lanes.Models.Query({
                 initialFieldIndex: 1

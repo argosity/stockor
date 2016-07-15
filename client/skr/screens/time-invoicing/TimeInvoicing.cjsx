@@ -4,7 +4,7 @@ class Skr.Screens.TimeInvoicing extends Skr.Screens.Base
         isEditing: true
         commands: new Skr.Screens.Commands(this, modelName: 'request')
 
-    dataObjects:
+    modelBindings:
         request: -> new InvoiceRequest
         query: ->
             @gridSelections = new LC.Grid.Selections(onChange: @updateTotal)
@@ -27,7 +27,7 @@ class Skr.Screens.TimeInvoicing extends Skr.Screens.Base
                 ]
             })
 
-    setDataState: (state) ->
+    setModelState: (state) ->
         @updateTotal()
         @setState(state)
 

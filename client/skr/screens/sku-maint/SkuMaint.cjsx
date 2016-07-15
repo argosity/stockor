@@ -3,7 +3,7 @@ class Skr.Screens.SkuMaint extends Skr.Screens.Base
     syncOptions:
         {include: ['default_vendor', 'uoms']}
 
-    dataObjects:
+    modelBindings:
         sku: ->
             @loadOrCreateModel({
                 syncOptions: @syncOptions, klass: Skr.Models.Sku, prop: 'sku', attribute: 'code'

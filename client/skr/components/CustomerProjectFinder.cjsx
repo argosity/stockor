@@ -10,7 +10,7 @@ class Skr.Components.CustomerProjectFinder extends Lanes.React.Component
     getDefaultProps: ->
         autoFocus: false, label: 'Project Code', name: 'code'
 
-    dataObjects:
+    modelBindings:
         query: ->
             new Lanes.Models.Query({
                 autoRetrieve: true, syncOptions:
