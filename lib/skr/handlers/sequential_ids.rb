@@ -13,7 +13,7 @@ module Skr
                 @data = data
             end
 
-            def perform_retrieval
+            def show
                 ids = {}
                 Skr::SequentialId.pluck(:name, :current_value).map do |name, count|
                     ids[name.demodulize] = count
@@ -28,7 +28,7 @@ module Skr
                 std_api_reply(:retrieve, {id: 'all', ids: list}, success: true)
             end
 
-            def perform_update
+            def update
                 data['ids'].each do | si |
                     Lanes.logger.warn "#{si['id']}"
                     id = if 0 == si['id'].index(Payment::SEQUENTIAL_ID_PREFIX)
