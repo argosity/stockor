@@ -85,7 +85,7 @@ module Skr
                     self.name = invoice.billing_address.name
                 end
             end
-            if bank_account && outgoing?
+            if bank_account.present? && outgoing?
                 self.check_number ||= SequentialId.next_for(SEQUENTIAL_ID_PREFIX + bank_account.id.to_s)
             end
             self.bank_account ||= BankAccount.default
