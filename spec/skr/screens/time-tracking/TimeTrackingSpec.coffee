@@ -10,5 +10,5 @@ describe "Skr.Screens.TimeTracking", ->
 
     it "renders monthly totals", ->
         _.dom(@screen).qs('button[value=month]').click()
-        totals = _.pluck _.dom(@screen).qsa('.day.summary > div'), 'textContent'
-        expect(totals).toEqual(["28.75", "14.50", "1.50", "2.00"])
+        totals = _.map _.dom(@screen).qsa('.day.summary'), 'textContent'
+        expect(totals).toEqual(['', '', '30.25', '', ''])
