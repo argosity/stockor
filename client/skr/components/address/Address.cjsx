@@ -1,7 +1,20 @@
 class Skr.Components.Address extends Lanes.React.Component
 
     propTypes:
+        title: React.PropTypes.string
         model: Lanes.PropTypes.State.isRequired
+        copyFrom: Lanes.PropTypes.State
+
+    modelBindings:
+        model: 'props'
+        copyFrom: -> @props.copyFrom or false
+
+    setModelState: (addr) ->
+        if (addr is @props.copyFrom)
+            for attr, val of addr.changedAttributes() when attr isnt 'isDirty'
+                @model[attr] = val if addr.previous(attr) is @model[attr]
+        else
+            @forceUpdate()
 
     renderTitle: ->
         <BS.Row>
