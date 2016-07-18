@@ -22,7 +22,7 @@ class Skr.Models.Vendor extends Skr.Models.Base
         shipping_address:    { model: "Address" }
         terms:               { model: "PaymentTerm", required: true }
         gl_payables_account: { model: "GlAccount",   required: true }
-        gl_freight_account:  { model: "GlAccount",   required: true }
+        gl_freight_account:  { model: "GlAccount" }
         purchase_orders:     { collection: "PurchaseOrder" }
         vouchers:            { collection: "Voucher" }
         vendor_skus:         { collection: "SkuVendor" }

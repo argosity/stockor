@@ -31,9 +31,9 @@ class Skr.Screens.VendorMaint extends Lanes.React.Screen
             <BS.Row>
                 <SC.GlAccountChooser sm=4 label="Payables Account"
                     name="gl_payables_account" model={@vendor} />
+                <SC.TermsChooser sm=4 model={@vendor} />
                 <SC.GlAccountChooser sm=4 label="Freight Account"
                     name="gl_freight_account" model={@vendor} />
-                <SC.TermsChooser sm=4 model={@vendor} />
             </BS.Row>
             <BS.Row>
                 <LC.FieldSet sm=12 title="Address">
