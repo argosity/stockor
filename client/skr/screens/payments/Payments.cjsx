@@ -16,7 +16,8 @@ class Skr.Screens.Payments extends Skr.Screens.Base
                 syncOptions: @syncOptions
                 src: Skr.Models.Payment, fields: [
                     {id:'id',   visible: false}
-                    {id:'visible_id', label: 'Payment ID', fixedWidth: 130 },
+                    {id:'visible_id',  title: 'Payment ID', fixedWidth: 130 },
+                    {id:'check_number', title: 'Check #',  fixedWidth: 130 },
                     {id:'name', flex: 1}
                     {
                         id:'amount',  fixedWidth: 120, textAlign: 'right',
