@@ -16,6 +16,7 @@ startEdit = (props) ->
                 checkRendered = ->
                     editors = LT.Utils.scryRenderedComponentsWithType(lines,
                         Lanes.Components.Grid.RowEditor)
+
                     if remaining and _.isEmpty(editors)
                         remaining -= 1
                         console.log remaining
@@ -30,24 +31,25 @@ startEdit = (props) ->
         screen   = LT.makeScreen()
         commands = new Lanes.Screens.Commands(screen, modelName: 'sales_order')
         Lanes.Models.Sync.restorePerform =>
-            Skr.Models.SalesOrder.where({visible_id: 1}, include: 'lines')
+            Skr.Models.SalesOrder.where({visible_id: 1021}, include: 'lines')
                 .whenLoaded (orders) =>
                     @sales_order = orders.first()
                     lines = @sales_order.lines
                     @props = {lines, commands, screen}
                     done()
 
-    xit "renders lines", (done) ->
+    it "renders lines", (done) ->
         renderLines(@props).then (lines) =>
-            expect(_.dom(lines).qsa('.grid-body .r').length).toEqual( @props.lines.length )
+            expect(_.dom(lines).qs('.grid-body .r:last-child .c:first-child').text)
+                .toEqual(@sales_order.lines.last().sku_code)
             done()
 
-#     it "displays the editor", (done) ->
-#         startEdit(@props).then ({lines, editor}) =>
-#             sol = @props.lines.last()
-#             expect(_.pluck( _.dom(editor).qsa('input'), 'value'))
-#                 .toEqual([sol.sku_code, sol.description, sol.uom_code, "#{sol.qty}", sol.price.toString()])
-#             done()
+    # it "displays the editor", (done) ->
+    #     startEdit(@props).then ({lines, editor}) =>
+    #         sol = @sales_order.lines.last()
+    #         expect(_.pluck( _.dom(editor).qsa('input'), 'value'))
+    #             .toEqual([sol.sku_code, sol.description, sol.uom_code, "#{sol.qty}", sol.price.toString()])
+    #         done()
 
 #     it "saves values when edited", (done) ->
 #         startEdit(@props).then ({lines, editor}) =>
