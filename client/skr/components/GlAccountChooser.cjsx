@@ -34,5 +34,6 @@ class Skr.Components.GlAccountChooser extends Lanes.React.Component
                 choices={Skr.Models.GlAccount.all.models}
                 labelField="combined_name"
                 model={@props.model}
+                filter='contains'
                 {...props}
             />
