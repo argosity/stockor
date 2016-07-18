@@ -11,7 +11,7 @@ describe "Skr.Models.Customer", ->
     it "saves when fields are set", (done) ->
         model = new Skr.Models.Customer(
             code: "SPECTEST", name: "A Spec Test Customer"
-            terms: {code: 'SPECTESTER'}
+            terms: {code: 'SPECTESTER', description: 'SPEC test'}
             billing_address:  { name: "Billing Address" }
             shipping_address: { name: "Shipping Address" }
         )
