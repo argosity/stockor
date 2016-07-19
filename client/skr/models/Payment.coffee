@@ -51,6 +51,6 @@ class Skr.Models.Payment extends Skr.Models.Base
 
     onSetVendor: ->
         return unless @vendor and @vendor.isPersistent()
-        @name = @vendor.name
+        @name = @vendor.billing_address.name
         @vendor.withAssociations(['billing_address']).then (v) =>
             @address = v.billing_address.toString()
