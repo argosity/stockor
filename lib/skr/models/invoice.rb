@@ -31,6 +31,8 @@ module Skr
         has_gl_transaction
         is_order_like
 
+        export_methods :total_hours
+
         belongs_to :sales_order,      export: true
         belongs_to :customer_project, export: true
         belongs_to :customer,         export: true
@@ -112,6 +114,12 @@ module Skr
 
         def is_locked?
             GlPeriod.is_date_locked?(self.invoice_date)
+        end
+
+        def total_hours
+            lines.reduce(BigDecimal.new('0')){|t, l|
+                l.time_entry ? t + l.qty : t
+            }
         end
 
         private
