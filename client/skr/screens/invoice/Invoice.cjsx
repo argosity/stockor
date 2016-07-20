@@ -1,5 +1,6 @@
 ##= require_self
 ##= require ./Payment
+##= require ./TotalExtraInfo
 
 class Skr.Screens.Invoice extends Skr.Screens.Base
 
@@ -87,5 +88,7 @@ class Skr.Screens.Invoice extends Skr.Screens.Base
                 saveImmediately={@shouldSaveLinesImmediately}
                 commands={@state.commands} lines={@invoice.lines} />
 
-            <SC.TotalsLine model={@invoice} />
+            <SC.TotalsLine model={@invoice} extraInfo={
+                <Skr.Screens.Invoice.TotalExtraInfo invoice={@invoice} />
+            } />
         </LC.ScreenWrapper>
