@@ -1,6 +1,6 @@
 class Skr.Models.CreditCardGateway extends Skr.Models.Base
 
-    pubsub: false
+    registerForPubSub: false
 
     props:
         login:    "string"
