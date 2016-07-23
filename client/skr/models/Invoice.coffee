@@ -30,7 +30,7 @@ class Skr.Models.Invoice extends Skr.Models.Base
         customer_code: {type:"string"}
         invoice_total: {type:"bigdec"}
         amount_paid:   {type:"bigdec", "default":"0"}
-        total_hours:        "bigdec"
+        total_hours:   "bigdec"
 
     derived:
         prev_amount_paid: deps:['updated_at'], fn: -> @amount_paid
