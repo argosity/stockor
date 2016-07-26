@@ -736,7 +736,7 @@ CREATE TABLE skr_payments (
     hash_code character varying NOT NULL,
     amount numeric(15,2) NOT NULL,
     date date NOT NULL,
-    check_number integer,
+    check_number character varying,
     name text NOT NULL,
     address text,
     notes text,
@@ -3375,4 +3375,6 @@ INSERT INTO schema_migrations (version) VALUES ('20160605024432');
 INSERT INTO schema_migrations (version) VALUES ('20160608023553');
 
 INSERT INTO schema_migrations (version) VALUES ('20160620010455');
+
+INSERT INTO schema_migrations (version) VALUES ('20160726004411');
 

@@ -14,7 +14,7 @@ class Skr.Models.Payment extends Skr.Models.Base
         amount:         {type:"bigdec", required: true, default: ->
             _.bigDecimal('0')
         }
-        check_number:   {type:"integer"}
+        check_number:   {type:"string"}
         date:           {type:"date", default: ->
             new Date
         }
