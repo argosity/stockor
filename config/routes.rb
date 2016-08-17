@@ -37,9 +37,13 @@ Lanes::API.routes.for_extension 'skr' do
     resources Skr::VoLine
     resources Skr::SalesOrder
     resources Skr::SoLine
+    resources Skr::ExpenseCategory
+    resources Skr::ExpenseEntry
     resources Skr::SequentialId, controller: Skr::Handlers::SequentialIds
     resources Skr::Invoice, controller: Skr::Handlers::InvoiceFromTimeEntries,
               path: 'invoices/from-time-entries'
+    resources Skr::ExpenseEntry, controller: Skr::Handlers::ApproveExpenseEntries,
+              path: 'expense-entries/approve'
     resources Skr::Sku, path: 'public/skus', controller: Skr::Handlers::Skus, cors: '*', public: true
     resources Skr::Invoice, path: 'public/sales', controller: Skr::Handlers::Sales, cors: '*', public: true
     get  'credit-card-gateways.json', &Skr::Handlers::CreditCardGateway.get

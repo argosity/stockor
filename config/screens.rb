@@ -79,6 +79,14 @@ Lanes::Screen.for_extension 'skr' do | screens |
         screen.model_class = "PaymentTerm"
         screen.view_class  = "PaymentTerms"
     end
+    screens.define "expense-categories" do | screen |
+        screen.title       = "Expense Categories"
+        screen.description = ""
+        screen.icon        = "folder-open"
+        screen.group_id    = "accounting"
+        screen.model_class = "ExpenseCategory"
+        screen.view_class  = "ExpenseCategories"
+    end
     screens.define "payment-category" do | screen |
         screen.title       = "Payment Categories"
         screen.description = ""
@@ -187,4 +195,13 @@ Lanes::Screen.for_extension 'skr' do | screens |
         screen.model_class = "TimeEntry"
         screen.view_class  = "TimeTracking"
     end
+    screens.define "expense-entry" do | screen |
+        screen.title       = "Expense Entry"
+        screen.description = ""
+        screen.icon        = "shopping-bag"
+        screen.group_id    = "customer"
+        screen.model_class = "ExpenseEntry"
+        screen.view_class  = "ExpenseEntry"
+    end
+
 end

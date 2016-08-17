@@ -54,4 +54,7 @@ module Skr
     autoload :BankAccount,          "skr/models/bank_account"
     autoload :PaymentCategory,      "skr/models/payment_category"
     autoload :Payment,              "skr/models/payment"
+    autoload :ExpenseCategory,      "skr/models/expense_category"
+    autoload :ExpenseEntry,         "skr/models/expense_entry"
+    autoload :ExpenseEntryCategory, "skr/models/expense_entry_category"
 end

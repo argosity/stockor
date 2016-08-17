@@ -2,7 +2,7 @@ require 'skr/db/migration_helpers'
 
 class CreateSoDetailsView < ActiveRecord::Migration
     def up
-        fk = "#{skr_prefix}sales_order_id"
+        fk = "sales_order_id"
         execute <<-EOS.squish
             create view #{skr_prefix}so_details as
               select so.id as #{fk},
@@ -76,7 +76,7 @@ class CreateSoDetailsView < ActiveRecord::Migration
     end
 
     def down
-        execute "drop view #{skr_prefix}so_amount_details"
+        execute "drop view #{skr_prefix}so_details"
         execute "drop view #{skr_prefix}so_allocation_details"
         execute "drop view #{skr_prefix}so_dailly_sales_history"
     end

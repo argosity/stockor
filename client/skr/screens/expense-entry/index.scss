@@ -1,0 +1,99 @@
+/*
+ You should remove this file if your screen does not use any custom styles
+
+ Otherwise Lanes will continue to fetch an empty file whenever
+ the screen is displayed
+*/
+.expense-entry {
+    $first-column-width: 90px;
+    .footer {
+        display: none;
+        button {
+            width: $first-column-width;
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+        }
+    }
+    &.is-reviewing {
+        .footer { display: block; }
+    }
+
+    .selection {
+        //margin: 5px;
+    }
+
+    .form {
+        .controls {
+            text-align: center;
+        }
+
+    }
+    .grid-component .toolbar .controls {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        .approved-toggle {
+            width: $first-column-width;
+            text-align: center;
+        }
+        .all-users {
+            margin-right: 20px;
+        }
+        .spacer { flex: 1; }
+//        .right {
+//            flex: 1;
+//            text-align: right;
+//        }
+    }
+
+    .categories {
+        display: flex;
+        align-items: flex-end;
+        position: relative;
+        .add { margin-left: 5px; }
+        .multiple {
+            .controls {
+                display: flex;
+                align-items: center;
+                justify-content: flex-end;
+                p {
+                    flex: 1;
+                    .pair + .pair { margin-left: 0.5em; }
+                }
+                .btn.view {
+                    margin-right: 1em;
+                }
+            }
+        }
+
+        .category {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            .form-group { margin-bottom: 0; }
+            .lanes-field { flex: 1; }
+            .btn {
+                margin-left: 0.5rem;
+                &.delete { display: none; }
+            }
+        }
+
+        .popover-content {
+            width: 320px;
+            .category {
+                label { display: none; }
+                .btn.delete { display: block; }
+            }
+        }
+    }
+
+    #choose-bank-account {
+        .popover-content {
+            display: flex;
+            button { margin-left: 0.5rem; }
+        }
+
+        //height: 200px;
+
+    }
+}

@@ -43,7 +43,7 @@ module Skr
 
                 options[:column] ||= to_table.to_s + '_id'
 
-                column( options[:column], :integer, :null=>options[:null] || false )
+                column( options[:column], (options[:type] || :integer), :null=>options[:null] || false )
                 to_table = options[:to_table] if options.has_key? :to_table
 
                 if options[:single]
@@ -75,7 +75,7 @@ module Skr
                     skr_add_foreign_key( table_name, to_table, options )
                 end
                 definition.skr_extra_indexes.each do | index_column, options |
-                    skr_add_index( table_name, index_column, options )
+                    skr_add_index(table_name, index_column, options )
                 end
             end
 

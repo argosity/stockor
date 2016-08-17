@@ -378,6 +378,147 @@ ALTER SEQUENCE skr_customers_id_seq OWNED BY skr_customers.id;
 
 
 --
+-- Name: skr_expense_categories; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE skr_expense_categories (
+    id integer NOT NULL,
+    code character varying NOT NULL,
+    name character varying NOT NULL,
+    is_active boolean NOT NULL,
+    gl_account_id integer NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    created_by_id integer NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    updated_by_id integer NOT NULL
+);
+
+
+--
+-- Name: skr_expense_categories_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE skr_expense_categories_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: skr_expense_categories_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE skr_expense_categories_id_seq OWNED BY skr_expense_categories.id;
+
+
+--
+-- Name: skr_expense_entries; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE skr_expense_entries (
+    id integer NOT NULL,
+    uuid uuid NOT NULL,
+    name text NOT NULL,
+    memo text,
+    occured timestamp without time zone NOT NULL,
+    metadata jsonb DEFAULT '{}'::jsonb,
+    created_at timestamp without time zone NOT NULL,
+    created_by_id integer NOT NULL
+);
+
+
+--
+-- Name: skr_expense_entries_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE skr_expense_entries_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: skr_expense_entries_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE skr_expense_entries_id_seq OWNED BY skr_expense_entries.id;
+
+
+--
+-- Name: skr_expense_entry_categories; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE skr_expense_entry_categories (
+    id integer NOT NULL,
+    category_id integer NOT NULL,
+    entry_id integer NOT NULL,
+    amount numeric(15,2) NOT NULL
+);
+
+
+--
+-- Name: skr_expense_entry_categories_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE skr_expense_entry_categories_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: skr_expense_entry_categories_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE skr_expense_entry_categories_id_seq OWNED BY skr_expense_entry_categories.id;
+
+
+--
+-- Name: skr_gl_transactions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE skr_gl_transactions (
+    id integer NOT NULL,
+    period_id integer NOT NULL,
+    source_id integer,
+    source_type character varying,
+    description text NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    created_by_id integer NOT NULL
+);
+
+
+--
+-- Name: skr_expense_entry_details; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW skr_expense_entry_details AS
+ SELECT xref.expense_entry_id,
+    array_agg(xref.gl_transaction_id) FILTER (WHERE (xref.gl_transaction_id IS NOT NULL)) AS gl_transaction_ids,
+    array_agg(xref.category_id) AS category_ids,
+    sum(xref.amount) AS category_total,
+    json_agg(row_to_json(( SELECT t.*::record AS t
+           FROM ( SELECT xref.category_id,
+                    xref.amount,
+                    xref.balance) t(category_id, amount, balance)))) AS category_list
+   FROM ( SELECT entry.id AS expense_entry_id,
+            gl.id AS gl_transaction_id,
+            ec.category_id,
+            ec.amount,
+            sum(ec.amount) OVER (PARTITION BY ec.category_id ORDER BY entry.occured) AS balance
+           FROM ((skr_expense_entries entry
+             LEFT JOIN skr_gl_transactions gl ON ((((gl.source_type)::text = 'Skr::ExpenseEntry'::text) AND (gl.source_id = entry.id))))
+             JOIN skr_expense_entry_categories ec ON ((entry.id = ec.entry_id)))) xref
+  GROUP BY xref.expense_entry_id;
+
+
+--
 -- Name: skr_gl_account_balances; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -529,21 +670,6 @@ CREATE SEQUENCE skr_gl_postings_id_seq
 --
 
 ALTER SEQUENCE skr_gl_postings_id_seq OWNED BY skr_gl_postings.id;
-
-
---
--- Name: skr_gl_transactions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE skr_gl_transactions (
-    id integer NOT NULL,
-    period_id integer NOT NULL,
-    source_id integer,
-    source_type character varying,
-    description text NOT NULL,
-    created_at timestamp without time zone NOT NULL,
-    created_by_id integer NOT NULL
-);
 
 
 --
@@ -1566,7 +1692,7 @@ ALTER SEQUENCE skr_skus_id_seq OWNED BY skr_skus.id;
 --
 
 CREATE VIEW skr_so_allocation_details AS
- SELECT sol.sales_order_id AS skr_sales_order_id,
+ SELECT sol.sales_order_id,
     count(*) AS number_of_lines,
     sum((sol.qty_allocated * sol.price)) AS allocated_total,
     sum(
@@ -1616,7 +1742,7 @@ CREATE VIEW skr_so_dailly_sales_history AS
 --
 
 CREATE VIEW skr_so_details AS
- SELECT so.id AS skr_sales_order_id,
+ SELECT so.id AS sales_order_id,
     to_char((so.order_date)::timestamp with time zone, 'YYYY-MM-DD'::text) AS string_order_date,
     cust.code AS customer_code,
     cust.name AS customer_name,
@@ -1940,6 +2066,27 @@ ALTER TABLE ONLY skr_customers ALTER COLUMN id SET DEFAULT nextval('skr_customer
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY skr_expense_categories ALTER COLUMN id SET DEFAULT nextval('skr_expense_categories_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY skr_expense_entries ALTER COLUMN id SET DEFAULT nextval('skr_expense_entries_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY skr_expense_entry_categories ALTER COLUMN id SET DEFAULT nextval('skr_expense_entry_categories_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY skr_gl_accounts ALTER COLUMN id SET DEFAULT nextval('skr_gl_accounts_id_seq'::regclass);
 
 
@@ -2213,6 +2360,30 @@ ALTER TABLE ONLY skr_customer_projects
 
 ALTER TABLE ONLY skr_customers
     ADD CONSTRAINT skr_customers_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: skr_expense_categories_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY skr_expense_categories
+    ADD CONSTRAINT skr_expense_categories_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: skr_expense_entries_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY skr_expense_entries
+    ADD CONSTRAINT skr_expense_entries_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: skr_expense_entry_categories_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY skr_expense_entry_categories
+    ADD CONSTRAINT skr_expense_entry_categories_pkey PRIMARY KEY (id);
 
 
 --
@@ -2516,6 +2687,27 @@ CREATE INDEX index_skr_customers_on_code ON skr_customers USING btree (code);
 
 
 --
+-- Name: index_skr_expense_categories_on_code; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_skr_expense_categories_on_code ON skr_expense_categories USING btree (code);
+
+
+--
+-- Name: index_skr_expense_entries_on_uuid; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_skr_expense_entries_on_uuid ON skr_expense_entries USING btree (uuid);
+
+
+--
+-- Name: index_skr_expense_entry_categories_on_entry_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_skr_expense_entry_categories_on_entry_id ON skr_expense_entry_categories USING btree (entry_id);
+
+
+--
 -- Name: index_skr_gl_manual_entries_on_visible_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -2710,6 +2902,30 @@ ALTER TABLE ONLY skr_customers
 
 ALTER TABLE ONLY skr_customers
     ADD CONSTRAINT skr_customers_terms_id_fk FOREIGN KEY (terms_id) REFERENCES skr_payment_terms(id);
+
+
+--
+-- Name: skr_expense_categories_gl_account_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY skr_expense_categories
+    ADD CONSTRAINT skr_expense_categories_gl_account_id_fk FOREIGN KEY (gl_account_id) REFERENCES skr_gl_accounts(id);
+
+
+--
+-- Name: skr_expense_entry_categories_category_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY skr_expense_entry_categories
+    ADD CONSTRAINT skr_expense_entry_categories_category_id_fk FOREIGN KEY (category_id) REFERENCES skr_expense_categories(id);
+
+
+--
+-- Name: skr_expense_entry_categories_entry_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY skr_expense_entry_categories
+    ADD CONSTRAINT skr_expense_entry_categories_entry_id_fk FOREIGN KEY (entry_id) REFERENCES skr_expense_entries(id);
 
 
 --
@@ -3377,4 +3593,6 @@ INSERT INTO schema_migrations (version) VALUES ('20160608023553');
 INSERT INTO schema_migrations (version) VALUES ('20160620010455');
 
 INSERT INTO schema_migrations (version) VALUES ('20160726004411');
+
+INSERT INTO schema_migrations (version) VALUES ('20160805002717');
 

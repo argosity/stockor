@@ -1,19 +1,19 @@
 paper_misc:
   category: misc
-  entry_id: f8c45b51-8d87-43bf-ae5b-a86b77133660
+  entry: paper
   amount: 13.48
 
 gas_trans:
   category: trans
-  entry_id: 3c6dd5c7-7dca-4763-a7c3-5964b6f42e36
+  entry: gas
   amount: 53.00
 
 gas_food:
   category: food
-  entry_id: 3c6dd5c7-7dca-4763-a7c3-5964b6f42e36
+  entry: gas
   amount: 12.00
 
 transmission_trans:
   category: trans
-  entry_id: 13182d4c-ab49-49bc-85a7-b0aae5eb186f
+  entry: transmission
   amount: 833.88
