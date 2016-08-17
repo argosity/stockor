@@ -1,0 +1,17 @@
+misc:
+  code: MISC
+  name: Miscellaneous Expenses
+  gl_account: misc_expense
+  is_active: true
+
+food:
+  code: FOOD
+  name: Dining
+  gl_account: misc_expense
+  is_active: true
+
+trans:
+  code: TRANS
+  name: Transportation Expenses
+  gl_account: trans_expense
+  is_active: true

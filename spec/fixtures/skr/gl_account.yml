@@ -55,6 +55,16 @@ utilities:
   name: Utilities
   description: Utility Costs
 
+misc_expense:
+  number: 5200
+  name: Misc Exp
+  description: Miscellaneous Expense
+
+trans_expense:
+  number: 5300
+  name: Trans Exp
+  description: Transportation Expenses
+
 ship:
   number: 5100
   name: Shipping

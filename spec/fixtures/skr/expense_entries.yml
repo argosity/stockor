@@ -1,0 +1,20 @@
+paper:
+  id: f8c45b51-8d87-43bf-ae5b-a86b77133660
+  name: Biggy Office Store
+  memo: Paper for office
+  occured: <%= Time.now - 2.days %>
+  created_by_id: 1
+
+gas:
+  id: 3c6dd5c7-7dca-4763-a7c3-5964b6f42e36
+  name: Mr Fuel
+  memo: Gas for truck
+  occured: <%= Time.now - 3.days %>
+  created_by_id: 1
+
+transmission:
+  id: 13182d4c-ab49-49bc-85a7-b0aae5eb186f
+  name: Tranny Fixit
+  memo: repairs
+  occured: <%= Time.now - 1.days %>
+  created_by_id: 1
