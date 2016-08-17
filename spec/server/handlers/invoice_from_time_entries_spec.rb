@@ -14,7 +14,7 @@ class InvoiceFromTimeEntriesSpec < Skr::TestCase
     let (:controller) {
         subject.new( Invoice, authentication, {}, data )
     }
-    let (:invoice_data)    { controller.perform_creation[:data]['invoice'] }
+    let (:invoice_data)    { controller.create[:data]['invoice'] }
     let (:invoice)         { Invoice.find(invoice_data['id']) }
     let (:time_entry) { skr_time_entry(:siteprep) }
     let (:line)       { invoice.lines.first }
@@ -23,7 +23,7 @@ class InvoiceFromTimeEntriesSpec < Skr::TestCase
         assert_raises(ActiveRecord::RecordNotFound) {
             subject.new(
                 Invoice, authentication, {}, data.merge('time_entry_ids' => [12345])
-            ).perform_creation
+            ).create
         }
     end
 

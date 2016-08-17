@@ -6,7 +6,7 @@ class SequentialIdsSpec < Skr::TestCase
 
     let (:authentication) { Lanes::API::AuthenticationProvider.new({}) }
     let (:controller)     { subject.new( Skr::Invoice, authentication, {}, {} ) }
-    let (:sids)    { controller.perform_retrieval[:data]['ids'] }
+    let (:sids)    { controller.show[:data]['ids'] }
 
     it "retrieves the list of sequential ids" do
         assert_kind_of Array, sids
