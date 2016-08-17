@@ -15,8 +15,8 @@ module FixtureHelpers
                 row['created_at'] = Time.now if model_class.column_names.include?('created_at')
                 row['updated_at'] = Time.now if model_class.column_names.include?('updated_at')
                 # 135138680 == "admin"
-                row['created_by_id'] = 135138680  if model_class.column_names.include?('created_by_id')
-                row['updated_by_id'] = 135138680 if model_class.column_names.include?('updated_by_id')
+                row['created_by_id'] ||= 135138680  if model_class.column_names.include?('created_by_id')
+                row['updated_by_id'] ||= 135138680 if model_class.column_names.include?('updated_by_id')
             end
         end
         results
