@@ -34,7 +34,9 @@ module Skr
         }, export: true
 
         scope :summarize_by, lambda { | values |
-            select( "sum(inv_lines.qty) as qty, count(*) as num_sales, sum(inv_lines.price) as price, avg(inv_lines.price) as avg_price, s.code as sku_code, s.description, s.id as sku_id, 1 as uom_size, 'EA' as uom_code")
+            select( "sum(inv_lines.qty) as qty, count(*) as num_sales, sum(inv_lines.price) as price, " \
+                    "avg(inv_lines.price) as avg_price, s.code as sku_code, s.description, " \
+                    "s.id as sku_id, 1 as uom_size, 'EA' as uom_code")
             .joins("join sku_locs sl on sl.id = inv_lines.sku_loc_id join skus s on s.id = sl.sku_id")
             .where(["inv_lines.created_at between ? and ?",values['from'], values['to'] ])
             .group('s.code,s.description, s.id')
