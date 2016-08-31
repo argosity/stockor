@@ -37,7 +37,7 @@ class Skr.Screens.TimeInvoicing extends Skr.Screens.Base
         return unless rate # the first call is when the model isn't parsed yet
         selectedRows = 0
         @query.results.eachRow (row, xd) ->
-            unless xd && false == xd.selected
+            if LC.Grid.Selections.isSelected(row, xd)
                 selectedRows += 1
                 total = total.add( hoursForRow(row) * rate )
         selectionState = if selectedRows is @query.results.length then 'all'
@@ -86,7 +86,7 @@ class Skr.Screens.TimeInvoicing extends Skr.Screens.Base
         rs.eachRow (row) ->
             xd = rs.xtraData(row)
             xd.selected = false == xd.selected
-        @query.changeCount++
+        @query.markModified()
     renderToggleAllButton: ->
         return null if 0 is @query.results.length
 
