@@ -1,7 +1,10 @@
-require 'skr'
-require 'lanes/spec_helper'
-require 'webmock/minitest'
-require 'vcr'
+require 'lanes'
+Lanes.silence_logs do
+    require 'skr'
+    require 'lanes/spec_helper'
+    require 'webmock/minitest'
+    require 'vcr'
+end
 
 class Lanes::TestCase
     include Skr
