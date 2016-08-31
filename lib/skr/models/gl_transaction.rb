@@ -53,7 +53,7 @@ module Skr
         # @param amount [BigDecimal] the amount to apply to each posting
         # @param debit [GlAccount]
         # @param credit [GlAccount]
-        def add_posting( amount: nil, debit: nil, credit: nil )
+        def add_posting(amount: nil, debit: nil, credit: nil)
             Lanes.logger.debug "GlTransaction add_posting #{debit} : #{credit}"
             self.credits.build( location: @location, is_debit: false,
                                 account: credit, amount: amount )
@@ -112,7 +112,7 @@ module Skr
             if (glt = self.current) # we push
                 glt.add_posting( amount: amount, debit: debit, credit: credit )
             else
-                options.merge!(source: owner, location: options[:location] || owner.location)
+                options.merge!(source: owner, location: options[:location] || owner.try(:location))
                 if owner.respond_to?(:attributes_for_gl_transaction)
                     options.reverse_merge!( owner.attributes_for_gl_transaction )
                 end
