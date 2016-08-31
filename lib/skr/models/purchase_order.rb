@@ -41,14 +41,14 @@ module Skr
         after_save :set_maybe_completed!
 
         export_join_tables :details
-        export_scope :with_details, lambda { |should_use=true |
+        scope :with_details, lambda { |should_use=true |
             joins('join po_details as details on details.purchase_order_id = purchase_orders.id')
             .select('purchase_orders.*, details.*') if should_use
-        }
+        }, export: true
 
-        export_scope :only_incoming, lambda { |should_use=true|
+        scope :only_incoming, lambda { |should_use=true|
             with_details.where.not(state: :received) if should_use
-        }
+        }, export: true
 
         enum state: {
             open:      0,

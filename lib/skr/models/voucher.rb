@@ -28,13 +28,13 @@ module Skr
 
         before_validation :set_defaults, :on=>:create
 
-        export_scope :with_details, lambda { | *args |
+        scope :with_details, lambda { | *args |
             compose_query_using_detail_view( view: 'vo_details', join_to: 'voucher_id' )
-        }
+        }, export: true
 
-        export_scope :unpaid, lambda{ | unused=nil |
+        scope :unpaid, lambda{ | unused=nil |
             where(['vouchers.state <> ? and payment_lines.id is null', 'pending']).includes(:payment_line)
-        }
+        }, export: true
 
         enum state: {
             pending:    0,
