@@ -53,7 +53,7 @@ module Skr
                     identifier = has_attribute?(:visible_id) ? visible_id : id
                     {
                         source: self,
-                        location: location,
+                        location: try(:location) || Location.default,
                         description: "#{self.class.to_s.demodulize} #{identifier}"
                     }
                 end
