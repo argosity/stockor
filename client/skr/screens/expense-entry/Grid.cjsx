@@ -44,6 +44,7 @@ class Skr.Screens.ExpenseEntry.Grid extends Lanes.React.Component
         <LC.Grid
             expandY={true}
             onColumnClick={@onColumnSort}
+            isRowFocused={@props.isRowFocused}
             query={@query} height=200 autoLoadQuery
             onSelectionChange={@props.onRecordSelect}
             toolbarChildren={@toolbarControls()}
