@@ -20,6 +20,10 @@ module Skr
 
         before_create :set_defaults
 
+        export_sort :amount do |q, dir|
+            q.order("category_total #{dir}")
+        end
+
         def self.access_limits_for_query(query, user, params)
             if user.roles.include?('accounting') && (params['id'] || params['review'] == 'true')
                 query
