@@ -6,7 +6,7 @@ class CreateCustomerProjectDetailsViews < ActiveRecord::Migration
         execute <<-EOS
         create view #{view} as
           select
-            cp.id as skr_customer_project_id,
+            cp.id as customer_project_id,
             c.code as customer_code,
             c.name as customer_description,
             s.code as sku_code,

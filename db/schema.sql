@@ -66,6 +66,18 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
+-- Name: ar_internal_metadata; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE ar_internal_metadata (
+    key character varying NOT NULL,
+    value character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
 -- Name: assets; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -329,7 +341,7 @@ CREATE TABLE skr_skus (
 --
 
 CREATE VIEW skr_customer_project_details AS
- SELECT cp.id AS skr_customer_project_id,
+ SELECT cp.id AS customer_project_id,
     c.code AS customer_code,
     c.name AS customer_description,
     s.code AS sku_code,
@@ -2315,6 +2327,14 @@ ALTER TABLE ONLY testers ALTER COLUMN id SET DEFAULT nextval('testers_id_seq'::r
 
 
 --
+-- Name: ar_internal_metadata_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY ar_internal_metadata
+    ADD CONSTRAINT ar_internal_metadata_pkey PRIMARY KEY (key);
+
+
+--
 -- Name: assets_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -3486,113 +3506,6 @@ ALTER TABLE ONLY skr_vouchers
 
 SET search_path TO "$user",public;
 
-INSERT INTO schema_migrations (version) VALUES ('1');
+INSERT INTO schema_migrations (version) VALUES ('1'), ('2'), ('20120110142845'), ('20140202185309'), ('20140202193316'), ('20140202193318'), ('20140202193319'), ('20140202193700'), ('20140202194700'), ('20140213040608'), ('20140220031700'), ('20140220031800'), ('20140220190836'), ('20140220203029'), ('20140224034759'), ('20140225032853'), ('20140320030501'), ('20140321031604'), ('20140322012143'), ('20140322014401'), ('20140322023453'), ('20140322035024'), ('20140322223912'), ('20140322223920'), ('20140323001446'), ('20140327202102'), ('20140327202107'), ('20140327202207'), ('20140327202209'), ('20140327214000'), ('20140327223002'), ('20140327224000'), ('20140327224002'), ('20140330232808'), ('20140330232810'), ('20140400164729'), ('20140400164733'), ('20140401164729'), ('20140401164740'), ('20140422024010'), ('20140615031600'), ('20150220015108'), ('20151121211323'), ('20160216142845'), ('20160229002044'), ('20160229041711'), ('20160307022705'), ('20160517032350'), ('20160531014306'), ('20160604195848'), ('20160605024432'), ('20160608023553'), ('20160620010455'), ('20160726004411'), ('20160805002717');
 
-INSERT INTO schema_migrations (version) VALUES ('2');
-
-INSERT INTO schema_migrations (version) VALUES ('20120110142845');
-
-INSERT INTO schema_migrations (version) VALUES ('20140202185309');
-
-INSERT INTO schema_migrations (version) VALUES ('20140202193316');
-
-INSERT INTO schema_migrations (version) VALUES ('20140202193318');
-
-INSERT INTO schema_migrations (version) VALUES ('20140202193319');
-
-INSERT INTO schema_migrations (version) VALUES ('20140202193700');
-
-INSERT INTO schema_migrations (version) VALUES ('20140202194700');
-
-INSERT INTO schema_migrations (version) VALUES ('20140213040608');
-
-INSERT INTO schema_migrations (version) VALUES ('20140220031700');
-
-INSERT INTO schema_migrations (version) VALUES ('20140220031800');
-
-INSERT INTO schema_migrations (version) VALUES ('20140220190836');
-
-INSERT INTO schema_migrations (version) VALUES ('20140220203029');
-
-INSERT INTO schema_migrations (version) VALUES ('20140224034759');
-
-INSERT INTO schema_migrations (version) VALUES ('20140225032853');
-
-INSERT INTO schema_migrations (version) VALUES ('20140320030501');
-
-INSERT INTO schema_migrations (version) VALUES ('20140321031604');
-
-INSERT INTO schema_migrations (version) VALUES ('20140322012143');
-
-INSERT INTO schema_migrations (version) VALUES ('20140322014401');
-
-INSERT INTO schema_migrations (version) VALUES ('20140322023453');
-
-INSERT INTO schema_migrations (version) VALUES ('20140322035024');
-
-INSERT INTO schema_migrations (version) VALUES ('20140322223912');
-
-INSERT INTO schema_migrations (version) VALUES ('20140322223920');
-
-INSERT INTO schema_migrations (version) VALUES ('20140323001446');
-
-INSERT INTO schema_migrations (version) VALUES ('20140327202102');
-
-INSERT INTO schema_migrations (version) VALUES ('20140327202107');
-
-INSERT INTO schema_migrations (version) VALUES ('20140327202207');
-
-INSERT INTO schema_migrations (version) VALUES ('20140327202209');
-
-INSERT INTO schema_migrations (version) VALUES ('20140327214000');
-
-INSERT INTO schema_migrations (version) VALUES ('20140327223002');
-
-INSERT INTO schema_migrations (version) VALUES ('20140327224000');
-
-INSERT INTO schema_migrations (version) VALUES ('20140327224002');
-
-INSERT INTO schema_migrations (version) VALUES ('20140330232808');
-
-INSERT INTO schema_migrations (version) VALUES ('20140330232810');
-
-INSERT INTO schema_migrations (version) VALUES ('20140400164729');
-
-INSERT INTO schema_migrations (version) VALUES ('20140400164733');
-
-INSERT INTO schema_migrations (version) VALUES ('20140401164729');
-
-INSERT INTO schema_migrations (version) VALUES ('20140401164740');
-
-INSERT INTO schema_migrations (version) VALUES ('20140422024010');
-
-INSERT INTO schema_migrations (version) VALUES ('20140615031600');
-
-INSERT INTO schema_migrations (version) VALUES ('20150220015108');
-
-INSERT INTO schema_migrations (version) VALUES ('20151121211323');
-
-INSERT INTO schema_migrations (version) VALUES ('20160216142845');
-
-INSERT INTO schema_migrations (version) VALUES ('20160229002044');
-
-INSERT INTO schema_migrations (version) VALUES ('20160229041711');
-
-INSERT INTO schema_migrations (version) VALUES ('20160307022705');
-
-INSERT INTO schema_migrations (version) VALUES ('20160517032350');
-
-INSERT INTO schema_migrations (version) VALUES ('20160531014306');
-
-INSERT INTO schema_migrations (version) VALUES ('20160604195848');
-
-INSERT INTO schema_migrations (version) VALUES ('20160605024432');
-
-INSERT INTO schema_migrations (version) VALUES ('20160608023553');
-
-INSERT INTO schema_migrations (version) VALUES ('20160620010455');
-
-INSERT INTO schema_migrations (version) VALUES ('20160726004411');
-
-INSERT INTO schema_migrations (version) VALUES ('20160805002717');
 

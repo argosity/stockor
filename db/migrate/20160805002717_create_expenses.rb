@@ -6,7 +6,7 @@ class CreateExpenses < ActiveRecord::Migration
         create_skr_table :expense_categories do |t|
             t.skr_code_identifier
             t.string :name, null: false
-            t.boolean :is_active, null: false
+            t.boolean :is_active, null: false, default: true
             t.skr_reference :gl_account, null: false, single: true
             t.skr_track_modifications
         end
