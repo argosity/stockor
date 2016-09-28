@@ -36,5 +36,5 @@ class Skr.Components.TermsChooser extends Lanes.React.Component
                 choices={Skr.Models.PaymentTerm.all.models}
                 labelField="code"
                 {...@props}
-                fetchWhenOpen={false}
+                fetchOnSelect={false}
                 model={@props.model} />

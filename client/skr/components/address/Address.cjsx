@@ -24,7 +24,7 @@ class Skr.Components.Address extends Lanes.React.Component
         </BS.Row>
 
     render: ->
-        colProps = _.omit(@props, 'name')
+        colProps = _.omit(@props,  _.keys(@constructor.propTypes))
         colProps.className = _.classnames("address", @props.className)
 
         <BS.Col {...colProps}>

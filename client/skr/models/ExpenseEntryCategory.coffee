@@ -2,7 +2,7 @@ class Skr.Models.ExpenseEntryCategory extends Skr.Models.Base
 
     props:
         id:          {"type":"any",     "required":true}
-        entry_id:    {"type":"string",  "required":true}
+        entry_id:    "integer"
         category_id: {"type":"integer", "required":true}
         amount:      {"type":"bigdec"}
 

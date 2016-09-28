@@ -7,7 +7,6 @@ class Skr.Components.SalesOrderFinder extends Lanes.React.Component
         autoFocus:  React.PropTypes.bool
 
     getDefaultProps: ->
-        editing: true
         autoFocus: true, name: 'visible_id', label: 'Sales Order #'
 
     modelBindings:

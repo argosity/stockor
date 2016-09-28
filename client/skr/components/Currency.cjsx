@@ -12,8 +12,9 @@ class Skr.Components.Currency extends Lanes.React.Component
         symbol: React.PropTypes.string
 
     render: ->
+        colProps = _.omit(@props,  _.keys(@constructor.propTypes))
         className = _.classnames 'currency', @props.className
-        <span {...@props} className={className}>
+        <span {...colProps} className={className}>
             <span className="sym">{@props.symbol}</span>
             {Lanes.u.format.currency(@props.amount)}
         </span>

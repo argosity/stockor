@@ -1,7 +1,11 @@
 class Skr.Components.ToolbarButton extends Lanes.React.BaseComponent
 
+    propTypes:
+        onClick: React.PropTypes.func.isRequired
+        className: React.PropTypes.string
+
     render: ->
-        cn = _.classnames "navbar-btn", "control", @props.classNames
-        <BS.Button navItem componentClass="button" {...@props} className={cn}>
+        cn = _.classnames "navbar-btn", "control", @props.className
+        <BS.NavItem onClick={@props.onClick} className={cn}>
             {@props.children}
-        </BS.Button>
+        </BS.NavItem>
