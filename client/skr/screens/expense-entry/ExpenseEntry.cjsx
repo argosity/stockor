@@ -90,6 +90,7 @@ class Skr.Screens.ExpenseEntry extends Skr.Screens.Base
     onEntrySelect: (entry, index) ->
         entry.fetch(include: 'categories').then (e) =>
             @modelBindings.reset({entry})
+            @query.markModified()
             @refs.form.focus()
 
     onEntryReset: ->
@@ -143,6 +144,9 @@ class Skr.Screens.ExpenseEntry extends Skr.Screens.Base
         @setState({category})
         @query.results.reload()
 
+    isRowEditing: (row) ->
+        @entry.id is row[0]
+
     render: ->
         selectionState = @selectedState()
         <LC.ScreenWrapper flexVertical
@@ -162,6 +166,7 @@ class Skr.Screens.ExpenseEntry extends Skr.Screens.Base
                 onCategorySelect={@onCategorySelect}
                 setReviewState={@setReviewState}
                 isReviewing={@isReviewing}
+                isRowFocused={@isRowEditing}
                 isConfirmationChecked={selectionState}
                 categories={@categories}
                 onRecordSelect={@onEntrySelect}
