@@ -5,7 +5,7 @@ class TextCategory extends Lanes.React.Component
     render: ->
         code = @props.categories.get(@category.category_id).code
         <span className='pair'>
-            {code} {Lanes.u.format.currency(@category.amount)}
+            {Lanes.u.format.currency(@category.amount)} {code}
         </span>
 
 
