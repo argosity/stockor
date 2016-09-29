@@ -1,13 +1,14 @@
 //=require lanes/remote/api
 //=require ./api/namespace
 //=require skr/vendor
+//=require skr/remote
 //=require ./api/Models/Base
 //=require_tree ./models/mixins
 //=require ./api/Components/Base
 //=require ./api/Components/Base
 //=require_tree ./api
 //=require_self
-
+Skr.Remote.configFromScriptTag()
 
 var previousSkr = window.Skr;
 window.Skr = Lanes.Skr;
