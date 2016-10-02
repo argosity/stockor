@@ -1,6 +1,6 @@
 <% hours = @lines.reduce(BigDecimal.new('0')){|t, l| l.time_entry ? t+l.qty : t } %>
 <%= partial 'skus_table_other_charge_lines', record: @record, ncols: @ncols %>
-  \multicolumn{<%= @ncols-2 %>}{r}{{
+  \multicolumn{<%= @ncols-3 %>}{r}{{
 <% unless hours.zero? %>
     \textbf{<%= '%0.2f' % hours %>}
 <% end %>
