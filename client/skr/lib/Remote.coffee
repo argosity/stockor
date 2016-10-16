@@ -3,11 +3,10 @@ readLoadUrl = (matchRegex) ->
     for tag in document.querySelectorAll('script')
         if tag.src.match matchRegex
             src.href = tag.src
-            Lanes.config.api_host = src.protocol + '//' + src.host
-            Lanes.config.api_path = Lanes.config.api_host + "/api"
+            Lanes.config.api_host = src.host
             break
     if Lanes.config.api_host
-        css = src.href.replace(/\.js$/,'.css')
+        css = src.href.replace(/\.js$/, '.css')
         new Lanes.lib.AssetLoader([css], Lanes.emptyFn)
     else
         console.error("Unable to find script tag that Stockor was loaded from")
