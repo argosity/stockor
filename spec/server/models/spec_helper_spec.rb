@@ -1,13 +1,8 @@
 module FixtureHelpers
 
-    extend ActiveSupport::Concern
+    def table_rows
 
-    included do
-        alias_method_chain :table_rows, :custom_autoset_fields
-    end
-
-    def table_rows_with_custom_autoset_fields
-        results = table_rows_without_custom_autoset_fields
+        results = super #table_rows_without_custom_autoset_fields
         if model_class
             results[ table_name ].each do | row |
                 row['visible_id'] ||= Skr::SequentialId.next_for( model_class ) if model_class.column_names.include?('visible_id')
@@ -23,4 +18,4 @@ module FixtureHelpers
     end
 end
 
-ActiveRecord::FixtureSet.send :include, FixtureHelpers
+ActiveRecord::FixtureSet.prepend FixtureHelpers
