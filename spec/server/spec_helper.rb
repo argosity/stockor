@@ -25,14 +25,9 @@ module Skr
 end
 
 module StockorFixtureTestPatches
-    extend ActiveSupport::Concern
 
-    included do
-        alias_method_chain :table_rows, :custom_autoset_stockor_fields
-    end
-
-    def table_rows_with_custom_autoset_stockor_fields
-        results = table_rows_without_custom_autoset_stockor_fields
+    def table_rows
+        results = super
         if model_class && model_class < ActiveRecord::Base
             results[ table_name ].each do | row |
                 if self['hash_code'].blank? && model_class.column_names.include?('hash_code')
@@ -43,6 +38,9 @@ module StockorFixtureTestPatches
         results
     end
 end
+
+ActiveRecord::FixtureSet.prepend StockorFixtureTestPatches
+
 
 VCR_OPTS = {
     record: :none
