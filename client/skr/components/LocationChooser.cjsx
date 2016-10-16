@@ -1,7 +1,6 @@
 class Skr.Components.LocationChooser extends Lanes.React.Component
 
     propTypes:
-        onModelSet: React.PropTypes.func
         name:       React.PropTypes.string
         hideSingle: React.PropTypes.bool
 
@@ -26,7 +25,8 @@ class Skr.Components.LocationChooser extends Lanes.React.Component
         if @props.hideSingle and Skr.Models.Location.all.length < 2
             return LC.SelectField.renderEmptyColumn(@props)
 
-        props = _.clone(@props)
+        props = _.omit(@props, 'hideSingle')
+
         if props.displayFinder
             <LC.RecordFinder ref="finder" sm=3 autoFocus
                 commands={@state.commands}
