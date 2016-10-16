@@ -49,7 +49,6 @@ class InvoiceSpec < Skr::TestCase
                     assert inv.payments.create!(
                                amount: 10.10, bank_account: bank_account
                            )
-                    inv.mark_partialy_paid!
                     assert inv.reload.partialy_paid?
                 end
             end

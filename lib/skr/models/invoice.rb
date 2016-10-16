@@ -129,11 +129,7 @@ module Skr
             if self.fully_paid? && self.may_mark_paid?
                 self.mark_paid!
             elsif self.payments.total > 0 && self.may_mark_partialy_paid?
-                Lanes.logger_debug('paying')
-
-                #self.mark_partialy_paid!
-
-                Lanes.logger_debug('paid')
+                self.mark_partialy_paid!
             end
         end
 
