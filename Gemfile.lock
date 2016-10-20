@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/argosity/lanes
-  revision: bde6bf9da9932e8c2a7e212500917082ed79f57b
+  revision: f1244dd2ffebc575250081665b51259925f27bfa
   branch: master
   specs:
     lanes (0.5.6)
@@ -95,7 +95,7 @@ GEM
     arel (7.1.4)
     bcrypt (3.1.11)
     builder (3.2.2)
-    byebug (9.0.5)
+    byebug (9.0.6)
     carrierwave (0.10.0)
       activemodel (>= 3.2.0)
       activesupport (>= 3.2.0)

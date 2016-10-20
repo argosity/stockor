@@ -50,6 +50,7 @@ class Skr.Screens.Invoice extends Skr.Screens.Base
                     parentModel={@invoice} />
 
                 <SC.CustomerFinder
+                    fallBackValue={@invoice.customer_code}
                     syncOptions={ include: ['billing_address', 'shipping_address' ] }
                     selectField sm=3 xs=6 model={@invoice} />
 

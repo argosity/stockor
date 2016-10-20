@@ -27,7 +27,10 @@ class Skr.Models.SalesOrder extends Skr.Models.Base
     # optional attributes from details view
     session:
         customer_code:      {type:"string"}
+        customer_name:      {type:"string"}
+        bill_addr_name:     {type:"string"}
         order_total:        {type:"bigdec"}
+        num_lines:          {type:"integer"}
 
     derived:
         total: deps: ['order_total'], fn: ->
@@ -65,11 +68,9 @@ class Skr.Models.SalesOrder extends Skr.Models.Base
 
     onCustomerChange: ->
         return if @customer.isProxy or not @isNew()
-
         associations = ['billing_address', 'shipping_address']
         for attr in ['terms_id']
             @set(attr, @customer[attr])
-
         @customer.withAssociations(associations).then =>
             for name in associations
                 @[name].set(

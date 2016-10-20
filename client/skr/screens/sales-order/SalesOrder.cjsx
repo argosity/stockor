@@ -27,6 +27,7 @@ class Skr.Screens.SalesOrder extends Lanes.React.Screen
                     commands={@state.commands} />
 
                 <SC.CustomerFinder
+                    fallBackValue={@sales_order.customer_code}
                     syncOptions={ include: ['billing_address', 'shipping_address' ] }
                     selectField sm=3 xs=4 model={@sales_order} />
 

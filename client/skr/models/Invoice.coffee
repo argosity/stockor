@@ -28,9 +28,11 @@ class Skr.Models.Invoice extends Skr.Models.Base
     # optional attributes from details view and other fields
     session:
         customer_code: {type:"string"}
+        customer_name: {type:"string"}
         invoice_total: {type:"bigdec"}
         amount_paid:   {type:"bigdec", "default":"0"}
         total_hours:   "bigdec"
+        num_lines:     {type:"integer"}
 
     derived:
         prev_amount_paid: deps:['updated_at'], fn: -> @amount_paid
