@@ -4,7 +4,7 @@ class CreateGlAccountBalancesView < ActiveRecord::Migration
     def up
         execute <<-EOS.squish
         create view #{skr_prefix}gl_account_balances as select
-          gla.id as skr_gl_account_id,
+          gla.id as gl_account_id,
           right(glp.account_number,2) as branch_number,
           coalesce(sum(glp.amount), 0.00) as balance
         from skr_gl_accounts gla
