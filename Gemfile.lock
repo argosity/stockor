@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/argosity/lanes
-  revision: 72acb2ff6bd6235117aa52b0bb55db21f966f718
+  revision: 10db6e5530a7e410d8a034dc1145edd819e5bba0
   branch: master
   specs:
-    lanes (0.6.0)
+    lanes (0.6.1)
       actioncable (~> 5.0)
       activejob (~> 5.0)
       activerecord (~> 5.0)
@@ -44,7 +44,7 @@ GIT
 PATH
   remote: .
   specs:
-    stockor (0.4.5)
+    stockor (0.5.0)
       aasm (~> 4.11)
       activemerchant (~> 1.59)
       erb_latex (= 1.0)
