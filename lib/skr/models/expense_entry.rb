@@ -6,9 +6,11 @@ module Skr
 
         has_one :gl_transaction, class_name: 'Skr::GlTransaction', as: :source
 
-        has_many :categories, class_name: 'Skr::ExpenseEntryCategory',
-                 inverse_of: :entry, export: { writable: true }, foreign_key: 'entry_id'  do
+        has_many :attachments, as: :owner, class_name: 'Lanes::Asset',
+                 export: {writable: true}
 
+        has_many :categories, class_name: 'Skr::ExpenseEntryCategory',
+                 inverse_of: :entry, export: {writable: true}, foreign_key: 'entry_id'  do
             def total
                 proxy_association.loaded? ? inject(0){ | sum, cat | sum+cat.amount } : sum('amount')
             end

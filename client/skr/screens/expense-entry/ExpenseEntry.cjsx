@@ -33,22 +33,26 @@ class Skr.Screens.ExpenseEntry extends Skr.Screens.Base
     getInitialState: ->
         isReviewing: false
 
+    syncOptions:
+        include: ['categories', 'attachments' ]
+
     modelBindings:
         categories: ->
             Skr.Models.ExpenseCategory.Collection.fetch()
 
         entry: ->
             @loadOrCreateModel({
-                klass: Skr.Models.ExpenseEntry
+                syncOptions: @syncOptions, klass: Skr.Models.ExpenseEntry
                 prop: 'entry', attribute: 'id'
             })
 
         query: ->
             new Lanes.Models.Query({
-                autoRetrieve: true, sortAscending: false, src: Skr.Models.ExpenseEntry,
-                syncOptions:
-                    include: ['categories'],
+                autoRetrieve: true, sortAscending: false,
+                src: Skr.Models.ExpenseEntry,
+                syncOptions: _.extend({}, @syncOptions,
                     with: ['with_category_details']
+                ),
                 fields: [
                     { id: 'id', visible: false }
                     { id: 'category_list', visible: false }
@@ -88,7 +92,7 @@ class Skr.Screens.ExpenseEntry extends Skr.Screens.Base
         @forceUpdate()
 
     onEntrySelect: (entry, index) ->
-        entry.fetch(include: 'categories').then (e) =>
+        entry.fetch(@syncOptions).then (e) =>
             @modelBindings.reset({entry})
             @query.markModified()
             @refs.form.focus()
