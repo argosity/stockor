@@ -91,8 +91,8 @@ module Skr::Jobs::FreshBooks
         def process_invoice(r)
             return nil if is_ignored?('invoices',  r['invoice_id'])
 
-            inv = Skr::Invoice.create(
-                visible_id: r['number'].sub(/^0+/,''),
+            inv = Skr::Invoice.create!(
+                visible_id: r['number'].sub(/^0+/, '').gsub(/\D/, ''),
                 options: { freshbooks_id: r['invoice_id'] },
                 customer: customer_for_fb_id(r['client_id']),
                 location: Skr::Location.default,
@@ -107,26 +107,27 @@ module Skr::Jobs::FreshBooks
                 },
                 lines_attributes: Array.wrap(r['lines']['line']).map { | l |
                     is_time = 'Time' == l['type']
-                    if l['name'] or l['description'] # blank name == blank line
-                        sku = Skr::Sku.find_by(code: is_time ? 'LABOR' : 'MISC')
-                        invl = {
-                            sku_loc: sku.sku_locs.default,
-                            price: l['unit_cost'],
-                            description: l['description'],
-                            qty: l['quantity']
-                        }
-                        if l.has_key?('time_entries')
-                            invl['time_entry'] =
-                                Skr::TimeEntry.find_by("options ->>'freshbooks_id' = ?",
-                                                       l['time_entries']['time_entry']['time_entry_id'])
-                        end
-                        invl
+                    next unless l['name'] or l['description'] # blank name == blank line
+                    sku = Skr::Sku.find_by(code: is_time ? 'LABOR' : 'MISC')
+                    invl = {
+                        sku_loc: sku.sku_locs.default,
+                        price: l['unit_cost'],
+                        description: l['description'],
+                        qty: l['quantity']
+                    }
+                    if l.has_key?('time_entries')
+                        invl['time_entry'] =
+                            Skr::TimeEntry.find_by("options ->>'freshbooks_id' = ?",
+                                                   l['time_entries']['time_entry']['time_entry_id'])
                     end
+                    invl
                 }.compact
             )
             if r['paid'].to_f > 0
                 inv.payments.create!(
-                    amount: r['paid'], bank_account: Skr::BankAccount.default
+                    amount: r['paid'],
+                    name: inv.customer.name,
+                    bank_account: Skr::BankAccount.default
                 )
             end
             inv
