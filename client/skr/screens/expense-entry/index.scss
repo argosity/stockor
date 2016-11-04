@@ -28,6 +28,7 @@
         }
 
     }
+
     .grid-component .toolbar .controls {
         display: flex;
         justify-content: space-around;
@@ -40,11 +41,8 @@
             margin-right: 20px;
         }
         .spacer { flex: 1; }
-//        .right {
-//            flex: 1;
-//            text-align: right;
-//        }
     }
+
 
     .categories {
         display: flex;
