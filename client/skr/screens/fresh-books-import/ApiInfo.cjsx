@@ -20,10 +20,10 @@ class Skr.Screens.FreshBooksImport.ApiInfo extends Lanes.React.Component
                     <p>Your access information will not be stored and is only used to download records</p>
                 </BS.Col>
             </BS.Row>
-            <BS.Row>
+            <BS.Row className="api-info">
                 <LC.Input name='api_key' label='API Key' sm=7 model={@import} />
                 <LC.Input name='domain' label='Company' sm=3 model={@import} />
-                <BS.FormGroup className='domain' sm=2 label=''>.freshbooks.com</BS.FormGroup>
+                <BS.Col sm=2 className="domain">.freshbooks.com</BS.Col>
             </BS.Row>
             <BS.Row>
                 <BS.Col smOffset=9 sm=2>

@@ -1,12 +1,13 @@
 .fresh-books-import {
-    .domain .value {
-        margin-top: 15px;
-    }
     .job-executing {
         width: 80%;
         margin: 80px auto;
     }
-
+    .api-info {
+        .domain {
+            padding-top: 35px;
+        }
+    }
     .import-records {
         .clients tbody tr td:last-child {
             width: 130px;

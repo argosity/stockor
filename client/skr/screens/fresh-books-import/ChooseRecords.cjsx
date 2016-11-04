@@ -107,9 +107,11 @@ class Skr.Screens.FreshBooksImport.ChooseRecords extends Lanes.React.Component
         return null unless @import.hasPendingRecords()
         <div className="import-records">
             {@renderHeader()}
-            <BS.Tabs animation={false} defaultActiveKey={0}>
+            <BS.Tabs id='choose-records'>
             {for type, i in @import.recordTypes when @import.recordsForType(type)
-                <BS.Tab eventKey={i} key={i} title={_.titleize(type)} animation={false}>
+                <BS.Tab eventKey={i} key={i}
+                    title={_.titleize(type)} animation={false}
+                >
                     <@RecordTable type={type} />
                 </BS.Tab>}
             </BS.Tabs>

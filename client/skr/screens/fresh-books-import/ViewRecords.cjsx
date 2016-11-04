@@ -87,7 +87,7 @@ class Skr.Screens.FreshBooksImport.ViewRecords extends Lanes.React.Component
         return null unless @import.hasImportedRecords()
 
         <h3>Import Success!</h3>
-        <BS.Tabs animation={false} defaultActiveKey={0}>
+        <BS.Tabs id='view-records'>
         {for type, i in @import.recordTypes
             TableType = @[_.capitalize(type)] || @BlankTable
             <BS.Tab eventKey={i} key={i} title={_.titleize(type)} animation={false}>
