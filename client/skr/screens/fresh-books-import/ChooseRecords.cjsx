@@ -25,7 +25,7 @@ class UserSelect extends Lanes.React.Component
 
     render: ->
         <LC.SelectField
-            editOnly unstyled
+            editOnly unlabeled
             model={this.user}
             name="user"
             labelField='login'
