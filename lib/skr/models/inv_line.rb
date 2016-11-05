@@ -26,7 +26,7 @@ module Skr
         validate  :ensure_unlocked
 
         before_validation :set_defaults
-        before_save :perform_adjustments
+        after_save :perform_adjustments
         before_destroy :prevent_destroy
 
         scope :with_details, lambda { |should_use=true |
@@ -84,10 +84,9 @@ module Skr
             old_extended_price = self.price_was && self.qty_was ?
                                      self.price_was * self.qty_was : BigDecimal.new(0)
             price_change = self.extended_price - old_extended_price
-
-            if self.sku.does_track_inventory?
-                changed_qty = self.qty - (qty_was || 0)
-                self.sku_trans.build(
+            changed_qty = self.qty - (qty_was || 0)
+            if self.sku.does_track_inventory? && !changed_qty.zero?
+                self.sku_trans.create(
                     origin: self, qty: changed_qty * -1, sku_loc: self.sku_loc, uom: self.uom,
                     mac: 0, cost: price_change,
                     origin_description: gl_origin_description,

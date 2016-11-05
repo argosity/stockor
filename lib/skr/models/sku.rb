@@ -78,7 +78,7 @@ module Skr
         # Setup the associations after create
         def create_associated_records
             if sku_locs.empty?
-                self.sku_locs.create({ sku: self, location: Location.default })
+                self.sku_locs.create(location: Location.default)
             end
             true # don't cancel save op
         end

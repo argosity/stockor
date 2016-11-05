@@ -37,22 +37,26 @@ class InvLineSpec < Skr::TestCase
         assert_equal 0, so_line.qty_allocated
     end
 
-    it "posts to GL" do
+    it "adjusts GL" do
         inv  = skr_invoice(:tiny)
         yarn = skr_sku_loc(:yarn_def)
         line = inv.lines.build(sku_loc: yarn, qty: 2)
-        assert_difference ->{ yarn.qty }, -2 do
+        account = line.sku.gl_asset_account
+        total = line.sku.uoms.default.price * line.qty
+        assert_difference ->{ account.trial_balance }, (total * -1) do
             assert line.save, 'line failed to save'
         end
     end
 
    it "can be reversed" do
-        inv = Invoice.new( location: skr_location(:default), customer: skr_customer(:hubbard) )
+       inv = Invoice.new( location: skr_location(:default),
+                          customer: skr_customer(:hubbard) )
         line = inv.lines.build( sku_loc: skr_sku_loc(:hat_def), qty: 2, price: 10.0 )
-        total = line.total
+        total = line.total # sku.uoms.default.price * line.qty
+
         account = line.sku.gl_asset_account
         assert_difference ->{ account.trial_balance }, (total * -1) do
-            assert inv.save, 'invoice failed to save'
+             assert inv.save, 'invoice failed to save'
         end
         assert_difference ->{ account.trial_balance }, BigDecimal.new('0.44') do
             line.price -= BigDecimal.new('0.22')
