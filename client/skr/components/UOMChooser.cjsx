@@ -13,11 +13,11 @@ class Skr.Components.UOMChooser extends Lanes.React.Component
 
         <LC.SelectField
             syncOptions={with: 'with_combined_uom'}
-            displayFallback={@props.model.uom.combined_uom}
+            fallBackValue={@props.model.uom.combined_uom}
             editOnly writable unstyled
             model={@props.model}
-            fetchWhenOpen={false}
-            queryOrder={size: 'desc'}
+            fetchOnSelect={false}
+            syncOptions={order: {size: 'desc'}}
             labelField="combined"
             name="uom"
             {...props}

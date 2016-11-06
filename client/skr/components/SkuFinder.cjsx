@@ -26,6 +26,6 @@ class Skr.Components.SkuFinder extends Lanes.React.Component
         props = _.extend( {}, @props )
         if @props.selectField
             <LC.SelectField labelField="code"
-                displayFallback={@model.sku_code} {...props} />
+                fallBackValue={@model.sku_code} {...props} />
         else
             <LC.RecordFinder commands={@props.commands} query={@query} {...props} />
