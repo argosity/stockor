@@ -1,8 +1,8 @@
 \lhead{
   \begin{tabularx}{\textwidth} {l>{\raggedright\arraybackslash}Xr}
-    %<% if @location.get_logo.present? %>
-\raisebox{1mm}{\includegraphics[align=t,height=18mm,keepaspectratio]{<%= @location.get_logo.file.path %>}}
-  %<% end %>
+    %<% if (logo = @location.get_logo).present? -%>
+\raisebox{1mm}{\includegraphics[align=t,height=18mm,keepaspectratio]{<%= logo.file[:original].download.path %>}}
+    %<% end %>
 & \small <%= break_lines @location.address.to_s(include: [:email,:phone]) -%>
 & \raisebox{-6.5mm}{{\begin{tabularx}{4cm}{Xr}
       \multicolumn{2}{c}{\Ovalbox{\parbox[c]{4cm}{\centering\bf <%=q @form_title %>}}} \\[2mm]

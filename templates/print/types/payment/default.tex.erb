@@ -9,7 +9,7 @@
 \begin{textblock}{195}(10,10)
 \begin{tabularx}{\columnwidth}{l>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}Xr}
 <% if (logo = @payment.location.get_logo).present? -%>
-    \includegraphics[align=t,height=14mm,keepaspectratio]{<%= logo.file.path %>}
+    \includegraphics[align=t,height=14mm,keepaspectratio]{<%= logo.file[:original].download.path %>}
 <% end -%>
  &
  \small <%= break_lines @payment.location.address.to_s(include: [:phone]) %> &
