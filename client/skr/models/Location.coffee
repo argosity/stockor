@@ -18,6 +18,7 @@ class Skr.Models.Location extends Skr.Models.Base
         address:  { model: "Address" }
         sku_locs: { collection: "SkuLoc" }
         logo:     { model: "Lanes.Models.Asset" }
+        print:    { model: "Lanes.Models.Asset" }
 
     @initialize: (data) ->
         SHARED_DATA = data.locations

@@ -6,6 +6,7 @@ module Skr
         has_code_identifier :from=>'name'
 
         has_one :logo, as: :owner, :class_name=>'Lanes::Asset', export: { writable: false }, :dependent => :destroy
+        has_one :print_logo, as: :owner, :class_name=>'Lanes::Asset', export: { writable: false }, :dependent => :destroy
 
         belongs_to :address, export: { writable: true }
 
@@ -17,8 +18,10 @@ module Skr
 
         before_validation :set_defaults, :on=>:create
 
-        def get_logo
-            self.logo.present? ? self.logo : Lanes::SystemSettings.config.logo
+        def get_logo(type = 'print')
+            message = type == 'print' ? 'print_logo' : 'logo'
+            logo = self.send(message)
+            logo.present? ? logo :  Lanes::SystemSettings.config.send(message)
         end
 
         # @return [Location] the location that's specified by {Skr::Configuration#default_location_code}
