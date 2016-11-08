@@ -14,6 +14,7 @@ class Skr.Screens.Payments extends Skr.Screens.Base
         query: ->
             new Lanes.Models.Query({
                 syncOptions: @syncOptions
+                sortAscending: false
                 src: Skr.Models.Payment, fields: [
                     {id:'id',   visible: false}
                     {id:'visible_id',  title: 'Payment ID', fixedWidth: 130 },
