@@ -15,10 +15,10 @@ class Skr.Models.Location extends Skr.Models.Base
         options: "any"
 
     associations:
-        address:  { model: "Address" }
-        sku_locs: { collection: "SkuLoc" }
-        logo:     { model: "Lanes.Models.Asset" }
-        print:    { model: "Lanes.Models.Asset" }
+        address:    { model: "Address" }
+        sku_locs:   { collection: "SkuLoc" }
+        logo:       { model: "Lanes.Models.Asset" }
+        print_logo: { model: "Lanes.Models.Asset" }
 
     @initialize: (data) ->
         SHARED_DATA = data.locations

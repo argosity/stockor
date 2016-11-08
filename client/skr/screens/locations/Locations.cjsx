@@ -23,7 +23,12 @@ class Skr.Screens.Locations extends Skr.Screens.Base
                 <LC.Input sm=6 name='name' model={@location} />
             </BS.Row>
             <BS.Row>
-                <LC.ImageAsset sm=3 model={@location} name='logo' label='Logo' size='thumb' />
+                <LC.FieldSet title="Logos" sm=12>
+                    <LC.ImageAsset sm=5 asset={@location.logo}
+                        label='Primary' size='thumb' />
+                    <LC.ImageAsset sm=5 smOffset=2 asset={@location.print_logo}
+                        label='Print' size='thumb' />
+                </LC.FieldSet>
             </BS.Row>
             <BS.Row>
                 <SC.Address lg=6 model={@location.address}  />
