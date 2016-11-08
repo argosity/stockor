@@ -22,15 +22,14 @@ class Skr.Components.LocationChooser extends Lanes.React.Component
             })
 
     render: ->
-        props = _.omit(@props, 'hideSingle')
+        props = _.omit(@props, 'hideSingle', 'displayFinder')
 
         if @props.hideSingle and Skr.Models.Location.all.length < 2
             return LC.SelectField.renderEmptyColumn(props)
 
-        if props.displayFinder
+        if @props.displayFinder
             <LC.RecordFinder ref="finder" sm=3 autoFocus
                 commands={@state.commands}
-                collection={Skr.Models.Location.all}
                 query={@query}
                 {...props} />
         else
