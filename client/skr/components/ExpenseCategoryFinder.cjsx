@@ -13,9 +13,9 @@ class Skr.Components.ExpenseCategoryFinder extends Lanes.React.Component
     modelBindings:
         query: ->
             new Lanes.Models.Query({
-                syncOptions: @props.syncOptions, autoRetrieve: true
+                syncOptions: @props.syncOptions,
                 src: Skr.Models.ExpenseCategory, fields: [
-                    {id:'id', visible: false}
+                    {id: 'id', visible: false}
                     {id: 'code', fixedWidth: 130 },
                     {id: 'name', flex: 1}
                 ]
