@@ -24,17 +24,21 @@ class Skr.Components.VendorFinder extends Lanes.React.Component
             })
 
     render: ->
+        props = _.omit(@props, 'selectField')
+
         if @props.selectField
             <LC.SelectField sm=2
                 label="Vendor"
                 name="vendor"
                 labelField="code"
                 model={@props.model}
-                {...@props} />
+                {...props}
+            />
         else
-            <LC.RecordFinder sm=3 autoFocus
+            <LC.RecordFinder sm=3
                 model={@props.model}
                 name='vendor'
                 commands={@state.commands}
                 query={@query}
-                {...@props} />
+                {...props}
+            />

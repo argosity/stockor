@@ -2,7 +2,6 @@ class Skr.Components.GlAccountChooser extends Lanes.React.Component
 
     propTypes:
         model: Lanes.PropTypes.Model
-
         label: React.PropTypes.string
         name:  React.PropTypes.string
 
@@ -21,9 +20,10 @@ class Skr.Components.GlAccountChooser extends Lanes.React.Component
             })
 
     render: ->
-        props = _.clone(@props)
 
-        if props.finderField
+        props = _.omit(@props, 'useFinder')
+
+        if @props.useFinder
             <LC.RecordFinder ref="finder"
                 commands={@props.commands}
                 query={@query}

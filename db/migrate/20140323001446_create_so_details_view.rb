@@ -4,39 +4,39 @@ class CreateSoDetailsView < ActiveRecord::Migration
     def up
         fk = "sales_order_id"
         execute <<-EOS.squish
-            create view #{skr_prefix}so_details as
-              select so.id as #{fk},
-                to_char(so.order_date,'YYYY-MM-DD') as string_order_date,
-                cust.code as customer_code, cust.name as customer_name,
-                addr.name as bill_addr_name,
-                coalesce( ttls.total,0.0 ) as order_total,
-                coalesce( ttls.num_lines, 0 ) as num_lines,
-                coalesce( ttls.other_charge_total, 0 ) as total_other_charge_amount,
-                coalesce( ttls.tax_charge_total, 0 ) as total_tax_amount,
-                coalesce( ttls.shipping_charge_total, 0 ) as total_shipping_amount,
-                coalesce( ttls.total,0.0 ) - coalesce( ttls.other_charge_total, 0.0 ) as subtotal_amount
-                from #{skr_prefix}sales_orders so
-                join #{skr_prefix}customers cust on cust.id = so.customer_id
-                join #{skr_prefix}addresses addr on addr.id = so.billing_address_id
-                left join (
-                select
-                  sales_order_id,
-                  sum(sol.qty*sol.price) as total,
-                  sum( case when s.is_other_charge then sol.qty*sol.price else 0 end ) as other_charge_total,
-                  sum( case when sol.sku_code = '#{Skr.config.ship_sku_code}' then sol.qty*sol.price else 0 end )
-                     as shipping_charge_total,
-                  sum( case when sol.sku_code = '#{Skr.config.tax_sku_code}' then sol.qty*sol.price else 0 end )
-                     as tax_charge_total,
-                  count(sol.*) as num_lines
-                from #{skr_prefix}so_lines sol
-                join #{skr_prefix}sku_locs sl on sl.id = sol.sku_loc_id
-                join #{skr_prefix}skus s on s.id = sl.sku_id
-                 group by sales_order_id
-                ) ttls on ttls.sales_order_id = so.id
+        create view #{skr_prefix}so_details as
+          select so.id as #{fk},
+            to_char(so.order_date,'YYYY-MM-DD') as string_order_date,
+            cust.code as customer_code, cust.name as customer_name,
+            addr.name as bill_addr_name,
+            coalesce( ttls.total,0.0 ) as order_total,
+            coalesce( ttls.num_lines, 0 ) as num_lines,
+            coalesce( ttls.other_charge_total, 0 ) as total_other_charge_amount,
+            coalesce( ttls.tax_charge_total, 0 ) as total_tax_amount,
+            coalesce( ttls.shipping_charge_total, 0 ) as total_shipping_amount,
+            coalesce( ttls.total,0.0 ) - coalesce( ttls.other_charge_total, 0.0 ) as subtotal_amount
+            from #{skr_prefix}sales_orders so
+            left join #{skr_prefix}customers cust on cust.id = so.customer_id
+            left join #{skr_prefix}addresses addr on addr.id = so.billing_address_id
+            left join (
+              select
+                sales_order_id,
+                sum(sol.qty*sol.price) as total,
+                sum( case when s.is_other_charge then sol.qty*sol.price else 0 end ) as other_charge_total,
+                sum( case when sol.sku_code = '#{Skr.config.ship_sku_code}' then sol.qty*sol.price else 0 end )
+                   as shipping_charge_total,
+                sum( case when sol.sku_code = '#{Skr.config.tax_sku_code}' then sol.qty*sol.price else 0 end )
+                   as tax_charge_total,
+                count(sol.*) as num_lines
+              from #{skr_prefix}so_lines sol
+              join #{skr_prefix}sku_locs sl on sl.id = sol.sku_loc_id
+              join #{skr_prefix}skus s on s.id = sl.sku_id
+               group by sales_order_id
+            ) ttls on ttls.sales_order_id = so.id
         EOS
 
-        execute <<-EOS.squish
-            create view #{skr_prefix}so_allocation_details as
+     execute <<-EOS.squish
+          create view #{skr_prefix}so_allocation_details as
               select sales_order_id as #{fk},
                  count(*) as number_of_lines, sum(sol.qty_allocated*price) as allocated_total,
                  sum( case when sol.qty_allocated  - sol.qty_canceled - sol.qty_picking > 0 then 1 else 0 end )

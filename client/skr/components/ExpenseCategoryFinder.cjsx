@@ -26,9 +26,11 @@ class Skr.Components.ExpenseCategoryFinder extends Lanes.React.Component
 
         if props.selectField
             <LC.SelectField queryModel={Skr.Models.ExpenseCategory}
-                labelField='code' sm=2 {...props} fetchOnSelect={false} />
+                labelField='code' sm=2 {...props} fetchOnSelect={false}
+            />
         else
             <LC.RecordFinder ref="finder" sm=3 autoFocus
                 commands={@props.commands}
                 query={@query}
-                {...props} />
+                {...props}
+            />

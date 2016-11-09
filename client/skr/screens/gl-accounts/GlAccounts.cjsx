@@ -17,7 +17,7 @@ class Skr.Screens.GlAccounts extends Skr.Screens.Base
 
                 <SC.GlAccountChooser sm=2 model={@account}
                     commands={@state.commands}
-                    label='Number' name="number" editOnly finderField />
+                    label='Number' name="number" editOnly useFinder />
 
                 <LC.ToggleField sm=2 align='center' label="Active?"
                     name="is_active" model={@account} />

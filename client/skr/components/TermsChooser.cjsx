@@ -25,16 +25,20 @@ class Skr.Components.TermsChooser extends Lanes.React.Component
             })
 
     render: ->
+        props = _.omit(@props, 'useFinder')
+
         if @props.useFinder
             <LC.RecordFinder ref="finder"
-                collection={Skr.Models.PaymentTerm.all}
+                choices={Skr.Models.PaymentTerm.all}
                 commands={@props.commands}
                 query={@query}
-                {...@props} />
+                {...props}
+            />
         else
             <LC.SelectField sm=3
                 choices={Skr.Models.PaymentTerm.all.models}
                 labelField="code"
-                {...@props}
                 fetchOnSelect={false}
-                model={@props.model} />
+                model={@props.model}
+                {...props}
+            />

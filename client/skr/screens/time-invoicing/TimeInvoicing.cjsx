@@ -97,11 +97,13 @@ class Skr.Screens.TimeInvoicing extends Skr.Screens.Base
     render: ->
         <LC.ScreenWrapper identifier="time-invoicing" flexVertical>
             <BS.Nav className="lanes-toolbar">
-                <div className="spacer"/>
-                <BS.Button navItem componentClass="button"}
-                    onClick={@createInvoice} className="save navbar-btn">
+                <BS.NavItem className="spacer"/>
+                <BS.NavItem
+                    onClick={@createInvoice}
+                    className="save navbar-btn"
+                >
                     <LC.Icon type="file-text" /> Create Invoice
-                </BS.Button>
+                </BS.NavItem>
             </BS.Nav>
             <BS.Row>
                 <SC.CustomerProjectFinder name='code' ref="prjfinder"

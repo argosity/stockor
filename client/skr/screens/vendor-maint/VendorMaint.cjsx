@@ -19,10 +19,10 @@ class Skr.Screens.VendorMaint extends Lanes.React.Screen
         <LC.ScreenWrapper identifier="vendor-maint">
             <SC.ScreenControls commands={@state.commands} />
             <BS.Row>
-                <SC.VendorFinder model={@vendor} sm=4 editOnly autofocus
-                    syncOptions={@syncOptions}
-                    model={@vendor} name='code'
-                    commands={@state.commands}  />
+                <SC.VendorFinder model={@vendor} sm=4 editOnly autoFocus
+                    syncOptions={@syncOptions} model={@vendor} name='code'
+                    commands={@state.commands}
+                />
                 <LC.Input sm=8 name="name" model={@vendor} />
             </BS.Row>
             <BS.Row>
