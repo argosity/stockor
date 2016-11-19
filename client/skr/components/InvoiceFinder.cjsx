@@ -32,7 +32,7 @@ class Skr.Components.InvoiceFinder extends Lanes.React.Component
 
     render: ->
         <LC.RecordFinder ref="finder" sm=2
-            name='customer'
+            name='customer' inputType="number"
             {...@props}
             query={@query}
         />

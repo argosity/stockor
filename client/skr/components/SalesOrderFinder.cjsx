@@ -33,6 +33,6 @@ class Skr.Components.SalesOrderFinder extends Lanes.React.Component
 
     render: ->
         <LC.RecordFinder ref="finder" sm=2
-            {...@props}
+            {...@props} inputType="number"
             query={@query}
         />
