@@ -85,7 +85,7 @@ module Skr
         # Set the default values for the Sku if they are not present
         def set_defaults
             if self.default_vendor.blank? && self.sku_vendors.any?
-                self.default_vendor = self.sku_vendors.at(0).vendor
+                self.default_vendor = self.sku_vendors.first.vendor
             end
             self.uoms << Uom.ea if self.uoms.empty?
 
