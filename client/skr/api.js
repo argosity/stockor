@@ -1,18 +1,15 @@
 //=require lanes/remote/api
-//=require ./api/namespace
 //=require skr/vendor
 //=require skr/lib/Remote
-//=require ./api/Models/Base
-//=require_tree ./models/mixins
-//=require ./api/Components/Base
-//=require ./api/Components/Base
-//=require_tree ./api
+//=require ./api/all
+
 //=require_self
 
-Skr.lib.Remote.configFromScriptTag()
 
 var previousSkr = window.Skr;
 window.Skr = Lanes.Skr;
+
+Skr.lib.Remote.configFromScriptTag();
 
 window.Skr._lanes = window.Lanes.noConflict();
 
