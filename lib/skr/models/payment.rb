@@ -29,6 +29,10 @@ module Skr
 
         after_save :apply_transaction
 
+        scope :outgoing, lambda { | * |
+            where(invoice_id: nil)
+        }, :export=>true
+
         def latex_template_variables
             { 'position' => :absolute }
         end

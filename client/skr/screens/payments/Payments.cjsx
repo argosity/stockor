@@ -2,6 +2,7 @@ class Skr.Screens.Payments extends Skr.Screens.Base
 
     syncOptions:
         include: [ 'address', 'bank_account', 'category', 'vendor' ]
+        with: 'outgoing'
 
     modelBindings:
         payment: ->
