@@ -26,7 +26,7 @@ class ExpenseAssets extends Lanes.Models.AssociationCollection
         @each (asset) -> asset.save()
 
     _prepareModel: (attrs, options) ->
-        attrs.parent || = @
+        attrs.parent ||= @
         attrs.parent_association = @options.association_name
         super
 
