@@ -7,6 +7,7 @@ readLoadUrl = (matchRegex) ->
     unless Lanes.config.api_host
         console.error("Unable to find script tag that Stockor was loaded from")
 
+Skr.lib ||= {}
 
 Skr.lib.Remote = {
 

@@ -1,4 +1,9 @@
+##= require '../components/CreditCardForm'
+
 class OrderingForm extends Skr.Api.Components.Base
+
+    propTypes:
+        skuCode: React.PropTypes.string
 
     modelBindings:
         sale: 'props'
@@ -21,22 +26,26 @@ class OrderingForm extends Skr.Api.Components.Base
             'is-complete': @state.isSaveComplete
         })
         <div className={classNames}>
-            <Skr.Api.Components.SaleHistory />
+            <Skr.Api.Components.SaleHistory withSkuCode={@props.skuCode} />
+
             <div className="mask">
                 <div className="msg">
                     <i /> <span>Submitting&#8230;</span>
                 </div>
             </div>
+
             <div className="section">
                 <Skr.Api.Components.SingleItemCart cart={@props.cart} />
             </div>
+
             {<div className="errors">{@sale.errorMessage}</div> if @sale.errorMessage}
+
             <div className="section">
                 <Skr.Api.Components.AddressForm address={@sale.billing_address} />
             </div>
-            <div className="section">
-                <Skr.Components.CreditCardForm card={@sale.credit_card } />
-            </div>
+
+            <Skr.Components.CreditCardForm card={@sale.credit_card } />
+
             <button className="purchase" onClick={@onPurchase}>Purchase</button>
         </div>
 
@@ -70,6 +79,7 @@ class Skr.SingleItemCheckout extends Skr.Api.Components.Base
                     _.pick(options, 'sale_options', 'skuCode', 'customer')
                 pubSubDisabled: true
                 rootComponent: @
+                useHistory: false
             }))
 
     getInitialState: ->
@@ -95,5 +105,10 @@ class Skr.SingleItemCheckout extends Skr.Api.Components.Base
 
         Component = if @state.showingOrder then OrderingForm else OrderingComplete
         <div className="skr-simple-checkout">
-            <Component sale={@sale} cart={@cart} onComplete={@onTypeSwitch} />
+            <Component
+                skuCode={@props.skuCode}
+                sale={@sale}
+                cart={@cart}
+                onComplete={@onTypeSwitch}
+            />
         </div>

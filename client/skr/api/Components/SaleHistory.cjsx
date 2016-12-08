@@ -1,7 +1,12 @@
 class Skr.Api.Components.SaleHistory extends Skr.Api.Components.Base
 
+    propTypes:
+        withSkuCode: React.PropTypes.string
+
     componentWillMount: ->
-        @setState(orders: Skr.Api.Models.SalesHistory.get())
+        @setState(orders: Skr.Api.Models.SalesHistory.get(
+            @props.withSkuCode
+        ))
 
     render: ->
         return null if _.isEmpty( @state.orders )

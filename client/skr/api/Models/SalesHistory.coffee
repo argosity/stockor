@@ -10,7 +10,7 @@ Skr.Api.Models.SalesHistory = {
         sales.push(@_encode(sale))
         localStorage.setItem(KEY, JSON.stringify({sales}) )
 
-    get: ->
+    get: (skuCode) ->
         sales = JSON.parse(localStorage.getItem(KEY))?.sales
         _.map sales, (sale) -> new Skr.Api.Models.Sale(sale)
 
