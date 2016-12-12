@@ -56,8 +56,8 @@ class Skr.Screens.Invoice extends Skr.Screens.Base
 
                 <SC.TermsChooser model={@invoice} sm=3 xs=6 />
 
-                <LC.DisplayValue sm=2 xs=4
-                    name='state' model={@invoice} />
+                <LC.DisplayValue sm=2 xs=4 label='State'
+                    name='state_name' model={@invoice} />
             </BS.Row>
             <BS.Row>
                 <LC.Input name='po_num' model={@invoice} sm=3 xs=6 />

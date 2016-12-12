@@ -38,6 +38,8 @@ class Skr.Models.Invoice extends Skr.Models.Base
         prev_amount_paid: deps:['updated_at'], fn: -> @amount_paid
         open_amount: deps: ['total', 'amount_paid'], fn: ->
             @total.minus(@amount_paid)
+        state_name: deps: ['state'], fn: ->
+            _.titleize(@state)
         total: deps: ['invoice_total'], fn: ->
             @invoice_total or @lines.reduce( (t, l) ->
                 t.plus(l.total)
@@ -61,7 +63,7 @@ class Skr.Models.Invoice extends Skr.Models.Base
         pick_ticket:      { model: "PickTicket",  readOnly:true }
         lines:            { collection: "InvLine", inverse: 'invoice'  }
         gl_transactions:  { collection: "GlTransaction", readOnly:true }
-        payments:         { collection: "Payment", inverse: 'invoice' }
+        payments:         { collection: "Payment", inverse: 'invoice'  }
 
     events:
         'change:customer': 'onSetCustomer'
