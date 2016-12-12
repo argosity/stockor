@@ -19,17 +19,19 @@ class Skr.Components.CreditCardForm extends Lanes.React.Component
         <div className="credit-card-form section">
             <div className='preview'></div>
 
-            <form  className="credit-card section">
-                <input {...fieldProps}
-                    value={@card.number || ''}
-                    placeholder="Card number" name="number" />
-                <input {...fieldProps} value={@card.name || ''}
-                    placeholder="Full name" name="name" />
+            <form  className="credit-card-inputs section">
                 <div className="row">
                     <input {...fieldProps}
-                        value={@card.expiry} placeholder="MM/YY" name="expiry" />
+                        value={@card.number || ''}
+                        placeholder="Card number" name="number" />
+                    <input {...fieldProps} value={@card.name or ''}
+                        placeholder="Full name" name="name" />
+                </div>
+                <div className="row">
                     <input {...fieldProps}
-                        value={@card.cvc} placeholder="CVC" name="cvc" />
+                        value={@card.expiry || ''} placeholder="MM/YY" name="expiry" />
+                    <input {...fieldProps}
+                        value={@card.cvc || ''} placeholder="CVC" name="cvc" />
                 </div>
             </form>
         </div>

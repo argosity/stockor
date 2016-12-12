@@ -1,11 +1,14 @@
 class Skr.Models.CreditCard extends Skr.Models.Base
 
     props:
-        name:   'string'
-        number: 'string'
-        month:  'integer'
-        year:   'integer'
-        cvc:    'integer'
+        name:   {type: 'string' }
+        number: {type: 'string' }
+        month:  {type: 'integer'}
+        year:   {type: 'integer'}
+        cvc:    {type: 'integer'}
+
+    associations:
+        payment: { model: "Payment", readOnly: true}
 
     session:
         parent: 'object'
@@ -30,6 +33,7 @@ class Skr.Models.CreditCard extends Skr.Models.Base
         'change:name': 'onNameChange'
 
     initialize: ->
+        @name ||= @payment.name if @payment.name
         @listenTo(@linkToAddress, 'change:name', @onAddressNameChange) if @linkToAddress
 
     onAddressNameChange: ->
@@ -46,4 +50,5 @@ class Skr.Models.CreditCard extends Skr.Models.Base
         attrs = super
         # ActiveMerchant uses 'verification_value'
         attrs.verification_value = attrs.cvc
+        delete attrs.cvc
         attrs

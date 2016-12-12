@@ -1,0 +1,17 @@
+.credit-card-form {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+    .credit-card-inputs {
+        input + input {
+            margin-left: 1rem;
+        }
+        .row + .row {
+            margin-top: 1rem;
+        }
+    }
+
+
+
+}
