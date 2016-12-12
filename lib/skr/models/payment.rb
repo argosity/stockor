@@ -17,6 +17,7 @@ module Skr
         belongs_to :location,     class_name: 'Skr::Location',        export: true
 
         validates :name, :amount, :bank_account, presence: true
+        validate  :gl_sources_are_present
 
         attr_accessor :credit_card
         whitelist_attributes :credit_card
@@ -49,14 +50,24 @@ module Skr
 
         def attempt_charging_provided_card
             return unless credit_card.present?
-
             card = ActiveMerchant::Billing::CreditCard.new(credit_card)
             gw = Skr::MerchantGateway.get
-            resp = gw.purchase(amount, card)
+            resp = gw.purchase(amount, card,
+                               invoice: invoice.visible_id,
+                               customer: invoice.customer.code,
+                               description: invoice.notes,
+                               billing_address: invoice.billing_address.to_merchant_format,
+                               shipping_address:invoice.shipping_address.to_merchant_format )
             if resp.success?
                 metadata['authorization'] = resp.authorization
             else
                 errors.add(:credit_card, "purchase failed: #{resp.message}")
+            end
+        end
+
+        def gl_sources_are_present
+            unless bank_account and (vendor || invoice || category)
+                errors.add(:base, "Must have a bank account and be attached to a vendor, invoice or category")
             end
         end
 
