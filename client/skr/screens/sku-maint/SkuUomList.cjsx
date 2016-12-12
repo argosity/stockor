@@ -87,10 +87,10 @@ class EditBody extends Lanes.React.Component
 
     render: ->
         <BS.Accordion>
-            <div className="sku-uom-edit">
+            <BS.Panel className="sku-uom-edit">
                 {@props.uoms.map (uom) =>
                     <UomEdit key={uom.cid} list={@props.uoms} uom={uom} />}
-            </div>
+            </BS.Panel>
         </BS.Accordion>
 
 class UOMToken extends Lanes.React.BaseComponent
@@ -146,19 +146,18 @@ class Skr.Screens.SkuMaint.SkuUomList extends Lanes.React.Component
             ref="popover"
             className='sm'
             id='sku-edit-uoms'
-            title={header} placement='left'>
-
-                <div className={'clearfix'}>
-                    <EditBody ref='body' uoms={@state.editing} selected={@state.selected} />
-                    <div className='pull-right'>
-                        <BS.Button onClick={@onCancel}>
-                            Cancel
-                        </BS.Button>
-                        <BS.Button style={marginLeft: 10} bsStyle='primary' onClick={@onOk}>
-                            OK
-                        </BS.Button>
-                    </div>
-                </div>
+            className='sku-uoms-editing'
+            title={header} placement='left'
+        >
+            <EditBody ref='body' uoms={@state.editing} selected={@state.selected} />
+            <div className="panel-footer">
+                <BS.Button onClick={@onCancel}>
+                    Cancel
+                </BS.Button>
+                <BS.Button style={marginLeft: 10} bsStyle='primary' onClick={@onOk}>
+                    OK
+                </BS.Button>
+            </div>
         </BS.Popover>
 
     renderDisplay: ->
@@ -183,7 +182,7 @@ class Skr.Screens.SkuMaint.SkuUomList extends Lanes.React.Component
                     rootClose
                     arrowOffsetTop={'130px'}
                     container={@}
-                    show={@state.editing}
+
                     onExit={@onCancel}
                     placement="left"
                     overlay={@renderEditingPopup()}>

@@ -31,7 +31,13 @@ class Skr.Screens.SkuMaint extends Skr.Screens.Base
                 <SC.GlAccountChooser sm=3 label="Asset Account"
                     name="gl_asset_account" model={@sku} />
 
-                <Skr.Screens.SkuMaint.SkuUomList label={"UOMs"} model={@sku} name='uoms' sm=4 />
+                <Skr.Screens.SkuMaint.SkuUomList
+                    label={"UOMs"}
+                    model={@sku}
+                    name='uoms'
+                    sm=4
+                />
+
             </BS.Row>
             <BS.Row>
                 <LC.ToggleField sm=2

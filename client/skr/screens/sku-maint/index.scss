@@ -49,11 +49,17 @@
             }
         }
     }
-    .popover {
+    .sku-uoms-editing {
+        padding: 0;
         max-width: inherit;
-    }
-    .sku-uom-edit {
-        width: 320px;
+        .popover-content {
+            padding: 0;
+        }
+        .sku-uom-edit {
+            border: 0;
+            width: 400px;
+        }
+        .panel-footer { text-align: right; }
     }
 
 }
