@@ -12,7 +12,7 @@
 
 \begin{tabu} to \textwidth{X[-1,m,l]X[0,m,c]r}
 <% if (logo = @invoice.location.get_logo).present? -%>
-\includegraphics[align=t,height=14mm,keepaspectratio]{<%= logo.file.path %>}
+\includegraphics[align=t,height=14mm,keepaspectratio]{<%= logo.file[:original].download.path %>}
 <% end -%> &
   {\bf \LARGE <%=q @invoice.location.address.name %>}
 
