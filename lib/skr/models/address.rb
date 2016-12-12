@@ -92,6 +92,15 @@ module Skr
             ret
         end
 
+        def only_address_fields
+            as_json(except: ['id', 'created_by_id', 'created_at', 'updated_by_id', 'updated_at'])
+        end
+
+        def to_merchant_format
+            fields = only_address_fields
+            fields['zip'] = fields.delete('postal_code')
+            fields.symbolize_keys
+        end
 
     end
 
