@@ -3,9 +3,11 @@
 class Skr.Screens.Invoice.Payment extends Lanes.React.Component
 
     statics:
-        onPayment: (modal, ev) ->
-            {invoice, payment} = modal.refs.body
+        onPayment: (invoice, modal, ev) ->
+            modal.setBusy('Charging Card')
+            payment = _.first invoice.payments.unSaved()
             payment.save(include: 'invoice').then (pymnt) ->
+                modal.setBusy(false)
                 invoice.amount_paid = invoice.amount_paid.minus(pymnt.amount)
                 modal.hide() unless pymnt.hasErrors
 
@@ -13,10 +15,11 @@ class Skr.Screens.Invoice.Payment extends Lanes.React.Component
             viewport.displayModal
                 title: "Accept Payment", size: 'lg',
                 onCancel: (m) ->
-                    unsaved = invoice.payments.filter (pymnt) -> not pymnt.isNew()
+                    unsaved = invoice.payments.unSaved()
                     invoice.payments.remove(unsaved)
                     m.hide()
-                onOk: @onPayment, className: "invoice-payment"
+                onOk: _.partial(@onPayment, invoice),
+                className: "invoice-payment"
                 invoice: invoice
                 body: Skr.Screens.Invoice.Payment
 
@@ -26,11 +29,11 @@ class Skr.Screens.Invoice.Payment extends Lanes.React.Component
     modelBindings:
         invoice: 'props'
         payment: ->
-            payment = @props.invoice.payments.find (pymnt) -> pymnt.isNew()
-            payment ||= this.props.invoice.payments.add({
-                amount: @props.invoice.open_amount
-            })
-            payment
+            _.first(@props.invoice.payments.unSaved()) || (
+                this.props.invoice.payments.add({
+                    name: @props.invoice.billing_address.name
+                    amount: @props.invoice.open_amount })
+            )
 
     onEnter: -> @props.modal.onButton()
 
@@ -82,7 +85,7 @@ class Skr.Screens.Invoice.Payment extends Lanes.React.Component
 
             <BS.Row>
                 {<Skr.Components.CreditCardForm
-                    card={@payment.credit_card } /> if @state.type is 'credit-card'}
+                    card={@payment.credit_card} /> if @state.type is 'credit-card'}
             </BS.Row>
 
             <LC.ErrorDisplay model={@payment} />
@@ -96,7 +99,7 @@ class Skr.Screens.Invoice.Payment extends Lanes.React.Component
                     Lanes.u.format.currency(@amount_paid)
                 } model={invoice} align='right' />
 
-                <LC.NumberInput label='Amount' editOnly autoFocus getValue={->
+                <LC.NumberInput label='Amount' editOnly getValue={->
                     Lanes.u.format.currency(@amount)
                 } onEnter={@onEnter} name='amount' align='right' model={@payment} />
             </BS.Row>
