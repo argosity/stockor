@@ -4,6 +4,10 @@ class OrderingForm extends Skr.Api.Components.Base
 
     propTypes:
         skuCode: React.PropTypes.string
+        address_fields: React.PropTypes.shape(
+            required: React.PropTypes.arrayOf(React.PropTypes.string)
+            display:  React.PropTypes.arrayOf(React.PropTypes.string)
+        )
 
     modelBindings:
         sale: 'props'
@@ -21,6 +25,7 @@ class OrderingForm extends Skr.Api.Components.Base
             , 1100
 
     render: ->
+        console.log @props
         classNames = _.classnames( 'order', {
             'is-saving': @state.isSaving,
             'is-complete': @state.isSaveComplete
@@ -41,12 +46,15 @@ class OrderingForm extends Skr.Api.Components.Base
             {<div className="errors">{@sale.errorMessage}</div> if @sale.errorMessage}
 
             <div className="section">
-                <Skr.Api.Components.AddressForm address={@sale.billing_address} />
+                <Skr.Api.Components.AddressForm
+                    fields={@props.address_fields}
+                    address={@sale.billing_address} />
             </div>
 
             <Skr.Components.CreditCardForm card={@sale.credit_card } />
-
-            <button className="purchase" onClick={@onPurchase}>Purchase</button>
+            <div className="purchase">
+                <button onClick={@onPurchase}>Purchase</button>
+            </div>
         </div>
 
 class OrderingComplete extends Skr.Api.Components.Base
@@ -101,11 +109,13 @@ class Skr.SingleItemCheckout extends Skr.Api.Components.Base
         @setState(showingOrder: not @state.showingOrder)
 
     render: ->
+
         return <ErrorFetching skuCode={@props.skuCode} /> if @state.errorFetching
 
         Component = if @state.showingOrder then OrderingForm else OrderingComplete
         <div className="skr-simple-checkout">
             <Component
+                address_fields={@props.sale_options?.address_fields}
                 skuCode={@props.skuCode}
                 sale={@sale}
                 cart={@cart}
