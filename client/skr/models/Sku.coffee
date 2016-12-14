@@ -10,6 +10,7 @@ class Skr.Models.Sku extends Skr.Models.Base
         default_uom_code:    {type:"string"}
         code:                {type:"code",   required:true}
         description:         {type:"string", required:true}
+        is_public:           {type:"boolean", default:false}
         is_other_charge:     {type:"boolean", default:false}
         does_track_inventory:{type:"boolean", default:false}
         can_backorder:       {type:"boolean", default:false}
