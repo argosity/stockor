@@ -1,7 +1,5 @@
 .skr-simple-checkout {
-    width: 100%;
-    max-width: 350px;
-    margin: 50px auto;
+    margin: 50px 100px;
     .section {
         margin-top: 2rem;
         padding-top: 2rem;
@@ -19,10 +17,34 @@
         border: 1px solid darken(#FFBABA, 50%);
     }
     .address {
+
+        .required {
+            span:after {
+                content: '*';
+                position: absolute;
+                right: 5px;
+                top: -10px;
+                color: red;
+                font-size: 30px;
+            }
+        }
+        .fields {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
         label {
             display: flex;
-            justify-content: flex-end;
-            span { margin-right: 1rem; }
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 10px;
+            span {
+                position: relative;
+                text-align: center;
+                width: 80px;
+            }
             input { width: 200px; }
         }
     }
@@ -36,31 +58,21 @@
             text-align: center;
         }
     }
-    .credit-card {
-        .row {
-            display: flex;
-            align-items: stretch;
-            height: 30px;
-            margin: 10px auto;
-        }
-        input {
-            flex: 1;
-            width: 100%;
-            &[name='expiry'], &[name='cvc'] {
-                flex: 0.5;
-            }
-            &.jp-card-invalid {
-                border: 1px solid red;
-            }
+    .credit-card-form {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        flex-wrap: wrap;
+        .credit-card-inputs {
+            margin-top: 0;
+            padding-top: 0;
+            border-top: 0;
+            input { margin: 5px; }
         }
     }
     button {
         border: 0;
         background: #3498db;
-        background-image: -webkit-linear-gradient(top, #3498db, #2980b9);
-        background-image: -moz-linear-gradient(top, #3498db, #2980b9);
-        background-image: -ms-linear-gradient(top, #3498db, #2980b9);
-        background-image: -o-linear-gradient(top, #3498db, #2980b9);
         background-image: linear-gradient(to bottom, #3498db, #2980b9);
         font-family: Arial;
         color: #f0edf0;
@@ -69,10 +81,6 @@
         text-decoration: none;
         &:hover {
             background: #3cb0fd;
-            background-image: -webkit-linear-gradient(top, #3cb0fd, #3498db);
-            background-image: -moz-linear-gradient(top, #3cb0fd, #3498db);
-            background-image: -ms-linear-gradient(top, #3cb0fd, #3498db);
-            background-image: -o-linear-gradient(top, #3cb0fd, #3498db);
             background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
             text-decoration: none;
         }
@@ -144,5 +152,12 @@
             100% { transform: rotate(360deg); }
         }
 
+        .purchase {
+            margin-top: 2rem;
+            text-align: center;
+        }
+
     }
+
+
 }
