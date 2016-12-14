@@ -68,6 +68,7 @@ class UomEdit extends Lanes.React.Component
                 <LC.NumberInput type="number" label='Size' name='size' format='#,###'
                     model={@props.uom} xs=3 />
                 <LC.NumberInput type="text"  label='Price' name='price'
+                    align='right' onEnter={@props.onSave}
                     model={@props.uom} xs=5 />
             </BS.Row>
         </BS.Panel>
@@ -89,7 +90,8 @@ class EditBody extends Lanes.React.Component
         <BS.Accordion>
             <BS.Panel className="sku-uom-edit">
                 {@props.uoms.map (uom) =>
-                    <UomEdit key={uom.cid} list={@props.uoms} uom={uom} />}
+                    <UomEdit onSave={@props.onSave}
+                        key={uom.cid} list={@props.uoms} uom={uom} />}
             </BS.Panel>
         </BS.Accordion>
 
@@ -147,9 +149,13 @@ class Skr.Screens.SkuMaint.SkuUomList extends Lanes.React.Component
             className='sm'
             id='sku-edit-uoms'
             className='sku-uoms-editing'
-            title={header} placement='left'
+            placement='left'
+            title={header}
         >
-            <EditBody ref='body' uoms={@state.editing} selected={@state.selected} />
+            <EditBody ref='body'
+                onSave={@onOk}
+                uoms={@state.editing} selected={@state.selected}
+            />
             <div className="panel-footer">
                 <BS.Button onClick={@onCancel}>
                     Cancel
