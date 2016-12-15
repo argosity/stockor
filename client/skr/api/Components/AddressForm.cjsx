@@ -51,7 +51,7 @@ class Skr.Api.Components.AddressForm extends Skr.Api.Components.Base
             address: @address, onChange: @setField
         }, @props)
 
-        <div className="address">
+        <div className="address-form">
             <div className="fields">
                 <Field name='name' {...fieldProps} />
                 <Field name='phone' {...fieldProps} />

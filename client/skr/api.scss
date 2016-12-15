@@ -1,11 +1,12 @@
 .skr-simple-checkout {
+    @import "./api/Components/address_form";
+
     margin: 50px 100px;
     .section {
         margin-top: 2rem;
         padding-top: 2rem;
         border-top: 2px solid grey;
     }
-    form { }
 
     input {
         font-size: 18px;
@@ -15,38 +16,6 @@
         color: #D8000C;
         background-color: #FFBABA;
         border: 1px solid darken(#FFBABA, 50%);
-    }
-    .address {
-
-        .required {
-            span:after {
-                content: '*';
-                position: absolute;
-                right: 5px;
-                top: -10px;
-                color: red;
-                font-size: 30px;
-            }
-        }
-        .fields {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-        label {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-top: 10px;
-            span {
-                position: relative;
-                text-align: center;
-                width: 80px;
-            }
-            input { width: 200px; }
-        }
     }
     .cart {
         width: 100%;
@@ -158,6 +127,5 @@
         }
 
     }
-
 
 }

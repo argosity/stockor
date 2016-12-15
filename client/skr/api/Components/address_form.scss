@@ -1,0 +1,51 @@
+.address-form {
+
+    .fields {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        .field {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 10px;
+            width: 200px;
+            &.line1,
+            &.line2 {
+                width: 100%;
+            }
+            &.required {
+                .title:after {
+                    content: '*';
+                    position: absolute;
+                    right: -10px;
+                    top: -10px;
+                    color: red;
+                    font-size: 30px;
+                }
+            }
+            &.is-invalid {
+                input {
+                    border: 1px solid #a94442;
+                }
+            }
+            .invalid-msg {
+                font-size: 0.8rem;
+                height: 1.2rem;
+                color: #a94442;
+            }
+            .title {
+                position: relative;
+                text-align: center;
+                align-self: flex-start;
+            }
+            input {
+                width: 100%;
+                border: 1px solid #3f3f3f;
+            }
+        }
+    }
+}
