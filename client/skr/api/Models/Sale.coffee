@@ -10,7 +10,6 @@ class SaleSku extends Lanes.Models.State
 
 class Skr.Api.Models.Sale extends Skr.Api.Models.Base
 
-
     props:
         address_id:  'integer'
         id:          'integer'
@@ -21,6 +20,9 @@ class Skr.Api.Models.Sale extends Skr.Api.Models.Base
         total:       'bigdec'
         form:        'string'
         options:     'object'
+
+    session:
+        address_fields: 'object'
 
     mixins: [ Lanes.Skr.Models.Mixins.PrintSupport ]
 
@@ -41,3 +43,20 @@ class Skr.Api.Models.Sale extends Skr.Api.Models.Base
 
     save: ->
         super(with: 'details')
+
+    validate: ->
+        return true unless @address_fields?.require
+        @errors = []
+        if @address_fields
+            for field in @address_fields.require
+                @errors.push(field) unless @billing_address[field]
+        if @errors.length is 0
+            @error_message = ''
+            return true
+
+        @error_message = "The required field "
+        @error_message += if @errors.length == 1
+            "#{@errors[0]} is blank"
+        else
+            "s: #{_.toSentence(@errors)} are blank"
+        false

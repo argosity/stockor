@@ -15,6 +15,7 @@ class OrderingForm extends Skr.Api.Components.Base
     onPurchase: (ev) ->
         ev.preventDefault()
         @sale.copySkusFromCart(@props.cart)
+        return unless @sale.validate()
         @setState(isSaving: true, isSaveComplete: false)
         @sale.save().then (a, b) =>
             @setState(isSaveComplete: true)
@@ -50,7 +51,9 @@ class OrderingForm extends Skr.Api.Components.Base
                     fields={@props.address_fields}
                     address={@sale.billing_address} />
             </div>
-
+            <div className="alert alert-error">
+                {@sale.error_message}
+            </div>
             <Skr.Components.CreditCardForm card={@sale.credit_card } />
             <div className="purchase">
                 <button onClick={@onPurchase}>Purchase</button>

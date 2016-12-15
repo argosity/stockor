@@ -1,5 +1,8 @@
-class Skr.Models.Address extends Skr.Models.Base
+CHECKS =
+    phone: /^[0-9()\-,\.]+$/
+    email: /(.+)@(.+){2,}\.(.+){2,}/
 
+class Skr.Models.Address extends Skr.Models.Base
 
     props:
         id:         {type:"integer"}
@@ -21,6 +24,12 @@ class Skr.Models.Address extends Skr.Models.Base
     clonedAttributes: ->
         _.omit @serialize(), 'id'
 
+    invalidMessageFor: (attr) ->
+        invalidMsg = super(attr)
+        if !invalidMsg and CHECKS[attr] and @shouldCheckFieldValidity(attr) and !CHECKS[attr].test(this[attr])
+            return "is not a valid #{attr}"
+        else
+            invalidMsg
 
     toString: ->
         line3 = _.compact([ @city, @state, @postal_code ]).join(' ')
