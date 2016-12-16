@@ -28,7 +28,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'lanes', '~> 0.6'
   spec.add_dependency 'numbers_in_words', '~> 0.4.0'
   spec.add_dependency 'ruby-freshbooks', '~> 0.4'
-  spec.add_dependency 'activemerchant', '~> 1.59'
+  spec.add_dependency 'activemerchant', '~> 1.62'
 
   spec.add_development_dependency "bundler", "~> 1.5"
   spec.add_development_dependency "rake"
