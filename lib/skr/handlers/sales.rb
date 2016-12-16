@@ -3,6 +3,15 @@ module Skr
     class Handlers::Sales < Lanes::API::ControllerBase
 
         def create
+            if data['credit_card']
+                card = ActiveMerchant::Billing::CreditCard.new(data['credit_card'])
+                card.validate
+                if card.errors.any?
+                    return std_api_reply(:create, {errors: card.errors}, success: false)
+                end
+            else
+                return std_api_reply(:create, {errors: {card: 'Unable to charge'}}, success: false)
+            end
 
             customer = if data['customer']
                            Skr::Customer.find_by_code(data['customer'])
@@ -16,12 +25,14 @@ module Skr
                     billing_address_attributes: data['billing_address']
                 )
             end
+            attrs = {customer: customer}
+            if data['billing_address']
+                attrs[:billing_address_attributes] = data['billing_address']
+            end
 
-            invoice = Skr::Invoice.new(
-                customer: customer,
-                billing_address_attributes: data['billing_address']
-            )
-            invoice.location = data['location'] ? Skr::Location.find_by_code(data['location']) :
+            invoice = Skr::Invoice.new(attrs)
+            invoice.location = data['location'] ?
+                                   Skr::Location.find_by_code(data['location']) :
                                    Skr::Location.default
             %w{form options}.each do | attr |
                 invoice[attr] = data[attr] if data[attr]

@@ -44,19 +44,17 @@ class Skr.Api.Models.Sale extends Skr.Api.Models.Base
     save: ->
         super(with: 'details')
 
-    validate: ->
-        return true unless @address_fields?.require
-        @errors = []
-        if @address_fields
-            for field in @address_fields.require
-                @errors.push(field) unless @billing_address[field]
-        if @errors.length is 0
-            @error_message = ''
-            return true
+    validateBeforeSave: ->
+        @billing_address.unmaskInvalidField('all')
+        @credit_card.unmaskInvalidField('all')
+        return true if @billing_address.isSavable and @credit_card.isSavable
 
-        @error_message = "The required field "
-        @error_message += if @errors.length == 1
-            "#{@errors[0]} is blank"
-        else
-            "s: #{_.toSentence(@errors)} are blank"
-        false
+        errors = {}
+        for attr in @billing_address.invalidAttributes
+            errors["address_#{attr}"] = "is not valid"
+        for attr in @credit_card.invalidAttributes
+            errors["card #{attr}"] = 'is not valid'
+
+        @errors = errors
+
+        return @errors.length is 0

@@ -12,21 +12,23 @@ class OrderingForm extends Skr.Api.Components.Base
     modelBindings:
         sale: 'props'
 
+    bindEvents:
+        sale: "all"
+
     onPurchase: (ev) ->
         ev.preventDefault()
         @sale.copySkusFromCart(@props.cart)
-        return unless @sale.validate()
+        return unless @sale.validateBeforeSave()
+
         @setState(isSaving: true, isSaveComplete: false)
         @sale.save().then (a, b) =>
             @setState(isSaveComplete: true)
             _.delay =>
                 @setState(isSaving: false)
-                @setState(isSaveComplete: false)
                 @props.onComplete() unless @sale.errors
             , 1100
 
     render: ->
-        console.log @props
         classNames = _.classnames( 'order', {
             'is-saving': @state.isSaving,
             'is-complete': @state.isSaveComplete
@@ -44,17 +46,17 @@ class OrderingForm extends Skr.Api.Components.Base
                 <Skr.Api.Components.SingleItemCart cart={@props.cart} />
             </div>
 
-            {<div className="errors">{@sale.errorMessage}</div> if @sale.errorMessage}
-
             <div className="section">
                 <Skr.Api.Components.AddressForm
                     fields={@props.address_fields}
                     address={@sale.billing_address} />
             </div>
-            <div className="alert alert-error">
-                {@sale.error_message}
-            </div>
             <Skr.Components.CreditCardForm card={@sale.credit_card } />
+            <div className={
+                _.classnames('errors', visible: @sale.hasErrors)
+            }>
+                {@sale.errorMessage}
+            </div>
             <div className="purchase">
                 <button onClick={@onPurchase}>Purchase</button>
             </div>

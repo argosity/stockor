@@ -1,11 +1,11 @@
 class Skr.Models.CreditCard extends Skr.Models.Base
 
     props:
-        name:   {type: 'string' }
-        number: {type: 'string' }
-        month:  {type: 'integer'}
-        year:   {type: 'integer'}
-        cvc:    {type: 'integer'}
+        name:   {type: 'string', required: true}
+        number: {type: 'string', required: true }
+        month:  {type: 'integer', required: true }
+        year:   {type: 'integer', required: true }
+        cvc:    {type: 'integer', required: true }
 
     associations:
         payment: { model: "Payment", readOnly: true}
@@ -26,7 +26,6 @@ class Skr.Models.CreditCard extends Skr.Models.Base
                     v.validateCardNumber(@number) and
                     v.validateCardExpiry(@month, @year) and
                     v.validateCardCVC(@cvc, @cardType)
-
 
     events:
         'change:expiry': 'onExpiryChange'

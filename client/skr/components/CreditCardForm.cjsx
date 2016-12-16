@@ -4,7 +4,7 @@ class Skr.Components.CreditCardForm extends Lanes.React.Component
         card: 'props'
 
     setField: (ev) ->
-        @card[ev.target.name] = ev.target.value
+        @card[ev.target.name] = ev.target.value if ev.target.value
 
     componentDidMount: ->
         @cardPreview ||= new Skr.Vendor.Card({
