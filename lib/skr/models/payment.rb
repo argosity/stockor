@@ -52,17 +52,27 @@ module Skr
             return unless credit_card.present?
             card = ActiveMerchant::Billing::CreditCard.new(credit_card)
             gw = Skr::MerchantGateway.get
-            resp = gw.purchase(amount, card,
-                               invoice: invoice.visible_id,
-                               customer: invoice.customer.code,
-                               description: invoice.notes,
-                               billing_address: invoice.billing_address.to_merchant_format,
-                               shipping_address:invoice.shipping_address.to_merchant_format )
+
+            resp = gw.purchase(amount, card, credit_card_charging_attrs)
             if resp.success?
-                metadata['authorization'] = resp.authorization
+                metadata['authorization']     = resp.authorization
+                metadata['processor_message'] = resp.message
             else
                 errors.add(:credit_card, "purchase failed: #{resp.message}")
             end
+        end
+
+        def credit_card_charging_attrs
+            attrs = {
+                invoice: invoice.visible_id,
+                customer: invoice.customer.code,
+                description: invoice.notes
+            }
+            attrs[:billing_address] = invoice.billing_address.to_merchant_format \
+                if invoice.billing_address
+            attrs[:shipping_address] = invoice.shipping_address.to_merchant_format  \
+                if invoice.shipping_address
+            attrs
         end
 
         def gl_sources_are_present
