@@ -26,7 +26,7 @@ module Skr
 
         has_additional_events :qty_change
 
-        before_validation :set_defaults_from_associations
+        before_validation :set_defaults
         before_create  :allocate_max_available
         before_destroy :ensure_deleteable
 
@@ -77,6 +77,22 @@ module Skr
             qty * price
         end
 
+
+        # Should only be called before saving, once all setting is done.
+        # Will be called in a :before_save, but may be called earlier if
+        # price or other calculated values are needed
+        def set_defaults
+            self.uom         = sku.uoms.default if self.uom_code.blank?
+            self.description = sku.description  if self.description.blank?
+            self.sku_code    = sku.code
+            if !price && sales_order && sales_order.customer && sku_loc && uom.present?
+                self.price = Skr.config.pricing_provider.price(
+                    sku_loc:sku_loc, customer:sales_order.customer, uom:uom, qty:qty
+                )
+            end
+            true
+        end
+
         private
 
         def update_qty_invoiced(inv = nil)
@@ -98,19 +114,6 @@ module Skr
             end
             super
         end
-
-        def set_defaults_from_associations
-            self.uom         = sku.uoms.default if self.uom_code.blank?
-            self.description = sku.description  if self.description.blank?
-            self.sku_code    = sku.code
-            if !price && sales_order && sales_order.customer && sku_loc && uom.present?
-                self.price = Skr.config.pricing_provider.price(
-                    sku_loc:sku_loc, customer:sales_order.customer, uom:uom, qty:qty
-                )
-            end
-            true
-        end
-
         def setup_new_inv_line( line )
             line.qty = self.sku.is_other_charge? ? self.qty : self.qty_allocated
             setup_new_line(line)

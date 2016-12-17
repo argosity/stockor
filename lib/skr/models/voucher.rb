@@ -67,35 +67,21 @@ module Skr
             self.refno = por.refno
         end
 
-        # def payment_line=(pl)
-        #     pl.refno = self.refno
-        #     pl.description = "Payment on PO #{self.visible_id}"
-        #     super
-        # end
-
-        # def description_for_gl_transaction(gl_tran)
-        # end
-
-        # def does_create_own_gl_records?
-        #     true
-        # end
-
-        private
-
-        def ensure_payment_line
-            payment_line.present?
-        end
-
+        # Should only be called before saving, once all setting is done.
+        # Will be called in a :before_save, but may be called earlier if
+        # terms or other calculated values are needed
         def set_defaults
-#            self.freight  ||= 0.0
             if self.purchase_order
                 self.vendor   = self.purchase_order.vendor
-                #self.location = self.purchase_order.location
                 self.terms  ||= self.purchase_order.terms
             end
         end
 
+      private
 
+        def ensure_payment_line
+            payment_line.present?
+        end
 
         def record_confirmation_in_gl
             self.confirmation_date ||= Date.today

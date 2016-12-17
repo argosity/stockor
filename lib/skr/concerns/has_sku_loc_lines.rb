@@ -11,11 +11,15 @@ module Skr
                     if total = self.read_attribute('total')
                         BigDecimal.new(total)
                     elsif self.new_record? || self.association(:lines).loaded?
-                        self.lines.inject( BigDecimal.new('0') ){|sum,line| sum += line.extended_price }
+                        self.lines.inject( BigDecimal.new('0') ){|sum,line|
+                            line.set_defaults
+                            sum += line.extended_price
+                        }
                     else
                         BigDecimal.new( self.lines.sum('price*qty') )
                     end
                 end
+
             end
 
             module ClassMethods

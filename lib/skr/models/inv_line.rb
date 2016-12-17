@@ -52,10 +52,10 @@ module Skr
             end
         end
 
-      private
-
+        # Should only be called before saving, once all setting is done.
+        # Will be called in a :before_save, but may be called earlier if
+        # price or other calculated values are needed
         def set_defaults
-#           puts "set_defaults #{self}"
             line = [ self.pt_line, self.so_line ].detect{ |l| ! l.blank? }
             if line
                 self.uom         = line.uom if self.uom.blank?
@@ -72,11 +72,14 @@ module Skr
             end
             if !price && invoice && invoice.customer && sku_loc && uom.present?
                 self.price = Skr.config.pricing_provider.price(
-                  sku_loc:sku_loc,  customer:invoice.customer,
-                  uom:uom, qty: qty )
+                    sku_loc:sku_loc,  customer:invoice.customer,
+                    uom:uom, qty: qty )
             end
+
             true
         end
+
+      private
 
         def perform_adjustments
             debit  = self.sku.gl_asset_account
