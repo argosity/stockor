@@ -1,2 +1,1 @@
 //= require ./namespace
-//= require ./Remote
