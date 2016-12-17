@@ -36,14 +36,16 @@ class Skr.Models.CreditCard extends Skr.Models.Base
         @listenTo(@linkToAddress, 'change:name', @onAddressNameChange) if @linkToAddress
 
     onAddressNameChange: ->
-        if @name is @linkToAddress.previousAttributes().name
+        if !@name || @name is @linkToAddress.previous('name')
             @name = @linkToAddress.name
 
     onNameChange: ->
         @parent.name = @name
 
     onExpiryChange: ->
-        [@month, @year] = @expiry.split(' / ')
+        [month, year] = @expiry.split(' / ')
+        @month = month if month
+        @year  = year  if year
 
     dataForSave: (options = {}) ->
         attrs = super
