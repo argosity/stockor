@@ -14,6 +14,20 @@ module Skr
 
     # Add more helper methods to be used by all tests here...
 
+    def with_stubbed_payment_proccessor(authorization: ,
+                                        success: authorization.present?,
+                                        message: success ? 'OK' : 'FAIL')
+        result = MiniTest::Mock.new
+        result.expect(:success?, success)
+        result.expect(:message, message)
+        result.expect(:authorization, authorization)
+        gw = MiniTest::Mock.new
+        gw.expect(:purchase, result, [ BigDecimal, ActiveMerchant::Billing::CreditCard, Hash])
+        Skr::MerchantGateway.stub( :get, gw ) do
+            yield
+        end
+    end
+
     class TestCase < Lanes::TestCase
         include Skr
     end
