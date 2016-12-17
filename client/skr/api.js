@@ -1,4 +1,4 @@
-//=require lanes/Remote/Bootstrap
+//=require lanes/remote/Bootstrap
 //=require_self
 
 window.Skr = (window.Skr || {});
