@@ -7,7 +7,6 @@ class SaleSku extends Lanes.Models.State
         sku_id: 'integer'
         qty:     'integer'
 
-
 class Skr.Api.Models.Sale extends Skr.Api.Models.Base
 
     props:
@@ -38,6 +37,7 @@ class Skr.Api.Models.Sale extends Skr.Api.Models.Base
         'invoice'
 
     copySkusFromCart: (cart) ->
+        @skus.reset()
         cart.skus.each (ci) =>
             @skus.add(sku_id: ci.sku.id, qty: ci.qty)
 
