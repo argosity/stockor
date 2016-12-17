@@ -1,0 +1,116 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://apitest.authorize.net/xml/v1/request.api
+    body:
+      encoding: UTF-8
+      string: |
+        <?xml version="1.0" encoding="UTF-8"?>
+        <createTransactionRequest xmlns="AnetApi/xml/v1/schema/AnetApiSchema.xsd">
+        <merchantAuthentication>
+        <name>testlogin</name>
+        <transactionKey>testpw</transactionKey>
+        </merchantAuthentication>
+        <refId/>
+        <transactionRequest>
+        <transactionType>authCaptureTransaction</transactionType>
+        <amount>0.42</amount>
+        <payment>
+        <creditCard>
+        <cardNumber>4111111111111111</cardNumber>
+        <expirationDate>08/2017</expirationDate>
+        <cardCode>000</cardCode>
+        </creditCard>
+        </payment>
+        <order>
+        <invoiceNumber/>
+        <description>Ship promptly in all organic packaging</description>
+        </order>
+        <customer/>
+        <billTo>
+        <firstName>Bob</firstName>
+        <lastName>Tester</lastName>
+        <address/>
+        <city>South Timmyville</city>
+        <state>WI</state>
+        <zip>38200</zip>
+        <country/>
+        <phoneNumber>379-772-4947 x945</phoneNumber>
+        </billTo>
+        <shipTo>
+        <firstName>Snow White and</firstName>
+        <lastName>Dwarfs</lastName>
+        <address/>
+        <city>East Coralietown</city>
+        <state>HI</state>
+        <zip>71157</zip>
+        <country/>
+        </shipTo>
+        <cardholderAuthentication>
+        <authenticationIndicator/>
+        <cardholderAuthenticationValue/>
+        </cardholderAuthentication>
+        <transactionSettings/>
+        <userFields>
+        <userField>
+        <name>x_currency_code</name>
+        <value>USD</value>
+        </userField>
+        </userFields>
+        </transactionRequest>
+        </createTransactionRequest>
+    headers:
+      Content-Type:
+      - text/xml
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - private
+      Content-Type:
+      - application/xml; charset=utf-8
+      Server:
+      - Microsoft-IIS/7.5
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - PUT,OPTIONS,POST,GET
+      Access-Control-Allow-Headers:
+      - x-requested-with,cache-control,content-type,origin,method,SOAPAction
+      X-Cnection:
+      - close
+      X-Aspnet-Version:
+      - 4.0.30319
+      X-Powered-By:
+      - ASP.NET
+      Content-Length:
+      - '441'
+      Date:
+      - Sat, 17 Dec 2016 16:44:27 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        77u/PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48Y3Jl
+        YXRlVHJhbnNhY3Rpb25SZXNwb25zZSB4bWxuczp4c2k9Imh0dHA6Ly93d3cu
+        dzMub3JnLzIwMDEvWE1MU2NoZW1hLWluc3RhbmNlIiB4bWxuczp4c2Q9Imh0
+        dHA6Ly93d3cudzMub3JnLzIwMDEvWE1MU2NoZW1hIiB4bWxucz0iQW5ldEFw
+        aS94bWwvdjEvc2NoZW1hL0FuZXRBcGlTY2hlbWEueHNkIj48cmVmSWQgLz48
+        bWVzc2FnZXM+PHJlc3VsdENvZGU+RXJyb3I8L3Jlc3VsdENvZGU+PG1lc3Nh
+        Z2U+PGNvZGU+RTAwMDA3PC9jb2RlPjx0ZXh0PlVzZXIgYXV0aGVudGljYXRp
+        b24gZmFpbGVkIGR1ZSB0byBpbnZhbGlkIGF1dGhlbnRpY2F0aW9uIHZhbHVl
+        cy48L3RleHQ+PC9tZXNzYWdlPjwvbWVzc2FnZXM+PHRyYW5zYWN0aW9uUmVz
+        cG9uc2UgLz48L2NyZWF0ZVRyYW5zYWN0aW9uUmVzcG9uc2U+
+    http_version: 
+  recorded_at: Sat, 17 Dec 2016 16:44:28 GMT
+recorded_with: VCR 3.0.3

@@ -7,6 +7,23 @@ class PaymentSpec < Skr::TestCase
     let (:category)     { skr_payment_category(:labor) }
     let (:bank_account) { skr_bank_account(:checking)  }
     let (:invoice)      { skr_invoice(:tiny)           }
+    let (:cc_authorization) { '123456789' }
+
+    def around
+        settings = Lanes::SystemSettings.for_ext('skr-ccgateway')
+        prev_gw_settings = settings['credit_card_gateway']
+        settings['credit_card_gateway'] = {
+            "type" =>"authorize_net_gateway", "login"=>"testlogin", "password"=>"testpw"
+        }
+        settings.persist!
+        # :all, :none, :new_episodes, :once
+        VCR.use_cassette(:payments, :record => :none) do
+            yield
+        end
+    ensure
+        settings['credit_card_gateway'] = prev_gw_settings
+        settings.persist!
+    end
 
     it "can be created" do
         assert Payment.create(
@@ -61,8 +78,12 @@ class PaymentSpec < Skr::TestCase
             'year'   => Time.now.year + 1,
             'verification_value' => '000'
         }
-        assert payment.save
-        assert_match(/\d+/, payment.metadata["authorization"])
+        refute payment.save # VCR cassete returns failure by default
+
+        with_stubbed_payment_proccessor(authorization: '123456789') do
+            assert payment.save
+        end
+        assert_equal('123456789', payment.metadata["authorization"])
     end
 
 end
