@@ -1,20 +1,27 @@
-//=require lanes/remote/api
-//=require skr/vendor
-//=require skr/lib/Remote
-//=require ./api/all
-
+//=require lanes/Remote/Bootstrap
 //=require_self
 
+window.Skr = (window.Skr || {});
+window.Skr.loading = Lanes.Remote.Bootstrap({
+    srcTag: 'skr/api.js',
+    scripts: {
+        js:  'skr/api/full.js',
+        css: 'skr/api/full.css'
+    }
+});
 
-var previousSkr = window.Skr;
-window.Skr = Lanes.Skr;
 
-Skr.lib.Remote.configFromScriptTag();
+window.Skr.loading.onComplete(function(){
+    var previousSkr = window.Skr;
+    var loading = window.Skr.loading;
+    window.Skr = Lanes.Skr;
+    window.Skr.loading = loading;
 
-window.Skr._lanes = window.Lanes.noConflict();
+    window.Skr._lanes = window.Lanes.noConflict();
 
-Skr.noConflict = function(){
-    var Skr = window.Skr;
-    window.Skr = previousSkr;
-    return Skr;
-};
+    Skr.noConflict = function(){
+        var Skr = window.Skr;
+        window.Skr = previousSkr;
+        return Skr;
+    };
+});
