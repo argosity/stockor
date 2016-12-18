@@ -11,15 +11,20 @@ class Skr.Api.OrderingComplete extends Skr.Api.Components.Base
     modelBindings:
         sale: 'props'
 
-    render: ->
+    formName: ->
+        @props.options?.messages?.form_name || 'Receipt'
 
+    render: ->
         <div className="order-complete">
-            <Skr.Api.Components.SaleHistory />
-            <h3>Order number {@sale.visible_id} was successfully saved</h3>
-            <a target='_blank' href={@sale.pdfDownloadUrl()}>
-                {@props.options.messages?.receipt_download_message || 'Download Receipt'}
-            </a>
-            <div>
-                <button onClick={@props.onComplete}>Place new order</button>
+            <h2 className="title">
+                Order number {@sale.visible_id} was successfully saved
+            </h2>
+            <div className="controls section">
+                <button onClick={@props.onComplete}>
+                    Place new order
+                </button>
+                <a class="btn" target='_blank' className="btn" href={@sale.pdfDownloadUrl()}>
+                    Download {@formName()}
+                </a>
             </div>
         </div>
