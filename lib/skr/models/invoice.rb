@@ -27,7 +27,7 @@ module Skr
     class Invoice < Skr::Model
 
         has_visible_id
-        has_random_hash_code
+        has_random_hash_code for_pdf_download: true
         has_gl_transaction
         is_order_like
 
