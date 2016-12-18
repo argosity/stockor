@@ -17,10 +17,9 @@ class Skr.Api.Models.Sale extends Skr.Api.Models.Base
         customer_id: 'integer'
         hash_code:   'string'
         total:       'bigdec'
-        form:        'string'
         options:     'object'
         email:       'object'
-        printout:    'object'
+        pdf:         'object'
 
     session:
         address_fields: 'object'

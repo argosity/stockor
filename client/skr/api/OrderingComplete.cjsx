@@ -1,9 +1,7 @@
 class Skr.Api.OrderingComplete extends Skr.Api.Components.Base
 
     propTypes:
-        options: React.PropTypes.shape(
-            messages: React.PropTypes.object
-        )
+        options: React.PropTypes.object
 
     getDefaultProps: ->
         options: {}
@@ -12,7 +10,7 @@ class Skr.Api.OrderingComplete extends Skr.Api.Components.Base
         sale: 'props'
 
     formName: ->
-        @props.options?.messages?.form_name || 'Receipt'
+        @props.options?.pdf?.name || 'Receipt'
 
     render: ->
         <div className="order-complete">

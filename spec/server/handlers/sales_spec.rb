@@ -21,9 +21,11 @@ class SalesSpec < Skr::ApiTestCase
                 from: 'order@bob.com',
                 signature: "very much respect,\n\nBob!"
             },
-            printout: {
+            pdf: {
+                form: 'ticket',
                 name: 'Greeting Card',
-                message: "Thank You Very Much!"
+                message: "Thank You Very Much!",
+                event_info: "Will be held rain or shine, bring your bumbershoots"
             }
         }
     }
@@ -51,8 +53,19 @@ class SalesSpec < Skr::ApiTestCase
             assert_equal email.to, [data[:billing_address][:email]]
             assert_equal email.from, [data[:email][:from]]
             assert_includes email.subject, 'recent purchase'
-            assert_includes email.body, "order number is #{invoice.visible_id}"
+            assert_includes email.body, "ID is #{invoice.visible_id}"
             assert_includes email.body, data[:email][:signature]
         end
     end
+
+    it 'saves arbitrary json on pdf' do
+        custom = data
+        custom[:pdf][:xtrablah] = { one: 1 }
+        with_stubbed_payment_proccessor(authorization: 'yep-it-works') do
+            post '/api/skr/public/sales.json', custom
+        end
+        invoice = Invoice.find_by_hash_code(json_data.hash_code)
+        assert_equal invoice.options['pdf']['xtrablah'] , { 'one' => 1 }
+    end
+
 end

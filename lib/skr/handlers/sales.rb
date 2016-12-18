@@ -42,10 +42,10 @@ module Skr
                                    Skr::Location.find_by_code(data['location']) :
                                    Skr::Location.default
 
-            invoice.form = data['form']
-            if data['printout']
+            if data['pdf']
                 invoice.options ||= {}
-                invoice.options['printout'] = data['printout']
+                invoice.form = data['pdf']['form']
+                invoice.options['pdf'] = data['pdf']
             end
 
             (data['skus'] || []).each do | l |
@@ -109,7 +109,7 @@ module Skr
         end
 
         def printout_name
-            invoice.options.dig('printout', 'name') || 'Order'
+            invoice.options.dig('pdf', 'name') || 'Order'
         end
 
         def shop_title
