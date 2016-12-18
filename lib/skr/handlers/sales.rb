@@ -19,15 +19,20 @@ module Skr
             unless data['billing_address']
                 return std_api_reply(:create, {errors: {billing_address: 'is missing'}}, success: false)
             end
-
-            build_invoice(
-                customer: find_or_create_customer,
-                billing_address_attributes: data['billing_address']
-            )
-
-            reply = std_api_reply(:create, invoice, methods: 'total', success: invoice.save)
-            email_receipt if invoice.errors.none?
-
+            reply = {}
+            Invoice.transaction do
+                build_invoice(
+                    customer: find_or_create_customer,
+                    billing_address_attributes: data['billing_address']
+                )
+                reply = std_api_reply(:create, invoice, methods: 'total', success: invoice.save)
+                raise ActiveRecord::Rollback if invoice.errors.any?
+            end
+            begin # we've charged the card at this point and we must show the results page
+                email_receipt if invoice.errors.none?
+            rescue => e
+                Lanes.logger.error "Failed to deliver email for sale #{invoice.visible_id} : #{e}"
+            end
             return reply
         end
 
@@ -82,7 +87,7 @@ module Skr
             mail.subject = "Your recent purchase from #{shop_title}"
             mail.body = email_body
             from = data.dig('email', 'from')
-            mail.from = from unless from.nil?
+            mail.from = from if from.present?
             mail.deliver
         end
 
@@ -91,10 +96,11 @@ module Skr
             Hi,
 
             Thanks for your recent purchase from #{shop_title}.
-            Your order number is #{invoice.visible_id}.  Please mention
-            that number in correspondence with us so we can identify it.
 
-            You may download a printed copy of your {printout_name} from:
+            Your receipt ID is #{invoice.visible_id}.  Please mention
+            that number in correspondence with us so we can help you faster.
+
+            You may download a PDF copy of your #{printout_name} from:
 
             #{invoice.pdf_download_url}
 
