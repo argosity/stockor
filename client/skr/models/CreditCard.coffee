@@ -48,8 +48,9 @@ class Skr.Models.CreditCard extends Skr.Models.Base
         @year  = year  if year
 
     dataForSave: (options = {}) ->
-        attrs = super
+        data = super
         # ActiveMerchant uses 'verification_value'
-        attrs.verification_value = attrs.cvc
-        delete attrs.cvc
-        attrs
+        data.verification_value = data.cvc
+        data.year = 2000 + data.year
+        delete data.cvc
+        data
