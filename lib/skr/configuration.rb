@@ -34,6 +34,8 @@ module Skr
         # Code for a PaymentTerm that will be used as the default for new Vendors
         config_option :vendor_terms_code, 'CASH'
 
+        config_option :domain_name, 'stockor.com'
+
         config_option :pricing_provider, Skr::StandardPricingProvider
 
         config_option :default_gl_accounts, {
