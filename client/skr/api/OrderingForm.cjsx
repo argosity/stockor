@@ -2,12 +2,7 @@ class Skr.Api.OrderingForm extends Skr.Api.Components.Base
 
     propTypes:
         skuCode: React.PropTypes.string
-        options: React.PropTypes.shape(
-            address_fields: React.PropTypes.shape(
-                required: React.PropTypes.arrayOf(React.PropTypes.string)
-                display:  React.PropTypes.arrayOf(React.PropTypes.string)
-            )
-        )
+        options: React.PropTypes.object
 
     modelBindings:
         sale: 'props'
@@ -21,6 +16,9 @@ class Skr.Api.OrderingForm extends Skr.Api.Components.Base
         return unless @sale.validateBeforeSave()
 
         @setState(isSaving: true, isSaveComplete: false)
+
+        @sale.set(@props.options)
+
         @sale.save().then (a, b) =>
             @setState(isSaveComplete: true)
             _.delay =>
@@ -35,7 +33,6 @@ class Skr.Api.OrderingForm extends Skr.Api.Components.Base
             'is-complete': @state.isSaveComplete
         })
         <div className={classNames}>
-            <Skr.Api.Components.SaleHistory withSkuCode={@props.skuCode} />
 
             <div className="mask">
                 <div className="msg">

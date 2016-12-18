@@ -19,6 +19,8 @@ class Skr.Api.Models.Sale extends Skr.Api.Models.Base
         total:       'bigdec'
         form:        'string'
         options:     'object'
+        email:       'object'
+        printout:    'object'
 
     session:
         address_fields: 'object'
