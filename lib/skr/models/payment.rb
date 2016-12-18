@@ -52,8 +52,7 @@ module Skr
             return unless credit_card.present?
             card = ActiveMerchant::Billing::CreditCard.new(credit_card)
             gw = Skr::MerchantGateway.get
-
-            resp = gw.purchase(amount, card, credit_card_charging_attrs)
+            resp = gw.purchase((amount*100).to_i, card, credit_card_charging_attrs)
             if resp.success?
                 metadata['authorization']     = resp.authorization
                 metadata['processor_message'] = resp.message
