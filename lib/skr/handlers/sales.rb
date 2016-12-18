@@ -2,6 +2,8 @@ module Skr
 
     class Handlers::Sales < Lanes::API::ControllerBase
 
+        attr_reader :invoice
+
         def create
 
             if data['credit_card']
@@ -18,20 +20,27 @@ module Skr
                 return std_api_reply(:create, {errors: {billing_address: 'is missing'}}, success: false)
             end
 
-            invoice = build_invoice(
+            build_invoice(
                 customer: find_or_create_customer,
                 billing_address_attributes: data['billing_address']
             )
-            return std_api_reply(:create, invoice, methods: 'total', success: invoice.save)
+
+            reply = std_api_reply(:create, invoice, methods: 'total', success: invoice.save)
+            email_receipt if invoice.errors.none?
+
+            return reply
         end
 
         def build_invoice(attrs)
-            invoice = Skr::Invoice.new(attrs)
+            @invoice = Skr::Invoice.new(attrs)
             invoice.location = data['location'] ?
                                    Skr::Location.find_by_code(data['location']) :
                                    Skr::Location.default
-            %w{form options}.each do | attr |
-                invoice[attr] = data[attr] if data[attr]
+
+            invoice.form = data['form']
+            if data['printout']
+                invoice.options ||= {}
+                invoice.options['printout'] = data['printout']
             end
 
             (data['skus'] || []).each do | l |
@@ -67,6 +76,43 @@ module Skr
         end
 
 
+        def email_receipt
+            mail = Lanes::Mailer.new
+            mail.to = invoice.billing_address.email
+            mail.subject = "Your recent purchase from #{shop_title}"
+            mail.body = email_body
+            from = data.dig('email', 'from')
+            mail.from = from unless from.nil?
+            mail.deliver
+        end
+
+        def email_body
+            <<~ENDOFBODY
+            Hi,
+
+            Thanks for your recent purchase from #{shop_title}.
+            Your order number is #{invoice.visible_id}.  Please mention
+            that number in correspondence with us so we can identify it.
+
+            You may download a printed copy of your {printout_name} from:
+
+            #{invoice.pdf_download_url}
+
+            #{email_signature}
+            ENDOFBODY
+        end
+
+        def printout_name
+            invoice.options.dig('printout', 'name') || 'Order'
+        end
+
+        def shop_title
+            Lanes::Extensions.controlling.title
+        end
+
+        def email_signature
+            data.dig('email', 'signature') || 'Thank you!'
+        end
 
     end
 
