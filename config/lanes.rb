@@ -8,7 +8,7 @@ Lanes.configure do | config |
 end
 
 Lanes.config.get(:environment) do | env |
-    unless Lanes.env.production?
+#    unless Lanes.env.production?
         ActiveMerchant::Billing::Base.mode = :test
-    end
+#    end
 end
