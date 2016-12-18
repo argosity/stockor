@@ -22,7 +22,7 @@ module Skr
         result.expect(:message, message)
         result.expect(:authorization, authorization)
         gw = MiniTest::Mock.new
-        gw.expect(:purchase, result, [ BigDecimal, ActiveMerchant::Billing::CreditCard, Hash])
+        gw.expect(:purchase, result, [ Integer, ActiveMerchant::Billing::CreditCard, Hash])
         Skr::MerchantGateway.stub( :get, gw ) do
             yield
         end
