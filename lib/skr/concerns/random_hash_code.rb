@@ -3,6 +3,14 @@ module Skr
 
         # @see ClassMethods
         module RandomHashCode
+            module PdfDownloadSupport
+
+                def pdf_download_url
+                    'https://' + Skr.config.domain_name + Lanes.config.api_path +
+                        '/print/' + self.class.to_s.underscore + '/' + hash_code + '.pdf'
+                end
+
+            end
 
             extend ActiveSupport::Concern
 
@@ -16,7 +24,7 @@ module Skr
                 # @param field_name [Symbol] which field should the hash_code be stored in
                 # @param length [Integer] how long the hash_code should be
 
-                def has_random_hash_code( field_name: :hash_code, length: 12 )
+                def has_random_hash_code(field_name: :hash_code, length: 12, for_pdf_download: false)
 
                     validates field_name, :presence=>{
                         :message=>"hash code is not set (should be automatically chosen)"
@@ -30,6 +38,9 @@ module Skr
                         self[ field_name ] = Lanes::Strings.random( length ) if self[ field_name ].blank?
                     end
 
+                    if for_pdf_download
+                        self.send :include, PdfDownloadSupport
+                    end
                 end
             end
 
