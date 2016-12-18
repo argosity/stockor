@@ -1,5 +1,20 @@
 .skr-simple-checkout {
+
+    $spinner-size: 10px;
+    @mixin spinner($opacity, $size){
+        box-shadow: rgba(0, 0, 0, $opacity) $size*1.5 0 0 0,
+        rgba(0, 0, 0, $opacity) ($size*1.1) ($size*1.1) 0 0,
+        rgba(0, 0, 0, $opacity) 0 ($size*1.5) 0 0,
+        rgba(0, 0, 0, $opacity) (-$size*1.1) ($size*1.1) 0 0,
+        rgba(0, 0, 0, $opacity) (-$size*1.5) 0 0 0,
+        rgba(0, 0, 0, $opacity) (-$size*1.1) (-$size*1.1) 0 0,
+        rgba(0, 0, 0, $opacity) 0 (-$size*1.5) 0 0,
+        rgba(0, 0, 0, $opacity) $size*1.1 (-$size*1.1) 0 0;
+    }
+
+
     @import "./Components/address_form";
+    @import "./order";
 
     margin: 50px 100px;
     .section {
@@ -56,78 +71,9 @@
             text-decoration: none;
         }
     }
-    @mixin spinner($opacity, $size){
-        box-shadow: rgba(0, 0, 0, $opacity) $size*1.5 0 0 0,
-        rgba(0, 0, 0, $opacity) ($size*1.1) ($size*1.1) 0 0,
-        rgba(0, 0, 0, $opacity) 0 ($size*1.5) 0 0,
-        rgba(0, 0, 0, $opacity) (-$size*1.1) ($size*1.1) 0 0,
-        rgba(0, 0, 0, $opacity) (-$size*1.5) 0 0 0,
-        rgba(0, 0, 0, $opacity) (-$size*1.1) (-$size*1.1) 0 0,
-        rgba(0, 0, 0, $opacity) 0 (-$size*1.5) 0 0,
-        rgba(0, 0, 0, $opacity) $size*1.1 (-$size*1.1) 0 0;
-    }
-
-    $spinner-size: 10px;
     .mask {
         background-color: transparent;
         display: none;
-    }
-    .order {
-        &.is-saving {
-            position: relative;
-            .mask {
-                position: absolute;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                top: 0;
-                left: 0;
-                bottom: 0;
-                right: 0;
-                font-size: 2.8rem;
-                text-shadow: none;
-                border: 0;
-                transition: all 0.8s ease-in-out;
-                background-color: rgba(221, 221, 221, 0.7);
-                z-index: 2;
-                .msg {
-                    transition: all 1s ease-in-out;
-                    color: rgba(0, 0, 0, 0.8);
-                    span { margin-left: $spinner-size*4; }
-                    i {
-                        transition: all 1s ease-in-out;
-                        display: block;
-                        position: relative;
-                        width: $spinner-size;
-                        height: $spinner-size;
-                        top: $spinner-size*4;
-                        left: $spinner-size*1.5;
-                        animation: spinner 3000ms infinite linear;
-                        border-radius: $spinner-size / 2;
-                        @include spinner(0.75, $spinner-size);
-                    }
-                }
-            }
-            &.is-complete {
-                .mask {
-                    background-color: rgba(221, 221, 221, 0);
-                    .msg {
-                        color: rgba(0, 0, 0, 0);
-                        i { @include spinner(0.0, $spinner-size); }
-                    }
-                }
-            }
-        }
-        @keyframes spinner {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .purchase {
-            margin-top: 2rem;
-            text-align: center;
-        }
-
     }
 
 }
