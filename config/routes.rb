@@ -45,7 +45,7 @@ Lanes::API.routes.for_extension 'skr' do
     resources Skr::ExpenseEntry, controller: Skr::Handlers::ApproveExpenseEntries,
               path: 'expense-entries/approve'
     resources Skr::Sku, path: 'public/skus', controller: Skr::Handlers::Skus, cors: '*', public: true
-    resources Skr::Invoice, path: 'public/sales', controller: Skr::Handlers::Sales, cors: '*', public: true
+    resources Skr::Invoice, path: 'public/sales', controller: Skr::Handlers::Sales, cors: '*', public: true, with_transaction: false
     get  'credit-card-gateways.json', &Skr::Handlers::CreditCardGateway.get
     post 'credit-card-gateways.json', &Skr::Handlers::CreditCardGateway.update
     post 'fresh-books-imports.json', &Skr::Handlers::FreshBooksImport.handler
