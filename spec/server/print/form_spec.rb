@@ -5,14 +5,13 @@ class PrintSpec < Skr::TestCase
     # for debugging add a generate(pdf) to one of the specs
     def generate(pdf)
         config =  Lanes::SystemSettings.config
-        unless config.logo
-            logo = config.build_logo
-            logo.store_uploaded_file(
-                filename: Pathname.new(__FILE__).dirname.join('../../fixtures/stockor.png')
-            )
+        unless config.logo and config.logo.file
+            logo = config.build_print_logo
+            logo.file = Pathname.new(__FILE__).dirname.join('../../fixtures/stockor.png').open
             logo.save!
             config.save!
         end
+
         begin
             File.open('/tmp/skr-test.tex', 'w'){|f| f.write pdf.as_latex    }
             File.open('/tmp/skr-test.pdf', 'w'){|f| f.write pdf.as_pdf.read }
