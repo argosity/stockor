@@ -42,10 +42,10 @@ module Skr
                                    Skr::Location.find_by_code(data['location']) :
                                    Skr::Location.default
 
-            if data['pdf']
+            invoice.form = data.dig('pdf', 'form')
+            %w{pdf event}.each do |attr|
                 invoice.options ||= {}
-                invoice.form = data['pdf']['form']
-                invoice.options['pdf'] = data['pdf']
+                invoice.options[attr] = data[attr]
             end
 
             (data['skus'] || []).each do | l |

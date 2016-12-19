@@ -24,8 +24,10 @@ class SalesSpec < Skr::ApiTestCase
             pdf: {
                 form: 'ticket',
                 name: 'Greeting Card',
-                message: "Thank You Very Much!",
-                event_info: "Will be held rain or shine, bring your bumbershoots"
+                message: "Thank You Very Much!"
+            },
+            event: {
+                artist: 'Best Artist Evah'
             }
         }
     }
@@ -64,8 +66,10 @@ class SalesSpec < Skr::ApiTestCase
         with_stubbed_payment_proccessor(authorization: 'yep-it-works') do
             post '/api/skr/public/sales.json', custom
         end
+        assert_ok
         invoice = Invoice.find_by_hash_code(json_data.hash_code)
-        assert_equal invoice.options['pdf']['xtrablah'] , { 'one' => 1 }
+        assert_equal invoice.options.dig('pdf', 'xtrablah'), { 'one' => 1 }
+        assert_equal invoice.options.dig('event', 'artist'), 'Best Artist Evah'
     end
 
 end
