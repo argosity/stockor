@@ -24,7 +24,10 @@ event:
   invoice_date: <%= 1.days.ago %>
   state: 0
   options:
-    event_info: |
-      Show at 7:30 pm (doors open at 6:30pm)
-
-      Dress code: Business Casual
+    pdf:
+      event:
+        artist: Frank Zappa
+        featuring: Feat. ZabbyDooBa Bear
+        date: 8:00pm Jan 3rd, 2028
+        venue: Radio City Music Hallz
+        info: "Show at 7:30 pm (doors open at 6:30pm)\n\nNo Bags allowed"

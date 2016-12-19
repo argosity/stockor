@@ -1,41 +1,67 @@
-<% line = @invoice.lines.first
-   qty  = line.qty.to_i %>
-\usepackage{xcolor}
-\geometry{a6paper, margin=3mm, right=6mm, headheight=0mm, landscape}
+\font\Anton="[<%= @root_path.join('fonts', 'Anton.ttf').to_s %>]" at 22pt
+\usepackage[boxed]{ticket}
+\unitlength=1mm
+\hoffset=-16.2mm
+\voffset=-6.6mm
+\ticketNumbers{1}{2}
+\ticketSize{200}{60}     % in unitlength
+\ticketDistance{0}{10}    % in unitlength
+
+\font\btt=cmbtt10
+% load misc stuff
+\usepackage{graphicx}
+\usepackage{rotating}
 \usepackage[]{qrcode}
 
 
-\begin{document}
-\noindent
-\pagecolor{yellow!25}
-\fancypage{\Ovalbox}{}
-
-\begin{tabu} to \textwidth{X[-1,m,l]X[0,m,c]r}
+\renewcommand{\ticketdefault}{%
+  \put(50,45){
 <% if (logo = @invoice.location.get_logo).present? -%>
-\includegraphics[align=t,height=14mm,keepaspectratio]{<%= logo.file[:original].download.path %>}
-<% end -%> &
-  {\bf \LARGE <%=q @invoice.location.address.name %>}
+      \raisebox{-1mm}{\includegraphics[height=8mm]{<%= logo.file[:original].download.path %>}}
+<% end -%>
+\Huge Presents:
+   }%
 
-  \small <%= break_lines @invoice.location.address.to_s(include: [:phone], without:[:name]) %> &
-  \qrcode[]{<%= @invoice.hash_code %>} \\
- \end{tabu}
+  \put(1,20){\begin{sideways}\Large Admit 1\end{sideways}}%
+<% if (artist = @invoice.options.dig('pdf', 'event', 'artist')) -%>
+  \put(50,35){\Anton <%= artist %>}
+<% end -%>
+<% if (featuring = @invoice.options.dig('pdf', 'event', 'featuring')) -%>
+  \put(50,27){\large <%= featuring %>}
+<% end -%>
+<% if (info = @invoice.options.dig('pdf', 'event', 'info')) -%>
+  \put(49,17){
+    \parbox{100mm}{\normalsize\raggedright <%= break_lines info %>}%
+   }
+<% end -%>
+<% if (date = @invoice.options.dig('pdf', 'event', 'date')) -%>
+  \put(195,60){\rotatebox{270}{\parbox{60mm}{\centering\Large <%=q date %>}}}%
+<% end -%>
+<% if (venue = @invoice.options.dig('pdf', 'event', 'venue')) -%>
+  \put(99,1){\parbox{100mm}{\small\raggedleft <%=q venue %>}}
+<% end -%>
+}
 
-\bigskip
+\newcommand{\filelabel}[4]{\ticket{%
+    \put(5,30){
+      \qrcode[height=40mm]{#2-#1}
+    }%
+    \put(4,5){\parbox{40mm}{\centering\large Ticket #3-#1}}
+}}
 
 
-{\bf \large This ticket admits <%= Skr::Number.as_words(qty) %> (<%= qty %>) <%= pluralize(qty, 'person') %> to:}
-\begin{center}
-<% if (snippet = get_snippet(@invoice.options['print_content'])) %>
-<%= snippet %>
-<% else %>
+\begin{document}
 
-\bigskip
-\bigskip
+Hi how are you this day
 
-{\bf\LARGE <%= line.description %>}
-\vfill
-<%= @invoice.options['event_info'] %>
-<% end %>
+Please respnd asasp
 
-\end{center}
+toddles
+
+\filelabel{1}{<%= @invoice.hash_code %>}{<%= @invoice.visible_id %>}
+  {<%= @invoice.lines.first.description %>}
+\filelabel{2}{<%= @invoice.hash_code %>}{<%= @invoice.visible_id %>}
+  {<%= @invoice.lines.first.description %>}
+\filelabel{3}{<%= @invoice.hash_code %>}{<%= @invoice.visible_id %>}
+  {<%=q @invoice.lines.first.description %>}
 \end{document}
