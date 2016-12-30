@@ -1,6 +1,6 @@
 require 'skr/db/migration_helpers'
 
-class CreateGlAccountBalancesView < ActiveRecord::Migration
+class CreateGlAccountBalancesView < ActiveRecord::Migration[4.2]
     def up
         execute <<-EOS.squish
         create view #{skr_prefix}gl_account_balances as select

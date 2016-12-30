@@ -1,6 +1,6 @@
 require 'skr/db/migration_helpers'
 
-class CreateSkrPoReceipt < ActiveRecord::Migration
+class CreateSkrPoReceipt < ActiveRecord::Migration[4.2]
     def change
         create_skr_table "po_receipts" do |t|
             t.skr_visible_id

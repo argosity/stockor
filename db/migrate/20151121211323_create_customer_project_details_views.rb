@@ -1,6 +1,6 @@
 require 'skr/db/migration_helpers'
 
-class CreateCustomerProjectDetailsViews < ActiveRecord::Migration
+class CreateCustomerProjectDetailsViews < ActiveRecord::Migration[4.2]
 
     def up
         execute <<-EOS

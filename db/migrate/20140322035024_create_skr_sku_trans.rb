@@ -1,6 +1,6 @@
 require 'skr/db/migration_helpers'
 
-class CreateSkrSkuTrans < ActiveRecord::Migration
+class CreateSkrSkuTrans < ActiveRecord::Migration[4.2]
     def change
 
         create_skr_table "sku_trans" do |t|

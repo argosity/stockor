@@ -1,6 +1,6 @@
 require 'skr/db/migration_helpers'
 
-class CreateSkrLocations < ActiveRecord::Migration
+class CreateSkrLocations < ActiveRecord::Migration[4.2]
     def change
 
         create_skr_table "locations" do |t|

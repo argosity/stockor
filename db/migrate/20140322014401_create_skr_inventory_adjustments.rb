@@ -1,6 +1,6 @@
 require 'skr/db/migration_helpers'
 
-class CreateSkrInventoryAdjustments < ActiveRecord::Migration
+class CreateSkrInventoryAdjustments < ActiveRecord::Migration[4.2]
     def change
 
         create_skr_table "inventory_adjustments" do |t|

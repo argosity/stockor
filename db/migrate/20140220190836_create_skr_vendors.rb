@@ -1,6 +1,6 @@
 require 'skr/db/migration_helpers'
 
-class CreateSkrVendors < ActiveRecord::Migration
+class CreateSkrVendors < ActiveRecord::Migration[4.2]
     def change
 
         create_skr_table "vendors" do |t|

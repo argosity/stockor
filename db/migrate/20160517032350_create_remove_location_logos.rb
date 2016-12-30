@@ -1,4 +1,4 @@
-class CreateRemoveLocationLogos < ActiveRecord::Migration
+class CreateRemoveLocationLogos < ActiveRecord::Migration[4.2]
 
     def up
         remove_column :skr_locations, :logo

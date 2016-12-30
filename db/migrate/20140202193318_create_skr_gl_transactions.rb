@@ -1,6 +1,6 @@
 require 'skr/db/migration_helpers'
 
-class CreateSkrGlTransactions < ActiveRecord::Migration
+class CreateSkrGlTransactions < ActiveRecord::Migration[4.2]
     def change
 
         create_skr_table "gl_transactions" do |t|

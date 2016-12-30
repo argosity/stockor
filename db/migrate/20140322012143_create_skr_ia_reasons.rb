@@ -1,6 +1,6 @@
 require 'skr/db/migration_helpers'
 
-class CreateSkrIaReasons < ActiveRecord::Migration
+class CreateSkrIaReasons < ActiveRecord::Migration[4.2]
     def change
 
         create_skr_table "ia_reasons" do |t|

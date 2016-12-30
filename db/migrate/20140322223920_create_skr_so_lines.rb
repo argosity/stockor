@@ -1,6 +1,6 @@
 require 'skr/db/migration_helpers'
 
-class CreateSkrSoLines < ActiveRecord::Migration
+class CreateSkrSoLines < ActiveRecord::Migration[4.2]
     def change
 
         create_skr_table "so_lines" do |t|

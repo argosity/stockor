@@ -1,6 +1,6 @@
 require 'skr/db/migration_helpers'
 
-class CreateExpenses < ActiveRecord::Migration
+class CreateExpenses < ActiveRecord::Migration[4.2]
     def up
 
         create_skr_table :expense_categories do |t|

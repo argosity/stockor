@@ -1,6 +1,6 @@
 require 'skr/db/migration_helpers'
 
-class CreateSkrGlPeriods < ActiveRecord::Migration
+class CreateSkrGlPeriods < ActiveRecord::Migration[4.2]
 
     def change
 

@@ -1,6 +1,6 @@
 require 'skr/db/migration_helpers'
 
-class CreateSkrPaymentTerms < ActiveRecord::Migration
+class CreateSkrPaymentTerms < ActiveRecord::Migration[4.2]
     def change
 
         create_skr_table "payment_terms" do |t|

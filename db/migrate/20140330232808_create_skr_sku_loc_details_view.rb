@@ -1,6 +1,6 @@
 require 'skr/db/migration_helpers'
 
-class CreateSkrSkuLocDetailsView < ActiveRecord::Migration
+class CreateSkrSkuLocDetailsView < ActiveRecord::Migration[4.2]
     def up
 
         execute <<-EOS

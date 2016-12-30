@@ -1,6 +1,6 @@
 require 'skr/db/migration_helpers'
 
-class CreateSkrInvLines < ActiveRecord::Migration
+class CreateSkrInvLines < ActiveRecord::Migration[4.2]
 
     def change
         create_skr_table "inv_lines" do |t|

@@ -1,6 +1,6 @@
 require 'skr/db/migration_helpers'
 
-class CreateSkrSequentialIds < ActiveRecord::Migration
+class CreateSkrSequentialIds < ActiveRecord::Migration[4.2]
     def up
         # rails can suck it here, there's no reason to have a id(int)
         create_skr_table :sequential_ids, :id=>false do |t|

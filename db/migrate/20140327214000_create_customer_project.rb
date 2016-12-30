@@ -1,6 +1,6 @@
 require 'skr/db/migration_helpers'
 
-class CreateCustomerProject < ActiveRecord::Migration
+class CreateCustomerProject < ActiveRecord::Migration[4.2]
     def change
         create_skr_table :customer_projects do |t|
             t.skr_code_identifier

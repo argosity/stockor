@@ -1,6 +1,6 @@
 require 'skr/db/migration_helpers'
 
-class CreateSkrSkuLocs < ActiveRecord::Migration
+class CreateSkrSkuLocs < ActiveRecord::Migration[4.2]
 
     def change
 

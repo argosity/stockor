@@ -1,4 +1,4 @@
-class CreateNullAddresses < ActiveRecord::Migration
+class CreateNullAddresses < ActiveRecord::Migration[4.2]
     def change
         %w{ customers vendors invoices sales_orders }.each do | rec |
             %w{ billing shipping }.each do | col |

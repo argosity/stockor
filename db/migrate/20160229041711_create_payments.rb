@@ -1,6 +1,6 @@
 require 'skr/db/migration_helpers'
 
-class CreatePayments < ActiveRecord::Migration
+class CreatePayments < ActiveRecord::Migration[4.2]
     def change
 
         create_skr_table :payment_categories do |t|

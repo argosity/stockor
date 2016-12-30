@@ -1,6 +1,6 @@
 require 'skr/db/migration_helpers'
 
-class CreateSkrUoms < ActiveRecord::Migration
+class CreateSkrUoms < ActiveRecord::Migration[4.2]
     def change
 
         create_skr_table "uoms" do |t|

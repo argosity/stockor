@@ -1,6 +1,6 @@
 require 'skr/db/migration_helpers'
 
-class CreateCreateCombinedUomViews < ActiveRecord::Migration
+class CreateCreateCombinedUomViews < ActiveRecord::Migration[4.2]
     def up
         execute <<-EOS
         create view #{skr_prefix}combined_uom as

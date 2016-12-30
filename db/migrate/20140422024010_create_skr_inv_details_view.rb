@@ -1,6 +1,6 @@
 require 'skr/db/migration_helpers'
 
-class CreateSkrInvDetailsView < ActiveRecord::Migration
+class CreateSkrInvDetailsView < ActiveRecord::Migration[4.2]
 
     def up
       execute <<-EOS.squish

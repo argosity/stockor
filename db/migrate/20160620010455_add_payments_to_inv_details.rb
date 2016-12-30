@@ -1,6 +1,6 @@
 require 'skr/db/migration_helpers'
 
-class AddPaymentsToInvDetails < ActiveRecord::Migration
+class AddPaymentsToInvDetails < ActiveRecord::Migration[4.2]
 
     def view(select = '', join = '')
       <<-EOS.squish

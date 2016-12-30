@@ -1,6 +1,6 @@
 require 'skr/db/migration_helpers'
 
-class CreateSkrPickTickets < ActiveRecord::Migration
+class CreateSkrPickTickets < ActiveRecord::Migration[4.2]
     def change
 
         create_skr_table "pick_tickets" do |t|

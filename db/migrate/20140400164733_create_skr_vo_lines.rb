@@ -1,6 +1,6 @@
 require 'skr/db/migration_helpers'
 
-class CreateSkrVoLines < ActiveRecord::Migration
+class CreateSkrVoLines < ActiveRecord::Migration[4.2]
     def change
         create_skr_table "vo_lines" do |t|
             t.skr_reference :voucher,        null: false, single: true

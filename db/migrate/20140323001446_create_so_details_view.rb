@@ -1,6 +1,6 @@
 require 'skr/db/migration_helpers'
 
-class CreateSoDetailsView < ActiveRecord::Migration
+class CreateSoDetailsView < ActiveRecord::Migration[4.2]
     def up
         fk = "sales_order_id"
         execute <<-EOS.squish

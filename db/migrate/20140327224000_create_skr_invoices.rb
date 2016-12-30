@@ -1,6 +1,6 @@
 require 'skr/db/migration_helpers'
 
-class CreateSkrInvoices < ActiveRecord::Migration
+class CreateSkrInvoices < ActiveRecord::Migration[4.2]
 
     def change
         create_skr_table "invoices" do |t|

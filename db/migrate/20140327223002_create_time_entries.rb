@@ -1,6 +1,6 @@
 require 'skr/db/migration_helpers'
 
-class CreateTimeEntries < ActiveRecord::Migration
+class CreateTimeEntries < ActiveRecord::Migration[4.2]
     def change
         create_skr_table :time_entries do |t|
             t.skr_reference :customer_project, single: true

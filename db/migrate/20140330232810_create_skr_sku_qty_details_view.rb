@@ -1,6 +1,6 @@
 require 'skr/db/migration_helpers'
 
-class CreateSkrSkuQtyDetailsView < ActiveRecord::Migration
+class CreateSkrSkuQtyDetailsView < ActiveRecord::Migration[4.2]
     def up
         execute <<-EOS
         create view #{skr_prefix}sku_qty_details as

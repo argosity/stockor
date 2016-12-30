@@ -1,6 +1,6 @@
 require 'skr/db/migration_helpers'
 
-class CreateSkrGlAccounts < ActiveRecord::Migration
+class CreateSkrGlAccounts < ActiveRecord::Migration[4.2]
     def change
 
         create_skr_table "gl_accounts" do |t|

@@ -3,7 +3,7 @@ require 'skr/db/migration_helpers'
 
 ## views and indexes to efficiently answer the query "which invoices/orders have item id XXX ?"
 
-class CreateSkuAssociationsViews < ActiveRecord::Migration
+class CreateSkuAssociationsViews < ActiveRecord::Migration[4.2]
 
     def up
 

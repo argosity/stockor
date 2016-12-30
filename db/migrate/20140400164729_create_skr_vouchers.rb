@@ -1,6 +1,6 @@
 require 'skr/db/migration_helpers'
 
-class CreateSkrVouchers < ActiveRecord::Migration
+class CreateSkrVouchers < ActiveRecord::Migration[4.2]
     def change
 
         create_skr_table "vouchers" do |t|

@@ -1,6 +1,6 @@
 require 'skr/db/migration_helpers'
 
-class CreateSkrSalesOrders < ActiveRecord::Migration
+class CreateSkrSalesOrders < ActiveRecord::Migration[4.2]
 
     def change
         create_skr_table "sales_orders" do |t|

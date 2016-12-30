@@ -1,6 +1,6 @@
 require 'skr/db/migration_helpers'
 
-class CreateSkrPtLines < ActiveRecord::Migration
+class CreateSkrPtLines < ActiveRecord::Migration[4.2]
     def change
 
         create_skr_table "pt_lines" do |t|

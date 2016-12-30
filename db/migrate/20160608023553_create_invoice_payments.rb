@@ -1,4 +1,4 @@
-class CreateInvoicePayments < ActiveRecord::Migration
+class CreateInvoicePayments < ActiveRecord::Migration[4.2]
     def change
         add_column :skr_payments, :invoice_id, :integer
         add_column :skr_payments, :metadata,   :jsonb, default: {}
