@@ -15,7 +15,8 @@ module Lanes::Access
 
             grant Skr::SalesOrder,
                   Skr::TimeEntry,
-                  Skr::ExpenseEntry
+                  Skr::ExpenseEntry,
+                  Skr::Event
         end
 
         # Accounting role for members who deal with finance
@@ -30,7 +31,8 @@ module Lanes::Access
                   Skr::BankAccount,
                   Skr::Payment,
                   Skr::ExpenseCategory,
-                  Skr::ExpenseEntry
+                  Skr::ExpenseEntry,
+                  Skr::Event
 
             lock_writes Skr::Customer, :terms
             lock Skr::Sku, :gl_asset_account
@@ -48,11 +50,13 @@ module Lanes::Access
         # Standard employee role
         class Workforce < Lanes::Access::Role
             read Skr::Customer,
-                 Skr::Sku
+                 Skr::Sku,
+                 Skr::Event
             grant Skr::SalesOrder,
                   Skr::Invoice,
                   Skr::TimeEntry,
-                  Skr::ExpenseEntry
+                  Skr::ExpenseEntry,
+                  Skr::Event
         end
     end
 

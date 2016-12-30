@@ -146,6 +146,13 @@ Lanes::Screen.for_extension 'skr' do | screens |
         screen.model_class = "Vendor"
         screen.view_class  = "VendorMaint"
     end
+    screens.define "events" do | screen |
+        screen.title       = "Events"
+        screen.icon        = "qrcode"
+        screen.group_id    = "maint"
+        screen.model_class = "Event"
+        screen.view_class  = "Events"
+    end
 
     ##################################################################
     ## REPORTS                                                      ##

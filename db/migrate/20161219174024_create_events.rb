@@ -5,18 +5,20 @@ class CreateEvents < ActiveRecord::Migration[5.0]
         create_skr_table :events do |t|
             t.string  :code, null: false
             t.skr_reference :sku, null: false, single: true
-            t.text :artist, :featuring, :info, :venue
+            t.text :title, null: false
+            t.text :sub_title, :info, :venue, :email_from,
+                   :email_signature, :post_purchase_message
             t.datetime :starts_at
+            t.integer :max_qty
             t.timestamps null: false
         end
 
-        create_skr_table :events_invoice_xref do |t|
+        create_skr_table :event_invoice_xrefs do |t|
             t.skr_reference :event,   null: false, single: true
             t.skr_reference :invoice, null: false, single: true
         end
 
-        skr_add_index :events_invoice_xref, :invoice_id
-        skr_add_index :events_invoice_xref, :event_id
-        skr_add_index :events_invoice_xref, [:event_id, :invoice_id], unique: true
+        skr_add_index :event_invoice_xrefs, :event_id
+        skr_add_index :event_invoice_xrefs, [:event_id, :invoice_id], unique: true
     end
 end

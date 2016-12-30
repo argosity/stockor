@@ -57,4 +57,6 @@ module Skr
     autoload :ExpenseCategory,      "skr/models/expense_category"
     autoload :ExpenseEntry,         "skr/models/expense_entry"
     autoload :ExpenseEntryCategory, "skr/models/expense_entry_category"
+    autoload :Event,                "skr/models/event"
+    autoload :EventInvoiceXref,     "skr/models/event_invoice_xref"
 end

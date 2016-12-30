@@ -1,0 +1,14 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+top:
+  code: TOP
+  sku: yarn
+  title: Amelie Willms
+  sub_title: feat. Laury Schaden
+  info: White Tie Only
+  venue: The Garden of DOOM
+  starts_at: <%= 2.days.ago %>
+  email_signature: Thanks for reading email
+  email_from: testing@test.com
+  post_purchase_message: Dont forget to download ticket
+  max_qty: 341

@@ -41,6 +41,20 @@ CREATE EXTENSION IF NOT EXISTS hstore WITH SCHEMA public;
 COMMENT ON EXTENSION hstore IS 'data type for storing sets of (key, value) pairs';
 
 
+--
+-- Name: pgcrypto; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS pgcrypto WITH SCHEMA public;
+
+
+--
+-- Name: EXTENSION pgcrypto; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION pgcrypto IS 'cryptographic functions';
+
+
 SET search_path = public, pg_catalog;
 
 --
@@ -115,11 +129,10 @@ CREATE TABLE ar_internal_metadata (
 
 CREATE TABLE assets (
     id integer NOT NULL,
-    file character varying NOT NULL,
-    owner_id integer NOT NULL,
     owner_type character varying NOT NULL,
+    owner_id integer NOT NULL,
     "order" integer,
-    metadata jsonb DEFAULT '{}'::jsonb NOT NULL
+    file_data jsonb DEFAULT '{}'::jsonb NOT NULL
 );
 
 
@@ -422,6 +435,77 @@ ALTER SEQUENCE skr_customers_id_seq OWNED BY skr_customers.id;
 
 
 --
+-- Name: skr_event_invoice_xrefs; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE skr_event_invoice_xrefs (
+    id integer NOT NULL,
+    event_id integer NOT NULL,
+    invoice_id integer NOT NULL
+);
+
+
+--
+-- Name: skr_event_invoice_xrefs_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE skr_event_invoice_xrefs_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: skr_event_invoice_xrefs_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE skr_event_invoice_xrefs_id_seq OWNED BY skr_event_invoice_xrefs.id;
+
+
+--
+-- Name: skr_events; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE skr_events (
+    id integer NOT NULL,
+    code character varying NOT NULL,
+    sku_id integer NOT NULL,
+    title text,
+    sub_title text,
+    info text,
+    venue text,
+    email_from text,
+    email_signature text,
+    post_purchase_message text,
+    starts_at timestamp without time zone,
+    max_qty integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: skr_events_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE skr_events_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: skr_events_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE skr_events_id_seq OWNED BY skr_events.id;
+
+
+--
 -- Name: skr_expense_categories; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -530,8 +614,8 @@ ALTER SEQUENCE skr_expense_entry_categories_id_seq OWNED BY skr_expense_entry_ca
 CREATE TABLE skr_gl_transactions (
     id integer NOT NULL,
     period_id integer NOT NULL,
-    source_id integer,
     source_type character varying,
+    source_id integer,
     description text NOT NULL,
     created_at timestamp without time zone NOT NULL,
     created_by_id integer NOT NULL
@@ -567,7 +651,7 @@ CREATE VIEW skr_expense_entry_details AS
 --
 
 CREATE TABLE skr_gl_account_balances (
-    skr_gl_account_id integer,
+    gl_account_id integer,
     branch_number text,
     balance numeric
 );
@@ -1658,8 +1742,8 @@ CREATE VIEW skr_sku_so_xref AS
 
 CREATE TABLE skr_sku_trans (
     id integer NOT NULL,
-    origin_id integer,
     origin_type character varying,
+    origin_id integer,
     sku_loc_id integer NOT NULL,
     cost numeric(15,2) NOT NULL,
     origin_description character varying NOT NULL,
@@ -1798,8 +1882,8 @@ CREATE VIEW skr_so_details AS
     COALESCE(ttls.shipping_charge_total, (0)::numeric) AS total_shipping_amount,
     (COALESCE(ttls.total, 0.0) - COALESCE(ttls.other_charge_total, 0.0)) AS subtotal_amount
    FROM (((skr_sales_orders so
-     JOIN skr_customers cust ON ((cust.id = so.customer_id)))
-     JOIN skr_addresses addr ON ((addr.id = so.billing_address_id)))
+     LEFT JOIN skr_customers cust ON ((cust.id = so.customer_id)))
+     LEFT JOIN skr_addresses addr ON ((addr.id = so.billing_address_id)))
      LEFT JOIN ( SELECT sol.sales_order_id,
             sum((sol.qty * sol.price)) AS total,
             sum(
@@ -2032,39 +2116,6 @@ ALTER SEQUENCE system_settings_id_seq OWNED BY system_settings.id;
 
 
 --
--- Name: testers; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE testers (
-    id integer NOT NULL,
-    name character varying,
-    email character varying,
-    visits text[] DEFAULT '{}'::text[],
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
-);
-
-
---
--- Name: testers_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE testers_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: testers_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE testers_id_seq OWNED BY testers.id;
-
-
---
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -2104,6 +2155,20 @@ ALTER TABLE ONLY skr_customer_projects ALTER COLUMN id SET DEFAULT nextval('skr_
 --
 
 ALTER TABLE ONLY skr_customers ALTER COLUMN id SET DEFAULT nextval('skr_customers_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY skr_event_invoice_xrefs ALTER COLUMN id SET DEFAULT nextval('skr_event_invoice_xrefs_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY skr_events ALTER COLUMN id SET DEFAULT nextval('skr_events_id_seq'::regclass);
 
 
 --
@@ -2352,13 +2417,6 @@ ALTER TABLE ONLY system_settings ALTER COLUMN id SET DEFAULT nextval('system_set
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY testers ALTER COLUMN id SET DEFAULT nextval('testers_id_seq'::regclass);
-
-
---
 -- Name: ar_internal_metadata_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2380,6 +2438,14 @@ ALTER TABLE ONLY assets
 
 ALTER TABLE ONLY lanes_users
     ADD CONSTRAINT lanes_users_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: schema_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY schema_migrations
+    ADD CONSTRAINT schema_migrations_pkey PRIMARY KEY (version);
 
 
 --
@@ -2412,6 +2478,22 @@ ALTER TABLE ONLY skr_customer_projects
 
 ALTER TABLE ONLY skr_customers
     ADD CONSTRAINT skr_customers_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: skr_event_invoice_xrefs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY skr_event_invoice_xrefs
+    ADD CONSTRAINT skr_event_invoice_xrefs_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: skr_events_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY skr_events
+    ADD CONSTRAINT skr_events_pkey PRIMARY KEY (id);
 
 
 --
@@ -2703,14 +2785,6 @@ ALTER TABLE ONLY system_settings
 
 
 --
--- Name: testers_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY testers
-    ADD CONSTRAINT testers_pkey PRIMARY KEY (id);
-
-
---
 -- Name: index_assets_on_owner_id_and_owner_type; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2736,6 +2810,20 @@ CREATE INDEX index_skr_customer_projects_on_code ON skr_customer_projects USING 
 --
 
 CREATE INDEX index_skr_customers_on_code ON skr_customers USING btree (code);
+
+
+--
+-- Name: index_skr_event_invoice_xrefs_on_event_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_skr_event_invoice_xrefs_on_event_id ON skr_event_invoice_xrefs USING btree (event_id);
+
+
+--
+-- Name: index_skr_event_invoice_xrefs_on_event_id_and_invoice_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_skr_event_invoice_xrefs_on_event_id_and_invoice_id ON skr_event_invoice_xrefs USING btree (event_id, invoice_id);
 
 
 --
@@ -2771,6 +2859,13 @@ CREATE INDEX index_skr_gl_manual_entries_on_visible_id ON skr_gl_manual_entries 
 --
 
 CREATE INDEX index_skr_gl_postings_on_period_and_year_and_account_number ON skr_gl_postings USING btree (period, year, account_number);
+
+
+--
+-- Name: index_skr_gl_transactions_on_source_type_and_source_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_skr_gl_transactions_on_source_type_and_source_id ON skr_gl_transactions USING btree (source_type, source_id);
 
 
 --
@@ -2851,6 +2946,13 @@ CREATE INDEX index_skr_sku_locs_on_sku_id ON skr_sku_locs USING btree (sku_id);
 
 
 --
+-- Name: index_skr_sku_trans_on_origin_type_and_origin_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_skr_sku_trans_on_origin_type_and_origin_id ON skr_sku_trans USING btree (origin_type, origin_id);
+
+
+--
 -- Name: index_skr_so_lines_on_sku_loc_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2872,18 +2974,11 @@ CREATE INDEX index_skr_vouchers_on_visible_id ON skr_vouchers USING btree (visib
 
 
 --
--- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE UNIQUE INDEX unique_schema_migrations ON schema_migrations USING btree (version);
-
-
---
 -- Name: _RETURN; Type: RULE; Schema: public; Owner: -
 --
 
 CREATE RULE "_RETURN" AS
-    ON SELECT TO skr_gl_account_balances DO INSTEAD  SELECT gla.id AS skr_gl_account_id,
+    ON SELECT TO skr_gl_account_balances DO INSTEAD  SELECT gla.id AS gl_account_id,
     "right"((glp.account_number)::text, 2) AS branch_number,
     COALESCE(sum(glp.amount), 0.00) AS balance
    FROM (skr_gl_accounts gla
@@ -2954,6 +3049,30 @@ ALTER TABLE ONLY skr_customers
 
 ALTER TABLE ONLY skr_customers
     ADD CONSTRAINT skr_customers_terms_id_fk FOREIGN KEY (terms_id) REFERENCES skr_payment_terms(id);
+
+
+--
+-- Name: skr_event_invoice_xrefs_event_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY skr_event_invoice_xrefs
+    ADD CONSTRAINT skr_event_invoice_xrefs_event_id_fk FOREIGN KEY (event_id) REFERENCES skr_events(id);
+
+
+--
+-- Name: skr_event_invoice_xrefs_invoice_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY skr_event_invoice_xrefs
+    ADD CONSTRAINT skr_event_invoice_xrefs_invoice_id_fk FOREIGN KEY (invoice_id) REFERENCES skr_invoices(id);
+
+
+--
+-- Name: skr_events_sku_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY skr_events
+    ADD CONSTRAINT skr_events_sku_id_fk FOREIGN KEY (sku_id) REFERENCES skr_skus(id);
 
 
 --
@@ -3538,6 +3657,6 @@ ALTER TABLE ONLY skr_vouchers
 
 SET search_path TO "$user", public;
 
-INSERT INTO schema_migrations (version) VALUES ('1'), ('2'), ('20120110142845'), ('20140202185309'), ('20140202193316'), ('20140202193318'), ('20140202193319'), ('20140202193700'), ('20140202194700'), ('20140213040608'), ('20140220031700'), ('20140220031800'), ('20140220190836'), ('20140220203029'), ('20140224034759'), ('20140225032853'), ('20140320030501'), ('20140321031604'), ('20140322012143'), ('20140322014401'), ('20140322023453'), ('20140322035024'), ('20140322223912'), ('20140322223920'), ('20140323001446'), ('20140327202102'), ('20140327202107'), ('20140327202207'), ('20140327202209'), ('20140327214000'), ('20140327223002'), ('20140327224000'), ('20140327224002'), ('20140330232808'), ('20140330232810'), ('20140400164729'), ('20140400164733'), ('20140401164729'), ('20140401164740'), ('20140422024010'), ('20140615031600'), ('20150220015108'), ('20151121211323'), ('20160216142845'), ('20160229002044'), ('20160229041711'), ('20160307022705'), ('20160517032350'), ('20160531014306'), ('20160604195848'), ('20160605024432'), ('20160608023553'), ('20160620010455'), ('20160726004411'), ('20160805002717');
+INSERT INTO schema_migrations (version) VALUES ('1'), ('2'), ('20120110142845'), ('20140202185309'), ('20140202193316'), ('20140202193318'), ('20140202193319'), ('20140202193700'), ('20140202194700'), ('20140213040608'), ('20140220031700'), ('20140220031800'), ('20140220190836'), ('20140220203029'), ('20140224034759'), ('20140225032853'), ('20140320030501'), ('20140321031604'), ('20140322012143'), ('20140322014401'), ('20140322023453'), ('20140322035024'), ('20140322223912'), ('20140322223920'), ('20140323001446'), ('20140327202102'), ('20140327202107'), ('20140327202207'), ('20140327202209'), ('20140327214000'), ('20140327223002'), ('20140327224000'), ('20140327224002'), ('20140330232808'), ('20140330232810'), ('20140400164729'), ('20140400164733'), ('20140401164729'), ('20140401164740'), ('20140422024010'), ('20140615031600'), ('20151121211323'), ('20160216142845'), ('20160229002044'), ('20160229041711'), ('20160307022705'), ('20160517032350'), ('20160531014306'), ('20160604195848'), ('20160605024432'), ('20160608023553'), ('20160620010455'), ('20160726004411'), ('20160805002717'), ('20161219174024');
 
 

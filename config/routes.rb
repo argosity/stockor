@@ -39,16 +39,18 @@ Lanes::API.routes.for_extension 'skr' do
     resources Skr::SoLine
     resources Skr::ExpenseCategory
     resources Skr::ExpenseEntry
+    resources Skr::Event
     resources Skr::SequentialId, controller: Skr::Handlers::SequentialIds
     resources Skr::Invoice, controller: Skr::Handlers::InvoiceFromTimeEntries,
               path: 'invoices/from-time-entries'
+
     resources Skr::ExpenseEntry, controller: Skr::Handlers::ApproveExpenseEntries,
               path: 'expense-entries/approve'
     resources Skr::Sku, path: 'public/skus', controller: Skr::Handlers::Skus, cors: '*', public: true
     resources Skr::Invoice, path: 'public/sales', controller: Skr::Handlers::Sales, cors: '*', public: true, with_transaction: false
     get  'credit-card-gateways.json', &Skr::Handlers::CreditCardGateway.get
     post 'credit-card-gateways.json', &Skr::Handlers::CreditCardGateway.update
-    post 'fresh-books-imports.json', &Skr::Handlers::FreshBooksImport.handler
+    post 'fresh-books-imports.json',  &Skr::Handlers::FreshBooksImport.handler
 
     get 'print/:type/:id.pdf' do
         content_type 'application/pdf'

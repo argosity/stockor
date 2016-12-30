@@ -42,6 +42,9 @@ module Skr
         belongs_to :billing_address,  class_name: 'Skr::Address',     export: { writable: true }
         belongs_to :shipping_address, class_name: 'Skr::Address',     export: { writable: true }
 
+        has_one  :event_xref, class_name: 'Skr::EventInvoiceXref'
+        has_one  :event, through: :event_xref
+
         has_many :gl_transactions, :as=>:source
 
         has_many :lines, -> { order(:position) },

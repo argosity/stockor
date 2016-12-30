@@ -56,6 +56,7 @@ class PrintSpec < Skr::TestCase
         assert inv.update_attributes form: 'ticket'
         pdf = Skr::Print::Form.new('invoice', inv.hash_code)
         assert pdf.as_latex
+        generate(pdf)
     end
 
 
