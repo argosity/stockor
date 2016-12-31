@@ -6,7 +6,7 @@ class CartSku extends Lanes.Models.State
 
     derived:
         total: deps: ['qty', 'sku.price'], fn: ->
-            @sku.price.times(@qty)
+            @sku.price?.times(@qty) or 0
         display_total:
             deps: ['total'], fn: ->
                 Lanes.u.format.currency @total
@@ -36,5 +36,6 @@ class Skr.Api.Models.Cart extends Skr.Api.Models.Base
         @total = _.sumBy(@skus.models, 'total') unless @skus.isEmpty()
 
     addBySkuCode: (code) ->
-        Skr.Api.Models.Sku.findByCode(code).then (sku) =>
+        sku = new Skr.Models.Sku({code})
+        sku.fetch(query: {code}).then (sku) =>
             @addSku(sku) unless sku.isNew()

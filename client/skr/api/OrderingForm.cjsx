@@ -16,9 +16,7 @@ class Skr.Api.OrderingForm extends Skr.Api.Components.Base
         return unless @sale.validateBeforeSave()
 
         @setState(isSaving: true, isSaveComplete: false)
-
-        @sale.set(@props.options)
-
+        @sale.set(options: @props.options)
         @sale.save().then (a, b) =>
             @setState(isSaveComplete: true)
             _.delay =>

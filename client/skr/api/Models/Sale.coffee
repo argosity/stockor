@@ -18,19 +18,18 @@ class Skr.Api.Models.Sale extends Skr.Api.Models.Base
         hash_code:   'string'
         total:       'bigdec'
         options:     'object'
-        email:       'object'
-        pdf:         'object'
 
     session:
         address_fields: 'object'
+        lines: 'array'
 
     mixins: [ Lanes.Skr.Models.Mixins.PrintSupport ]
 
     associations:
         skus: { collection: SaleSku }
-        billing_address: { model: 'Address', autoCreate: true }
+        billing_address: { model: 'Address', required: true }
         credit_card:
-            model: 'Skr.Models.CreditCard', autoCreate: true
+            model: 'Skr.Models.CreditCard', required: true
             options: ->
                 linkToAddress: @billing_address
 
@@ -43,7 +42,7 @@ class Skr.Api.Models.Sale extends Skr.Api.Models.Base
             @skus.add(sku_id: ci.sku.id, qty: ci.qty)
 
     save: ->
-        super(with: 'details')
+        super(with: 'details', include:'lines')
 
     validateBeforeSave: ->
         @billing_address.unmaskInvalidField('all')
