@@ -5,7 +5,6 @@ module Skr
         attr_reader :invoice
 
         def create
-
             if data['credit_card']
                 card = ActiveMerchant::Billing::CreditCard.new(data['credit_card'])
                 card.validate
@@ -25,7 +24,9 @@ module Skr
                     customer: find_or_create_customer,
                     billing_address_attributes: data['billing_address']
                 )
-                reply = std_api_reply(:create, invoice, methods: 'total', success: invoice.save)
+                options = build_reply_options.merge(success: invoice.save, methods: 'total')
+
+                reply = std_api_reply(:create, invoice, options)
                 raise ActiveRecord::Rollback if invoice.errors.any?
             end
             begin # we've charged the card at this point and we must show the results page
@@ -37,17 +38,21 @@ module Skr
         end
 
         def build_invoice(attrs)
-            @invoice = Skr::Invoice.new(attrs)
+            if (event_id = data.dig('options', 'event_id')) && (event = Event.find(event_id))
+                @invoice = event.invoices.build(attrs)
+
+            else
+                @invoice = Skr::Invoice.new(attrs)
+            end
             invoice.location = data['location'] ?
                                    Skr::Location.find_by_code(data['location']) :
                                    Skr::Location.default
 
-            invoice.form = data.dig('pdf', 'form')
-            %w{pdf event}.each do |attr|
+            invoice.form ||= data.dig('options', 'form')
+            if data['options']
                 invoice.options ||= {}
-                invoice.options[attr] = data[attr]
+                invoice.options.merge!(data['options'])
             end
-
             (data['skus'] || []).each do | l |
                 sku_loc = Skr::SkuLoc
                             .where({ location: invoice.location, sku_id: l['sku_id'] })
@@ -80,10 +85,12 @@ module Skr
 
         end
 
-
         def email_receipt
             mail = Lanes::Mailer.new
             mail.to = invoice.billing_address.email
+            if invoice.event && invoice.event.email_from.present?
+                mail.from = invoice.event.email_from
+            end
             mail.subject = "Your recent purchase from #{shop_title}"
             mail.body = email_body
             from = data.dig('email', 'from')
@@ -109,7 +116,7 @@ module Skr
         end
 
         def printout_name
-            invoice.options.dig('pdf', 'name') || 'Order'
+            invoice.event ? 'Ticket'.pluralize(invoice.lines.ea_qty) :  'Order'
         end
 
         def shop_title
@@ -117,7 +124,7 @@ module Skr
         end
 
         def email_signature
-            data.dig('email', 'signature') || 'Thank you!'
+            invoice.event ? invoice.event.email_signature : 'Thank you!'
         end
 
     end
