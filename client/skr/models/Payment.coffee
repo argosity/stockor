@@ -38,7 +38,7 @@ class Skr.Models.Payment extends Skr.Models.Base
             Skr.Models.Location.all.get(@location_id) if @location_id
         }
         gl_transaction: { model: "GlTransaction", readOnly: true }
-        credit_card:    { model: "CreditCard", autoCreate: true, inverse: 'payment' }
+        credit_card:    { model: "CreditCard", required: true, inverse: 'payment' }
 
     events:
         'change:vendor': 'onSetVendor'

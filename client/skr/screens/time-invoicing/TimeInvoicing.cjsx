@@ -154,5 +154,5 @@ class InvoiceRequest extends Lanes.Models.Base
         "/skr/invoices/from-time-entries"
 
     associations:
-        customer_project: { model: "CustomerProject", autoCreate: true }
+        customer_project: { model: "CustomerProject", required: true }
         invoice: { model: 'Invoice' }
