@@ -64,6 +64,17 @@ module Skr
             sku_locs.each(&:rebuild!)
         end
 
+        # fields that are viewable by the public
+        def self.public_fields
+            [:id, :code, :description, :default_uom_code]
+        end
+
+        # data  that is considered viewable by the public (if sku is public)
+        def public_data
+            as_json(only: Sku.public_fields, methods: :price)
+        end
+
+
         private
 
         # If the default uom code was changed, make sure the UOM
