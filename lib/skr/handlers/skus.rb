@@ -5,26 +5,22 @@ module Skr
     class Handlers::Skus < Lanes::API::ControllerBase
 
         def show
-            query = build_query.where(
-                is_public: true
-            ).unscope(:select).select(:id, :code, :description, :default_uom_code)
+            query = build_query
+            if params['for_event']
+                event = Skr::Event.where(code: params['for_event']).first
+                query = event ? query.where(id: event.sku_id) : Sku.none
+            else
+                query = query.where(is_public: true)
+            end
+
+            query = query.unscope(:select).select(Sku.public_fields)
             options = {methods: :price}
 
-            #options = build_reply_options
-
-#            options[:include] = include_associations.each_with_object({}) do |association, includes|
-
-            # query   = add_modifiers_to_query(query)
             options[:total_count] = query.dup.unscope(:select).count if should_include_total_count?
             if params[:id]
                 query  = query.first!
             end
             std_api_reply(:retrieve, query, options)
-
-            # sku = Sku.where(code: params[:code]).first.pluck(:id, :code, :description)
-
-            # std_api_reply(:get, sku, success: true )
-
         end
 
         def self.get
