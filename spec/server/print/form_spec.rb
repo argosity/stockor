@@ -54,9 +54,15 @@ class PrintSpec < Skr::TestCase
     it 'can generate tickets' do
         inv = skr_invoice(:event)
         assert inv.update_attributes form: 'ticket'
+        event = skr_event(:top)
+        event.invoice_xrefs.build(invoice: inv)
+        photo = event.build_photo
+        photo.file = Pathname.new(__FILE__).dirname
+                         .join('../../fixtures/generic-band.jpg').open
+        photo.save!
+        assert_saves event
         pdf = Skr::Print::Form.new('invoice', inv.hash_code)
         assert pdf.as_latex
-        generate(pdf)
     end
 
 

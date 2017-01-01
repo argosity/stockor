@@ -1,5 +1,7 @@
+<% event = @invoice.event -%>
 \font\Anton="[<%= @root_path.join('fonts', 'Anton.ttf').to_s %>]" at 22pt
 \usepackage[boxed]{ticket}
+\usepackage[export]{adjustbox}
 \unitlength=1mm
 \hoffset=-16.2mm
 \voffset=-6.6mm
@@ -7,38 +9,41 @@
 \ticketSize{200}{60}     % in unitlength
 \ticketDistance{0}{10}    % in unitlength
 
-\font\btt=cmbtt10
 % load misc stuff
 \usepackage{graphicx}
 \usepackage{rotating}
 \usepackage[]{qrcode}
 
-
 \renewcommand{\ticketdefault}{%
-  \put(50,45){
+  \put(49,45){
 <% if (logo = @invoice.location.get_logo).present? -%>
       \raisebox{-1mm}{\includegraphics[height=8mm]{<%= logo.file[:original].download.path %>}}
 <% end -%>
-\Huge Presents:
+\textsf{\Huge presents:}
    }%
 
   \put(1,20){\begin{sideways}\Large Admit 1\end{sideways}}%
-<% if (artist = @invoice.options.dig('pdf', 'event', 'artist')) -%>
-  \put(50,35){\Anton <%= artist %>}
+  \put(50,35){\Anton <%= event.title %>}
+<% if event.sub_title -%>
+  \put(50,27){\large <%= event.sub_title %>}
 <% end -%>
-<% if (featuring = @invoice.options.dig('pdf', 'event', 'featuring')) -%>
-  \put(50,27){\large <%= featuring %>}
-<% end -%>
-<% if (info = @invoice.options.dig('pdf', 'event', 'info')) -%>
+<% if event.info -%>
   \put(49,17){
-    \parbox{100mm}{\normalsize\raggedright <%= break_lines info %>}%
+    \parbox{100mm}{\normalsize\raggedright <%= break_lines event.info %>}%
    }
 <% end -%>
-<% if (date = @invoice.options.dig('pdf', 'event', 'date')) -%>
-  \put(195,60){\rotatebox{270}{\parbox{60mm}{\centering\Large <%=q date %>}}}%
+<% if event.starts_at -%>
+  \put(195,60){\rotatebox{270}{\parbox{60mm}{\centering\large <%=q event.starts_at.strftime("%I:%M%P %a %b #{event.starts_at.day.ordinalize}, %Y") %>}}}%
 <% end -%>
-<% if (venue = @invoice.options.dig('pdf', 'event', 'venue')) -%>
-  \put(99,1){\parbox{100mm}{\small\raggedleft <%=q venue %>}}
+<% if event.venue -%>
+  \put(95,1){\parbox{100mm}{\small\raggedleft <%=q event.venue %>}}
+<% end -%>
+<% if (photo = event.photo).present? -%>
+\put(120, 5){
+ \makebox[70mm][r]{
+    \includegraphics[height=50mm]{<%= photo.file[:original].download.path %>}
+ }
+}
 <% end -%>
 }
 
