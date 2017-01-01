@@ -1,7 +1,0 @@
-Since I can never remember:
-
-To intall a package, download the .ins & .dtx and then run: latex <file.ins>
-
-After install they'll be a .stx and maybe some some .def
-
-Any .log, .pdf and the .ins & .dtx can be removed
