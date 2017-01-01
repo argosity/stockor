@@ -1,15 +1,12 @@
 <% event = @invoice.event -%>
 \font\Anton="[<%= @root_path.join('fonts', 'Anton.ttf').to_s %>]" at 22pt
 \usepackage[boxed]{ticket}
-\usepackage[export]{adjustbox}
 \unitlength=1mm
 \hoffset=-16.2mm
 \voffset=-6.6mm
 \ticketNumbers{1}{2}
 \ticketSize{200}{60}     % in unitlength
 \ticketDistance{0}{10}    % in unitlength
-
-% load misc stuff
 \usepackage{graphicx}
 \usepackage{rotating}
 \usepackage[]{qrcode}
@@ -20,8 +17,7 @@
       \raisebox{-1mm}{\includegraphics[height=8mm]{<%= logo.file[:original].download.path %>}}
 <% end -%>
 \textsf{\Huge presents:}
-   }%
-
+}%
   \put(1,20){\begin{sideways}\Large Admit 1\end{sideways}}%
   \put(50,35){\Anton <%= event.title %>}
 <% if event.sub_title -%>
@@ -57,16 +53,15 @@
 
 \begin{document}
 
-Hi how are you this day
+\large The tickets from order <%= @invoice.visible_id %> with <%= Lanes::Extensions.controlling.title %> are listed below.
+\\[2mm]
+If you lose your tickets please arrive at the event with identification matching the name used for the purchase.
+\\[8mm]
+<% @invoice.lines.each do | line | -%>
+<% 1.upto(line.qty) do |num| -%>
+  \filelabel{<%= num %>}{<%= @invoice.hash_code %>}{<%= @invoice.visible_id %>}
+    {<%= line.description %>}
+<% end -%>
+<% end -%>
 
-Please respnd asasp
-
-toddles
-
-\filelabel{1}{<%= @invoice.hash_code %>}{<%= @invoice.visible_id %>}
-  {<%= @invoice.lines.first.description %>}
-\filelabel{2}{<%= @invoice.hash_code %>}{<%= @invoice.visible_id %>}
-  {<%= @invoice.lines.first.description %>}
-\filelabel{3}{<%= @invoice.hash_code %>}{<%= @invoice.visible_id %>}
-  {<%=q @invoice.lines.first.description %>}
 \end{document}
