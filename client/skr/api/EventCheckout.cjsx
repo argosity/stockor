@@ -33,7 +33,6 @@ class Skr.Api.EventCheckout extends Skr.Api.Components.Base
         )
 
     render: ->
-        console.log @getSaleOptions()
         <div>
             <Lanes.Components.NetworkActivityOverlay model={@event} />
             <Skr.Api.SingleItemCheckout
