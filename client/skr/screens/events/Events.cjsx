@@ -28,9 +28,9 @@ class Skr.Screens.Events extends Skr.Screens.Base
                 <LC.Input sm=6 name='title' model={@event} />
             </BS.Row>
             <BS.Row>
-                <LC.Input sm=8 name='sub_title' model={@event} />
+                <LC.Input sm=7 name='sub_title' model={@event} />
                 <LC.NumberInput sm=1 name='max_qty' model={@event} format='#' />
-                <LC.DateTime sm=3 name="starts_at" model={@event} />
+                <LC.DateTime sm=4 name="starts_at" model={@event} />
             </BS.Row>
             <BS.Row>
                 <LC.TextArea sm=12 name='info' model={@event} />
