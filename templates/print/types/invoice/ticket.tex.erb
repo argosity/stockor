@@ -19,13 +19,13 @@
 \textsf{\Huge presents:}
 }%
   \put(1,20){\begin{sideways}\Large Admit 1\end{sideways}}%
-  \put(50,35){\Anton <%= event.title %>}
+  \put(50,35){\Anton <%=q event.title %>}
 <% if event.sub_title -%>
-  \put(50,27){\large <%= event.sub_title %>}
+  \put(50,27){\large <%=q event.sub_title %>}
 <% end -%>
 <% if event.info -%>
   \put(49,17){
-    \parbox{100mm}{\normalsize\raggedright <%= break_lines event.info %>}%
+    \parbox{100mm}{\normalsize\raggedright <%= break_lines q(event.info) %>}%
    }
 <% end -%>
 <% if event.starts_at -%>
