@@ -3,10 +3,8 @@
 ##= require './OrderingComplete'
 ##= require './OrderingForm'
 
-class ErrorFetching extends Skr.Api.Components.Base
-
-    render: ->
-        <h1>Error loading sale item {@props.skuCode}</h1>
+ErrorFetching = (props) ->
+    <h1>Error loading sale item {props.skuCode}</h1>
 
 Title = (props) ->
     return null unless props.text
