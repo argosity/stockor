@@ -38,11 +38,10 @@ module Skr
         end
 
         def build_invoice(attrs)
-            if (event_id = data.dig('options', 'event_id')) && (event = Event.find(event_id))
-                @invoice = event.invoices.build(attrs)
 
-            else
-                @invoice = Skr::Invoice.new(attrs)
+            @invoice = Skr::Invoice.new(attrs)
+            if (event_id = data.dig('options', 'event_id'))
+                invoice.event = Event.find(event_id)
             end
             invoice.location = data['location'] ?
                                    Skr::Location.find_by_code(data['location']) :
