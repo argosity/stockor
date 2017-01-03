@@ -104,8 +104,8 @@ module Skr
 
             Thanks for your recent purchase from #{shop_title}.
 
-            Your receipt ID is #{invoice.visible_id}.  Please mention
-            that number in correspondence with us so we can help you faster.
+            Your receipt ID is #{invoice.visible_id}.
+            Please mention that number in correspondence with us so we can help you faster.
 
             You may download a PDF copy of your #{printout_name} from:
 
