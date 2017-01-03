@@ -17,6 +17,6 @@ class Skr.Models.Event extends Skr.Models.Base
 
     associations:
         photo:         { model: "Lanes.Models.Asset" }
-        sku:           { model: "Sku" }
+        sku:           { model: "Sku", required: true }
         invoices:      { collection: "Invoice" }
         invoice_lines: { collection: "InvLine" }
