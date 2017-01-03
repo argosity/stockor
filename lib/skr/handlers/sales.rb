@@ -42,6 +42,7 @@ module Skr
             @invoice = Skr::Invoice.new(attrs)
             if (event_id = data.dig('options', 'event_id'))
                 invoice.event = Event.find(event_id)
+                invoice.form = 'ticket'
             end
             invoice.location = data['location'] ?
                                    Skr::Location.find_by_code(data['location']) :

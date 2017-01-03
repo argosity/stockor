@@ -26,7 +26,6 @@ class EventSpec < Skr::TestCase
         assert_saves invoice
         assert_equal event, invoice.reload.event
         assert_equal event.invoices.first, invoice
-        assert_equal 'ticket', invoice.form
     end
 
 end
