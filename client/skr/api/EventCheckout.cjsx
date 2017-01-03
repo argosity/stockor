@@ -4,6 +4,8 @@
 ##= require './OrderingComplete'
 ##= require './OrderingForm'
 
+ErrorFetching = (props) ->
+    <h1>Error loading event {props.eventCode}</h1>
 
 class Skr.Api.EventCheckout extends Skr.Api.Components.Base
 
@@ -23,7 +25,10 @@ class Skr.Api.EventCheckout extends Skr.Api.Components.Base
 
     componentWillMount: ->
         @event.fetch(query: {code: @event.code}).then =>
-            @cart.addSku(@event.sku)
+            if @event.isNew()
+                @setState(errorFetching: true)
+            else
+                @cart.addSku(@event.sku)
 
     getSaleOptions: ->
         _.extend({},
@@ -33,6 +38,8 @@ class Skr.Api.EventCheckout extends Skr.Api.Components.Base
         )
 
     render: ->
+        return <ErrorFetching {...@props} /> if @state.errorFetching
+
         <div>
             <Lanes.Components.NetworkActivityOverlay model={@event} />
             <Skr.Api.SingleItemCheckout
