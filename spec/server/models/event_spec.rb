@@ -19,13 +19,14 @@ class EventSpec < Skr::TestCase
         assert_equal event, invoice.event
     end
 
-    it 'can build invoice' do
-        event = skr_event(:top)
-        invoice = event.invoices.new
-        invoice.customer = skr_customer(:billy)
+    it 'saves when set on invoice' do
+        invoice = Invoice.new(customer: skr_customer(:billy))
+        invoice.event = event = skr_event(:top)
         invoice.lines.build(sku_loc: skr_sku_loc(:glove_def), qty: 1, price: 10)
         assert_saves invoice
         assert_equal event, invoice.reload.event
+        assert_equal event.invoices.first, invoice
+        assert_equal 'ticket', invoice.form
     end
 
 end
