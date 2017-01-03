@@ -9,8 +9,8 @@ module Skr
             event = build_query.includes(invoices: [:lines]).first
             json = event.as_json(methods: :qty_remaining).merge(
                 sku: event.sku.public_data
-            )
-            std_api_reply(:retrieve, json)
+            ) if event
+            std_api_reply(:retrieve, json, success: event.present?)
         end
 
     end
