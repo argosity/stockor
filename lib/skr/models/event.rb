@@ -11,7 +11,9 @@ module Skr
 
         has_many :invoice_xrefs, class_name: 'Skr::EventInvoiceXref'
 
-        has_many :invoices, class_name: 'Skr::Invoice', through: :invoice_xrefs
+        has_many :invoices, class_name: 'Skr::Invoice', through: :invoice_xrefs,
+                 listen: {create: :set_invoice_to_tickets_form}, inverse_of: :event
+
         has_many :invoice_lines, class_name: 'Skr::InvLine', through: :invoices,
                  source: :lines, extend: Concerns::INV::Lines
 
@@ -23,6 +25,12 @@ module Skr
             else
                 max_qty - invoice_lines.ea_qty.to_i
             end
+        end
+
+        private
+
+        def set_invoice_to_tickets_form(invoice)
+            invoice.update_attributes!(form: 'ticket')
         end
     end
 
