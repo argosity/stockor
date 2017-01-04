@@ -24,16 +24,14 @@ module Skr
                     include InstanceMethods
                     include AASM
                     attr_accessor :state_event
+                    export_methods :valid_state_events, :optional=>false
+                    blacklist_attributes :state
                     whitelist_attributes :state_event
-                    default_options={
+
+                    default_options = {
                         no_direct_assignment: true, column: 'state', enum: true
                     }
                     aasm(default_options.merge(options), &block)
-
-                    whitelist_attributes :state_event
-
-                    export_methods :valid_state_events, :optional=>false
-                    blacklist_attributes :state
 
                     before_save :fire_state_machine_event_on_save
                 end
