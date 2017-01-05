@@ -1,7 +1,7 @@
 class Skr.Screens.Events extends Skr.Screens.Base
 
     syncOptions:
-        include: [ 'sku', 'photo' ]
+        include: [ 'sku', 'photo', 'presents_logo' ]
 
     modelBindings:
         event: ->
@@ -45,8 +45,12 @@ class Skr.Screens.Events extends Skr.Screens.Base
                 <LC.Input sm=12 name='venue' model={@event} />
             </BS.Row>
             <BS.Row>
-                <LC.ImageAsset sm=5 asset={@event.photo}
-                    label='Photo' size='medium' />
+                <LC.FieldSet title="Logos" sm=12>
+                    <LC.ImageAsset sm=6 asset={@event.photo}
+                        label='Photo' size='thumb' />
+                    <LC.ImageAsset sm=6 asset={@event.presents_logo}
+                        label='Presents Logo' size='thumb' />
+                </LC.FieldSet>
             </BS.Row>
 
         </LC.ScreenWrapper>

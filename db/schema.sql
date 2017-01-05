@@ -472,7 +472,7 @@ CREATE TABLE skr_events (
     id integer NOT NULL,
     code character varying NOT NULL,
     sku_id integer NOT NULL,
-    title text,
+    title text NOT NULL,
     sub_title text,
     info text,
     venue text,
@@ -2116,6 +2116,39 @@ ALTER SEQUENCE system_settings_id_seq OWNED BY system_settings.id;
 
 
 --
+-- Name: testers; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE testers (
+    id integer NOT NULL,
+    name character varying,
+    email character varying,
+    visits text[] DEFAULT '{}'::text[],
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: testers_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE testers_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: testers_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE testers_id_seq OWNED BY testers.id;
+
+
+--
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -2414,6 +2447,13 @@ ALTER TABLE ONLY skr_vouchers ALTER COLUMN id SET DEFAULT nextval('skr_vouchers_
 --
 
 ALTER TABLE ONLY system_settings ALTER COLUMN id SET DEFAULT nextval('system_settings_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY testers ALTER COLUMN id SET DEFAULT nextval('testers_id_seq'::regclass);
 
 
 --
@@ -2782,6 +2822,14 @@ ALTER TABLE ONLY skr_vouchers
 
 ALTER TABLE ONLY system_settings
     ADD CONSTRAINT system_settings_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: testers_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY testers
+    ADD CONSTRAINT testers_pkey PRIMARY KEY (id);
 
 
 --
@@ -3657,6 +3705,62 @@ ALTER TABLE ONLY skr_vouchers
 
 SET search_path TO "$user", public;
 
-INSERT INTO schema_migrations (version) VALUES ('1'), ('2'), ('20120110142845'), ('20140202185309'), ('20140202193316'), ('20140202193318'), ('20140202193319'), ('20140202193700'), ('20140202194700'), ('20140213040608'), ('20140220031700'), ('20140220031800'), ('20140220190836'), ('20140220203029'), ('20140224034759'), ('20140225032853'), ('20140320030501'), ('20140321031604'), ('20140322012143'), ('20140322014401'), ('20140322023453'), ('20140322035024'), ('20140322223912'), ('20140322223920'), ('20140323001446'), ('20140327202102'), ('20140327202107'), ('20140327202207'), ('20140327202209'), ('20140327214000'), ('20140327223002'), ('20140327224000'), ('20140327224002'), ('20140330232808'), ('20140330232810'), ('20140400164729'), ('20140400164733'), ('20140401164729'), ('20140401164740'), ('20140422024010'), ('20140615031600'), ('20151121211323'), ('20160216142845'), ('20160229002044'), ('20160229041711'), ('20160307022705'), ('20160517032350'), ('20160531014306'), ('20160604195848'), ('20160605024432'), ('20160608023553'), ('20160620010455'), ('20160726004411'), ('20160805002717'), ('20161219174024');
+INSERT INTO schema_migrations (version) VALUES
+('1'),
+('2'),
+('20120110142845'),
+('20140202185309'),
+('20140202193316'),
+('20140202193318'),
+('20140202193319'),
+('20140202193700'),
+('20140202194700'),
+('20140213040608'),
+('20140220031700'),
+('20140220031800'),
+('20140220190836'),
+('20140220203029'),
+('20140224034759'),
+('20140225032853'),
+('20140320030501'),
+('20140321031604'),
+('20140322012143'),
+('20140322014401'),
+('20140322023453'),
+('20140322035024'),
+('20140322223912'),
+('20140322223920'),
+('20140323001446'),
+('20140327202102'),
+('20140327202107'),
+('20140327202207'),
+('20140327202209'),
+('20140327214000'),
+('20140327223002'),
+('20140327224000'),
+('20140327224002'),
+('20140330232808'),
+('20140330232810'),
+('20140400164729'),
+('20140400164733'),
+('20140401164729'),
+('20140401164740'),
+('20140422024010'),
+('20140615031600'),
+('20150220015108'),
+('20151121211323'),
+('20160216142845'),
+('20160229002044'),
+('20160229041711'),
+('20160307022705'),
+('20160517032350'),
+('20160531014306'),
+('20160604195848'),
+('20160605024432'),
+('20160608023553'),
+('20160620010455'),
+('20160726004411'),
+('20160805002717'),
+('20161219174024');
 
 

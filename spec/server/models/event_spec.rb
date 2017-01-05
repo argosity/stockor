@@ -28,4 +28,22 @@ class EventSpec < Skr::TestCase
         assert_equal event.invoices.first, invoice
     end
 
+    it 'can set photos' do
+        fixtures_path = Pathname.new(__FILE__).dirname.join("../../fixtures")#.expand_path
+
+        event = skr_event(:top)
+        Tempfile.open do |tf1|
+            tf1.write fixtures_path.join('generic-band.jpg').read
+            tf1.rewind
+            Tempfile.open do |tf2|
+                tf2.write fixtures_path.join('stockor.png').read
+                tf2.rewind
+                event.build_photo(file: tf1)
+                event.build_presents_logo(file: tf2)
+                assert_saves event
+            end
+        end
+
+    end
+
 end

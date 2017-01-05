@@ -5,7 +5,12 @@ module Skr
         has_code_identifier from: :title
 
         has_one :photo, as: :owner, :class_name=>'Lanes::Asset',
-                export: { writable: false }, :dependent => :destroy
+                export: { writable: true }, dependent: :destroy
+
+        has_one :presents_logo,  -> { where owner_type: "PresentsLogo"},
+                class_name: 'Lanes::Asset', foreign_key: :owner_id,
+                foreign_type: :owner_type, dependent: :destroy,
+                export: { writable: true }
 
         belongs_to :sku, export: { writable: true }
 
@@ -24,6 +29,10 @@ module Skr
             else
                 max_qty - invoice_lines.ea_qty.to_i
             end
+        end
+
+        def get_presents_logo
+            presents_logo.present? ? presents_logo : Location.default.get_logo
         end
 
     end

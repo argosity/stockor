@@ -13,7 +13,7 @@
 
 \renewcommand{\ticketdefault}{%
   \put(49,45){
-<% if (logo = @invoice.location.get_logo).present? -%>
+<% if (logo = event.get_presents_logo).present? -%>
       \raisebox{-1mm}{\includegraphics[height=8mm]{<%= logo.file[:original].download.path %>}}
 <% end -%>
 \textsf{\Huge presents:}
