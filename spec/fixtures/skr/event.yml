@@ -3,9 +3,12 @@
 top:
   code: TOP
   sku: yarn
-  title: Amelie Willms
+  title: Amelie Willms with foxtrot whisky tango
   sub_title: feat. Laury Schaden
-  info: White Tie Only
+  info: |
+    White Tie Only
+    Please no outside food or drink.
+    Picnicker’s are welcomed.
   venue: The Garden of DOOM
   starts_at: <%= 2.days.ago %>
   email_signature: Thanks for reading email
