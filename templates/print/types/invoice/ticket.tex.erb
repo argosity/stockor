@@ -12,22 +12,26 @@
 \usepackage[]{qrcode}
 
 \renewcommand{\ticketdefault}{%
-  \put(49,45){
+  \put(48,48){
 <% if (logo = event.get_presents_logo).present? -%>
       \raisebox{-1mm}{\includegraphics[height=8mm]{<%= logo.file[:original].download.path %>}}
 <% end -%>
 \textsf{\Huge presents:}
 }%
   \put(1,20){\begin{sideways}\Large Admit 1\end{sideways}}%
-  \put(50,35){\Anton <%=q event.title %>}
+  \put(48,25){
+    \parbox[][40mm][c]{100mm}{
+      \raggedright\Anton <%=q event.title %>
 <% if event.sub_title -%>
-  \put(50,27){\large <%=q event.sub_title %>}
+\par
+  \raggedleft\Large <%=q event.sub_title %>
 <% end -%>
 <% if event.info -%>
-  \put(49,17){
-    \parbox{100mm}{\normalsize\raggedright <%= break_lines q(event.info) %>}%
-   }
+\par
+  \raggedright\normalsize <%= break_lines q(event.info) %>
 <% end -%>
+}
+  }
 <% if event.starts_at -%>
   \put(195,60){\rotatebox{270}{\parbox{60mm}{\centering\large <%=q event.starts_at.strftime("%I:%M%P %a %b #{event.starts_at.day.ordinalize}, %Y") %>}}}%
 <% end -%>
@@ -35,10 +39,10 @@
   \put(95,1){\parbox{100mm}{\small\raggedleft <%=q event.venue %>}}
 <% end -%>
 <% if (photo = event.photo).present? -%>
-\put(120, 5){
- \makebox[70mm][r]{
-    \includegraphics[height=50mm]{<%= photo.file[:original].download.path %>}
- }
+\put(153, 30){
+ \begin{minipage}[c][50mm]{40mm}
+    \includegraphics[width=40mm]{<%= photo.file[:original].download.path %>}
+ \end{minipage}
 }
 <% end -%>
 }
