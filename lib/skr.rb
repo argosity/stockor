@@ -18,6 +18,8 @@ module Skr
     end
 end
 
+require_relative "skr/templates"
+require_rel "skr/templates/**/*.rb"
 require_rel "skr/concerns/*.rb"
 require_rel "skr/jobs/fresh_books/*.rb"
 require_relative "skr/print"

@@ -1,0 +1,21 @@
+<html>
+  <body>
+    <p style="font-size: 120%;">
+      Hello {{ invoice.purchaser_name }},
+    </p>
+    <img src="{{ event_photo }}">
+    <p>
+      Thanks for your recent purchase from {{ shop_name }}.
+    </p>
+    <p>
+      Your receipt ID is {{ invoice.visible_id }}.
+      Please mention that number in correspondence with us so we can help you faster.
+    </p>
+    <p>
+      <a href="{{ invoice.pdf_download_url }}">Download {{form_name}}</a>
+    </p>
+    <p style="margin-top: 20px;">
+      {{ email_signature }}
+    </p>
+  </body>
+</html>

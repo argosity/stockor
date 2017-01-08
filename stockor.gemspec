@@ -25,6 +25,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency 'aasm', '~> 4.11'
   spec.add_dependency 'erb_latex', '1.0'
+  spec.add_dependency 'liquid', '~> 4.0'
   spec.add_dependency 'lanes', '~> 0.6'
   spec.add_dependency 'numbers_in_words', '~> 0.4.0'
   spec.add_dependency 'ruby-freshbooks', '~> 0.4'

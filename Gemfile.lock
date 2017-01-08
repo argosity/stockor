@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/argosity/lanes
-  revision: 891717c9a812b277a6c663857703b82cc25f6072
+  revision: a0ec058e8fb691c3b62a342b81e8e27a90a3da48
   branch: master
   specs:
     lanes (0.6.1)
@@ -50,6 +50,7 @@ PATH
       activemerchant (~> 1.62)
       erb_latex (= 1.0)
       lanes (~> 0.6)
+      liquid (~> 4.0)
       numbers_in_words (~> 0.4.0)
       ruby-freshbooks (~> 0.4)
 
@@ -164,6 +165,7 @@ GEM
       redis (~> 3.2)
       redis-namespace
     json (2.0.2)
+    liquid (4.0.0)
     listen (3.1.5)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
