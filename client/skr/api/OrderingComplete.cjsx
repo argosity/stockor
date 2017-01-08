@@ -1,3 +1,7 @@
+PostPurchaseMessage = (props) ->
+    return null unless props.message
+    <div dangerouslySetInnerHTML={__html: props.message} />
+
 class Skr.Api.OrderingComplete extends Skr.Api.Components.Base
 
     propTypes:
@@ -19,7 +23,7 @@ class Skr.Api.OrderingComplete extends Skr.Api.Components.Base
             <h2 className="title">
                 Order number {@sale.visible_id} was successfully saved
             </h2>
-            <h4>{@props.options.post_purchase_message}</h4>
+            <PostPurchaseMessage message={@props.options.post_purchase_message} />
             <div className="controls section">
                 <button onClick={@props.onComplete}>
                     Place new order
