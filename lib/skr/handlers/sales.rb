@@ -86,12 +86,14 @@ module Skr
         end
 
         def email_receipt
-            mail = Lanes::Mailer.new
+            mail = Lanes::Mailer.create
             mail.to = invoice.billing_address.email
             if invoice.event && invoice.event.email_from.present?
                 mail.from = invoice.event.email_from
             end
-            mail.subject = "Your recent purchase from #{shop_title}"
+            mail.subject = "Your recent purchase from #{Lanes::Extensions.controlling.title}"
+
+            mail.content_type = 'text/html; charset=UTF-8'
             mail.body = email_body
             from = data.dig('email', 'from')
             mail.from = from if from.present?
@@ -99,32 +101,9 @@ module Skr
         end
 
         def email_body
-            <<~ENDOFBODY
-            Hi,
-
-            Thanks for your recent purchase from #{shop_title}.
-
-            Your receipt ID is #{invoice.visible_id}.
-            Please mention that number in correspondence with us so we can help you faster.
-
-            You may download a PDF copy of your #{printout_name} from:
-
-            #{invoice.pdf_download_url}
-
-            #{email_signature}
-            ENDOFBODY
-        end
-
-        def printout_name
-            invoice.event ? 'Ticket'.pluralize(invoice.lines.ea_qty) :  'Order'
-        end
-
-        def shop_title
-            Lanes::Extensions.controlling.title
-        end
-
-        def email_signature
-            invoice.event ? invoice.event.email_signature : 'Thank you!'
+            klass = invoice.event ?
+                        Skr::Templates::Mails::EventConfirmation : Skr::Templates::Mails::InvoiceConfirmation
+            klass.new(invoice: invoice).render
         end
 
     end
