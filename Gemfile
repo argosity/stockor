@@ -1,7 +1,15 @@
 source 'https://rubygems.org'
 
-gem "lanes", git: "https://github.com/argosity/lanes", branch: 'master'
-gem 'rb-readline'
-gem "faker"
+
+gem "lanes",   git: "https://github.com/argosity/lanes",   branch: 'master'
+gem "stockor", git: "https://github.com/argosity/stockor", branch: 'master'
+
+gem 'apartment', '~> 1.0'
+gem 'capistrano', '~> 3.5.0'
+gem 'capistrano-bundler'
+gem 'capistrano-rails'
+gem 'capistrano-passenger'
+
+gem "rake"
 gem 'puma'
-gemspec
+gem 'rollbar'

@@ -1,14 +1,17 @@
-# This file will be loaded as part of Lanes startup.
+# This file will be loaded if the current extension is the
+# one controlling Lanes.
 #
-# Extensions are called in load order, so be aware latter extensions may
-# override config options specified
+# It will not be evaluated if another extension is loading this one
 Lanes.configure do | config |
-
-
+    # You can specify a different initial vew by setting it here
+    # It must be set if the "Workspace" extension is disabled in
+    # lib/stockor-saas/extension.rb
+    # config.root_view = "StockorSaas.Screens.<View Name>"
 end
 
-Lanes.config.get(:environment) do | env |
-#    unless Lanes.env.production?
-        ActiveMerchant::Billing::Base.mode = :test
-#    end
+if Lanes.env.production?
+    require 'stockor-saas/production-errors'
 end
+
+require_relative 'apartment'
+require 'stockor-saas/monky-patches'

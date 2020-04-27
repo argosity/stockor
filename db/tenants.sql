@@ -1,0 +1,1 @@
+ CREATE TABLE "tenants" ("id" serial primary key, "domain" character varying NOT NULL, "name" character varying NOT NULL, "email" character varying, "phone" character varying, "line1" character varying, "line2" character varying, "city" character varying, "state" character varying, "postal_code" character varying, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)

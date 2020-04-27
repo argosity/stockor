@@ -1,11 +1,1 @@
-development:
-  adapter: postgresql
-  database: skr_dev
-  host: /tmp
-  pool: 12
-
-test:
-  adapter: postgresql
-  database: skr_test
-  host: /tmp
-  pool: 12
+/srv/www/stockor/shared/config/database.yml

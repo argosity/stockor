@@ -1,7 +1,35 @@
-require 'bundler/setup'
-require "bundler/gem_tasks"
+require_relative 'lib/stockor-saas'
 require 'lanes/rake_tasks'
-lib = File.expand_path('../lib', __FILE__)
-$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require_relative 'lib/skr'
-Rake.add_rakelib 'lib/tasks'
+
+desc 'start background worker'
+task :work => :env do
+    ENV['TERM_CHILD']='1'
+    ENV['QUEUES']='*'
+    Rake::Task["resque:work"].invoke
+end
+
+namespace :skrdb do
+
+    desc 'migrate'
+    task :migrate => :env do
+        StockorSaas::DB.migrate_all
+    end
+
+    desc 'seed'
+    task :seed => :env do
+        StockorSaas::DB.seed_all
+    end
+
+end
+
+namespace :tenant do
+
+    desc 'Add a tenant'
+    task :add, [:domain, :name] => :env do | t, args |
+        tenant = StockorSaas::Tenant.create(domain: args[:domain], name: args[:name])
+        if tenant.errors.any?
+            STDERR.puts tenant.errors.full_messages
+        end
+    end
+
+end

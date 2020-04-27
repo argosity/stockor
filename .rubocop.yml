@@ -1,15 +1,7 @@
+
 StringLiterals:
   Enabled: false
 
 Style/IndentationWidth:
   # Number of spaces for each indentation level.
   Width: 4
-
-Style/EmptyLinesAroundClassBody:
-  Enabled: false
-
-Style/EmptyLinesAroundModuleBody:
-  Enabled: false
-
-Style/ClassAndModuleChildren:
-  Enabled: false
