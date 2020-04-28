@@ -1,1 +1,18 @@
-/srv/www/stockor/shared/config/database.yml
+production:
+  adapter: postgresql
+  username: <%= ENV['DATABASE_USERNAME'] || "stockor" %>
+  database: <%= ENV['DATABASE_NAME'] || "stockor-saas" %>
+  host: <%= ENV['DATABASE_HOST'] || '172.17.0.1' %>
+  password: <%= ENV['DATABASE_PASSWORD'] %>
+
+development:
+  adapter: postgresql
+  database: skr_dev
+  host: /tmp
+  pool: 12
+
+test:
+  adapter: postgresql
+  database: skr_test
+  host: /tmp
+  pool: 12
