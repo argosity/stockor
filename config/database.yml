@@ -2,7 +2,7 @@ production:
   adapter: postgresql
   username: <%= ENV['DATABASE_USERNAME'] || "stockor" %>
   database: <%= ENV['DATABASE_NAME'] || "stockor-saas" %>
-  host: <%= ENV['DATABASE_HOST'] || '172.17.0.1' %>
+  host: <%= ENV['DATABASE_HOST'] || "172.17.0.1" %>
   password: <%= ENV['DATABASE_PASSWORD'] %>
 
 development:
